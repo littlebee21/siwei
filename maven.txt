@@ -1,0 +1,153 @@
+maven
+    使用
+        问题解决
+            idea中maven依赖无法导入
+                检查idea maven环境的配置
+                检查jdk配置
+                检查jar包在本地仓库是否存在
+                刷新maven 退出重进
+                file maven setting里面设置对应的jdk版本
+            如何解决jar冲突
+                mvn dependency tree查看依赖树
+                maven helper 插件
+                maven 依赖原则调整坐标在pom文件的申明顺序
+                exclusion’
+        archetype生成项目骨架
+            mvn archetype:generate
+                根据自定义模板构建项目
+            maven-archetype-webapp
+                pom.xml
+                    packaging为war
+                    带有junit依赖声明
+                /src/main/webapp目录
+                /src/main/webapp/index.jsp
+                /src/main/webapp/WEB-INF/web.xml
+        2.maven项目构建步骤分析
+            1.创建maven web项目
+            2.配置pom.xml文件
+            3.spring+mybatis
+                1.创建pojo实体类
+                2.编写dao层
+                    编写mapper映射接口及与数据库交互的方法
+                3.编写mapper接口的映射配置文件
+                    第一步创建与映射接口相同的全包名
+                    第二部创建配置文件
+                        编写映射接口的全包名
+                        编写映射接口的别名
+                        CRUD方法的编写
+                4.编写service层
+                    service接口+实现类
+                    配置文件编写
+                        service层包扫描
+                        配置事务
+                    junit测试与数据库交互数据能否正常传递
+            4.spring+springmvc
+                1.编写Controller类
+                    1.添加两个类注解
+                    @Controller
+                    @RequestMapping
+                    2.@Autowired 注入Service
+                    3.编写具体的方法
+                2.编写springmvc.xml配置文件
+                    配置Controller包扫描
+                    配置视图解析器
+                        配置前后缀
+                3.编写jsp页面
+                4.配置web.xml配置文件
+                    1.指定spring配置文件的位置-全局初始化参数
+                    2.配置spring框架启动时使用的监听器
+                    3.配置spring的前端控制器
+                        指定springmvc.xml配置文件位置
+                classpath*:表示加载本地类路径下的配置，还会加载jar的类路径下的配置
+            5.部署本地tomcat配置
+        maven私服
+            安装Nexus软件、启动服务
+            本地项目上传到私服
+                在maven软件的settings.xml配置文件找到标签配置私服的账号
+                在创建的maven项目工程的pom.xml文件配置标签设置账号密码，配置私服的url地址
+            从私服下载jar到本地仓库
+                mavne的settings.xml
+    协议
+        约定文件结构
+            /src/main/java
+                源码目录
+            /src/main/resources
+                项目所需资源
+            /src/test/java
+                测试代码
+            /src/test/resources
+                测试所需资源
+            /target
+                打包输出目录
+            /target/classes
+                编译输出目录
+            /target/test-classes
+                测试编译输出目录
+        3套生命周期
+            clean：清理项目
+                pre-clean
+                clean
+                    清理上一次构建生成的文件
+                post-clean
+            default：构建项目
+                validate
+                    验证工程是否正确，所需的信息是否完整
+                compile
+                    编译项目源码
+                test-compile
+                    编译项目的测试代码
+                test
+                    使用单元测试框架运行测试
+                package
+                    打包
+                install
+                    将包安装到本地仓库
+                deploy
+                    将包复制到远程仓库
+            site：建立项目站点
+                pre-site生成项目站带你之前需要完成的
+                site 生成项目站点文档
+                post-site 生成后需要完成的任务也
+                site-deploy 项目站带你发布到服务器
+    maven原理
+        如何解决版本冲突
+            1.先定义者优先原则
+            2.路径近者优先原则
+                直接引入
+            排除依赖
+                1.通过标签排除
+                2.锁定版本
+                    第一步：在dependencyManagement标签中锁定依赖版本
+                        该标签只负责锁定版本并不会引jar包
+                    第二步：在dependencies标签声明需要导入的jar包，无需再次声明版本
+        仓库
+            本地仓库（本机）
+                构建maven项目时，首先会从本地仓库查找资源，找不到的话再从远程仓库下载
+            远程仓库
+                私服（局域网）私有仓库
+                    优点
+                        节省自己的外网带宽
+                        加速maven项目构建
+                        部署自己内部的第三方构件
+                        提高稳定性，增强控制
+                        降低中央仓库的负荷
+                    Nexus仓库类型
+                        1.hosted：宿主仓库
+                            releases：发布版稳定的
+                            Snapshot:快照，测试版未发行
+                        2.proxy:代理仓库
+                            central:中央仓库
+                        3.group:仓库组
+                        4.Virtual虚拟
+                        这两个版本是最常用的
+                中央仓库（外网）
+                中国地区的镜像
+        插件
+            插件绑定
+                内置绑定
+                自定义绑定
+            插件配置
+                命令行配置
+                    -D键=值，例如mvn install -Dmaven-test-skip=true
+                pom中插件全局配置
+                pom中插件任务配置

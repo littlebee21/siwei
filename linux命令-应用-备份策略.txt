@@ -1,0 +1,383 @@
+将根目录进行完整备份，输出到标准输出上，并且使用管道传递给压缩命令 xz 作为其输入
+备份策略
+    哪些数据需要备份
+        账号与系统配置文件
+            /etc/passwd
+            /etc/shadow
+            /etc/group
+            /etc/gshadow
+            /etc
+            /home
+                用户主目录
+            /var/spool/mail
+                邮件
+            /var/spool/[at|cron]
+            /boot
+                自定义的内核和initramfs
+            /usr/local
+            /opt
+            用户的应用程序
+            /root
+            网络服务的数据库文件
+                如www服务
+    备份方式
+        增量备份
+            1. 第一次备份时进行完整备份
+            2. 以后定期进行增量备份，每次增量仅备份上次备份之后修改的文件
+            系统崩溃进行复原时，需要从首次备份的完整备份开始，按次序恢复增量备份的文件，直到最新的为止
+            工具
+                dd
+                cpio
+                可方便地进行完整备份，但增量备份需要结合bash脚本使用
+                xfsdump/xfsrestore
+                    原生地支持完整备份和增量备份
+                tar
+                    也可以进行完整备份
+        差异备份
+            1. 第一次备份时进行完整备份
+            2. 以后定期运行差异备份，每次差异备份都备份与完整备份不同的文件
+            系统崩溃进行复原时，先使用完整备份恢复，然后选择最近的差异备份文件进行恢复即可
+            工具
+                dd
+                cpio
+                可方便地进行完整备份，但增量备份需要结合bash脚本使用
+                xfsdump/xfsrestore
+                    原生地支持完整备份和增量备份
+                tar
+                    也可以进行完整备份
+                rsync
+                    镜像备份
+    备份、还原、打包和压缩
+        打包和压缩
+            原理浅谈
+                通过算法利用未使用的数据位存储数据
+                对重复使用的数据进行统计，从而节省空间
+            压缩文件的扩展名
+                作用
+                    指出使用了何种压缩文件
+                分类
+                    *.tar
+                        使用tar命令打包，没有压缩
+                    *.tar.gz
+                    *.tgz
+                    使用gzip压缩，并使用tar打包
+                    *.gz
+                        使用gzip压缩
+                    *.Z
+                        使用 compress 程序压缩
+                    *.bz2
+                        使用 bzip2 压缩
+                    *.xz
+                        使用 xz 压缩
+            常见压缩指令
+                gzip替代compress提供更好的压缩比
+                    作用
+                        压缩为.gz 文件
+                        解压缩以下格式的文件
+                            compress压缩的文件
+                            zip压缩的文件
+                            gzip压缩的文件
+                    常用选项
+                        -c
+                            将压缩的数据发送到标准输出，供重定向使用，不会删除原文件
+                        -d
+                            解压缩
+                        -t
+                            检验压缩文件的一致性
+                        -v
+                            显示原文件/压缩文件的压缩比
+                        -#
+                            #是1~9的数字
+                                默认为6
+                                1
+                                    最快，压缩比最差
+                                9
+                                    最慢，压缩比最好
+                    压缩时会删除原文件，生成.gz文件
+                    zcat/zmore/zless/zgrep
+                        针对压缩的.gz文件应用对应的类似cat/more/less/grep的操作
+                bzip2替代gzip提供更好的压缩比
+                    常用选项
+                        -c
+                            将压缩的数据发送到标准输出，供重定向使用，不会删除原文件
+                        -d
+                            解压缩
+                        -k
+                            保留原文件
+                        -v
+                            显示原文件/压缩文件的压缩比
+                        -#
+                            #是1~9的数字
+                                默认为6
+                                1
+                                    最快，压缩比最差
+                                9
+                                    最慢，压缩比最好
+                        -z
+                            表示进行压缩，默认值，不需显式添加
+                    bzcat/bzmore/bzless/bzgrep
+                        针对压缩的.gz文件应用对应的类似cat/more/less/grep的操作
+                xz,压缩比比bzip2更高
+                    常用选项
+                        -c
+                            将压缩的数据发送到标准输出，供重定向使用，不会删除原文件
+                        -d
+                            解压缩
+                        -#
+                            #是1~9的数字
+                                默认为6
+                                1
+                                    最快，压缩比最差
+                                9
+                                    最慢，压缩比最好
+                        -k
+                            保留原文件
+                        -t
+                            检验压缩文件的一致性
+                        -l
+                            列出压缩文件的相关信息
+                    xzcat/xzmore/xzless/xzgrep
+                        针对压缩的.gz文件应用对应的类似cat/more/less/grep的操作
+            对文件和目录打包
+                命令
+                    tar
+                        常用选项
+                            互斥选项
+                                -c
+                                    创建打包文件
+                                -t
+                                    查看已打包文件中的文件名
+                                -x
+                                    解压缩/解打包
+                            互斥压缩/解压选项
+                                -z
+                                    使用gzip
+                                -j
+                                    使用bzip2
+                                -J
+                                    使用xz
+                            -v
+                                打包过程中查看被打包的文件名
+                            -C
+                                在指定目录解开
+                            -f
+                                指定文件名
+                            -p
+                                保留文件原来的权限和属性
+                            -P
+                                保留绝对路径，即允许存在根目录
+                            -exclude=FILE
+                                打包时排除FILE
+                            时间选项
+                                -newer
+                                    含义
+                                        mtime和ctime都比指定时间新
+                                    参数
+                                        文件名
+                                            自动获取该文件的mtime和ctime
+                                        日期字符串
+                                -newer-mtime
+                                    含义
+                                        仅mtime比指定时间新
+                                    参数
+                                        文件名
+                                            自动获取该文件的mtime
+                                        日期字符串
+                常用名称
+                    tar文件
+                        仅打包，不压缩
+                    tarball文件
+                        打包且压缩
+            打包文件复原后的SELinux问题
+                问题表现和原因
+                    重要系统文件打包后再复原会遇到SELinux问题，导致不能正常登陆
+                    解决方法
+                        方法1
+                            修改/etc/selinux/config
+                                将SELinux改成permissive模式
+                        方法2
+                            第一次复原系统后，不要立即重新开机
+                                使用 restorecon -Rv /etc 自动修复SELinux的类型
+                        方法3
+                            创建/.autorelabel文件
+                                重启自动修复SELinux
+        光盘写入
+            操作步骤
+                创建iso文件
+                    使用mkisofs命令
+                        最佳方法
+                            把需要制作成iso的文件按照目录结构统统拷贝到一个目录中去
+                            使用mkisofs把这个目录中的内容制作成iso文件，以便保持其目录结构
+                        常用选项
+                            -o iso文件名
+                            -J
+                                组织成Windows文件名
+                            -R
+                                保持文件在Linux下的属性和权限
+                            -r
+                                保持文件在Linux下的属性和权限
+                            -r的属性和权限被设置成更有用的值
+                            -v
+                                显示详细信息
+                            -V 卷名
+                            -b
+                                eltorito_boot_image
+                            -c
+                                boot_catalog
+                            -no-emul-boot
+                                指出用于创建 El Torito bootable CD 的启动映像是一个"非模拟"映象
+                            -boot-load-size
+                            -boot-info-table
+                刻录iso到光盘
+                    使用wodim命令
+                        $wodim -v dev=/dev/sr0 选项 file.iso
+                            常用选项
+                                -data
+                                    以数据格式而非音轨格式(-audio)写入
+                                -speed=X
+                                    24
+                                        cd
+                                    4
+                                        dvd
+                                -eject
+                                    刻录完毕弹出光盘
+        dd和cpio
+            dd
+                选项
+                    if=source
+                        指定源文件/设备
+                    of=destination
+                        指定目标文件/设备
+                    bs=block_size
+                        指定块大小,如512K,1M
+                    count=block_number
+                        指定块的数量
+                例子 
+                    创建一个块文件
+                        dd if=/dev/zero of=file.img bs=1M count=8192
+                    备份一个文件
+                        dd if=/etc/passwd of=/home/whx/passwd
+                    刻录一个iso镜像
+                        dd if=file.iso of=/dev/sr0
+                    利用iso镜像制作一个启动优盘
+                        dd if=bootable.iso of=/dev/sda(优盘设备)
+                    备份一个硬盘
+                        dd if=/dev/sda of=/dev/sdb bs=1M
+            cpio
+                作用
+                    把find/ls这样的命令找出的文件通过管道传给cpio备份下来
+                使用方法
+                    备份
+                        find命令|cpio -ovcB > file|device
+                    还原
+                        cpio -ivcdu < file|device
+                    查看
+                        cpio -ivct < file|device
+                选项
+                    -o
+                        将数据复制到文件中或设备上
+                    -v
+                        查看复制过程中的文件名
+                    -c
+                        以一种较新的可移植方式储存
+                    -B
+                        扩大块大小以提高复制速度
+                    -d
+                        自动创建所需目录
+                    -u
+                        使用较新的文件覆盖旧文件
+                    -t
+                        配合-i使用，用于查看cpio备份的文件
+                例子
+                    备份/boot目录
+                        1. 使用cd / 转到根目录
+                            否则恢复时会覆盖/目录下的内容
+                        2. find boot|cpio -odvB > /tmp/boot.cpio
+                    恢复 
+                        1. cd /home/whx/bak
+                        2. cpio -ivcd < /tmp/boot.cpio
+                    查看
+                        cpio -itdc < /boot/initramfs-3.10.0-229.el7.x86_64.img
+        XFS文件系统的备份和还原
+            xfsdump
+                备份方式
+                    完整备份
+                        level 0
+                    增量备份
+                        level 1
+                            第1次备份
+                        level 2
+                            第2次备份
+                        ...
+                        level 9
+                    共10个等级
+                保存位置
+                    /var/lib/xfsdump/inventory
+                使用限制
+                    不支持未挂载的文件系统备份
+                    必须使用root权限
+                    只能备份xfs文件系统
+                    备份文件只能由xfsrestore解析
+                    使用uuid分辨备份文件，所以不能备份两个具有相同uuid的文件系统
+                常用选项
+                    -L
+                        记录备份任务的文件系统的简要信息
+                    -M
+                        记录储存媒体的简要说明
+                    -l
+                        L的小写，指定备份等级0-9共10个等级
+                    -f
+                        指定备份文件的文件名
+                    -I
+                        从/var/lib/xfsdump/inventory列出备份的信息状态
+                作用
+                    备份整个 xfs 文件系统(分区)，不支持单个文件和目录的备份
+                例子
+                    #xfsdump -l 0 -L root -M root - /|xz > /home/whx/root.xfsdump.xz
+                        将根目录进行完整备份，输出到标准输出上，并且使用管道传递给压缩命令 xz 作为其输入
+            xfsrestore
+                作用
+                    恢复使用xfsdump备份的xfs文件系统
+                常用选项
+                    -I
+                        与 xfsdump -I 的输出相同
+                            查看备份文件的信息
+                                Session Label
+                                被备份的文件系统的挂载点
+                                被备份的文件系统的设备名
+                                备份级别
+                                备份文件名
+                                Media Label
+                            从 /var/lib/xfsdump/inventory中获取数据
+                    -f
+                        后面跟备份文件
+                    -L
+                        后面跟Session的Label name，由 xfsdump 写入 
+                    -s
+                        后面跟指定的目录
+                            仅恢复指定的目录
+                    -i
+                        进入互动模式
+                例子
+                    恢复文件系统的备份
+                        #xfsrestore -f /srv/boot.dump -L boot_all 恢复所用的路径
+                    -s 选项指定只恢复某个目录
+                        #xfsrestore -f /srv/boot.dump -L -s grub2 /tmp/boot2
+                    恢复累积备份数据
+                        按照备份时的顺序依次恢复
+                            从level 0 到 level 9
+                    使用 -i 选项交互式运行 xfsrestore
+                        这是类似parted 这样的应用程序的交互式环境，区别是其子命令仅用于进行恢复文件系统
+/etc
+用户的应用程序
+系统崩溃进行复原时，需要从首次备份的完整备份开始，按次序恢复增量备份的文件，直到最新的为止
+可方便地进行完整备份，但增量备份需要结合bash脚本使用
+系统崩溃进行复原时，先使用完整备份恢复，然后选择最近的差异备份文件进行恢复即可
+可方便地进行完整备份，但增量备份需要结合bash脚本使用
+共10个等级
+例子
+    #xfsdump -l 0 -L root -M root - /|xz > /home/whx/root.xfsdump.xz
+        将根目录进行完整备份，输出到标准输出上，并且使用管道传递给压缩命令 xz 作为其输入
+-r的属性和权限被设置成更有用的值
+使用gzip压缩，并使用tar打包
+压缩时会删除原文件，生成.gz文件

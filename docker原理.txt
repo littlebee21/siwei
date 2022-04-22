@@ -1,0 +1,374 @@
+docker原理
+    容器
+        什么是容器？
+            Linux Container（简称LXC）它是一种内核轻量级的操作系统层虚拟化技术。Linux Container主要由 Namespace 和 Cgroup 两大机制来保证实现。
+        容器技术有哪些
+            Docker
+                Docker 使用结构图
+                Docker 镜像原理
+                    UnionFS（联合文件系统）：Union文件系统是Docker镜像的基础，镜像可以通过分层来继承，基于基础镜像可以制作具体的应用镜像。
+                        比较常用的操作系统镜像
+                            BusyBox
+                            Alpine
+                            Ubuntu
+                            CentOS
+                Docker 命令
+                    docker命令
+                        docker --version
+                            查看 docker 的版本信息
+                        docker info
+                            查看 docker 信息
+                        docker inspect 
+                            docker inspect 镜像名:tag
+                                查看某一个镜像的详细信息
+                            docker inspect 镜像名:tag -f {{.Architecture}}
+                                可以查询镜像的某一部分信息：-f {{.项目.项目}}如果一个项目下有好几条项目，则会将它们返回一个数组
+                        docker login ip:port
+                            登录 docker 仓库
+                        docker logout ip:port
+                            登出docker仓库
+                    镜像命令
+                        docker images
+                            显示信息
+                                Name[镜像名]   Tag[镜像标签]    Image ID[镜像的ID]     CreatedTime[创建时间]     Size[镜像大小]
+                            -a：列出所有的镜像文件（包括中间镜像）
+                            -q：仅输出镜像 ID
+                            -f：显示过滤后的镜像
+                                docker images -f  "key=value"
+                                    其中 key可以设置为以下几个：       dangling：显示标记为空的镜像，值只有true和false       label：这个是根据标签进行过滤，其中lable的值，是docker在编译的时候配置的或者在Dockerfile中配置的       before：这个是根据时间来进行过滤，其中before的value表示某个镜像构建时间之前的镜像列表       since：跟before正好相反，表示的是在某个镜像构建之后构建的镜像       reference：这个是添加正则进行匹配
+                            --digests：显示镜像的摘要信息
+                        docker tag old_name:tag  new_name:tag
+                            此次替换不会删除原来的镜像，会生成一个新的docker镜像
+                        docker pull :  
+                            拉取镜像。如果没有标签的话，默认拉最新的latest。
+                        docker push IP:Post/Name:Tag
+                            向 Registry 中推送 镜像
+                                docker push 10.16.3.6:8083/mydocker:v3.0
+                        docker load -i 
+                            导入镜像，镜像文件一般为tar包
+                        docker save -o  Name:tag
+                        docker commit [option] CONTAINER [REPOSITORY[：TAG]]
+                            option
+                                -a：提交镜像的作者
+                                -c：使用Dockerfile指令创建镜像
+                                -m：提交的文字说明
+                                -p：在commit时，将容器暂停
+                        docker run
+                            -it ：tag  /bin/sh
+                                交互式的将一个镜像运行为容器。
+                             -d 镜像名:tag
+                                后台模式，退出容器不会停止容器
+                            -v：宿主机目录：容器目录
+                            -p：映射指定的端口。-p80:81—宿主机端口：容器内部端口
+                            -P
+                                Docker 会映射一个 49000~49900的宿主机端口到容器
+                            --name：给容器起名字
+                            --rm
+                                容器创建后退出容器，容器就会被删除，不加--rm，容器退出后只是停止运行，并且保存数据
+                        docker rmi ：tag
+                            删除镜像。可以同时删除多个镜像
+                        docker rmi 
+                            -f
+                                强制删除镜像
+                                    当一个镜像拥有多个标签的时候，docker rmi 只是删除了多个镜像标签中的其中一个，并不会删除镜像文件，如果当镜像文件只剩下一个标签时，删除该标签会删除镜像文件。
+                                    如果有容器依赖镜像时，需要先删除容器，再删除镜像。
+                        docker search 
+                            搜索远端仓库中的 docker 镜像，默认Docker Hub
+                        docker history ：tag
+                            查看构建镜像历史
+                    容器命令
+                        docker create -it 
+                            docker create命令能够基于镜像创建容器。该命令执行的效果类似于docker run -d，即创建一个将在系统后台运行的容器。但是与docker run -d不同的是，docker create创建的容器并未实际启动，还需要执行docker start命令或docker run命令以启动容器。事实上，docker create命令常用于在启动容器之前进行必要的设置
+                        docker rm
+                            容器ID/容器名
+                                删除已经停止的容器
+                            -f 容器ID
+                                强制删除容器，即使运行中的
+                            -f $ (docker ps -a -q)
+                                批量删除容器（运行中的容器也会删除）
+                        docker stop 容器名/容器ID
+                            停止容器，慢慢停止
+                        docker kill 容器名/容器ID
+                            直接杀死
+                        docker start 容器名/容器ID
+                        docker restart 容器名/容器ID
+                            重启已经停止的容器
+                        docker ps
+                            查找 运行中的容器信息
+                            -a/--all：查找所有的容器信息，包括停止的容器
+                            -l：上次运行的容器
+                            -n number：查看前n个运行的容器
+                            -q：查看容器的ID
+                        docker logs -选项 容器ID
+                            -f：动态显示容器日志
+                            -t：加入时间戳
+                            --tail num：查看最后num条日志
+                                docker logs --tail 10 容器名
+                                docker logs --tail 0 -f 容器名
+                        docker exec -it 容器ID/容器名 /bin/bash
+                            进入容器
+                            退出容器
+                                exit（退出容器，容器停止）
+                                ctrl+p+q（退出容器，容器不停止）
+                        docker top 容器ID
+                            查看容器内运行的进程
+                        docker inspect 容器ID
+                            查看容器内部细节
+                                通过 -f 或 --format 参数来查看某个结果
+                                    docker inspect --format='{State.running}' 容器名
+                        docker cp 容器ID:/opt/  /opt
+                            将容器中/opt下面的文件拷贝到了宿主机的/opt文件夹下
+                        docker run -d --restart=always --name 容器名 镜像名 [要运行的shell语句]，shell是容器启动后的执行命令
+                            容器重启
+                存储（数据卷）
+                    数据卷容器
+                        挂载数据卷的容器称为数据卷容器。其他容器通过挂载数据卷容器实现数据共享。
+                    容器间的共享传递
+                        docker run -v /宿主机目录:/容器目录 -it -name dc1 
+                        docker run -it -name dc2 --volumn-from dc1 ；可以将dc1上挂载的数据卷挂载到dc2上，
+                        此时容器dc2继承（挂载）自dc01上，因此容器dc2和容器dc1对文件做任何改变都可以共享。
+                        宿主机地址必须是绝对路径，如果目录不存在docker会自动创建路径。
+                        docker 挂在的数据卷的默认权限是读写，如果用户想修改权限，也可以修改为只读。这样容器就只能读数据卷中的数据，不能修改数据了。
+                        只读：docker run -v /宿主机目录:/容器目录:ro --name 容器名称 镜像名
+                            ：ro — 只读 readOnly：rw — 读写 redawrite
+                            数据卷挂载时，如果只写了  -v /docker路径，则将数据卷挂载到了docker文件夹下。./docker/colume 下
+                    问题：当删除了dc01后，dc02是否会收到影响，挂载出现问题，不能访问数据卷中的文件。答案：删除dc01后，不会影响dc02访问数据卷；同样，如果有其他的容器--volume-from一个数据卷容器，也可以实现数据共享。结论：因此，容器之间挂载数据卷，实现数据共享，数据卷的生命周期一直存在，直到没有容器使用数据卷为止。
+                    迁移数据
+                        可以利用数据卷容器对其中的数据卷进行备份、恢复，以实现数据的迁移
+                        迁移、备份：
+                            docker run -i -t --volumes-from data -v $(pwd):/backup docker/whalesay tar cvf /backup/backup.tar /data
+                            将名为 data 的数据卷容器和名为  docker/whalesay 的容器共享数据卷，同时将当前目录挂载到容器的 /backup 目录，在容器中执行压缩命令：tar -cvf /backup/backup.tar /data ；目的是将/data中的数据打包压缩到 挂载目录下。
+                            迁移：docker run -it --rm --volume-from 数据卷容器 -v $(pwd):/backup 镜像名 [tar xvf 压缩文件.tar /data(数据卷容器共享的地址)]
+                网络
+                    Docker实现网络通信
+                        Docker 通过 Linux 的 Namespace 实现与宿主机的资源隔离
+                        Docker 启动后会在宿主机上创建一个 docker0 的虚拟网桥，相当于软件交换机。其作用是实现容器和宿主机之间的通信、转发。
+                        Docker 会随机分配一个IP地址给docker0，172.17.0.0段。当容器启动后，在容器内部会启动eth0的网卡，docker0也会生成veth的虚拟网卡和容器的网卡进行桥接
+                    网络模式
+                        host：容器不会自动创建虚拟网卡，使用宿主机的IP和端口
+                        contrainer：容器不会自己创建虚拟网卡，而是和一个指定的容器共用同一个IP，和范围端口
+                        none：关闭了容器的网络功能
+                        Bridge：为每个容器分配虚拟IP和端口，并将容器的网卡桥接到docker0的虚拟网桥，通过docker0和 iptables nat 表配置与宿主机通信
+                            docker Bridge 拓扑地址
+                    查看docker网络
+                        docker network ls
+                        查看bridge的详细信息：docker network inspect bridge
+                        设置docker启动的网络模式
+                            docker run -it --network=host/none/bridge
+                        docker 默认的网络模式：Bridge模式
+                    网络访问
+                        docker0
+                            Docker网桥是Linux网桥，因此可以使用 brctl show 来查看网桥和端口信息。新的容器被创建后，都会将docker0作为默认网关
+                        docker 中的DNS服务
+                            将主机的 配置文件 通过挂载的方式挂在到容器中
+                        容器间访问
+                            容器间的访问需要两方面：
+                                容器的网络拓扑是否关联。即所有的容器是否连接到docker0上
+                                主机的防火墙软件 iptables 是否允许通过
+                        容器访问外部
+                            容器的访问控制，主要通过Linux上的 iptables 防火墙来实现。
+                            容器访问外部网络，需要本地系统的转发支持。
+                                (命令)sysctl net.ipv4.ip_forward(输出)nte.ipv4.ip_forward = 1
+                            如果在Docker启动时，指定 --ip-forward=true，Docker 会自动的设定系统的 ip_forward参数为1
+                        外部访问容器
+                            本地容器访问外部地址时，iptable表都会 nat 成本地的IP地址（源地址伪装操作）
+                            外部程序访问容器时
+                                在本地的iptable的nat表中添加相应的映射规则
+                                    iptables -t nat -nL
+        容器的特点
+            轻量级，只打包了必要的依赖
+            秒即启动，与虚拟机相比启动速度在秒级
+            易于移植，一次构建，随处启动。
+            弹性伸缩，配合容器管理平台可以实现占用资源的伸缩。
+        容器标准化
+            现在市面上有多种容器技术，因此需要一个标准来规范容器技术。OCI（Open Container Initiative）推出开放容器标准。标准主要包括runtime运行时标准和image镜像标准
+            标准
+                容器运行时标准 （runtime spec）
+                    a). creating：使用 create 命令创建容器，这个过程称为创建中 b). created：容器创建出来，但是还没有运行，表示镜像和配置没有错误，容器能够运行在当前平台 c). running：容器的运行状态，里面的进程处于 up 状态，正在执行用户设定的任务 d). stopped：容器运行完成，或者运行出错，或者 stop 命令之后，容器处于暂停状态。这个状态，容器还有很多信息保存在平台中，并没有完全被删除
+                容器镜像标准（image spec）
+                    a). 文件系统：以 layer 保存的文件系统，每个 layer 保存了和上层之间变化的部分，layer 应该保存哪些文件，怎么表示增加、修改和删除的文件等; b). config 文件：保存了文件系统的层级信息（每个层级的 hash 值，以及历史信息），以及容器运行时需要的一些信息（比如环境变量、工作目录、命令参数、mount 列表），指定了镜像在某个特定平台和系统的配置。比较接近我们使用 docker inspect  看到的内容; c). manifest 文件：镜像的 config 文件索引，有哪些 layer，额外的 annotation 信息，manifest 文件中保存了很多和当前平台有关的信息; d). index 文件：可选的文件，指向不同平台的 manifest 文件，这个文件能保证一个镜像可以跨平台使用，每个平台拥有不同的 manifest 文件，使用 index 作为索引。
+    docker组成
+        DockerClient客户端
+            可以通过REST_API将客户端和服务端解耦
+            命令行界面（CLI），客户端（docker命令）
+        Docker Daemon守护进程
+            服务器是一种长期运行的程序，称为守护程序进程（dockerd）
+        Docker Image镜像
+            REST_API，它指定程序可用用来与守护程序进行通信并指示其操作的接口
+        DockerContainer容器
+            服务端可以做到Volume/Network等做成插件化组装
+        5.Docker Registry仓库
+    3. 核心原理
+        容器生命周期
+            created：初创建
+                docker create
+            running：运行状态
+                docker run、docker start、docker restart、docker unpause
+            stopped：停止状态
+                docker stop、docker kill
+            paused：暂停状态
+                docker pause
+            deleted：删除状态
+                docker rm
+        容器的底层实现
+            linux：命名空间
+                进程命名空间 PID
+                    PID命名空间对集成PID重新编号，即两个不同的namespace下的进程可以用相同的PID
+                    内核为所有PID_namespace维护了一个树状结构，最顶层的是系统初始时创建的，被称为root_namespace（PID：1）
+                    root创建的PID_namespace被称为child_namespace
+                    不同的PID_namespace会形成一个层级体系，所属的父节点可以看到子节点中的进程，并通过信号等方式对子节点中的进程产生影响，反之子节点看不到父节点的任何内容
+                网络命名空间 network
+                    通过网络命名空间，可以实现网络隔离
+                    网络命名空间为进程提供了一个完全独立的网络协议栈的视图，包括网络设备接口、IPv4和IPv6协议栈、IP路由表、防火墙规则、sockets等，这样每个容器的网络就能隔离开来
+                    Docker采用虚拟网络设备的方式，将不同命名空间的网络设备连接到一起
+                    默认情况下，容器中的虚拟网卡将同本地主机上的docker0网桥连接在一起
+                IPD命名空间 IPC
+                    IPC：进程间通信 Inter-Process-Communication
+                    IPC涉及的资源包括常见的信号量、消息队列和共享内存
+                    申请IPC资源就申请了一个全局唯一的32位ID，所以IPC_namespace中实际上包含了系统IPC标识符以及实现POSIX消息队列的文件系统
+                    PID_namespace和IPC_namespace可以组合起来一起使用，在同一个IPC_namespace下的进程彼此可见，不同IPC_namespace下的进程互相不可见
+                挂载命名空间 Mount
+                    类似于chroot，将一个进程放到一个特定的目录执行
+                    挂载命名空间允许不同命名空间的进程看到的文件结构不同，这样每个命名空间中的进程所看到的文件目录彼此被隔离
+                    它通过隔离文件系统挂载点对隔离文件系统提供支持，是Linux支持的第一个namespace
+                    隔离后的挂载命名空间中的文件结构发生变化也互不影响
+                        可以通过/proc/[pid]/mounts查看到所有挂载在当前namespace中的文件系统
+                        可以通过/proc/[pid]/mountstats查到挂载命名空间中文件设备的统计信息，包括挂载文件的名字、文件系统、挂在位置等
+                UTS命名空间 UTS
+                    UTS：UNIX Time-Sharing System
+                    UTS命名空间允许每个容器拥有独立的主机名和域名，从而可以虚拟出一个有独立主机名和网络空间的环境，就跟网络上一台独立的主机一样
+                    这样每个Docker容器可以拥有独立的主机名和容器，在网络上可以被视作一个独立的节点，而非宿主机上的一个进程
+                    Docker中，每个镜像基本上都以自身提供的服务名来命名镜像的hostname，而且不会对宿主机产生任何影响，其原理就是利用了UTS_namespace
+                    默认情况下，Docker容器的主机名就是返回的容器ID
+                用户命名空间 user
+                    每个容器可以有不同的用户和组id，即可以在容器内使用特定的内部用户执行程序，而非本地系统上存在的用户
+                    每个容器内部都可以有root账号，但跟宿主机不在一个命名空间
+                    通过使用隔离的用户命名空间可以提高安全性，避免容器内进程获取到额外的权限
+            linux：cgroup资源配额限制
+                说明
+                    控制组（CGroups）是Linux内核的一个特新，主要用来对共享资源进行隔离、限制、审计等
+                        只有能控制分配到容器的资源，才能避免多个容器同时运行时对宿主机系统的资源竞争
+                    控制组可以提供对容器的内存、CPU、磁盘IO等资源进行限制和管理
+                    默认情况下，容器没有资源限制，且可以使用主机内核调度程序允许的尽可能多的给定资源
+                        查看容器状态时看到docker stats containerID
+                        docker提供了一些方法来控制容器可以使用多少内存或CPI，通过设置run命令的运行时配置标志
+                CPU
+                    --cpus = value
+                        指定一个容器可以使用多少可用的CPU资源
+                        如主机有两个CPU，设置--cpus=1.5，则可以保证容器最多容纳一半的CPU
+                            相当于设置
+                                --cpu-period = 100000
+                                --cpu-quota = 150000
+                        在Docker1.13及更高版本中可用
+                    --cpu-period = value
+                        指定CPU_CFS调度程序周期，该周期与--cpu-quota一起使用
+                        默认位100ms，一般不进行修改
+                        使用Docker1.13或更高版本，建议使用--cpus
+                    --cpu-quota = value
+                        在容器上设置CPU_CFS资源
+                        --cpu-period节流之前，容器被限制为每个微秒数，这样就充当了有效的上限
+                        使用Docker1.13或更高版本，建议使用--cpus
+                    --cpuset-cpus
+                        限制容器可以使用的特定CPU或内核
+                        可以使用逗号分隔，或使用“-”标识范围
+                    --cpu-shares
+                        将此标志设置位>=默认1024的值，以增加或减少容器的重量，并使其可以访问更多/更少比例的主机CPU周期，仅在限制CPU周期时才执行此操作
+                        当有足够的CPU周期可用时，所有容器都会根据需要使用尽可能多的CPU
+                        这是一个软限制，它不会阻止以集群模式调度容器，它将容器CPU资源的优先级分配给可用的CPU周期
+                        它不保证或保留任何特定的CPU访问权限
+                内存
+                    -m, --memory=
+                        容器可以使用的最大内存量
+                        设置此选项，则最小允许值位4m
+                    --memory-swap *
+                        允许此容器交换到磁盘的内存量
+                    --memory-swappiness
+                        默认情况下，主机内核可以换出一定比例的容器使用的匿名页面
+                        可以设置该参数位一个0~100的值来调整该比例
+                    --memory-reservation
+                        允许指定一个小于--memory的，Docker在主机上检测到争用或内存不足时激活的软限制
+                    --kernel-memory
+                        容器可以使用的最大内核内存量，允许最小值为4m
+                        由于无法交换内核内存，因此内核内存不足的容器可能会阻塞主机资源，这可能会对主机和其他容器产生副作用
+                    --oom-kill-disable
+                        默认情况下，如果发生OOM，则内核将终止容器中的进程，要更改该行为，使用本选项
+                        仅在还设置了--memeory的容器上禁用该选项
+                        如果-m未设置该标志，则主机可能会用完内存，内核可能需要终止主机系统的进程以释放内存
+                    大部分选项取正整数，跟后缀b、k、m、g表示容量大小
+                磁盘读写
+                    docker可以通过设置权重、限制bps和iops的方式控制容器读写磁盘的带宽
+            linux veth pair虚拟网络：容器网络
+                veth pair虚拟网络接口
+                Docker网络定义
+                    bridge
+                        默认值，在Docker网桥docker0上为容器创建新的网络栈
+                    host
+                        对于独立容器，不要将容器网络放到隔离的命名空间中，然后直接使用宿主机的网络
+                        host仅可用于v17.06及更高版本上的集群服务
+                    overlay
+                        覆盖网络将多个Docker守护程序连接在一起，并使集群服务能够互相通信
+                        还可以使用它来促进集群服务和独立容器之间或不同Docker守护程序上的两个独立容器之间的通信
+                        该策略消除了在这些容器之间进行操作系统级路由的需要
+                    macvlan
+                        Macvlan网络允许将Mac地址分配给容器，使其在网络上显示为物理设备
+                        Docker守护程序通过其Mac地址将流量路由到容器
+                        Macvlan在处理希望直接连接到物理网络而不是通过Docker主机的网络堆栈进行路由的旧应用程序时，使用驱动程序有时是最佳选择
+                    none
+                        对于此容器，禁用所有联网
+                        通常与自定义网络驱动程序一起使用
+                    网络插件
+                        可以在Docker上安装和使用第三方网络插件
+                命名
+                    查看已经安装的驱动
+                        docker network ls
+                    使用默认网络
+                        docker run --rm -d --name myNginx nginx
+                    使用宿主机网络
+                        docker run --rm -d --network host --name myNginx nginx
+                    使用物理网卡模式
+                        docker network create -d macvlan --subnet=172.16.206.0/24 --gateway=172,16.206.1 -o parent=eth0 myMacvlanNet
+                        docker run --it --rm -d --network myMacvlanNet nginx
+        镜像的底层实现
+            UnionFS联合文件系统
+                Docker存储
+                    Docker目前通过插件化方式支持多种文件系统后端
+                    Docker镜像自身由多个文件层组成，每层有唯一的编号（层ID）
+                    当Docker利用镜像启动一个容器时，将在镜像文件系统的最顶端再挂载一个新的可读写的层级容器，容器中的内容更新会发生在可读写层
+                    通过history命令查看一个镜像由哪些层组成
+                命令
+                    通过docker info的Storage Driver可以看到文件系统类型
+                文件系统比较
+                    AUFS
+                        最早支持的文件系统，对Debian/Ubuntu支持好，虽然没有合并到Linux内核中，但成熟度很高
+                    AUFS实现
+                        它支持位每一个成员目录设定只读（readonly）、读写（readwrite）或写出（writeout-able）权限
+                        它有一个类似分层的概念，对只读权限的分支可以再逻辑上进行增量地修改（不影响只读部分）
+                    OverlayFS
+                        类似于AUFS，性能更好一些，已经合并到内核
+                        未来会取代AUFS，但成熟度有待提高
+                    Device Mapper
+                        Redhat和Docker一起开发用于支持RHEL的文件系统
+                        内核支持，性能略慢，成熟度高
+                    btrfs
+                        参考zfs等特性设计的文件系统，由Linux社区开发
+                        视图未来取代Device_mapper，成熟度有待提高
+                    vfs
+                        基于普通文件系统的中间层抽象
+                        性能差，比较占用空间，成熟度一般
+                    zfs
+                        最初设计为Solaris10上的写时文件系统，拥有不少好特性，但对Linux支持不够成熟
+                原理
+                    目录物理分离
+                    层层叠加
+    docker组件
+        一个原生的Linux容器格式
+        写时复制
+        日志
+        交互式shell
+        Linux容器（LXC）
+            最早的Docker基于Linux容器技术
+            最早的容器技术为1982年Unix系统上的chroot工具
+            早期的容器实现技术
+                Sun Solaris OS的Solaris Containers（2004）
+                FreeBSD OS的FreeBSD jail（2000）
+                GNU/Linux的Linux-VServer和OpenVZ

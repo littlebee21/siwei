@@ -1,0 +1,10 @@
+   韦东山视频 - GUI系列视频 08:11:57
+LVGL开源GUI零基础入门课程(韦东山·监制) 教程
+    基于lvgl v8.2版本，课程适配多个平台、多款板子(Linux单片机GUI、littleVGL教程)          2021-12-10 09:50
+【lvgl项目开发】IMX6ULL Linux LVGL GUI演示，开源并且有lvgl教程 lvgl开发 lvgl项目 littleVGL          2021-5-17 02:05
+LVGL教程（超详细的lvgl中文文档）教程紧跟lvgl版本迭代更新！lvgl开发、lvgl项目开发、lvgl教程 littleVGL          2021-7-23 19:54
+【lvgl项目开发】手把手教您在STM32MP157开发板上运行LVGL 8.0 lvgl开发 lvgl项目 lvgl教程 lvgl8          2021-8-6 00:57
+【lvgl游戏开发】用lvgl写了一个数字对拼图益智小游戏          2021-10-13 07:35
+【lvgl项目开发】IMX6ULL Linux LVGL GUI V2.0效果演示，基于lvgl8.1开源并且有lvgl教程 littleVGL          2021-11-12 05:18
+【lvgl单片机项目开发】STM32 LVGL GUI演示，开源并且有lvgl教程 lvgl开发 lvgl项目 单片机stm32lvgl littleVGL          2021-12-21 01:02
+【LVGL中文输入法】lv_chinese_ime：支持中文输入法的LVGL键盘部件增强插件

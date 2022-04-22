@@ -1,0 +1,60 @@
+fzf使用
+    sudo apt install fzf
+
+功能：
+定位文件
+CTRL+r 查找历史命令
+定位进程
+定位主机名
+定位书签
+git commit
+
+
+逻辑过滤
+精确搜索：  fzf -e 做精确匹配
+或逻辑搜索  | 做or匹配 比如，^core go$|rb$|py$
+模糊完成
+vim **<TAB>
+vim ../mult**<TAB>
+cd ~/github/fzf**<TBA>
+
+
+
+
+alt-c 列出文件夹下的目录
+
+enter 选中：选中的内容会出现在终端下
+esc 退出   ^c/g/
+fzf 进入
+ctrl-K/ctrl-P 可以用来将光标上移动
+ctrl-J/ctrl-N 可以用来将光标下移动
+在多选模式下(-m), TAB 和 Shift-TAB 用来多选
+
+
+原理：
+1，刚安装时没有显示： fzf是在加载内容，会显示文件的
+
+
+技巧：
+    1,配合shell命令补全：默认使用**补全shell命令：eg：/home/**
+    2,配合vim使用： vim $(fzf)
+    3 配合cd使用： cd $(find * -type d | fzf)
+    4，切换git分支 git checkout $(git branch -r | fzf)
+    5，配合别名使用：
+        source ~/.bashrc1设值别名
+        alias cp='cp -i'
+        alias egrep='egrep --color=auto'
+        alias fgrep='fgrep --color=auto'
+        alias grep='grep --color=auto'
+        alias l.='ls -d .* --color=auto'
+        alias ll='ls -l --color=auto'
+        alias ls='ls --color=auto'
+        alias mv='mv -i'
+        alias rm='rm -i'
+    特定：
+        alias vimf='vim $(fzf)'      这个也改成 locate 
+        alias cf='cd $(find * -type d | fzf)'   或者弄成locate
+        alias cf='cd $(locate /mnt/f | fzf)'   或者弄成locate
+        cmd.exe /c start "" test.txt
+        history查找
+        ps 查找

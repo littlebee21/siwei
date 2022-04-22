@@ -1,0 +1,125 @@
+Spring Cloud
+    springcloud
+        Spring Cloud Sleuth调用链跟踪
+            Client
+                io.zipkin.java.zipkin-server
+                spring-cloud-starter-zipkin
+            Zipkin Server
+                io.zipkin.java.zipkin-server
+                @EnableZipkinServer
+        Spring Cloud OAuth2
+        Sidecar 边车服务
+            spring-cloud-netflix-sidecar
+            @EnableSidecar
+        Spring Cloud Starters
+    区别
+        zookeeper和eureka的区别
+        nginx和zuul的区别
+        RPC和SOA、SOAP、REST的区别
+    迭代
+        注册
+            dubbo zookeeper
+            alibaba  nacos
+        发现
+            netflix  Eureka服务发现
+                Client
+                    spring-cloud-starter-netflix-eureka-client
+                    @EnableEurekaServer
+                Server
+                    Spring-cloud-starter-netfix-eureka-server
+                    @EnableEurekaServer
+        配置
+            Spring Cloud Conifg 配置中心
+                client
+                    Spring-cloud-starter-config
+                Config Server
+                    Spring-cloud-config-server
+                    @EnableConfigServer
+        调用
+            Feign
+            熔断
+                netfilx Hystrix 断路器
+                    服务雪崩
+                    断路器
+                    服务降级
+                    资源隔离
+            均衡
+                netfilx Ribbon客户端负载均衡
+                    spring-cloud-starter-netflix-ribbon
+        链路
+        网关
+            Spring Cloud Gateway高性能网关服务
+                spring-cloud-starter-gateway
+                Route
+                    Predicate
+                    Filter
+            netflix Zuul网关服务
+                Spring Cloud实战小贴士：Zuul处理Cookie和重定向
+                Spring Cloud实战小贴士：Zuul统一异常处理（一）
+                2、ZuulFilter常用有那些方法
+                    1、 Run()：过滤器的具体业务逻辑
+                    2、 shouldFilter()：判断过滤器是否有效
+                    3、 filterOrder()：过滤器执行顺序
+                    4、 filterType()：过滤器拦截位置
+    主题
+        Dubbo
+            thrift
+    spring cloud属性
+        spring cloud性能
+            服务的依赖性
+            集群的负载均衡
+            配置文件的分离
+        CAP原理
+            c强一直性，A可用性，P分区容错
+                任何分布式系统只能保证满足其二，而分区容错是必须保证的
+    基础设施
+        实时日志
+            ELK
+        容器化
+            docker
+        PC
+        Apach vs Nginx
+        Tomcat vs Jetty
+            Spring Cloud Dataflow大数据操作工具
+                Dashboard
+                Applications
+                    Spring Cloud Stream App Starters
+                    Spring Cloud Task App Starters
+                Server
+                Deployer
+            Spring Cloud Contract微服务契约
+                spring-cloud-starter-contract-verifier
+                spring-cloud-starter-contract-stub-runner
+            Spring Cloud Task任务框架
+                spring-cloud-starter-task
+                @EnableTask
+            Spring Cloud Function函数即服务
+                Function
+                Consumer
+                Supplier
+                Applications
+                    spring-cloud-function-web
+                    spring-cloud-funtion-stream
+            OpenFeign REST客户端
+                spring-cloud-starter-openfeign
+                @EnableFeignClients
+        微服务监控
+            SpringCloud Admin社区做的管理台
+                de.codecentric.spring-boot-admin-starter-server
+                @EnableAdminServer
+        分部署
+            服务
+                数据服务
+                     内存数据库 vs 持久化数据库（Redis vs MySQL）
+                     关系型数据库 vs 非关系型数据库（MySQL vs Mongo）
+                     传统数据库 vs 分布式数据库（MySQL vs F1）
+                     非关系型数据库又有如KV数据库，文档数据库，图数据库等。
+                    Spring Data
+                        JPA
+                        Redis
+                        Mongodb
+                        Couchbase
+                        Cassandra
+                        ElasticSearch
+                        Neo4j
+                日志分析

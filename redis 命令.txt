@@ -1,0 +1,304 @@
+redis 命令
+    主题
+        Redis Lua脚本：
+            Lua脚本调试：
+        Redis-Cli：学习如何通过命令行使用redis。
+        redis的java使用Jedis
+        srping 的 redistempate
+    db帮助
+        命令
+            9	COMMAND
+                获取 Redis 命令详情数组
+            10	COMMAND COUNT
+                获取 Redis 命令总数
+            11	COMMAND GETKEYS
+                获取给定命令的所有键
+            13	COMMAND INFO command-name [command-name ...]
+                获取指定 Redis 命令描述的数组
+    db的相关命令
+        select index
+            切换库
+        TIME
+            返回当前服务器时间
+        redis连接
+            1    AUTH password 
+                验证密码是否正确
+            2    ECHO message 
+                打印字符串
+            3    PING 
+                查看服务是否运行
+            4    QUIT 
+                关闭当前连接
+            5    SELECT index 
+                切换到指定的数据库
+        总开关
+            23	INFO [section]
+                获取 Redis 服务器的各种信息和统计数值
+            20	DEBUG SEGFAULT
+                让 Redis 服务崩溃
+            18	DBSIZE
+                返回当前数据库的 key 的数量
+            shutdown同步保存到服务器并关闭redis服务器
+            flushdb
+                清空当前库
+            flushall
+                清空所有库0-15（不安全）
+        配置
+            14	CONFIG GET parameter
+                获取指定配置参数的值
+            15	CONFIG REWRITE
+                对启动 Redis 服务器时所指定的 redis.conf 配置文件进行改写
+            16	CONFIG SET parameter value
+                修改 redis 配置参数，无需重启
+            17	CONFIG RESETSTAT
+                重置 INFO 命令中的某些统计数据
+        客户端
+            3	CLIENT KILL [ip:port] [ID client-id]
+                关闭客户端连接
+            4	CLIENT LIST
+                获取连接到服务器的客户端连接列表
+            5	CLIENT GETNAME
+                获取连接的名称
+            6	CLIENT PAUSE timeout
+                在指定时间内终止运行来自客户端的命令
+            7	CLIENT SETNAME connection-name
+                设置当前连接的名称
+        持久化
+            bgsave异步保存数据到磁盘（快照保存）
+            lastsave返回上次成功保存到磁盘的unix的时间戳
+            shutdown同步保存到服务器并关闭redis服务器
+            bgrewriteaof文件压缩处理（命令）
+            aop备份处理
+                appendonly yes 开启持久化
+                appendfsync everysec 每秒备份一次
+            2	BGSAVE
+                在后台异步保存当前数据库的数据到磁盘
+            27	SAVE
+                同步保存数据到硬盘
+            BGREWRITEAOF
+                异步执行一个 AOF（AppendOnly File） 文件重写操作
+        集群
+            8	CLUSTER SLOTS
+                获取集群节点的映射数组
+            26	ROLE
+                返回主从实例所属的角色
+            29	SLAVEOF host port
+                将当前服务器转变为指定服务器的从属服务器(slave server)
+        日志
+            30	SLOWLOG subcommand [argument]
+                管理 redis 的慢日志
+            24	LASTSAVE
+                返回最近一次 Redis 成功将数据保存到磁盘上的时间，以 UNIX 时间戳格式表示
+            25	MONITOR
+                实时打印出 Redis 服务器接收到的命令，调试用
+            31	SYNC
+                用于复制功能(replication)的内部命令
+            19	DEBUG OBJECT key
+                获取 key 的调试信息
+    机制
+        key相关命令
+            keys * 获取所有的key
+            select 0 选择第一个库
+            move myString 1 将当前的数据库key移动到某个数据库,目标库有，则不能移动
+                  - move 把key移动到其他库
+            flush db      清除指定库
+            randomkey     随机key
+            type key      类型
+                  - type 获取key类型
+            set key1 value1 设置key
+                  - set 设置key的值
+            get key1    获取key
+                  - get 获取key的值
+            mset key1 value1 key2 value2 key3 value3
+            mget key1 key2 key3
+            del key1   删除key
+                  - del 删除key
+            exists key      判断是否存在key
+                  - exists 判断key是否存在
+            expire key 10   10过期
+                  - expire 设置key有效期
+            pexpire key 1000 毫秒
+                  - persist 设置key永久有效
+            persist key     删除过期时间
+              - tll 查看key有效期
+              - rename 重命名key
+                  - renamenx 重命名不存在的key
+        订阅与发布：实现消息队列
+            订阅频道：subscribe chat1
+            发布消息：publish chat1 "hell0 ni hao"
+            查看频道：pubsub channels
+            查看某个频道的订阅者数量: pubsub numsub chat1
+            退订指定频道： unsubscrible chat1   , punsubscribe java.*
+            订阅一组频道： psubscribe java.*
+        redis事物：
+             隔离性，原子性， 
+             步骤：  开始事务，执行命令，提交事务
+                 multi  //开启事务
+                 sadd myset a b c
+                 sadd myset e f g
+                 lpush mylist aa bb cc
+                 lpush mylist dd ff gg
+            DISCARD
+                取消事务，放弃执行事务块内的所有命令。
+            EXEC
+                执行所有事务块内的命令。
+            MULTI
+                标记一个事务块的开始。
+            UNWATCH
+                取消 WATCH 命令对所有 key 的监视。
+            WATCH key [key ...]
+                监视一个(或多个) key ，如果在事务执行之前这个(或这些) key 被其他命令所改动，那么事务将被打断。
+        redis脚本命令
+            EVAL script numkeys key [key ...] arg [arg ...]
+                执行 Lua 脚本。
+            EVALSHA sha1 numkeys key [key ...] arg [arg ...]
+                执行 Lua 脚本。
+            SCRIPT EXISTS script [script ...]
+                查看指定的脚本是否已经被保存在缓存当中。
+            SCRIPT FLUSH
+                从脚本缓存中移除所有脚本。
+            SCRIPT KILL
+                杀死当前正在运行的 Lua 脚本。
+            SCRIPT LOAD script
+                将脚本 script 添加到脚本缓存中，但并不立即执行这个脚本。
+    数据类型
+        排序：
+            sort mylist  排序
+            sort mylist alpha desc limit 0 2 字母排序
+            sort list by it:* desc           by命令
+            sort list by it:* desc get it:*  get参数
+            sort list by it:* desc get it:* store sorc:result  sort命令之store参数：表示把sort查询的结果集保存起
+        08.经纬度数据操作
+            - 1. geoadd 添加地理位置信息
+            - 2. geopos 查询位置的坐标
+            - 3. geodist 查询位置距离
+            - 4. georadius 查询某点的附近点
+            - 5. georadiusbymember 查询某位置距离的附近点
+            - 6. geohash 查询位置GEOHASH编码
+        五大数据结构
+            String
+                set k v
+                    存放一个k-v对
+                get k
+                    获得k对应v
+                mset k1 v1 k2 v2 ...
+                    存放多个k-v
+                mget k1 k2 k3 ...
+                    获得多个v
+                setnx k v
+                    当库中有该K时不存。当库中没有改K时存放非常重要（做分布式锁）
+                getset k v
+                    获取值之后 修改该K的V
+                insc k1
+                    该k1对应的v的值++（v必须是Integer类型）
+                desc k1
+                    该k1对应的v的值--（v必须是Integer类型）
+                inscby k1 步长
+                    设置每次走的步长
+                descby k1 步长
+                    设置每次走的步长
+            hash
+                相关命令
+                    hset k field value
+                        存
+                    hget k filed
+                        取
+                    hmset k field value field value
+                        存多个
+                    hmget k field filed
+                        取多个
+                    hgetall k
+                        取得所有的k-v
+                    hkeys k
+                        只取key
+                     hvals k
+                        只取value
+            list
+                应用
+                    实现高性能的分页
+                    实现栈或队列：例如到货通知、邮件发送、秒杀、保存待抢购的商品列表
+                底层实现
+                    压缩列表（ziplist）
+                        当列表对象痛死满足两个条件时，列表对象使用ziplist进行存储
+                            列表对象保存的元素数量小于512个
+                            列表对象保存的所有字符串元素长度都小于64个字节
+                        他将所有的元素紧挨着存储，分配的是一块连续的内存
+                    快速列表（quicklist）
+                        由于普通链表指针比较浪费空间且会加重内存碎片化，所以优化为quicklist
+                        特点
+                            将多个ziplist使用双向指针串起来（链表+ziplist）
+                            既满足了快速的插入删除性能，又不会出现太大的空间冗余
+                相关命令
+                    lpush k v
+                        从左边放
+                    rpush k v
+                        从右边放
+                    lpop k 
+                        从左边取第一个
+                    rpop k
+                        从右边取第一个
+                    blpop k timeout
+                        从左边取，没取到的话阻塞timeout时间
+                    brpop k timeout
+                        从右边取，没取到的话阻塞timeout时间
+                    lrange k 0 -1
+                        查看队列
+                            -1代表倒数第一个
+                            -2 代表倒数第二个
+                        实现分页
+                            page size
+                            （page-1）* size
+                            page*size-1
+                    llen k
+                        查看该队列的长度
+                    lrem k count value
+                        count = 0 ,移除队列里面所有与value 值相同的value
+                        count > 0 , 从表头开始搜索，删除数据value的值，删除的个数为count个
+                        count< 0 ,从表尾开始搜索，删除数据为value的值，删除的个数为 count的绝对值个
+            set
+                sadd k v
+                    在k的set 集合里面添加一个v，该v 不能重复
+                spop k
+                    随机弹出一个
+                smembers k
+                    K的set集合的所有数据
+                scard k
+                    K的set集合的长度
+                sdiff k1 k2 (k1-k2)
+                    减集
+                sinter k1 k2
+                    交集
+                sunion k1 k2
+                    并集
+            zset
+                写数据带分数，实现排行榜
+                相关命令
+                    zadd k 分数 成员
+                        添加 可批量添加
+                    zrange k start end
+                        排行 （从低到高）
+                    zreveage k start end
+                        排行  （从高到低）
+                    zrangebyscore k 分数的最小值 分数的最大值
+                        指定分数区间排行（从低到高）
+        Redis Stream
+            消息队列相关命令：
+                XADD - 添加消息到末尾
+                XTRIM - 对流进行修剪，限制长度
+                XDEL - 删除消息
+                XLEN - 获取流包含的元素数量，即消息长度
+                XRANGE - 获取消息列表，会自动过滤已经删除的消息
+                XREVRANGE - 反向获取消息列表，ID 从大到小
+                XREAD - 以阻塞或非阻塞方式获取消息列表
+            消费者组相关命令：
+                XGROUP CREATE - 创建消费者组
+                XREADGROUP GROUP - 读取消费者组中的消息
+                XACK - 将消息标记为"已处理"
+                XGROUP SETID - 为消费者组设置新的最后递送消息ID
+                XGROUP DELCONSUMER - 删除消费者
+                XGROUP DESTROY - 删除消费者组
+                XPENDING - 显示待处理消息的相关信息
+                XCLAIM - 转移消息的归属权
+                XINFO - 查看流和消费者组的相关信息；
+                XINFO GROUPS - 打印消费者组的信息；
+                XINFO STREAM - 打印流信息

@@ -1,0 +1,60 @@
+javascript规范
+    命名规范
+        小驼峰
+            标准变量采用驼峰式命名
+        ID在变量名中全大写
+        常量全大写，用下划线连接构造函数，大写第一个字母
+        jquery 对象必须以 $ 开头命名
+        函数命名
+    格式
+    javascript的使用
+        JavaScript中的错误进行调试
+        异步回调
+        原始值的使用
+        HTML操作
+            写入HTML元素innerHTML
+            写入警告框window.alert
+            写入HTML输出document.write
+            写入浏览器控制台console.log
+            document.writeln() 等同于 write() 方法，不同的是在每个表达式之后写一个换行符。
+            document.write() 向文档写 HTML 表达式 或 JavaScript 代码。
+    javascript特性
+        JavaScript格式特性
+            缩进
+            忽略空白符和换行符
+            语句分隔符
+                使用;结束语句
+                可以把多个语句写在一行
+                最后一个语句的分号可以省略，但尽量不要省略
+                可以使用{}括成一个语句组，形成一个块block
+            每行长度
+            代码结束有分号
+            通过\对代码进行折行操作
+        js使用的字符集unicode
+            文本编辑器
+        JavaScript的执行顺序
+            按照在HTML文件中出现的顺序依次执行
+        javascript在html中的位置
+            HTML标签代码执行script
+            HTML标签代码屏蔽noscript
+        隐式转换
+            转换成布尔类型假
+            转换为数值型数据
+            转换为字符串型数据
+    声明变量规则
+        通过var声明
+        变量的位置
+        变量集中声明
+        减少局部变量覆盖
+        函数内变量声明
+    javascript的语法风格
+        回调函数
+            喜欢把function定义在参数中
+            function喜欢把关键字和参数放在行尾
+        js文件排列
+            constants常量
+            variables变量
+            library fuctions 
+            fuctions
+            listener 观察者
+            init 初始化

@@ -1,0 +1,7 @@
+系统移植 - app调试
+
+    app移植：
+    1，arm-none-linux-gnueabi-gcc  testapp.c  -o   ta_arm  -Wall 本地交叉编译
+    2，cp   ta_arm   /opt/4412/rootfs 拷贝到根文件系统
+调试
+    

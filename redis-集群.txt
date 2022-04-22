@@ -1,0 +1,78 @@
+redis 集群
+    Redis 集群应用
+        Redis 发布/订阅（Pub/Sub）：
+            Redis 的密钥空间通知（Redis 密钥空间通知）：获得通过的Pub/Sub 的密钥空间活动的通知。
+          - 2. 单机版redis集群
+            - 2.1 修改redis配置文件
+            - 2.2 重新打包redis镜像
+            - 2.3 编辑docker-compose.yml文件
+            - 2.4 创建redis集群
+            - 2.5 创建带有密码的redis集群
+            - 2.6 创建集群中遇到的问题
+    Redis集群
+        监听端口
+            创建集群时，集群节点直接要相互通信，使用 redis-server的端口+10000 = 新的集群的监听端口
+        集群方案
+            哈希槽 Redis集群时怎么样set一个key
+            集群不可用
+        redis集群策略
+            redis cluster
+            主从复制
+                配从不配主
+                    在从机上输入命令SLAVEOF 【主机的ip】 【主机的端口号】
+                主从复制的一些问题
+                    从机是从头开始复制还是从切入点开始复制
+                        从头复制
+                    从机是否可以写 set？
+                        不能 从机只能读get
+                    主机shutdown后，从机是上位还是原地待命
+                        原定待命，不会变成主机
+                    主机重新启动后，从机是否能够顺利复制
+                        可以
+                    从机shutdown后，情况如何
+                        从机挂了之后,会丢失之前的主从关系,需要重新设置一次主从关系才行
+                    在配置文件里面可以永久的设置主从关系（slaveof）,挂了重启再启动,主从关系还会保持
+                    记住命令info replication
+                        查看本机的复制信息
+                主从复制数据同步的原理
+                    前提
+                        Master和Slave都会维护一个offset和run id ，Slave每秒都会上报自己的offset给master
+                        Master记录在backlog（针对增量复制）中，这样才能知道双方数据是否一致
+                        Slave发送run id 和offset到Master，Master根据情况返回信息（增量/全量）
+                    全量复制
+                        触发时机
+                            Slave从机第一次启动时
+                            Master重启时
+                        复制过程
+                            1.Slave启动时回向Master发送SYNC指令（请求同步）
+                            2.Master收到后通过bgsave保存快照，同时将后续的命令存到缓存中
+                            3.Master将RDB发给Slave，Slave收到文件后先写入到本地磁盘，然后在从本地磁盘加载到内存中
+                            4.最后maser会将内存中的写命令同步给Slave，Slave收到后再执行一遍
+                    增量复制
+                        Master根据Slave发送的同步请求中的offset
+                        在backlog中查询部分丢失的数据，发送给Slave
+                    过期key的处理
+                        Slave不会处理过期key，只会等待Master的过期通知
+                主从复制的缺点
+                    由于所有的写操作都是现在Master上操作，然后同步更新到Slave上所以从Master同步到Slave上机器有一定的延迟，当系统很繁忙的时候，延迟问题会更加严重，Slave机器数量的增加也会使这个问题更加严重
+            哨兵模式
+                主要功能
+                    监控
+                        监控主节点从节点是否正常运行
+                    自动故障转移
+                        当确认主节点宕机后，在从节点中选一个座位主节点，将其他从节点连接到新的主节点上通知客户端最新的地址
+                工作原理
+                    发现Master宕机
+                    哨兵从服务器列表中挑选Master
+                        先过滤掉不在线和响应慢的服务器
+                        然后过滤掉与原Master断开时间最久的
+                        最后比较优先级priority
+                        如果两个服务器优先级一致，那么回去查看从服务器中数据的offset，offset说明数据最新，选出offset大的服务器为Master
+                    新Master诞生
+                        哨兵向选举出的新Master发送指令，断开与旧Master的连接
+                        把新Master的ip地址同步到其他Slave节点
+                    以前的Master如果重连了，那么以前的Master会变成新Master的Slave
+        35.Redis集群架构数据倾斜如何解决
+            01、 Redis集群最大节点个数是多少？
+        36.Redis如何解决分布式集群脑裂问题
+            配置

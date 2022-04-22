@@ -1,0 +1,61 @@
+项目-H5大纲
+    监听和高亮冲突
+        获取的id没有问题
+        但是监听消息没有发送
+            能否看是否形成了监听
+                没有形成监听
+            但是注释发送会形成监听
+            手动设置监听成功
+    对于html5大纲的改造需求
+        快捷键只要配置好就可以使用了
+        UI部分
+            更换颜色
+                高亮pop中关键字
+                高亮跳转位置关键字
+            在百度的词条前加上编号
+        按键交互部分
+            提取关键字
+                就使用相同的颜色标记减少大脑负荷
+                提取出不同网站名称的关键字
+            无法实现跳转
+                跳转位置有偏差
+                字符串处理的打印结果
+            快速打开功能
+            快速下一页
+            快速复制的功能
+            添加翻译功能
+            记忆功能
+                让点击结果保存在浏览器
+        正则部分
+            退出后状态仍然保存
+        请求多页
+    html5插件
+        content script
+            creatoutline
+                发送
+                    shwAction
+                监听请求，
+                    jumpto
+                    getoutline
+            outliner.min.js
+        │  popup.js
+            发送 getoutline
+            发送jumto
+            发送outline
+        html
+            │  popup.html
+        manifest.json
+            background.js
+                请求添加监听 showAction
+                想在这添加快捷键的监听
+    demo
+        top插件
+            发送
+                manifest
+                    加载bacjground
+                backgound
+                    监听快捷键
+                    监听图标被点击
+                    发送命令tabid并回调top脚本
+        shortcut项目
+        reg正则表达式

@@ -1,0 +1,316 @@
+netty
+    Netty
+        粘包拆包
+            粘包半包
+                虽然在应用层是按照ByteBuf为单位发送数据的，但是到了底层操作系统仍然是按照字节六发送数据，因此，数据到了对端，也是按照字节六的方式读入，然后到Netty应用层面，重新拼装成ByteBuf，而在这里ByteBuf与对端按顺序发送的ByteBuf可能是不对等的。这时就会出现多条数据粘在一次的，或者半条数据的现象
+            拆包
+                原理
+                    从TCP缓冲区不断的读取数据，每次读取数据都判断是否是一个完整的数据包
+                拆包器 也是一种逻辑处理器
+                    FixedLengthFrameDecoder 固定长度的拆包器
+                        如果你的应用层协议非常简单，每个数据包的长度都是固定的，比如 100，那么只需要把这个拆包器加到 pipeline 中，Netty 会把一个个长度为 100 的数据包 (ByteBuf) 传递到下一个 channelHandler。
+                    LineBaseFrameDecoder 行拆包器
+                        发送端发送数据包的时候，每个数据包之间以换行符作为分隔，接收端通过 LineBasedFrameDecoder 将粘过的 ByteBuf 拆分成一个个完整的应用层数据包。
+                    DelimiterBaseFrameDecoder  分隔符拆包器
+                        DelimiterBasedFrameDecoder 是行拆包器的通用版本，只不过我们可以自定义分隔符。
+                    LengthFieldBaseFrameDecoder 基于长度域拆包器
+                        最通用的一种拆包器，只要你的自定义协议中包含长度域字段，均可以使用这个拆包器来实现应用层拆包。
+                        上边我们自定义的协议中，长度域（代表数据长度的字段）是在第7个字节位置，占四个字节，那么我们就可以这样定义new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4); 第一个参数代表数据包的最大长度，第二个参数为长度域的位置，第三个参数为长度域的长度
+                        使用   可以将其添加到pipeline的第一个位置
+                        其他作用
+                            拒绝非本协议连接
+    原理
+        Netty服务端客户端创建启动流程
+            服务端启动
+                代码示例
+                启动主流程
+                    第一步：创建构建一个引导类ServerBootstrap，这个类会引导我们进行服务端的启动工作
+                    第二步：通过.group(bossGroup, workerGroup)方法给引导类配置两大线程组。这里边两个参数都是NioEventLoopGroup类型的对象，第一个bossGroup表示监听端口，accept新连接的线程组；第二个参数workerGroup表示处理每一条连接的数据读写的线程组
+                    第三步：通过引导类的.channel(NioServerSocketChannel.class)方法指定IO模型，这里指定的IO模型是NIO；我们这里也可以配置上OioServerSocketChannel.class，代表BIO模型。
+                    第四步：调用引导类的.childHandler()，给引导类创建一个ChannelInitializer，后续每条链接的数据读写，业务逻辑处理，都在这里定义。这个类中，有一个泛型参数为NioSocketChannel，这个类就是Netty对一个连接的抽象化定义。这里NioSocketChannel和前面的NioServerSocketChannel都是对NIO类型的连接的抽象；NioSocketChannel和NioServerSocketChannel的概念可以和BIO模型中的ServerSocket和Socket两个概念对应上。
+                    第五步：要启动一个Netty服务端，必须指定线程模型，IO模型，连接读写处理逻辑；有了这三者之后调用bind(端口号)。这个时候服务端就创建好并启动了。
+                    第六步：以上五步最好就算是已经启动了服务端。因为serverBootstrap.bind()是一个异步方法，调用之后我们可以监听服务器是否启动成功，端口是否绑定成功。serverBootstrap.bind()返回一个ChannelFuture对象，我们可以给这个类添加一个监听器GenericFutureListener，在这个接口的operationComplete方法里边监听端口是否绑定成功。绑定不成功可以根据业务逻辑进行处理。
+                启动中可以配置的一些方法
+                    serverBootstrap.handler()
+                        示例
+                        功能：上边介绍了childHandler()是指定处理新连接数据的处理逻辑，这个新连接代表服务器与客户端的连接。而当前的handler用于指定服务端启动过程中的一些逻辑。
+                    serverBootstrap.attr()
+                        示例
+                        功能：给服务端的channel（NioServerSocketChannel）指定一些自定义属性，然后我们可以通过channel.attr()去除这个属性。其实就是给NioServerSocketChannel维护一个map
+                    serverBootstrap.childAttr()
+                        示例
+                        功能：给每一条连接指定自定义属性，然后可以通过channel.attr()取除该属性
+                    serverBootstrap.childOption()
+                        示例
+                        功能：可以给每条连接设置一些TCP底层相关的属性
+                    serverBootstrap.option()
+                        示例
+                        功能：给服务端channel设置一些属性
+            客户端启动
+                代码示例
+                启动主流程
+                    第一步：创建引导类Bootstrap
+                    指定线程模型：用.group(new NioEventLoopGroup)指定线程模型，这里相对于服务端只需要指定一个线程模型。可以对应BIO模型联系起来。
+                    指定IO模型：为客户端指定IO模型，这里设置的是NioSocketChannel，也就是NIO模型。当然也可以像服务端一样指定其他IO模型
+                    业务处理：给引导类指定一个handler，这里主要是做连接的业务处理。也就是具体的事情是在这里做的
+                    第五步：配置完线程模型，IO模型，业务处理逻辑之后，调用connect()方法进行连接，这个方法的第一个参数是ip地址或者域名，第二个参数填写的是端口号。这个方法也是异步的。可以通过addListener方法监听连接是否成功。如果连接失败，可以在这个监听里边做重连逻辑。具体的重连逻辑可以根据业务要求进行
+                其他方法
+                    attr()
+                        示例
+                        功能：给客户端channel（NioSocketChannel）绑定自定义属性，可以通过channel.attr()取出这个属性。其实就是给客户端连接维护一个map而已。
+                    option()
+                        示例
+                        功能：给连接设置一些TCP底层相关的属性
+            服务端启动和客户端启动总结
+        心跳和空闲检测
+            假死
+                在某一端（服务端或者客户端）看来，底层的 TCP 连接已经断开了，但是应用程序并没有捕获到，因此会认为这条连接仍然是存在的，从 TCP 层面来说，只有收到四次握手数据包或者一个 RST 数据包，连接的状态才表示已断开。
+                对于服务端来说，因为每条连接都会耗费 cpu 和内存资源，大量假死的连接会逐渐耗光服务器的资源，最终导致性能逐渐下降，程序奔溃。对于客户端来说，连接假死会造成发送数据超时，影响用户体验。
+                应用程序出现线程堵塞，无法进行数据的读写。客户端或者服务端网络相关的设备出现故障，比如网卡，机房故障。公网丢包。公网环境相对内网而言，非常容易出现丢包，网络抖动等现象，如果在一段时间内用户接入的网络连续出现丢包现象，那么对客户端来说数据一直发送不出去，而服务端也是一直收不到客户端来的数据，连接就一直耗着。
+            空闲检测
+                IdleStateHandler
+                    第一个参数表示读空闲时间，如果在这个事件内没有读到数据，就表示假死，第二个参数表示写空闲时间，第三个参数表示都写空闲时间，第四个参数表示时间单位，连接假死之后会回调channelIdle方法。我们可以在这个方法里边做操作
+                空闲检测是每隔一段时间，检测这段时间内是否有数据读写。如果我们以至能收到数据，说明连接是活的。
+            心跳发送
+                有了空闲检测还不行，因为有可能发数据就是不频繁，我就是会一分钟不发一次数据，那空闲检测就没用了。所以需要定时发送心跳
+                当空闲检测的读空闲时间是15的时候，我们就需要5秒左右发送一次心跳数据。这个时间要比读空闲时间的一般短一些，主要是为了排除公网偶发的秒级抖动。
+        组件
+            引导相关
+                Bootstrap
+                    客户端引导
+                ServerBootStrap
+                    服务端引导
+            ByteBuf  数据载体 对二进制数据的抽象
+                和传统的Socket编程不同的是，Netty里面数据事一ButeBuf为单位的，所有需要写出的数据必须塞到一个ButeBuf。读取也是从ByteBuf读取。从连接处理器上下文对象中获取 channelHandlerContext.alloc().buffer()，bytebuf.writeBytes(bytes)将数据写到ByteBuf中
+                结构   
+                    线性结构，有效区分可读数据和可写数据，读写之间没有冲突
+                    第一部分时已经丢弃的字节，这部分数据无效，第二部分是可读字节，这部分数据是ButeBuf的主题数据，从ByteBuf里边读取的数据都来自这一部分，第三部分是可写字节，所有写道ByteBuf的数据都会写道这一段。最后一段虚线表示的是该ByteBuf最多还能扩容多少容量
+                    ByteBuf中有两个指针划分读写，读指针（readerIndex）写指针（writerIndex），ByteBuf底层内存总容量（capacity）
+                    读数据  
+                        从ByteBuf中每读取一个字节，readerIndex自增1，ByteBuf里边总共有writerIndex-readerIndex个字节可读。当readerIndex等于writerIndex时，ByteBuf就不可读了
+                    写数据  
+                        从writerIndex指定的部分开始写，没写一个字节，writerIndex自增1，知道writerIndex等于capacity的时候，ByteBuf就不可写了。
+                    扩容  
+                        当写数据写到capacity的时候，就不能写了，表示容量不足，这个时候可以进行扩容，那就是maxCapacity表示最大可扩容大小。可以把capacity扩容到maxCapacity。扩容的时候超过这个最大承载大小，就会报错
+                方法
+                    容量相关
+                        capacity()
+                            表示 ByteBuf 底层占用了多少字节的内存（包括丢弃的字节、可读字节、可写字节）
+                        maxCapacity()
+                            表示 ByteBuf 底层最大能够占用多少字节的内存，当向 ByteBuf 中写数据的时候，如果发现容量不足，则进行扩容，直到扩容到 maxCapacity，超过这个数，就抛异常
+                        readableBytes()
+                            readableBytes() 表示 ByteBuf 当前可读的字节数，它的值等于 writerIndex-readerIndex，如果两者相等，则不可读，
+                        isReadable()
+                            ByteBuf可读不可读的方法，readableBytes()方法返回0，就不可读
+                        writableBytes()  isWritable() maxWritableBytes()
+                            writableBytes() 表示 ByteBuf 当前可写的字节数，它的值等于 capacity-writerIndex，如果两者相等，则表示不可写， isWritable()返回0 。这个时候如果发现ByteBuf写不进去数据，Netty会自动扩容ByteBuf到底层内存大小maxCapacity。maxWritableBytes()表示可写的最大字节数，它的值等于maxCapacity-writerIndex
+                    读写指针相关
+                        readerIndex() 与 readerIndex(int)
+                            前者表示返回当前的读指针 readerIndex, 后者表示设置读指针
+                        writeIndex() 与 writeIndex(int)
+                            前者表示返回当前的写指针 writerIndex, 后者表示设置写指针
+                        markReaderIndex() 与 resetReaderIndex()
+                            前者表示把当前的读指针保存起来，后者表示把当前的读指针恢复到之前保存的值
+                    读写
+                        writeBytes(byte[] src) 与 buffer.readBytes(byte[] dst)
+                            writeBytes() 表示把字节数组 src 里面的数据全部写到 ByteBuf，而 readBytes() 指的是把 ByteBuf 里面的数据全部读取到 dst，这里 dst 字节数组的大小通常等于 readableBytes()，而 src 字节数组大小的长度通常小于等于 writableBytes()
+                        writeByte(byte b) 与 buffer.readByte()
+                            writeByte() 表示往 ByteBuf 中写一个字节，而 buffer.readByte() 表示从 ByteBuf 中读取一个字节
+                        release() 与 retain()
+                            Netty 的 ByteBuf 是通过引用计数的方式管理的，如果一个 ByteBuf 没有地方被引用到，需要回收底层内存。默认情况下，当创建完一个 ByteBuf，它的引用为1，然后每次调用 retain() 方法， 它的引用就加一， release() 方法原理是将引用计数减一，减完之后如果发现引用计数为0，则直接回收 ByteBuf 底层的内存。
+                        slice()、duplicate()、copy()
+                            slice() 
+                                slice() 方法从原始 ByteBuf 中截取一段，这段数据是从 readerIndex 到 writeIndex，同时，返回的新的 ByteBuf 的最大容量 maxCapacity 为原始 ByteBuf 的 readableBytes().这个方法返回的ByteBuf和原ByteBuf共享同一块内存，如果返回的ByteBuf修改了数据，原ByteBuf的对应的数据也会跟着变化。但是返回的ByteBuf和原ByteBuf由自己独立的指针
+                            duplicate()
+                                duplicate() 方法把整个 ByteBuf 都截取出来，包括所有的数据，指针信息。这个方法返回的ByteBuf和原ByteBuf共享同一块内存，如果返回的ByteBuf修改了数据，原ByteBuf的对应的数据也会跟着变化。但是返回的ByteBuf和原ByteBuf由自己独立的指针
+                            copy()
+                                直接从原始的 ByteBuf 中拷贝所有的信息，包括读写指针以及底层对应的数据，因此，往 copy() 返回的 ByteBuf 中写数据不会影响到原始的 ByteBuf
+                        retainedSlice() 与 retainedDuplicate()
+                            相当于时调用slice方法和duplicate方法的时候调用retain方法，增加引用次数
+                        set/get
+                            虽然也可以读写数据，但是不会修改指针位置
+                编解码
+                    通信协议的设计
+                        第一个字段：魔数   魔数是为了判断接收到的数据是否是遵循了当前协议的数据。比如有个客户端通过http协议访问了对应端口的服务器，发送过来一段http协议的数据包，如果没有魔数，我们可能就会直接解析数据，但是肯定会解析错误，这样就浪费了时间和性能。
+                        第二个字段版本号
+                            通常情况下是预留字段，用于协议升级的时候用到，有点类似 TCP 协议中的一个字段标识是 IPV4 协议还是 IPV6 协议，大多数情况下，这个字段是用不到的，不过为了协议能够支持升级，我们还是先留着。
+                        序列化算法
+                            如何把 Java 对象转换二进制数据以及二进制数据如何转换回 Java 对象，比如 Java 自带的序列化，json，hessian 等序列化方式。
+                        指令
+                            服务端或者客户端每收到一种指令都会有相应的处理逻辑，这里，我们用一个字节来表示，最高支持256种指令，对于我们这个 IM 系统来说已经完全足够了。
+                        数据部分的长度，四个字节
+                        数据内容
+                    编码
+                    解码
+            Channel相关
+                channel  连接，通道
+                    添加获取属性
+                        添加属性   ctx.pipeline().channel().attr(AttributeKey.newInstance("sign")).set("ServerHandlersdsddfdfd");
+                        获取属性    Attribute attr = ctx.pipeline().channel().attr(AttributeKey.newInstance("sign"));        String sign = attr.get();
+                    发送消息
+                        channel.writeAndFlush(数据)
+                ChannelGroup  很多个链接的组
+                    channelGroup.writeAndFlush  这个方法就可以给群里里所有的连接发送消息。这个组件在服务端使用
+                    remove（channel）删除channel群组中的某一个连接
+                    add(channel) 群组中添加channel
+                channelContext
+                handler  逻辑处理器
+                    channelInBoundHandler
+                        处理读数据的逻辑，读到数据之后，我们不管是解析数据，还是对数据进行一列的逻辑处理，都可以放到不同的channelInBoundHandler类里边处理。处理完之后在进行相应操作。可以和OSI七层协议联起起来，相当于数据从物理层上升到应用层
+                        事件传播   是按照添加的顺序处理的
+                        ChannelInboundHandlerAdapter
+                            核心方法   channelRead 这个方法作用是接收上一个handler的输出，然后通过ctx.fireChannelRead方法把数据传给下一个handler
+                        ByteToMessageDecoder
+                            作用 
+                                当一端收到二进制数据之后，我们都要自己把二进制数据转化为ByteBuf数据，然后再转换为Java对象。为了解决这么繁复的操作，Netty为我们准备了这个类。
+                            详细
+                                decode方法的第二个参数就是ByteBuf类型，这样我们就不需要强转，第三个参数是list类型，我们只需要把解码后的对象添加到list对象中，就可以自动实现把结果传给下一个handler。这里边还实现了将内存自动实放的操作
+                        SimpleChannelInBoundHandler
+                            作用
+                                Netty提供的一个实现了类型判断和对象传递的类，我们只需要处理业务逻辑即可
+                            详细
+                                在继承这个类的时候，给他传递一个泛型参数，然后再channelRead0方法里边，我们不用通过if判断当前传来的对象是不是本handler处理的对象，也不用强转，因为这些这个类都做好了。而且往下个handler传递数据也做好了。
+                    channelOutBoundHandler
+                        处理写数据逻辑，当在一端组装完相应之后，对数据进行逻辑处理加工，然后在进行编码，最后把数据写到对端的逻辑。可以看作是OSI中的应用层到物理层
+                        数据传递，和添加的顺序相反
+                        ChannelOutBoundHandlerAdapter
+                            核心方法为write
+                        MessageToByteEncoder
+                            作用
+                                每个handler在处理完逻辑进行数据发送的时候，都需要把数据进行编码发送。从pipeline的工作流程可以看出，数据可以在上传到最后一个outhandler的时候再进行编码之后发出也不迟。所以netty给我们准备了NessageToByteEncoder
+                            详细
+                                这里只需要实现 encode() 方法，在这个方法里面，第二个参数是 Java 对象，而第三个参数是 ByteBuf 对象，我们在这个方法里面要做的事情就是把 Java 对象里面的字段写到 ByteBuf。当我们像pipeline中添加了这个handler（MessageToByteEncoder）之后，我们在指令处理完毕之后就只需要writeAndFlush(java对象即可)
+                    MessageToMessageCodec
+                        这个类融合了ByteToMessageDecoder和MessageToByteEncoder，使用它可将编解码操作放到一个类中实现
+                    IdleStateHandler
+                        空闲检测的handler
+                            第一个参数表示读空闲时间，如果在这个事件内没有读到数据，就表示假死，第二个参数表示写空闲时间，第三个参数表示都写空闲时间，第四个参数表示时间单位，连接假死之后会回调 channelIdle() 方法，我们这个方法里面打印消息，并手动关闭连接。这个空闲检测需要放到pipeline的最前边，因为如果放到后边，可能会因为中间的handler处理数据耗时，造成误判
+                    生命周期
+                        顺序
+                            handlerAddde->channelRegistered->channelActive->channelRead->channelReadComplete (关闭连接后)channelInActive->channelUnRegistered->handlerRemoved
+                        各生命周期方法被调用时机
+                            handlerAdded
+                                指的是当检测到新连接之后，调用 ch.pipeline().addLast(new LifeCyCleTestHandler()); 之后的回调，表示在当前的 channel 中，已经成功添加了一个 handler 处理器。
+                            channelRegistered
+                                表示当前的 channel 的所有的逻辑处理已经和某个 NIO 线程建立了绑定关系
+                            channelActive
+                                当 channel 的所有的业务逻辑链准备完毕（也就是说 channel 的 pipeline 中已经添加完所有的 handler）以及绑定好一个 NIO 线程之后，这条连接算是真正激活了，接下来就会回调到此方法。
+                                对我们的应用程序来说，这两个方法表明的含义是 TCP 连接的建立，通常我们在这个回调里面统计单机的连接数，channelActive() 被调用，连接数加一。可以在 channelActive() 方法中，实现对客户端连接 ip 黑白名单的过滤，具体这里就不展开了
+                            channelRead
+                                客户端向服务端发来数据，每次都会回调此方法，表示有数据可读。
+                            channelReadComplete
+                                服务端每次读完一次完整的数据之后，回调该方法，表示数据读取完毕。
+                                我们在每次向客户端写数据的时候，都通过 writeAndFlush() 的方法写并刷新到底层，其实这种方式不是特别高效，我们可以在之前调用 writeAndFlush() 的地方都调用 write() 方法，然后在这个方面里面调用 ctx.channel().flush() 方法，相当于一个批量刷新的机制，当然，如果你对性能要求没那么高，writeAndFlush() 足矣。
+                            channelInActive
+                                表面这条连接已经被关闭了，这条连接在 TCP 层面已经不再是 ESTABLISH 状态了
+                                对我们的应用程序来说，这两个方法表明的含义是 TCP 连接的释放，通常我们在这个回调里面统计单机的连接数，channelInActive() 被调用，连接数减一
+                            channelUnRegistered
+                                既然连接已经被关闭，那么与这条连接绑定的线程就不需要对这条连接负责了，这个回调就表明与这条连接对应的 NIO 线程移除掉对这条连接的处理
+                            handlerRemoved
+                                最后，我们给这条连接上添加的所有的业务逻辑处理器都给移除掉。
+                pipeline  逻辑处理链 通过addlast添加逻辑处理器
+                    不同的结构
+                        结构
+                        执行顺序
+                        带有ByteToMessageDecoder和MessageToByteEncoder
+                        添加拆包器之后的结构
+                    方法
+                        remove(handler)
+                            删除某个handler
+                                对应热插拔技术
+        netty多线程模型
+            reactor多线程主从模型
+        BIO
+            工作流程
+                服务端端首先创建了一个serverSocket来监听 8000 端口，然后创建一个线程，线程里面不断调用阻塞方法 serversocket.accept();获取新的连接，当获取到新的连接之后，给每条连接创建一个新的线程，这个线程负责从该连接中读取数据，然后以字节流的方式读取数据。
+                客户端连接上服务端 8000 端口之后，每隔 2 秒，向服务端写一个带有时间戳的 "hello world"。
+            特点：以字节流的方式读写数据，一次性只能从六种读取一个或者多个字节，并且读完流之后无法再读取，需要自己缓存数据
+            缺点：服务端对每一条连接都开辟一个线程去管理，这里没一个连接对应一个客户端，当客户端较多的时候就需要开辟很多线程
+        NIO
+            工作流程：在NOI模型中，一个连接进来，不创建一个死循环去监听是否有数据刻度，而是直接把这条连接注册到selector上，然后通过检查这个selector，就可以批量监测出数据可读的连接，进而读取数据。
+            特点 面向Buffer读写，可以随意读取里面任何一个字节数据，不需要自己缓存数据，一切只需要读写指针即可
+            缺点：NIO变成需要了解很多概念，变成复杂，入门不友好；需要自己实现一个合适的线程模型，来充分发挥他的优势，需要自定义协议拆包；维护成本高，本身自带空轮询BUG导致CPU飙升。
+    Netty的优化
+        使用单例handler
+            每次有新连接到来的时候，都会调用channelInitializer的initChannel方法，这样内部的handler都会被实例化一次，比较浪费内存
+            优化方案：如果一个handler内部没有成员变量，也就是无状态的handler，在pipeline.addlast的时候，可以直接使用单例，不需要每次都new，提高效率，避免创建很多小的对象
+            注意事项：如果一个handler要被多个channel共享的话，类上边必须加上@ChannelHandler.Sharable注解，这个注解是表示这个handler支持多个channel共享
+            有些handler跟每一个channel都有关，也就是有状态的，那就不能使用单例。Spliter会从底层读数据校验是否已经是完整的一个协议数据包，如果不是的话会继续等数据，在这个过程中要保持某个channel的数据，所以是有状态的。
+        压缩handler
+            使用MessageToMessageCodec替换ByteToMessage和MessageToByte
+        缩短时间传播路径
+            合并平行handler-压缩handler
+                如果很多handler都处理一件事情，那么时间单独的事情创建了是个handler，那么一个数据来的时候只会走一个handler，比如登录指令过来，只会走登录的handler，那么走其他的handler都是多余的。所以可以把这些平行的handler压缩到一个handler中
+            更改事件传播源
+                ctx.writeAndFlush()
+                    是从 pipeline 链中的当前节点开始往前找到第一个 outBound 类型的 handler 把对象往前进行传播，如果这个对象确认不需要经过其他 outBound 类型的 handler 处理，就使用这个方法。在某个 inBound 类型的 handler 处理完逻辑之后，调用 ctx.writeAndFlush() 可以直接一口气把对象送到 codec 中编码，然后写出去。
+                ctx.channel().writeAndFlush()
+                    是从 pipeline 链中的最后一个 outBound 类型的 handler 开始，把对象往前进行传播，如果你确认当前创建的对象需要经过后面的 outBound 类型的 handler，那么就调用此方法。在某个 inBound 类型的 handler 处理完逻辑之后，调用 ctx.channel().writeAndFlush()，对象会从最后一个 outBound 类型的 handler 开始，逐个往前进行传播，路径是要比 ctx.writeAndFlush() 要长的。
+        减少阻塞主线程的操作
+            单个NIO线程执行的抽象逻辑,如果在一个handler的channelRead中执行了耗时操作，阻塞了NIO线程，都会拖慢绑定在这个NIO线程上的其他所有channel
+            我们可以把耗时操作丢到业务线程池中处理
+        准确统计处理时长
+            当我们处理完逻辑把消息发送出去之后，其实相当于把火箭发送了出去，至于火箭有没有落地我们还不知道。所以channel.writeAndFlush是由回调方法的，可以监听什么时候结束。可以在这个里边统计业务处理时间
+    主题
+        Netty
+            Netty核心
+                Bootstrap/ServerBootstrap
+                    netty简单配置或者引导程序的类
+                    Bootstrap用来连接远程主机，有1个EventLoopGroup
+                    ServerBootstrap用来绑定本地端口，有2个EventLoopGroup一个用来接收建立连接，一个用来数据传输
+                EventLoop
+                EventLoopGroup
+                ChannelPipeline
+                    ChannelPipeline和EventLoop和EventLoopGroup密切相关，因为它们三个都和事件处理相关
+                Channel
+                Future/ChannelFuture
+                ChannelInitializer
+                    用来配置Handlers,通过ChannelPipeline来添加ChannelHandler
+                    如发送和接收消息，这些Handlers将确定发的是什么消息。ChannelInitializer自身也是一个ChannelHandler，在添加完其他的handlers之后会自动从ChannelPipeline中删除自己
+                ChannelHandler
+                    (类)ChannelHandlerAdapter
+                        子类
+                            (类)ChannelInboundHandlerAdapter
+                            (类)ChannelOutboundHandlerAdapter
+                    (接口)ChannelInboundHandler
+                        用于接收消息,处理消息
+                        需要返回消息时可以write/flush数据
+                    (接口)ChannelOutboundHandler
+            Netty应用
+                服务模型
+                    传统阻塞IO模型
+                        采用阻塞IO模式获取输入的数据
+                        每个连接都需要独立的线程完成数据的输入，业务处理，返回
+                        缺点
+                            并发数大，创建大量线程，占用资源多
+                            没有数据读取，会阻塞在read操作，造成线程资源浪费
+                    Reactor
+                        解决传统IO缺点
+                            基于IO复用模型
+                            基于线程池复用线程资源
+                        三种实现
+                            单Reactor单线程
+                                优点
+                                    模型简单，没有多线程，进程通信，竞争的问题
+                                缺点
+                                    单线程，无法发挥多核CPU性能，handler在处理某个连接的业务时无法处理其他连接
+                                    可靠行问题，节点故障
+                            单Reactor多线程
+                                增加了handler来响应时间，然后交给线程池工作线程来处理
+                                优点：利用多核CPU的处理能力
+                                缺点
+                                    多线程数据共享和访问比较复杂
+                                    reactor处理所有的事件的监听和响应，单线程运行，在高并发场景容易出现性能瓶颈
+                            主从Reactor多线程
+                                优点
+                                    父线程和子线程数据交互简单明确
+                                缺点：编程复杂度高
+                    Netty模型
+                        基于主从Reactor多线程模型改进
+                taskQueue
+                    耗时长的任务，异步提交给队列
+                        ctx.channel().eventLoop().execute(()->{})
+                    定时任务，异步提交给队列
+                        ctx.channel().eventLoop().schedule(()->{},5,TimeUnit)
+                Future-listener机制
+                    ChannelFuture.addListener();添加监听器，执行后回调该方法

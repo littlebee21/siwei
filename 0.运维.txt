@@ -1,0 +1,179 @@
+模板
+    运维工作
+        系统运维
+            系统部署
+                系统环境的搭建
+                    mysql软件安装
+                    redis软件安装
+                    ngnix软件安装
+                    docker安装
+                    portainer安装
+                宝塔面板的使用
+                自动化部署技术
+                    docker compose
+                    将编写的前端和后端代码分别打包成docker镜像的形式
+                    上传镜像到阿里云
+                    在服务器上拉去阿里云镜像进行运行访问
+            系统维护
+            系统配置
+            故障排查
+            云服务器系统重置
+            日志分析
+                日志框架
+                    ELK B
+                    SLF4J
+            系统优化
+        虚拟化运维
+            虚拟化
+                KVM
+                Xen
+                OpenVZ
+                NFV
+                OpenStack
+                Docker
+            故障排查
+            新建虚拟机
+            集群管理
+            虚拟化平台监控
+            虚拟机扩容
+            虚拟化平台优化
+            管理平台巡检
+        硬件运维
+            故障排查
+            坏件更换
+            硬件扩容
+            固件升级
+            管理口巡检
+        存储运维
+            故障排查
+            坏件更换
+            资源分配
+            资源监控
+            资源规划
+            管理平台巡检
+        巡检
+            机房巡检
+            动环平台监控
+            精密空调巡检
+            UPS巡检
+            机房人员出入管理
+        通用职责
+            设备维护
+            上线部署
+            确保线上稳定
+            故障处理
+            备份&amp;恢复
+            资产整理
+            故障记录
+        CDH
+            脚本化安装
+                https://github.com/jast90/shells/blob/master/cdh-install.md
+            准备
+                CDH6
+                CDH5
+                下载
+                    cloudera manager 5.16.2
+                    parcel 5.16.2
+                资源要求
+                    磁盘
+                        20G
+                    内存
+                        4G
+                    Python
+                        2.4及以上版本，3.0不支持
+                    Perl
+                    python-psycopg2 package
+                    iproute package
+                GCP：Google 云平台
+                    3台2核CPU 16G CentOS 6
+                    编写脚本下载需要的安装包
+                    GCP虚拟机设置
+                        查看防火墙&lt;br&gt;
+                             chkconfig iptables off
+                        关闭防火墙
+                            service iptables stop
+                        setenforce 0
+                        禁用selinux
+                            vim /etc/selinux/config
+                        配置SSH
+                            vim /etc/ssh/sshd_config
+                        修改root密码
+                            sudo passwd
+                        重启
+                            init 6
+                软件要求
+                    JDK
+                    MySQL
+            安装
+                创建数据库
+                    集群监控数据库amon
+                    hive数据库hive
+                CM安装
+                    解压cloudera-manager到/opt
+                    拷贝mysql驱动包到/usr/share/java中
+                        参考agent中的config.ini
+                    所有结点创建用户
+                    在mysql中创建cm库
+                    修改config.ini文件
+                    分发cm
+                    拷贝下载文件
+                    分发cloudera
+                启动与关闭服务结点和agent结点
+                    启动
+                        服务结点
+                            hadoop001
+                        工作结点
+                            hadoop001
+                            hadoop002
+                            hadoop003
+                        查看端口
+                        Web UI
+                            http://hadoop001:7180
+                    关闭
+    运维
+        运维相关工具
+            综合型工具
+                宝塔面板：本教程使用宝塔面板演示搭建
+            独立工具
+                SSH工具：有很多SSH软件，选择适合自己的即可
+                FTP工具：FTP软件用于上传网站文件，也可以用宝塔自带
+            linux命令
+        运维基础
+            打包和项目管理
+            容器技术
+            容器编排技术
+                Kubernetes
+            运维知识（配置）
+                web服务器
+                    nginx
+                应用服务器
+                    Tomcat/Jetty/Undertow
+                CDN加速
+                持续开发/持续发布
+                    Jenkins
+                代码质量检查
+                    sonar
+                日志收集/分析
+                    ELK
+    云平台
+        GCP
+            通过SecureCRT连接远程主机
+                在本地机器上生成ssh密钥
+                将jast.pub文件内容添加到GCP元数据
+    虚拟机
+        VirtualBox
+            创建虚拟机并安装centos6.10
+            虚拟机配置
+                创建一般用户并加入到sudoers
+                关闭防火墙
+                更改主机名称
+                网卡配置
+                    静态ip
+                        通过centos网络配置设置
+                        局域网访问
+                    NAT
+                        用于联网
+                修改hosts
+                主机之间免密远程登入
+                在/opt目录下创建software,module目录并修改所属用户组
+                重新安装JDK

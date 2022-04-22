@@ -1,0 +1,120 @@
+芯片手册:
+组成
+    芯片手册结构 - 章：
+        前置章节：
+        trademark 商标
+        Chip Handling Guide 芯片使用注意：
+            化学使用
+        list of Conventions 约定符号 
+        List of Examples 例子代码
+        List of Figure 图表
+            Exynos 4412 Block Diagram 三星芯片框图 eeeeeeemmmmmx
+            GPIO Block Diagram GPIO框图 emmmmmmmmmmmmmmmmx
+
+        Revision History 翻新地址
+
+        1，product Overview        总体介绍，框架系统
+            1,2 Block Diagram of Exynos 4412 芯片模块分组 emxxxxxxxxxx
+            1.3 Features of Exynos 4412 芯片配置参数
+                1.3.1 处理器单元
+                1.3.2 存储子系统
+                1.3.3 多媒体
+                1.3.4 音频子系统
+                1.3.5 图片子系统
+                1.3.6 安全引导boot子系统
+                1.3.7 GPS
+                1.3.8 连接总线
+                1.3.9 系统外设
+        2，Ball Map and Descript   引脚描述
+            2.1 
+            2.2 Pin Map 引脚说明
+            2.3 Pin Assignments 引脚编号
+            2.4 I/O Control Type Conventions 控制类型 ：串口类型 MMC类型 DRAM类型
+            2.5 Pin Description
+                PUD 拉电阻模式 OFF没拉电阻 DOWN下拉电阻
+                NC 是NOT CONNECTED的缩写
+                CS是Current sense（电流检测,电流取样,电流反馈）;
+                COMP是补偿(Compensation)引脚；
+                FB 是Voltage feedback (电压反馈);
+                GND表示地；
+                SW是转换(Switch)引脚；
+                FB是反馈(FeedBack)引脚；
+        3, Memory Map    区域基地址
+        4，Chip ID  芯片ID
+        5，Booting Sequence 启动流程
+
+        6-20，乱七八糟的外设们
+        6，GPIO EXTINT 外部中断/通用输入输出寄存器
+        7，CLock Management Unit 时钟控制单元
+        8，Power Mangement Unit 电源控制单元
+        9,Interrupt Controller 中断控制
+        10，Interrupt Combiner 中断组合
+        11，DMAC 内存操作
+        12，SYSTem Register 系统寄存器
+        13，CoreSight 调试
+        14，TrustZone Protection Controller (TZPC) 安全隔离，指纹密码加密认证
+        15，TrustZone Address Access Controller (TZASC) 安全地址隔离
+        16，System Memory Management Unit 系统内存管理
+        18，Dynamic Memory Controller 动态内存控制
+        19，SROM Controller
+        20 NAND Flash控制器
+        21 External Bus Interface (EBI)	21外部总线接口(EBI)
+        22. Secure Digital/MultiMediaCard MMC Controller SD卡和MMC
+        23. Mobile Storage Host 外置移动存储
+        24. Pulse Width Modulation Timer 脉冲宽度调制
+        25. Multi Core Timer (MCT) 多工计时器
+        26. Watchdog Timer 看门狗计时器
+        27. Real Time Clock (RTC) 实时时钟
+        28. Universal Asynchronous Receiver and Transmitter 通用异步发送接收
+        29. 
+
+        IIS-Bus接口
+        44. FIMC_LITE (Camera Interface)
+        45. MIPI-DSI Master
+        46. MIPI-CSI Slave (MIPI-CSI) 规范接口
+        47. 2D Graphic Accelerator
+        48. 3D Graphic Accelerator (G3D) 绘图加速器
+        58. Image Rotator  图片旋转
+        59. JPEG Codec 编解码
+        51. Multi Format Codec (MFC) 多媒体解码
+        60，electrical Data 电气数据
+
+    芯片手册外设结构 - 节2：
+        1，overview 总体概括
+            1.1 feature of 总特的特征
+            1.2 block diagram 总体的框图
+                eg：6.1.2.1 General Purpose Input/Output Block Diagram	98
+        2，feature of WDT 特征概括
+        	6.1.1 Features of GPIO	97
+		    6.2.1 Registers Summary	99 寄存器汇总
+
+        4，read write register 读写寄存器
+
+        401501，functional Descripttion 功能描述
+        401501，example 代码示例
+        401501，Configuration and Programming View 配置和编程方法
+        
+        7，address Mapping 地址映射
+        8, IO description IO引脚描述
+        9, register description 寄存器描述
+    
+   
+    寄存器分类：
+        一个32位的寄存器可能给多个寄存器引脚进行使用，
+
+
+    芯片手册的表格：
+        表格中会标记芯片寄存器的：
+        address 地址
+        name    名字
+        bit    所占的位数 
+        type   读写权限
+        description 功能 
+        reset 初始值
+
+
+总结：
+    1，组织逻辑：外设名称，寄存器功能, 外设12，
+    2，通过docfect可以看见对应的章节号，通过章节号就可以定位对应的内容
+    3，模块Module - 模块内部子模块SubModule - 内部寄存器register
+    6，类似AMM手册

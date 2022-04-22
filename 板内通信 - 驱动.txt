@@ -1,0 +1,110 @@
+板内通信 -  驱动
+板内驱动
+    协议驱动
+        总线传输
+            地址
+            命令
+            数据
+        总线协议
+            IIC串行总线
+            CAN的结构
+                电气特征
+                CAN挂载拓扑结构
+                CAN寄存器
+                    控制
+                        工作模式
+            SPI串行外设接口
+                寄存器
+                总线数
+                     MISO 主设备数据输入，从设备数据输出。
+                    MOSI 主设备数据输出，从设备数据输入。
+                    SCLK 时钟信号，由主设备产生。
+                    CS 从设备片选信号，由主设备控制
+            SCCB 
+                函数
+            SPI/SCI/SI
+            硬件通信
+                FireWire
+                1-wire
+        usart串口
+            3.6.1基于UART的RS-232/RS-485接口
+                RS-232接口（3线）
+                RS-485（2线）
+        存储
+            FSMC接口
+                控制设备
+            SDIO接口
+                时钟
+                SDIO接口功能
+                SDIO的寄存器
+                SDIO总线传输时序
+            DMA控制器
+                DMA功能
+            ROM / EEPROM
+            Flash / NAND Flash
+            RAM
+                SDRAM
+                DDR1 DDR2 DDR3 DDR4
+            Cache
+        电机
+            PWM
+        显示设备
+            HDMI
+            LVDS
+        Common
+            ISR
+            Driver
+            DMA
+            I2C
+        USB
+    通用驱动
+        GPIO通用输入/输出
+            数据
+                IDR 端口输入数据寄存器
+                ODR 端口输出数据寄存器
+            控制
+                CRL 端口配置低寄存器
+                CRH 端口配置高寄存器
+                BSRR 端口位设置/复位寄存器
+                BRR 端口位复位寄存器
+                LCKR 端口配置锁定寄存器
+                事件
+                    EVCR 事件控制寄存器
+                重映射
+                    MAPR 复用重映射和调试 I/O 配置寄存器
+                中断
+                    EXTICR 外部中断线路 0-15 配置寄存器
+            状态
+        PWM
+        ADC寄存器
+            控制
+                CR1 ADC 控制寄存器 1
+                CR2 ADC 控制寄存器 2
+            状态
+                SR ADC 状态寄存器
+                HTR ADC 看门狗高阈值寄存器
+                LTR ADC 看门狗低阈值寄存器
+                JSQR1 ADC 注入序列寄存器
+                JOFR1 ADC 注入通道偏移寄存器 1
+                JOFR2 ADC 注入通道偏移寄存器 2
+                JOFR3 ADC 注入通道偏移寄存器 3
+                JOFR4 ADC 注入通道偏移寄存器 4
+            数据
+                SMPR1 ADC 采样时间寄存器 1
+                SMPR2 ADC 采样时间寄存器 2
+                SQR1 ADC 规则序列寄存器 1
+                SQR2 ADC 规则序列寄存器 2
+                SQR3 ADC 规则序列寄存器 3
+                DR1 ADC 规则数据寄存器 1
+                DR2 ADC 规则数据寄存器 2
+                DR3 ADC 规则数据寄存器 3
+                DR4 ADC 规则数据寄存器 4
+        DAC
+        通用同步异步收发器（ USART）
+    MCU/CPU/DSP/SOC peripherals周边
+        RTC
+        Modem
+        DTMF
+        IEEE
+        CRC
+        Interrupt (中断)

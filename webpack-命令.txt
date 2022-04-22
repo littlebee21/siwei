@@ -1,0 +1,7 @@
+常见的命令们
+    webpack 供开发构建
+    webpack -p 供生产构建一次
+    webpack --watch – 连续的增量构建/监听模式
+    webpack -d – 包括源地图
+    webpack --colors – 让内部更好看
+    webpack --progress --colors通过参数让编译的输出内容带有进度和颜色

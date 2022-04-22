@@ -1,0 +1,195 @@
+rocketmq
+    主题
+    功能
+        rocketmq实战商城
+            业务分析
+                模拟电商网站购物场景中的【下单】和【支付】业务
+            下单业务(订单系统)
+                下单流程分析图
+                    下单组件图.png
+                    下单时序图.png
+                下单业务解决思路
+                    失败补偿机制
+                校验订单
+                生成预订单
+                    生成预订单.png
+                调用服务
+                    扣减库存(库存服务)
+                    扣减优惠券(优惠券服务)
+                    扣减余额(用户服务)
+                确认订单
+                    确认成功
+                    确认失败
+                下单失败
+                    发送订单确认失败MQ消息
+                        回退库存
+                            回退库存幂等性处理
+                            数据库乐观锁
+                        回退优惠券
+                        回退余额
+                        取消订单
+            支付业务
+                支付流程分析图
+                    支付组件图.png
+                    支付流程图.png
+                创建支付订单
+                    创建支付订单.png
+                支付回调
+                    支付后回调.png
+        rocketmq高级功能
+            消息的存储
+                mq消息生产消费流程
+                    消息存储方式.png
+                    消息生成者发送消息
+                    MQ收到消息，将消息进行持久化，在存储中新增一条记录
+                    返回ACK给生产者
+                    MQ push 消息给对应的消费者，然后等待消费者返回ACK
+                    如果消息消费者在指定时间内成功返回ack，那么MQ认为消息消费成功
+                    MQ删除消息
+                性能对比
+                    文件系统&amp;gt;关系型数据库DB
+                        顺序写的过程，保证当前写的速度
+                消息存储结构
+                    RocketMQ消息的存储是由ConsumeQueue和CommitLog配合完成 的
+                刷盘机制
+                    RocketMQ的消息是存储到磁盘上的，这样既能保证断电后恢复， 又可以让存储的消息量超出内存的限制。
+                        同步刷盘
+                        异步刷盘
+            高可用机制
+                rocketmq分布式集群
+                    RocketMQ分布式集群是通过Master和Slave的配合达到高可用性的。
+                    Master和Slave的区别
+                        在Broker的配置文件中，参数 brokerId的值为0表明这个Broker是Master，大于0表明这个Broker是 Slave;
+                        同时brokerRole参数也会说明这个Broker是Master还是Slave;
+                        Master角色的Broker支持读和写，Slave角色的Broker仅支持读，也就是 Producer只能和Master角色的Broker连接写入消息；
+                        Consumer可以连接 Master角色的Broker，也可以连接Slave角色的Broker来读取消息。
+                消息消费高可用
+                    在Consumer的配置文件中，并不需要设置是从Master读还是从Slave 读
+                    当Master不可用或者繁忙的时候，Consumer会被自动切换到从Slave 读。
+                    当一个Master角色的机器出现故障后，Consumer仍然可以从Slave读取消息，不影响Consumer程序
+                消息发送高可用
+                    消息发送高可用设计.jpg
+                    Topic的多个Message Queue创建在多个Broker组上（相同Broker名称，不同 brokerId的机器组成一个Broker组）
+                    当一个Broker组的Master不可 用后，其他组的Master仍然可用，Producer仍然可以发送消息
+                    RocketMQ目前还不支持把Slave自动转成Master
+                    如果机器资源不足， 需要把Slave转成Master，则要手动停止Slave角色的Broker，更改配置文 件，用新的配置文件启动Broker。
+            负载均衡机制
+                Producer负载均衡
+                    producer负载均衡.png
+                    Producer端，每个实例在发消息的时候，默认会轮询所有的message queue发送，以达到让消息平均落在不同的queue上。
+                    由于queue可以散落在不同的broker，所以消息就发送到不同的broker下
+                Consumer负载均衡
+                    集群模式
+                    广播模式
+            失败消息重试
+                顺序消息失败的重试
+                    消息队列 RocketMQ 会自动不断进行消息重试（每次间隔时间为 1 秒）
+                    应用会出现消息消费被阻塞的情况
+                    在使用顺序消息时，务必保证应用能够及时监控并处理消费失败的情况，避免阻塞现象的发生
+                无序消息失败的重试
+                    无序消息的重试只针对集群消费方式生效；
+                    广播方式不提供失败重试特性，即消费失败后，失败消息不再重试，继续消费新的消息。
+            死信队列处理
+                当一条消息初次消费失败，消息队列 RocketMQ 会自动进行消息重试；
+                达到最大重试次数后，若消费依然失败，则表明消费者在正常情况下无法正确地消费该消息
+                消息队列 RocketMQ 不会立刻将消息丢弃，而是将其发送到该消费者对应的特殊队列中。
+                无法被消费的消息称为死信消息（Dead-Letter Message），存储死信消息的特殊队列称为死信队列（Dead-Letter Queue）。
+                死信特性
+                    死信消息特性
+                        不会再被消费者正常消费。
+                        有效期与正常消息相同，均为 3 天，3 天后会被自动删除。因此，请在死信消息产生后的 3 天内及时处理
+                    死信队列特性
+                        一个死信队列对应一个 Group ID， 而不是对应单个消费者实例
+                        如果一个 Group ID 未产生死信消息，消息队列 RocketMQ 不会为其创建相应的死信队列
+                        一个死信队列包含了对应 Group ID 产生的所有死信消息，不论该消息属于哪个 Topic
+                死信处理
+                    某些因素导致消费者无法正常消费该消息，需要排查可疑因素并解决问题
+                    在消息队列 RocketMQ 控制台重新发送该消息，让消费者重新消费一次
+            消费幂等处理
+                消息队列 RocketMQ 消费者在接收到消息以后，有必要根据业务上的唯一 Key 对消息做幂等处理的必要性
+                消费幂等的必要性
+                    发送时消息重复
+                        服务端对客户端应答失败
+                    投递时消息重复
+                        客户端给服务端反馈应答的时候网络闪断
+                    负载均衡时消息重复
+                        消息队列 RocketMQ 的 Broker 或客户端重启、扩容或缩容
+                处理方式
+                    真正安全的幂等处理，不建议以 Message ID 作为处理依据
+                    最好的方式是以业务唯一标识作为幂等处理的关键依据
+        rocketmq解决问题
+            幂等性，RocketMQ解决消息顺序和重复
+            RocketMQ—顺序消息和重复消息
+        WebSocket的使用
+            websocket原理
+                看完让你彻底搞懂Websocket原理
+                使用 HTML5 WebSocket 构建实时 Web 应用
+            websocket实战
+                Springboot整合Websocket案例（后端向前端主动推送消息）
+                Java Websocket实例【项目实战系列】
+    rocketmq基本操作
+        rocketmq的优缺点
+            优点
+                1.解耦
+                2.削峰
+                3.数据分发
+            缺点
+                1.系统可用性降低
+                2.系统复杂度提高
+                    重复消费
+                    消息丢失
+                    消息顺序
+                3.一致性问题
+        各个角色介绍
+            Producer：消息的发送者；举例：发信者
+            Consumer：消息接收者；举例：收信者
+            Broker：暂存和传输消息；举例：邮局
+            NameServer：管理Broker；举例：各个邮局的管理机构
+            Topic：区分消息的种类；一个发送者可以发送消息给一个或者多个Topic；一个消息的接收者可以订阅一个或者多个Topic消息
+            Message Queue：相当于是Topic的分区；用于并行发送和接收消息
+        双主双从集群搭建
+        消息生产发送
+            同步消息生产
+            异步消息生产
+            单向消息生产
+            负载均衡消费
+            广播模式消费
+            顺序消息模式
+                顺序消息生产
+                顺序消息消费
+            延时消息模式
+                延时消息生产
+                延时消息消费
+            发送批量消息
+            过滤消息模式
+                过滤消息生产
+                过滤消息消费
+            事务消息模式
+                事务消息生产
+                事务消息消费
+    RocketMQ
+        rocketmq学习教材
+            RocketMQ用户指南v3.2.4.pdf
+            rocketmq学习链接
+                rocketmq在windows、linux、docker的安装
+                    Windows环境安装与配置RocketMQ
+                    RocketMQ-Console安装、使用详解
+                    springboot的RocketMq实例
+                Rocketmq - 1 介绍和核心概念
+                Rocketmq - 2 集群架构模型和部署结构图
+                Rocketmq - 3 部署双主环境
+                Rocketmq - 4 Broker配置文件，存储和HelloWorld
+                RocketMQ - 5 源码模块分析
+                RocketMQ - 6 生产者，顺序消息
+                RocketMQ - 8 消费者 push和pull模式，配置参数
+                rocketmq - 9 消息重试，消息幂等去重，消息模式
+                rocketmq - 10 双主双从模式
+                rocketmq队列
+                    RocketMQ-延迟队列
+                    RocketMQ-死信队列
+                    RocketMQ-重试队列
+        rocketmq学习教程
+            黑马RocketMQ大纲
+                RocketMQ-01
+                RocketMQ-02
+                RocketMQ-03

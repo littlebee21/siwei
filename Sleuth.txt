@@ -1,0 +1,19 @@
+Sleuth
+    主题
+        zipkin改进
+            1、通过消息中间件收集sleuth数据
+            改造服务端
+            改造客户端
+            2、持久化sleuth数据
+    使用
+        sleuth配置
+        sleuth配合elk使用
+        与Logstash整合：
+        HTTP收集：
+        与Zipkin整合：
+            服务端zipkin-server配置
+            客户端整合zipkin步骤
+        快速入门(实现跟踪)：
+    原理
+        服务跟踪框架为该请求创建 一 个唯 一 的跟踪标识Trace ID
+        服务跟踪框架为该请求span ID 获取时间

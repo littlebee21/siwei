@@ -1,0 +1,24 @@
+mybatis面试题
+    原理
+        Mybatis-plus与Mybatis原理实现对比
+        Mybatis如何获取数据库源
+        Mybatis如何执行SQL语句
+        缓存
+            一级和二级缓存实现原理与不足
+        Select注解源码分析
+        Plugins源码分析
+        mapperXML 增删改
+        高级查询结果映射
+        多表关联查询映射
+        开源框架Mybatis源码如何学习
+        Mybatis结果集处理源码分析
+        Mybatis执行器原理深入分析
+        Properties、settings节点源码分析
+        BoundSql和SqlNode SQL改写源码分析
+        mybatis使用的设计模式
+            动态dialing
+        ${}与#{}区别
+        selectList()只能传递一个参数，但实际所需参数既要包含String类型，又要包含List类型时的处理方法：
+        5、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
+    主题
+        联表查询怎么组织那？

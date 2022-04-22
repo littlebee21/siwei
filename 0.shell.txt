@@ -1,0 +1,59 @@
+shell
+        使用技巧
+            管道 Pipe
+                : 吧前面进程的输出作为后面进程的输入 ， 把前面文件的输出做为后面进程的输入
+                输入/输出重定向:
+            ls >text.txt >,>
+                一行执行多条命令
+                一行执行多条命令：    加个；
+            其他
+                ：%,$,~ 其他：%,$,~           %：作业控制，提示符等        $：取某一列的值，取变量值等
+    shell的组成
+        Shell特殊字符
+        环境变量
+    shell的属性
+        Shell的设计原理
+        shell命令格式
+        shell的分类
+            .Bourne Shell（简称sh）：
+                由AT&T贝尔实验室的Bourne开发，是Unix系统上的第一个Shell程序，一经问世就成为了工业标准。
+                现在几乎所有的Unix/Linux系统都支持它。不过sh的功能较薄弱，且没有历史记录等重要功能，
+                因此目前大多数操作系统将其作为应急Shell使用。
+            2.C Shell（简称csh）：
+                由加利福尼亚大学伯克利分校研发，最初的研发目的是为了改进sh的缺点。由于其Shell脚本的风格接近
+                C语言因此最初受到广大C语言用户喜爱。
+            3.Korn Shell（简称ksh）：
+                由David Korn开发，最初是为了解决sh的用户交互问题，使用ksh需要许可证，因此应用并不广泛。
+            4.Bourne Again Shell（简称bash）：
+                由AT&T贝尔实验室的Bourne开发，sh的增强版。随着bash的不断完善，它已经成为了最流行的shell。
+            5.Debian Almquist Shell（简称dash）：
+                bash属性
+                    优点
+                        history
+                            文件
+                                ~/.bash_history
+                        命令补全
+                        alias
+                        job control
+                        shell scripts
+                        通配符
+                    配置文件
+                        /etc/shells
+                            列出用户可用的shells
+                        /etc/passwd
+                            包含用户的默认shell
+                比bash小，只需占用较小的磁盘空间，而且需要的库更少。不过相对于bash功能也更少。一般可以用于嵌入式领域。
+            ......
+                查看当前系统可使用的shell：指令 cat /etc/shells   
+                查看自己的终端的Shell类型：指令 echo $SHELL
+        Coreutils
+        linux shell
+        shell理解
+            shell本质linux命令的组合使用脚本，在操作操作系统方面使用
+            不能像pythong一样成为综合性的语言；
+    Linux如何实现shell的
+        命令ls的实现
+     
+      
+
+增加多行用反斜线转义换行符

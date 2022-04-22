@@ -1,0 +1,109 @@
+工具 - ubuntu
+    ubuntu开发软件
+        休闲软件
+            3.2 安装unity-tweak-tool
+            2、Steam
+            4、VLC 媒体播放器
+            7、Google Play 音乐桌面播放器
+            17、Clementine 音乐播放器
+            12、Unity Tweak 外观工具
+        社交媒体
+            8、Franz
+            10、Skype
+            15、Corebird
+            16、Pixbuf
+            24、Telegram
+            31、Liferea
+            邮件
+                26、MailSpring
+        病毒软件
+            25、ClamTk
+        图像工作
+            6、GIMP 图像编辑器
+            18、Blender建模
+            21、Inkscape
+        系统工具
+            28、咖啡因 防止锁屏
+            29、Etcher USB 镜像写入器
+            30、Neofetch  系统信息工具
+            32、Shutter 截图工具
+            33、Weather
+            搜狗输入法
+        视频工作
+            19、Audacity音频软件
+            23、SimpleScreenRecorder屏幕录制
+            22、Shotcut
+    开发工具
+        分屏工具：
+            tmux
+        1、Google Chrome 浏览器
+        3、WordPress 桌面客户端
+        13、VirtualBox
+        文本编辑器
+            5、Atom 文本编辑器
+            14、Visual Studio Code1
+            20、Vim
+            27、PyCharm
+            phpstorm
+            sublime
+            atom
+        中间键管理工具
+            mysql workbenche
+            reids manage
+        服务器管理工具
+            远程连接服务器
+                自带的ssh命令
+                openssh-server
+                openssh-client
+                pac
+                putty
+                 FinalShell
+            FileZilla
+        开发工具
+            3.3 安装git
+            3.5 安装zsh
+    软件管理工具
+        包管理工具
+            软件中心
+                1.如何使用软件中心在Ubuntu中安装软件
+                2.如何使用.deb文件在Ubuntu中安装软件
+                3.使用Flatpak安装软件
+                4.使用Snap包在Ubuntu中安装软件
+                5.使用AppImage在Ubuntu中安装应用程序
+                6.如何使用Apt命令在Ubuntu中安装软件
+                7.如何使用PPA在Ubuntu中安装应用程序
+                8.使用Synaptic Package Manager
+                9.如何使用dpkg在Ubuntu中安装软件
+                10.如何使用源代码在Ubuntu中安装软件
+                11.通过Web浏览器安装软件包
+                12.通过Pip安装Python应用程序 - “Pip I
+            13、Ubuntu Cleaner
+            9、新立得包管理器
+            snap应用商店
+            wget
+        工具的工具
+            portainer
+            k8s安装
+            docker
+            kafla
+            Dubbo
+        启动软件
+            snap list
+            snap run +名称
+    ubuntu开发环境
+        软件运行环境
+            node安装
+                npm
+            java安装
+            python安装
+        docker工具
+            git
+            rabbitmq安装
+            redis安装
+            mysql安装
+            mongoDB
+            zookeeper安装
+            elasticsearch
+            选择性安装
+                ngnix
+                tomcat

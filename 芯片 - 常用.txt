@@ -1,0 +1,303 @@
+芯片 - 常用
+三星：
+
+
+英特尔、
+德洲仪器、
+三星半导体、
+    exo
+摩托罗拉、
+飞利浦半导体、
+意法半导体ST
+    stm32 
+    f0 - f4
+    F1代表了基础型，基于 Cortex-M3 内核，主频为 72MHZ。
+    F4代表了高性能，基于 Cortex-M4 内核，主频为 180MHZ。
+    F4相比F1除了内核不同和主频的提升外，升级的明显特色就是带了 LCD 控制
+
+飞思卡尔
+    IMX6ULL
+亿恒半导体、
+科胜讯、
+ADI公司、
+安捷伦、
+高通公司、
+Atmel、
+Intersil、
+Alcatel、
+Altera、
+Cirrus Logic、
+Linkup、Parthus、
+LSI Logic、
+Micronas，
+Silicon Wave、
+Virata、
+Portalplayer inc.、
+NetSilicon，
+Parthus
+
+
+Rockchip 瑞芯微
+    RK3399
+
+
+#ARM 历史
+arm 芯片历史架构处理器家族 
+ARMv1ARM1ARMv2ARM2、
+ARM3ARMv3ARM6、
+ARM7ARMv4StrongARM、
+ARM7TDMI、
+ARM9TDMI ARMv5ARM7EJ、
+ARM9E、
+ARM10E、
+XScaleARMv6ARM11、
+ARM Cortex-MARMv7ARM Cortex-A、
+ARM Cortex-M、
+ARM Cortex-RARMv8Cortex-A35、
+Cortex-A50系列、
+Cortex-A72、
+Cortex-A73
+
+#ARM A系列
+ARM A
+
+Application ARM-based chips
+Application
+processors
+(32-bit)
+
+
+Cortex-A5
+    ATM702x
+    Amlogic M805/S805, T82x
+    Atmel SAMA5D3
+    InfoTM iMAPx820, iMAPx15
+    Qualcomm SnapdragonS4 Play, 200
+    RDA RDA8810PL
+    Telechips TCC892x
+
+Cortex-A7
+    Allwinner A2x, A3x, A83T, H3, H8
+    NXP i.MX7
+    Broadcom VideoCore BCM2836, BCM23550
+    NXP Semiconductors QorIQ LS10xx
+    Leadcore LC1813, LC1860/C, LC1913, LC1960
+    Marvell Armada PXA1920, 1500 mini plus
+    MediaTek MT65xx
+    Qualcomm Snapdragon200, 400
+
+Cortex-A8
+    Allwinner A1x
+    AppleA4
+    Freescale i.MX5
+    Rockchip RK291x
+    Samsung Exynos 3110(S5PC110), S5PV210
+    Texas Instruments OMAP 3
+    Texas Instruments Sitara AM3xxx
+    Texas Instruments DM38x
+    ZiiLABS ZMS-08
+
+Cortex-A9
+    Actions f="https://http://zhuanlan.zhihu.com/wiki/Actions_Semiconductor#Products">ATM702x, ATM703x
+    Altera Cyclone V, Arria V/10
+    Amlogic AML8726, MX, M6x, M801, M802/S802, S812, T86x
+    AppleA5, A5X
+    Broadcom VideoCore BCM21xxx, BCM28xxx
+    Freescale i.MX6
+    HiSilicon K3V2, 910's
+    InfoTM iMAPx912
+    Leadcore LC1810, LC1811
+    Marvell Armada 1500 mini
+    MediaTek MT65xx
+    Nvidia Tegra, 2, 3, 4i
+    Nufront NuSmart 2816M, NS115, NS115M
+    Renesas EMMA EV2, R-Car H1, RZ/A
+    Rockchip ef="https://zhuanhttp://lan.zhihu.com/wiki/Rockchip#RK292x_series">RK292x, RK30xx, RK31xx
+    Samsung Exynos 4 421x, 441x
+    ST-Ericsson NovaThor
+    Telechips TCC8803
+    Texas Instruments OMAP 4
+    Texas Instruments Sitara AM4xxx
+    VIA WonderMedia WM88x0, 89x0
+    Xilinx Zynq-7000
+    ZiiLABS ZMS-20, ZMS-40
+Cortex-A15
+
+    Allwinner A80
+    HiSilicon K3V3
+    MediaTek MT8135/V
+    Nvidia Tegra 4, K1
+    Renesas R-Car H2
+    Samsung Exynos 5 52xx, 54xx
+    Texas Instruments OMAP 5, DRA7xx, AM57xx
+    Texas Instruments Sitara AM5xxx
+    Cortex-A17
+
+MediaTek MT6595, MT5595
+Mstar 6A928
+Rockchip RK3288
+ARMv7-A
+
+compatible
+
+AppleA6, A6X, S1, S1P, S2, S3
+Broadcom Brahma-B15
+Marvell P4J
+Qualcomm Snapdragon S1, S2, S3, S4 Plus, S4 Pro, 600, 800 (Scorpion, Krait)
+Others
+
+Enhanced Cortex-A8
+Enhanced Cortex-A9
+Cortex-A12
+Cortex-A32
+
+
+Application
+
+processors
+
+(64-bit)
+
+
+
+Cortex-A35
+
+NXP i.MX8X
+MediaTek MT8516
+Cortex-A53
+
+Actions GT7, S900, V700
+Allwinner A64, H5, H64, R18
+Altera Stratix 10
+Amlogic S9 Family, T96x
+Broadcom BCM2837
+EZchip TILE-Mx100
+HiSilicon Kirin 620, href="https://zhuanlan.zhihu.com/wiki/HiSilicon#Kirin_650_and_655">65x, href="https://zhuanlan.zhihu.com/wiki/HiSilicon#Kirin_930_and_93x">93x
+Marvell Armada PXA1928, Mobile PXA1908/PXA1936
+MediaTek MT673x, MT675x, MT6795, MT873x, MT8752, MT8163
+NXP ARM S32
+Qualcomm Snapdragon href="https://zhuanlhttp://an.zhihu.com/wiki/List_of_Qualcomm_Snapdragon_devices">41x, 42x, 43x, 61x, 62x
+Rockchip RK3328, RK3368
+Samsung Exynos 7 75xx, 78xx
+Spreadtrum SC9860/GV, SC9836
+Xilinx ZynqMP
+NXP Semiconductors QorIQ LS1088
+NXP i.MX8M
+Cortex-A57
+
+AMD Opteron A1100-series
+NXP Semiconductors QorIQ LS20xx
+Nvidia Tegra X1
+Qualcomm Snapdragon 808, 810
+Samsung Exynos 7 5433, 7420
+Cortex-A72
+
+HiSilicon "https://zhuanlan.zhihu.com/wiki/HiSilicon#Kirin_950_and_955">Kirin 95x
+MediaTek "https://zhuanlan.zhihu.com/wiki/MediaTek#Octa-_and_deca-core">Helio X2x, ef="https://zhuanlan.zhihu.com/wiki/MediaTek#Standalone_application_and_tablet_processors">MT817x
+Mstar 6A938
+Qualcomm Snapdragon href="https://zhuanlan.zhihu.com/wiki/List_of_Qualcomm_Snapdragon_devices#Snapdragon_650,_652_and_653">65x
+Rockchip RK3399
+NXP Semiconductors QorIQ LS2088
+NXP Semiconductors QorIQ LS1046A
+NXP i.MX8
+Cortex-A73
+
+HiSilicon Kirin 960, Kirin 970
+MediaTek Helio X30
+Cortex-A75
+
+Qualcomm Snapdragon 710, Snapdragon 845
+Cortex-A76
+
+HiSilicon Kirin 980
+Qualcomm Snapdragon 855
+Samsung Exynos 9820
+ARMv8-A
+
+compatible
+
+AppleA7, A8, A8X, A9, A9X, A10, A10X, A11, A12
+Applied MicroX-Gene
+Cavium ThunderX, ThunderX2
+NvidiaTegra K1 (Project Denver)
+Samsung Mongoose
+Qualcomm Kryo, Falkor
+
+
+#ARM M 系列
+ARM M
+
+
+
+ARM-based chips
+
+
+
+
+Cortex-M0
+
+Cypress PSoC 4000, 4100, 4100M, 4200, 4200DS, 4200L, 4200M
+Infineon XMC1000
+Nordic nRF51
+NXP LPC1100, LPC1200
+nuvoTon NuMicro
+Sonix SN32F700
+STMicroelectronics STM32 F0
+Toshiba TX00
+Vorago VA108x0
+Cortex-M0+
+
+Cypress PSoC 4000S, 4100S, 4100S+, 4100PS, 4700S, FM0+
+Holtek HT32F52000
+Microchip (Atmel) SAM C2, D0, D1, D2, DA, L2, R2, R3
+NXP LPC800, LPC11E60, LPC11U60
+NXP (Freescale) Kinetis E, EA, L, M, V1, W0
+Renesas Synergy S1
+Silicon Labs (Energy Micro) EFM32 Zero, Happy
+STMicroelectronics STM32 L0
+Cortex-M1
+
+Altera FPGAs Cyclone-II, Cyclone-III, Stratix-II, Stratix-III
+Microsemi (Actel) FPGAs Fusion, IGLOO/e, ProASIC3L, ProASIC3/E
+Xilinx FPGAs Spartan-3, Virtex-2-3-4
+Cortex-M3
+
+Actel SmartFusion, SmartFusion 2
+Analog Devices ADuCM300
+Cypress PSoC 5000, 5000LP, FM3
+Fujitsu FM3
+Holtek HT32F
+Microchip (Atmel) SAM 3A, 3N, 3S, 3U, 3X
+NXP LPC1300, LPC1700, LPC1800
+ON Semiconductor Q32M210
+Silicon Labs Precision32
+Silicon Labs (Energy Micro) EFM32 Tiny, Gecko, Leopard, Giant
+STMicroelectronics STM32 F1, F2, L1
+Texas Instruments F28, LM3, TMS470, OMAP 4
+Toshiba TX03
+Cortex-M4
+
+Microchip (Atmel) SAM 4L, 4N, 4S
+NXP (Freescale) Kinetis K, W2
+Cortex-M4F
+
+Cypress 6200, FM4
+Infineon XMC4000
+Microchip (Atmel) SAM 4C, 4E, D5, E5, G5
+Microchip CEC1302
+Nordic nRF52
+NXP LPC4000, LPC4300
+NXP (Freescale) Kinetis K, V3, V4
+Renesas Synergy S3, S5, S7
+Silicon Labs (Energy Micro) EFM32 Wonder
+STMicroelectronics STM32 F3, F4, L4, L4+, WB
+Texas Instruments LM4F/TM4C, MSP432
+Toshiba TX04
+Cortex-M7F
+
+Microchip (Atmel) SAM E7, S7, V7
+NXP (Freescale) Kinetis KV5x
+STMicroelectronics STM32 F7, H7
+Cortex-M23
+
+Microchip (Atmel) SAM L10, L11

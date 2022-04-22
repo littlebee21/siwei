@@ -1,0 +1,71 @@
+vue
+    vue的使用
+        可以复用的模块
+            views
+                conponent需要的组件
+                index.html首页入口
+                app vue项目入口
+            utils
+            main.js项目核心文件
+        vue的安装方法
+            1.初始化操作$ vue init webpack myProject
+            2.设置global和cache路径
+            3.安装cnpm
+            4.设置系统环境变量
+        vue的执行方法
+        vue的调试方法
+            vue serve demo1.vue
+        vue项目克隆使用的方法
+            npm install
+            npm bulid dev
+            npm run dev
+        性能优化
+            keep alive缓存不活动组件实例
+            actived重新请求时，判断页面数据和上一次显示的数据
+            获取动态路由参数
+            使用import实现按需加载
+            使用异步组件进行代码拆分
+    vue文件组成
+        文件组织方式
+            vue文件嵌套
+            一个入口界面+路由
+        辅助工具
+            基础库: vue.js、vue-router、vuex、whatwg-fetch
+            编译/打包工具：webpack、babel、node-sass
+            单元测试工具：karma、mocha、sinon-chai
+            本地服务器：express
+        文件组成
+            vue视图文件
+            indexjs文件
+             vue.config.js  // vue-cli3主配置
+            babel.config.js// babel配置
+            .eslintrc.js   // eslint配置
+             .prettierrc.js // perttier配置
+             package.json   // npm配置
+            plugins   // 自己或第三方插件
+                |   |   | index.js       // 插件入口文件
+                |   |   | directives.js  // 所有Vue指令
+                |   |   | filters.js  // 所有Vue过滤
+    vue全家桶
+        vue cli
+        vuerouter
+        vuex
+        axios
+        vue的组件库
+            iView UI组件库
+            Vux UI组件库
+            Bootstrap-Vue UI组件库
+            Ant Design Vue UI组件库
+            element UI
+            搭配UI框架如：iview、vant、elementUI
+    vue原理
+        vue项目加载流程
+            ### index.tml->
+            ### main.js->
+            ### app.vue->
+            ### index.js->
+            ### helloworld.vue
+        vue的思想
+    vue属性
+        vue的版本
+        vue1和vue2的区别

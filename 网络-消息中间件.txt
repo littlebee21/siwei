@@ -1,0 +1,196 @@
+消息中间件
+    使用
+        中间件的使用场景
+            项目中使用rabbitmq的原因
+                承保系统送承保信息到收付系统，之后再送给费管系统
+            mq使用中的缺点
+            如何写一个消息队列架构设计
+        中间件的使用问题
+            如何保证消息队列的高可用啊？
+            如何保证消息的幂等问题
+                如何避免消息重复投递或重复消费
+                使用放重表，生成唯一业务ID,日志或者落库
+                给消息分配一个全局id，以K-V形式写入redis
+                如何保证消息不被重复消费
+                    RabbitMQ保证不消费重复数据
+                    insert数据，给这个消息做唯一主键
+                    做redis的set的操作
+            如何方式消息的积压问题
+                数据过期丢失
+                数据积压未丢失
+                    子主题
+                    恢复现有的consumer
+                如何提高消息的消费速率？
+                    增加消费者
+                        后端处理能力：
+                        并发冲突：
+                        处理顺序：
+                    提高Prefetch count
+                    多线程处理
+                    批量Ack
+            如何保证消息的可靠性传输
+                生产者丢数据
+                    confirm模式，重发
+                消息队列丢数据
+                    处理消息队列丢数据的情况，一般是开启持久化磁盘的配置。
+                消费者丢数据
+                    至于解决方案，采用手动确认消息即可。
+                rabbitMQ
+                    1.生产者丢失数据
+                        方案1:事务
+                            1.使用rabbitMQ提供的事务功能，发送数据前开启rabbitmq事务（channel.txSelect）,然后发送消息，如果没有成功被rabbitMQ接收到，那么生产者会收到异常报错，此时就可以回滚事务（channel.txRollback）,然后重新发送消息；如果收到了消息，那么可以提交事务
+                            缺点：这个事务机制是同步的，生产者发送消息会阻塞卡住等待成功，会导致生产者发送消息的吞吐量降下来
+                        方案2:confirm
+                            先把channel设置成confirm模式发送一个消息发送完消息后就不用管了rabbitmq如果接收到这条消息，就会回调你生产者本地的一个接口，通知你说这条消息已经收到了rabbitmq如果在接收消息的时候报错了，就会回调你的接口告诉你这个消息接收失败了，你可以再次重发
+                                {        rabbitTemplate.setConfirmCallback(new RabbitTemplate.ConfirmCallback() {            /**             *             * @param correlationData 相关配置信息             * @param ack 交换机是否成功收到消息             * @param cause 错误信息             */            @Override            public void confirm(CorrelationData correlationData, boolean ack, String cause) {                if (ack){                    System.out.println("消息成功发送");                }else {                    System.out.println("消息发送失败");                    System.out.println("错误原因"+cause);                }            }});        rabbitTemplate.convertAndSend("logs","","fanout模型发送的消息");    }
+                            生产者这块如果要保证消息不丢，一般是用confirm机制，异步的模式，你发送消息之后不会阻塞，直接你可以发送下一个消息
+                    2.rabbitMQ
+                        1.rabbitMQ开启持久化
+                            1.创建queue的时候设置queue为持久化，但是queue里的消息不回持久化
+                            2.发送消息的时候将消息的 deliveMode设置为2，就是将消息设置为持久化的
+                        2.开启了持久化，但是消息写到了MQ，但是MQ挂了，此时rabbitMQ挂了
+                    3.消费者
+                        取消自动ack
+                        在消息消费完后手动ack通知数据成功消费
+                kafka
+                    生产者会不会丢数据？
+                        如果按照上面的配置设置acks=all，一定不会丢
+                    kafka弄丢了数据
+                        解决（设置4个参数）
+                            1.给topic设置replication.factor参数：这个值必须大于1，要求每个partition必须有至少2个副本
+                            2.在kafka服务器端设置min.insync.replicas参数：这个值必须大于1，这个是要求一个leader至少感知到有一个至少有一个follower还跟自己保持联系，没掉队，确保leader挂了还有一个follower
+                            3.在producer（生产者）端设置 acks=all：这个是要求每条数据，必须写入所有replica之后，才能认为是写成功了。
+                                acks=0:发送完数据就不管了。
+                                acks=1:发送完数据只要leader接收到就算成功，默认设置这个比较好
+                                acks=all：必须所有分片都同步完数据才算成功
+                            4.在producer端设置retries=MAX（很大很大很大的一个值，无限次重试的意思）：这个是要求一旦写入失败，就无限重试，卡在这里了
+                    消费者弄丢了数据
+                        消费者消费到消息，自动提交offset，让kafka以为你已经消费好了这个消息，但是实际上你刚拿到这个消息还没处理就挂了，导致数据丢失
+                        解决
+                            取消自动offset
+                            进行手动offset，彻底处理完数据再进行offset传输
+                            但是容易出现消费完消息还没提交offset就挂了的情况，导致重复消费
+                                根据实际情况保证幂等性就行
+                如何处理数据的正确性
+                    补偿机制
+                        发送间隔
+                        重发次数
+                    消息发送到rabbitmq服务器
+                        Transaction（事务）模式
+                        Confirm（确认）模式
+                            普通确认模式
+                            批量确认模式
+                            异步确认模式
+                    消息从交换机路由到队列
+                        服务端重发给生产者
+                        交换机路由到另一个备份的交换机
+                    消息在队列中存储
+                        队列持久化
+                        交换机持久化
+                        消息持久化
+                        集群
+                    最终一致
+                        对账
+                13、如何防止出现 blackholed 问题？
+            15、如何保证消息的顺序性?
+                拆分多个queue，每个queue一个consumer
+                就一个queue但是对应一个consumer，然后这个consumer内部用内存队列做排队，然后分发给底层不同的worker来处理
+    使用sdk
+        Spring Cloud Stream消息驱动微服务
+            Source
+            Sink
+            Processor
+            Binders
+                spring-clouid-stream-binder-rabbit
+                spring-cloud-stream-binder-kafka
+                spring-cloud-stream-binder-kafka-streams
+    原理
+        常用协议
+            AMQP协议
+                3.2. 入门程序
+                    3.2.1. 依赖和配置
+                    3.2.2. 监听者（消费者）
+                    3.2.3. AmqpTemplate（生产者）
+                    3.2.4. 测试代码
+                3.3. 生产者确认
+                3.4. 消费者确认
+                    3.4.1. 自动确认模式
+                    3.4.2. 不确认模式
+                    3.4.3. 手动确认模式
+                3.5. 死信队列
+                3.6. 延时队列
+                    3.6.1. 使用场景
+                    3.6.2. 怎么声明
+                    3.6.3. 如何使用
+                消息队列主要有两种形式的目的地
+                    1.队列(queue)：点对点的消息通信(point-point)
+                    2.主题(topic)：发布(publish)/订阅(subscribe)通信
+                组成
+                    Broker
+                        消息服务器，作为server提供消息核心服务
+                    Producer
+                        消息生产者，业务的发起方，负责生产消息传输给broker
+                    Consumer
+                        消息消费者，业务的处理方，负责从broker获取消息并进行业务逻辑处理
+                    Topic
+                        主题，发布订阅模式下的消息统一汇集地，不同生产者向topic发送消息
+                            由MQ服务器分发到不同的订阅者，实现消息的广播
+                    Queue
+                        队列，PTP模式下，特定生产者向特定queue发送消息
+                            消费者订阅特定的queue完成指定消息的接收
+                    Message
+                        消息体，根据不同通信协议定义的固定格式进行编码的数据包
+            MQTT协议
+            STOMP协议
+             XMPP协议
+        MQ对比
+            ActiveMQ
+                成熟，功能强大
+                偶尔丢失数据，维护越来越少
+                定位小规模吞吐量,吞吐量万级
+                缺点
+                    通用性
+            RabbitMQ
+                吞吐量万级，相对较小，MQ功能比较完备
+                用erlang开发，性能极好，延迟最低
+                不会丢失消息
+                开源提供管理界面很棒
+                社区相对比较活跃
+                环境复杂
+            RocketMQ
+                阿里开发，支持高吞吐量
+                分布式扩展起来比较方便
+                java开发，源码可以研究点
+                如果阿里不支持了就黄了
+            Kafka
+                吞吐量十万级
+                功能比较少
+                天然适合大数据的实时计算和日志采集
+                Kafka性能超过ActiveMQ等传统MQ工具，集群扩展性好。
+                弊端是： 
+                    在传输过程中可能会出现消息重复的情况，
+                    不保证发送顺序
+                    一些传统MQ的功能没有，比如消息的事务功能。
+                         所以通常用Kafka处理大数据日志。
+            ZeroMQ
+                号称最快的消息队列系统，专门为高吞吐量/低延迟的场景开发
+                    在金融界的应用中经常使用，偏重于实时数据通信场景
+            Redis
+                使用C语言开发的一个Key-Value的NoSQL数据库
+                    可以当做一个轻量级的队列服务来使用
+                     其实Redis本身利用List可以实现消息队列的功能，但是功能很少，而且队列体积较大时性能会急剧下降。对于数据量不大、业务简单的场景可以使用。
+            消息中间件的对比
+                Kafka、RabbitMQ、RocketMQ等消息中间件的介绍和对比
+                Kafka、RabbitMQ、RocketMQ等消息中间件的对比
+    特性
+        7、mq的缺点
+            系统可用性降低
+            系统复杂性提高
+            一致性问题
+            不确定性
+        消息中间件的特点
+            1.采用异步处理模式
+            并行
+            解耦
+                2.发送者和接收者不必了解对方,只需确认消息.发送者和接受者不必同时在线
+            排队

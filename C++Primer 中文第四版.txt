@@ -1,0 +1,509 @@
+    第四版的改动	2
+        本书结构	3
+        致谢	4
+第一章 快速入门	17
+    1.1. 编写简单的 C++ 程序	17
+    1.1.1. 编译与执行程序	19
+        程序源文件命名规范	19
+        调用 GNU 或微软编译器	20
+        从命令行编译器	20
+        Exercises Section 1.1.1	21
+    1.2. 初窥输入/输出	21
+    1.2.1. 标准输入与输出对象	22
+    1.2.2. 一个使用IO库的程序	22
+            写入到流	23
+            使用标准库中的名字	24
+            读入流	24
+            完成程序	25
+        关键概念：已初始化变量和未初始化变量	26
+        Exercises Section 1.2.2	27
+    1.3. 关于注释	27
+        注释对不可嵌套	28
+    1.4. 控制结构	29
+    1.4.1. while 语句	29
+        关键概念：C++ 程序的缩排和格式	31
+    1.4.2. for 语句	32
+        再谈编译	34
+        Exercises Section 1.4.2	35
+    1.4.3. if 语句	35
+        Exercises Section 1.4.3	37
+    1.4.4. 读入未知数目的输入	37
+        从键盘输入文件结束符	39
+        Exercises Section 1.4.4	39
+    1.5. 类的简介	39
+    1.5.1. Sales_item 类	40
+            Sales_item 对象上的操作	40
+            读入和写出 Sales_item 对象	41
+        关键概念：类定义行为	42
+        将 Sales_item 对象相加	42
+        Exercises Section 1.5.1	43
+    1.5.2. 初窥成员函数	43
+        什么是成员函数	44
+        Exercises Section 1.5.2	45
+    1.6. C++ 程序	45
+        Exercises Section 1.6	47
+        小结	47
+    第一部分 基本语言	54
+第二章 变量和基本类型	55
+    2.1. 基本内置类型	55
+    表 2.1. C++ 算术类型	55
+    2.1.1. 整型	56
+        内置类型的机器级表示	57
+        带符号和无符号类型	58
+        整型值的表示	58
+        整型的赋值	58
+    2.1.2. 浮点型	59
+        建议：使用内置算术类型	60
+        Exercises Section 2.1.2	61
+    2.2. 字面值常量	61
+        整型字面值规则	61
+        浮点字面值规则	62
+        布尔字面值和字符字面值	62
+        非打印字符的转义序列	63
+        字符串字面值	64
+        字符串字面值的连接	64
+        多行字面值	65
+        建议：不要依赖未定义行为	66
+        Exercises Section 2.2	67
+    2.3. 变量	67
+        Exercises Section 2.3	68
+        关键概念：强静态类型	69
+    2.3.1. 什么是变量	69
+        左值和右值	69
+        Exercises Section 2.3.1	70
+        术语：什么是对象？	71
+    2.3.2. 变量名	71
+        C++ 关键字	71
+        表 2.2. C++ 关键字	72
+        表 2.3. C++ 操作符替代名	72
+            变量命名习惯	73
+        Exercises Section 2.3.2	73
+    2.3.3. 定义对象	73
+        初始化	74
+            使用多个初始化式	75
+            初始化多个变量	75
+        Exercises Section 2.3.3	77
+    2.3.4. 变量初始化规则	77
+        内置类型变量的初始化	77
+        警告：未初始化的变量引起运行问题	78
+        类类型变量的初始化	78
+        Exercises Section 2.3.4	79
+    2.3.5. 声明和定义	79
+        Exercises Section 2.3.5	81
+    2.3.6. 名字的作用域	81
+        C++ 中作用域可嵌套	82
+    2.3.7. 在变量使用处定义变量	83
+        Exercises Section 2.3.6	84
+    2.4. const 限定符	84
+        定义 const 对象	85
+        const 对象默认为文件的局部变量	86
+        Exercises Section 2.4	87
+    2.5. 引用	87
+        引用是别名	87
+        定义多个引用	88
+        const 引用	88
+        术语：const 引用是指向 const 的引用	89
+        Exercises Section 2.5	90
+    2.6. typedef 名字	90
+    2.7. 枚举	91
+        定义和初始化枚举	91
+        枚举成员是常量	92
+        每个 enum 都定义一种唯一的类型	92
+    2.8. 类类型	93
+        从操作开始设计类	93
+        定义 Sales_item 类	94
+        类的数据成员	95
+        访问标号	95
+        使用 struct 关键字	95
+        Exercises Section 2.8	97
+    2.9. 编写自己的头文件	97
+    2.9.1. 设计自己的头文件	98
+        编译和链接多个源文件	99
+        头文件用于声明而不是用于定义	99
+        一些 const 对象定义在头文件中	100
+        Exercises Section 2.9.1	102
+    2.9.2. 预处理器的简单介绍	102
+        头文件经常需要其他头文件	103
+            避免多重包含	103
+            使用自定义的头文件	104
+        小结	104
+
+😊第三章 标准库类型	112
+    3.1. 命名空间的 using 声明	112
+        每个名字都需要一个 using 声明	113
+        使用标准库类型的类定义	114
+        Exercises Section 3.1	115
+    3.2. 标准库 string 类型	115
+    3.2.1. string 对象的定义和初始化	115
+        表 3.1. 几种初始化 string 对象的方式	115
+        警告：标准库 string 类型和字符串字面值	116
+        Exercises Section 3.2.1	116
+    3.2.2. string 对象的读写	116
+        读入未知数目的 string 对象	117
+            使用 getline 读取整行文本	118
+        Exercises Section 3.2.2	119
+    3.2.3. string 对象的操作	119
+        string 的 size 和 empty 操作	119
+            string::size_type 类型	120
+            string 关系操作符	121
+            string 对象的赋值	122
+            两个 string 对象相加	122
+            和字符串字面值的连接	123
+            从 string 对象获取字符	123
+            下标操作可用作左值	124
+            计算下标值	124
+    3.2.4. string 对象中字符的处理	125
+        表 3.3. cctype 中的函数	125
+        建议：采用 C 标准库头文件的 C++ 版本	127
+        Exercises Section 3.2.4	127
+    3.3. 标准库 vector 类型	127
+    3.3.1. vector 对象的定义和初始化	128
+        表 3.4. 初始化vector	129
+            创建确定个数的元素	129
+        关键概念：vector 对象动态增长	130
+        值初始化	130
+        Exercises Section 3.3.1	131
+    3.3.2. vector 对象的操作	131
+    表 3.5. vector 操作	131
+            vector 对象的 size	132
+            向 vector 添加元素	132
+            vector 的下标操作	133
+            下标操作不添加元素	133
+        关键概念：安全的泛型编程	134
+        警告：仅能对确知已存在的元素进行下标操作	135
+        Exercises Section 3.3.2	136
+    3.4. 迭代器简介	136
+        容器的 iterator 类型	137
+        术语：迭代器和迭代器类型	137
+        begin 和 end 操作	137
+        vector 迭代器的自增和解引用运算	138
+        迭代器的其他操作	138
+        迭代器应用的程序示例	139
+        Exercises Section 3.4	142
+        Exercises Section 3.4.1	143
+    3.5. 标准库 bitset 	143
+    表 3.6. 初始化 bitset 对象的方法	144
+            用 unsigned 值初始化 bitset 对象	144
+            用 string 对象初始化 bitset 对象	145
+        表 3.7. bitset 操作	146
+            测试整个 bitset 对象	147
+            访问 bitset 对象中的位	148
+            对整个 bitset 对象进行设置	148
+            获取 bitset 对象的值	149
+            输出二进制位	149
+            使用位操作符	149
+        Exercises Section 3.5.2	150
+        小结	150
+        154
+
+第四章 数组和指针	155
+    4.1. 数组	155
+        显式初始化数组元素	156
+            特殊的字符数组	157
+            不允许数组直接复制和赋值	158
+        警告：数组的长度是固定的	159
+        Exercises Section 4.1.1	160
+        检查数组下标值	162
+        Exercises Section 4.1.2	162
+    4.2. 指针的引入	162
+        建议：尽量避免使用指针和数组	163
+        指针变量的定义	164
+        另一种声明指针的风格	165
+        连续声明多个指针易导致混淆	165
+        指针可能的取值	166
+        避免使用未初始化的指针	166
+        指针初始化和赋值操作的约束	167
+        void* 指针	168
+        Exercises Section 4.2.2	169
+        生成左值的解引用操作	170
+        关键概念：给指针赋值或通过指针进行赋值	170
+        指针和引用的比较	171
+        指向指针的指针	171
+        Exercises Section 4.2.3	172
+        指针的算术操作	173
+        解引用和指针算术操作之间的相互作用	174
+        下标和指针	174
+        计算数组的超出末端指针	175
+        输出数组元素	176
+        指针是数组的迭代器	176
+        Exercises Section 4.2.4	177
+        指向 const 对象的指针	177
+        const 指针	179
+        指向 const 对象的 const 指针	180
+        指针和 typedef	180
+        建议：理解复杂的 const 类型的声明	180
+        Exercises Section 4.3	182
+    4.3. C 风格字符串	182
+    表 4.1. 操纵 C 风格字符串的标准库函数	184
+        Exercises Section 4.3	188
+        动态数组的定义	189
+        初始化动态分配的数组	189
+        const 对象的动态数组	190
+        允许动态分配空数组	190
+        动态空间的释放	191
+        C 风格字符串与 C++ 的标准库类型 string 的比较	192
+        动态数组的使用	193
+        Exercises Section 4.3.1	194
+        混合使用标准库类 string 和 C 风格字符串	195
+        使用数组初始化 vector 对象	195
+        Exercises Section 4.3.2	196
+    4.4. 多维数组	196
+        用 typedef 简化指向多维数组的指针	199
+        Exercises Section 4.4.1	200
+        小结	200
+第五章 表达式	204
+    5.1. 算术操作符	205
+    表 5.1. 算术操作符	206
+        警告：溢出和其他算术异常	207
+        Exercises Section 5.1	209
+    5.2. 关系操作符和逻辑操作符	209
+    表 5.2. 关系操作符和逻辑操作符	209
+        Exercises Section 5.2	213
+    5.3. 位操作符	213
+    表 5.3. 位操作符	213
+        Exercises Section 5.3.1	217
+        IO 操作符为左结合	217
+    5.4. 赋值操作符	218
+        谨防混淆相等操作符和赋值操作符	220
+        Exercises Section 5.4.2	221
+        Exercises Section 5.4.3	222
+    5.5. 自增和自减操作符	222
+        建议：只有在必要时才使用后置操作符	223
+        建议：简洁即是美	224
+        Exercises Section 5.5	225
+    5.6. 箭头操作符	225
+        Exercises Section 5.6	226
+    5.7. 条件操作符	226
+        Exercises Section 5.7	228
+    5.8. sizeof 操作符	228
+        Exercises Section 5.8	229
+    5.9. 逗号操作符	229
+        Exercises Section 5.9	230
+    5.10. 复合表达式的求值	230
+        圆括号凌驾于优先级之上	231
+        表 5.4. 操作符的优先级	232
+        Exercises Section 5.10.2	236
+        建议：复合表达式的处理	238
+        Exercises Section 5.10.3	239
+    5.11. new 和 delete 表达式	239
+        警告：动态内存的管理容易出错	243
+        Exercises Section 5.11	244
+    5.12. 类型转换	244
+        有符号与无符号类型之间的转换	246
+            理解算术转换	247
+            指针转换	248
+            转换为 bool 类型	248
+            算术类型与 bool 类型的转换	248
+            转换与枚举类型	249
+            转换为 const 对象	249
+            由标准库类型定义的转换	249
+        Exercises Section 5.12.3	250
+        建议：避免使用强制类型转换	253
+        Exercises Section 5.12.7	255
+        小结	255
+第六章 语句	261
+    6.1. 简单语句	261
+    6.2. 声明语句	262
+    6.3. 复合语句（块）	263
+        Exercises Section 6.3	264
+    6.5. if 语句	265
+        Exercises Section 6.5.1	270
+    6.6. switch 语句	270
+        Exercises Section 6.6.5	278
+        Code for Exercises in Section 6.6.5	278
+    6.7. while 语句	279
+        Exercises Section 6.7	282
+    6.8. for 循环语句	282
+        Exercises Section 6.8.2	286
+    6.9. do while 语句	286
+        Exercises Section 6.9	289
+    6.10. break 语句	289
+        Exercises Section 6.10	291
+    6.11. continue 语句	291
+        Exercises Section 6.11	292
+    6.12. goto 语句	292
+        Exercises Section 6.12	293
+    6.13. try 块和异常处理	293
+        Exercises Section 6.13.2	297
+    6.14. 使用预处理器进行调试	299
+        Exercises Section 6.14	301
+        小结	301
+第七章 函数	306
+    7.1. 函数的定义	306
+        Exercises Section 7.1.2	311
+    7.2. 参数传递	311
+        Exercises Section 7.2.1	314
+        Exercises Section 7.2.2	321
+        Exercises Section 7.2.5	328
+        Exercises Section 7.2.6	329
+    7.3. return 语句	330
+        Exercises Section 7.3.2	337
+        Exercises Section 7.3.3	339
+    7.4. 函数声明	339
+        Exercises Section 7.4	341
+        Exercises Section 7.4.1	344
+    7.5. 局部对象	344
+        Exercises Section 7.5.2	346
+    7.6. 内联函数	346
+        Exercises Section 7.6	348
+    7.7. 类的成员函数	348
+        Exercises Section 7.7.4	356
+    7.8. 重载函数	356
+        建议：何时不重载函数名	359
+        Exercises Section 7.8.1	362
+        Exercises Section 7.8.3	366
+        Exercises Section 7.8.4	370
+    7.9. 指向函数的指针	370
+        小结	374
+😊第八章 标准 IO 库	379
+    8.1. 面向对象的标准库	379
+        Exercises Section 8.1	383
+    8.2. 条件状态	383
+        Exercises Section 8.2	387
+    8.3. 输出缓冲区的管理	387
+        警告：如果程序崩溃了，则不会刷新缓冲区	388
+    8.4. 文件的输入和输出	389
+        警告：C++ 中的文件名	391
+        Exercises Section 8.4.1	394
+        Exercises Section 8.4.3	398
+    8.5. 字符串流	398
+        Exercises Section 8.5	401
+        小结	401
+
+😊第二部分：容器和算法	403
+第九章. 顺序容器	404
+    9.1. 顺序容器的定义	405
+        Exercises Section 9.1.1	409
+        Exercises Section 9.1.2	411
+    9.2. 迭代器和迭代器范围	411
+        Exercises Section 9.2	414
+        对形成迭代器范围的迭代器的要求	415
+        Exercises Section 9.2.1	417
+    9.3. 每种顺序容器都提供了一组有用的类型定义以及以下操作：	418
+        Exercises Section 9.3.1	419
+        关键概念：容器元素都是副本	421
+        Exercises Section 9.3.3	425
+        Exercises Section 9.3.4	427
+        Exercises Section 9.3.5	429
+        Exercises Section 9.3.6	431
+        Exercises Section 9.3.7	434
+        Exercises Section 9.3.8	437
+    9.4. vector 容器的自增长	437
+        Exercises Section 9.4.1	441
+    9.5. 容器的选用	441
+        Exercises Section 9.5	444
+        小结	463
+        小结	503
+        小结	541
+        术语	542
+
+
+第三部分：类和数据抽象	545
+        小结	597
+    14.1. 重载操作符的定义	635
+    习题 14.1	640
+        警告：审慎使用操作符重载	642
+        Exercises Section 14.1.1	643
+    14.2. 输入和输出操作符	643
+        Exercises Section 14.2.1	646
+    14.3. 算术操作符和关系操作符	649
+        Exercises Section 14.3	651
+    14.4. 赋值操作符	652
+        Exercises Section 14.4	654
+    14.5. 下标操作符	654
+        Exercises Section 14.5	656
+    14.6. 成员访问操作符	656
+        Exercises Section 14.6	660
+    14.7. 自增操作符和自减操作符	660
+        Exercises Section 14.7	665
+    14.8. 调用操作符和函数对象	665
+        Exercises Section 14.8	666
+        Exercises Section 14.8.1	669
+    14.9. 转换与类类型	673
+        Exercises Section 14.9.2	679
+        警告：避免转换函数的过度使用	684
+        Exercises Section 14.9.4	688
+        警告：转换和操作符	690
+        Exercises Section 14.9.5	692
+        小结	692
+        术语	693
+
+
+第四部分：面向对象编程与泛型编程	695
+    15.1. 面向对象编程：概述	696
+    15.2. 定义基类和派生类	698
+        Exercises Section 15.2.1	701
+        关键概念：类设计与受保护成员	702
+        Exercises Section 15.2.3	707
+        关键概念：C++ 中的多态性	710
+        Exercises Section 15.2.4	713
+        关键概念：继承与组合	716
+        Exercises Section 15.2.5	719
+        Exercises Section 15.2.7	721
+    15.3. 转换与继承	721
+    15.4. 构造函数和复制控制	725
+        关键概念：重构	729
+        关键概念：尊重基类接口	730
+        Exercises Section 15.4.2	731
+        Exercises Section 15.4.4	736
+    15.5. 继承情况下的类作用域	737
+        Exercises Section 15.5.1	738
+        Exercises Section 15.5.2	740
+    15.6. 纯虚函数	745
+        Exercises Section 15.6	746
+    15.7. 容器与继承	746
+        Exercises Section 15.7	747
+    15.8. 句柄类与继承	747
+        Exercises Section 15.8.2	753
+        Exercises Section 15.8.3	758
+    15.9. 再谈文本查询示例	758
+        Exercises Section 15.9.2	764
+        Exercises Section 15.9.5	772
+        Exercises Section 15.9.6	774
+        小结	774
+        术语	775
+    16.1. 模板定义	778
+        Exercises Section 16.1.1	781
+        Exercises Section 16.1.2	783
+        Exercises Section 16.1.3	786
+        Exercises Section 16.1.4	789
+        Exercises Section 16.1.5	790
+        Exercises Section 16.1.6	792
+        警告：链接时的编译时错误	793
+    16.2. 实例化	793
+        Exercises Section 16.2.1	801
+    16.3. 模板编译模型	804
+        Exercises Section 16.3	807
+        警告：类模板中的名字查找	808
+    16.4. 类模板成员	808
+        Exercises Section 16.4	813
+        Exercises Section 16.4.1	818
+        Exercises Section 16.4.2	820
+        Exercises Section 16.4.4	826
+        Exercises Section 16.4.6	832
+    16.5. 一个泛型句柄类	833
+        Exercises Section 16.5.1	836
+        Exercises Section 16.5.2	839
+    16.6. 模板特化	839
+        Exercises Section 16.6.1	843
+        Exercises Section 16.6.2	846
+        Exercises Section 16.6.3	848
+    16.7. 重载与函数模板	849
+        Exercises Section 16.7	853
+        小结	853
+        术语	854
+
+
+第五部分　高级主题	857
+    17.1. 异常处理	858
+        Exercises Section 17.1.1	862
+        Exercises Section 17.1.3	866
+        Exercises Section 17.1.5	869
+        Exercises Section 17.1.8	874
+        Exercises Section 17.1.9	881
+        警告：Auto_ptr 缺陷	882
+        Exercises Section 17.1.11	888
+        小结	930
+        术语	931
+        小结	994
+    A.1. 标准库名字和头文件	1000

@@ -1,0 +1,23 @@
+循环模板 - 反向循环
+
+正向循环：
+    int j = 0;
+    while(ptmp != NULL){
+        *(pcontain+j) = *ptmp;
+        ptmp = ptmp->pnext;
+        j++;
+    }
+    0为初始化
+    <和 != 条件       代表N为cnt+1
+    满足条件的j个元素  总共执行的次数就是j
+    总共执行的元素个数  也是j
+
+    这种情况下，所有的都是j
+   
+
+
+反向循环：
+    int i = 0;
+    for(i = j-1; i>=0 ;i--){     //在这里我们转化成边界等于的下标形式
+        printf("%c", (pcontain+i)->data);
+    }

@@ -1,0 +1,160 @@
+测试
+    45.测试:需求
+        45.1.测试范围依赖性
+        45.2.测试Spring应用程序
+            SSM框架上使用
+                创建一个测试基类
+                    @RunWith(SpringRunner.class)/@RunWith(SpringJUnit4ClassRunner.class) 
+                        让测试在Spring容器环境下执行
+                    ContextConfiguration 加载所需的配置文件（可以以字符数组的形式加载）
+                    @Transactional 开启事务：已经配置了注解式事务
+                    @Rollback 设置测试后回滚，默认属性为true，即回滚
+                创建DaoTest测试类继承测试基类
+                创建ServiceTest测试类继承测试基类
+                创建ControllerTest测试类继承测试基类
+        45.3.测试Spring Boot应用程序
+            45.3.1.检测Web应用程序类型
+            45.3.2.检测测试配置
+            45.3.3.排除测试配置
+            45.3.4.使用模拟环境进行测试
+            45.3.5.使用正在运行的服务器进：
+            45.3.6.使用JMX
+            45.3.7.嘲弄和间谍Beans
+            45.3.8.自动配置的测试
+            45.3.9.自动配置的JSON测试
+            45.3.10.自动配置的Spring MVC测试
+            45.3.11.自动配置Spring WebFlux测试
+            45.3.12.自动配置的数据JPA测试
+            45.3.13.自动配置的JDBC测试
+            45.3.14.自动配置的数据JDBC测试
+            45.3.15.自动配置的jOOQ测试
+            45.3.16.自动配置的数据MongoDB测试
+            45.3.17.自动配置的数据Neo4j测试
+            45.3.18.自动配置的数据Redis测试
+            45.3.19.自动配置的数据LDAP测试
+            45.3.20.自动配置的REST客户端
+            45.3.21.自动配置的Spring REST文档测试
+                使用Mock MVC自动配置Spring REST文档测试
+                使用REST Assured自动配置Spring REST文档测试
+            45.3.22.额外的自动配置和切片
+            45.3.23.用户配置和切片
+            45.3.24.使用Spock测试Spring Boot应用程序
+        45.4.测试实用程序
+            45.4.1.ConfigFileApplicationContextInitializer
+            45.4.2.TestPropertyValues
+            45.4.3.OutputCapture
+            45.4.4.TestRestTemplate
+    测试使用套路
+        mockit使用
+            项目中引用Mockito
+            使用Mockito进行测试
+            创建单元测试类
+                对dao层对象进行打桩
+                标明需要Mock的对象IUSERdao
+                验证Mock对象的调用
+        idea中使用alt enter生成测试代码模块
+        各层级单元测试方法
+            测试controller
+                依赖的 Service 层代码，使用 mock 进行模拟
+                没有数据库？
+                    依赖的 Service 层【读】类逻辑
+                        执行真实逻辑。读取依赖的数据，使用内嵌数据库插入。
+                    依赖的 Service 层【写】类逻辑
+                        使用 mock 进行模拟。和 Controller 类的逻辑或者返回有关系的数据，使用内嵌数据库插入。
+                子主题
+                    使用curl测试
+            测试service
+                依赖的 Service 层代码，使用 mock 进行模拟
+                依赖的 Dao 层代码，使用 mock 进行模拟
+                没有数据库
+                    依赖的 Dao 层代码，使用内嵌数据库，例如说 h2database
+                    依赖的 Service 层代码，使用 mock 进行模拟
+            测试持久层dao
+                使用内嵌的数据实现进行测试。
+                    MySQL ：h2database
+                    MongoDB ：fongo
+                    Redis ：embedded-redis
+            测试任意的bean
+                测试类的一些私有方法
+                    使用PowerMokito.spy()进行 mock 
+            设置测试数据库
+                事务不回滚
+                模拟数据库查询操作
+                方法1
+                    把桩数据写入一个单元测试的SQL中，在每次执行单元测试的时候，先执行这个SQL，给数据库准备数据@before
+        点击测试代码进行测试并观测结果
+    备选测试工具
+        Mockito
+            mock() 对象
+            verify() 验证互动行为：验证对象执行过的方法
+                verifyNoMoreInteractions() 验证冗余互动行为
+                verifyZeroInteractions() 验证零互动行为
+            一次编写多次使用
+                when() 模拟期望结果：输入对应就输出
+                doThrow() 模拟抛出异常
+            @Mock 注解
+            Answer 修改对未预设的调用返回默认期望
+            spy() 监控真实对象：用来处理遗留代码
+            reset() 重置 mock
+            times() 验证调用次数
+            inOrder() 验证执行顺序
+        Junit
+            功能
+                断言
+                3.1超时测试
+                3.2异常测试
+                3.3套件测试
+                3.4参数化测试
+            组成
+                生命周期常用注解
+                    @Test
+                    @Ignore
+                    @Before
+                    @After
+                    @BeforeClass
+                    @AfterClass
+                4.4以前版本常用断言api
+                    @Test(timeout = 5000 )
+                    @Test(expected = XXXXException. class)
+                    Assert.assertEquals("提示语", 5, result);
+                    assertTrue(String message, boolean condition) 
+                    assertFalse(String message, boolean condition)
+                    assertEquals(String message, XXX expected,XXX actual) 
+                    assertArrayEquals(String message, XXX[] expecteds,XXX [] actuals)
+                    assertNotNull(String message, Object object)
+                    assertNull(String message, Object object)
+                    assertSame(String message, Object expected, Object actual)
+                    assertNotSame(String message, Object unexpected,Object actual)
+                    assertThat(String reason, T actual, Matcher matcher)
+                4.4以后assertthat
+                    字符相关匹配符
+                        assertThat(testedValue, equalTo(expectedValue));
+                        assertThat(testedString, equalToIgnoringCase(expectedString));
+                        assertThat(testedString, equalToIgnoringWhiteSpace(expectedString);
+                        assertThat(testedString, endsWith(suffix));
+                        assertThat(testedString, startsWith(prefix));
+                    一般匹配符
+                        assertThat(object,nullValue());
+                        assertThat(object,notNullValue());
+                        assertThat(testedString, is(equalTo(expectedValue)));
+                        assertThat(testedValue, is(expectedValue));
+                        assertThat(testedObject, is(Cheddar.class));
+                        assertThat(testedString, not(expectedString));
+                        assertThat(testedNumber, allOf( greaterThan(8), lessThan(16) ) );
+                    数值相关匹配符
+                        assertThat(testedDouble, closeTo( 20.0, 0.5 ));
+                        assertThat(testedNumber, greaterThan(16.0));
+                        assertThat(testedNumber, lessThan (16.0));
+                        assertThat(testedNumber, greaterThanOrEqualTo (16.0));
+                        assertThat(testedNumber, lessThanOrEqualTo (16.0));
+                    集合相关匹配符
+                        assertThat(mapObject, hasEntry("key", "value" ) );
+                        assertThat(iterableObject, hasItem (element));
+                        assertThat(mapObject, hasKey ("key"));
+                        assertThat(mapObject, hasValue(value));1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859
+        Spring Test、
+            MockMvc
+        AssertJ、
+        PowerMock
+        Hamcrest、
+         TestNG

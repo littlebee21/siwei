@@ -1,0 +1,55 @@
+板件通信 - 驱动
+面试
+    网络
+        485总线通信
+        蓝牙
+        NRF24L01模块的控制
+            无线传输模块理论基础
+                nRF24L01芯片结构
+                    结构
+                    寄存器
+                工作模式
+                电气特性
+                硬件电路原理图结构
+            无线传输模块代码的实现
+                实例函数
+                指令
+                流程
+        wifi
+        zigbee
+        RFID
+        无线usb
+        蜂窝
+     3.6嵌入式系统外部通信接口
+        3.6.3以太网通信接口
+            内置以太网控制机器的以太网接口
+                NXP：LPC1700系列
+                ST：STM32F2系列
+                TI：LM3S6000系列LM3S8000系列LM3S9000系列
+            不带内置以太网控制器的以太网接口
+                ARM芯片+DM9000
+    网络协议
+        HTTP
+        CoAP
+        MQTT
+        XMPP
+        WebSocket
+        UDP
+        TCP
+    硬件间无线通信
+        GPS模块
+            UART接口的
+            SPI接口的
+            USB/I2C接口的
+            多通信接口并存的
+        GPRS模块
+        Bluetooth emmx
+        Xbee / Zigbee
+        Z-Wave
+        6LoWPAN
+        NFC
+        Wifi
+        Radio
+        IR (红外)
+        802.11
+        Sub-GHZ 1Ghz以下RF

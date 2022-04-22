@@ -1,0 +1,60 @@
+控制器 
+Controller(控制器)
+    操作系统cpu分类
+        MCU
+        SOC
+        MPU
+        DSP
+        FPGA
+        Cortex-M系列CPU分类
+            △Cortex系列架构简介
+            △Cortex-M系列架构简介
+            △Cortex-M系列家族三兄弟的特性
+    CPU
+        AMD x86 x64
+        Intel x86 x64
+    MCU
+        MCS-51   美国inter公司
+        HCS12       美国飞思卡尔公司
+        AVR XMEGA   美国atmel
+        ESP         中国乐鑫
+        Coldfire    美国
+        ARM
+        STM32
+        FreeScale K60 K40
+        PIC32 PIC12/14/16
+        TM4C123 TM4C129X
+        Stellaris lm4f120
+        CC3200
+        Renesas R-Car Boards
+        MIPS Creator CI20 美国
+    MPU
+    SOC
+        OMAP
+        BCM2835(Raspberry Pi A+、B、B+)
+        BCM2836(Raspberry Pi 2B)
+    CPLD
+        Altera EPM7128S
+        Lattice LC4128V
+        Xilinx XC9500
+    FPGA
+        Altera Cyclone
+        Lattice MachXO2 MachXO3
+    PowerPC
+        MPC505、821、850、860、8240、8245
+        QUICC ⅡMPC826
+        QUICC Ⅲ MPC8560
+    DSP
+        TMS320F28x
+            TMS320F2812、
+            TMS320F28335
+        MC56 F83x
+    MIPS
+    核心
+        MCU
+            ARM
+            POWER PC
+            MIPS
+        DSP
+        SOC
+        DLP

@@ -1,0 +1,53 @@
+语言对比 - 格式
+
+C语言：函数并列
+C++：  像导图
+    1，分散：类内声明，类外定义
+    2，聚合：类内声明，类内定义
+java： 聚合一团
+python：
+
+
+对格式+顺序的要求成都：
+1，C++ 构造初始化按照private顺序
+2,有先后顺序的要求：
+	类声明：class Husband；
+	类定义：class Husband{} //可以看作是C语言函数声明的集合
+	类调用：Husband
+	按照这个顺序进行代码顺序，
+
+
+
+
+
+
+函数声明：
+1，c语言：  函数声明在函数调用 前面
+2，C++ ： 前面的函数可以直接调用后面
+3，java： 等同
+
+
+
+自动生成：
+1，C++会进行自动补全默认： 
+    默认构造，     重写构造函数之后，无参构造不再可用
+    默认拷贝函数： 需要重写深拷贝
+    默认析构：   不重载，不带参数
+    默认赋值,默认取值： 补足为0
+2，java会自动补全默认：   父类构造
+
+
+异常捕获：
+区别：
+	C语言对导致当前的函数中断执行
+	java和C++ 不会导致当前的函数中断，而是记录
+c语言：
+	dosomething();
+	if(fail){
+		printf("do something error");
+	}
+c++和java
+	try dosomething(),and throw exception
+	catch(exception){
+		printf("do something for exception")
+	}

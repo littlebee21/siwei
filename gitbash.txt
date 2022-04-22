@@ -1,0 +1,56 @@
+gitbash的皮肤问题：
+
+
+
+
+gitbash实现linux终端的使用
+gitbash闪烁    ~/.vimrc  set t_vb=
+gitbash中文输入问题
+
+
+gitbash 皮肤
+gitbash
+
+
+
+在终端下启动软件查看文件：
+    1，start启动文件
+    2，code打开文件
+
+增强软件：
+    1，下载对应的exe文件，复制到Git Bash安装的user/bin文件夹下，
+    2，安装wget工具
+
+
+
+
+
+联合其他软件使用：
+    1，资源管理器：alt+D跳转到资源管理器中
+    2，Windows Terminal 输入wt
+    3，autohotkey 使用windows的上下左右按键
+    4，vscode code.cmd 打开当前文件夹
+    5，配合node使用
+    6, 配合vim 使用：安装vim插件
+    7，配合choco安装工具使用
+    8, 配合fzf使用
+
+扩展命令方式
+    7, cmd 扩展
+    8. github 扩展
+    9，WSL项目扩展
+
+策略：
+    参考别人：
+    1，在需要linux环境的地方： 
+        Vagrant配合linux虚拟机
+        gitbash做ssh客户端
+        docker在linux里面打辅助
+        串口也能集合在终端当中吗
+    2，现在大部分的软件都可以使用autohotkey进行打开，所以可以留下少量的多窗口文件在任务栏中进行切换
+    3, 多个终端同时使用：
+    	1，打开终端1查找文档内容
+	2，将终端1移动到屏幕左
+	3，将终端2打开，进行内容编写（参考右侧）
+	4，将终端1关掉，继续使用终端2
+

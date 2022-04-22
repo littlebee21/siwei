@@ -1,0 +1,27 @@
+0.linux
+    服务器领域
+        服务器维护
+            shell
+            网络配置
+        服务器开发
+            linux程序设计
+            linux网路编程
+    Linux核心架构
+        嵌入式linux应用程序
+        linux 文件编程 emmx
+        linux 网络编程 emmx
+        linux shell emmx
+        linux 内核 emmx
+        linux基础 emmx
+            使用
+                linux命令 emmx 
+                linux 规范.emmx
+                linux 快捷键 emmx
+                vim emmx
+                gcc emmx
+                软件 安装 emmx
+                GDB 调试器
+                Make 项目管理工具
+            linux 面试题.emmx
+            linux文件.emmx
+                文件层次标准FHS标准

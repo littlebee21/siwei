@@ -1,0 +1,169 @@
+cpu
+    属性
+        频率
+        核心数
+        进程数
+        功率
+            把高端台式机处理器放在笔记本中，性能会下降
+        电脑
+            AMD和Intel区别
+            AMD 定位
+                Ryzen Threadripper 系列
+                Ryzen 7 系列
+                Ryzen 5 系列
+                Ryzen 3 系列
+                Athlon 系列
+    服务器
+        Xeon至强服务器
+            命名规则
+                等级标识
+                    2017Xeon可扩展处理器
+                        Xeon W
+                        Xeon D
+                        Xeon Phi
+                    Xeon E7
+                    Xeon E5
+                    Xeon E3/E
+                        E3-1200
+                        E3-1100
+                后四位数字
+                最后的v代表架构
+            迭代
+                至强E-2100
+                2018基于Cascade Laket微架构的Xeon
+                    12.1 "Cascade Lake-SP" 性能
+                        12.1.1 Xeon Gold (uniprocessor)
+                        12.1.2 Xeon Bronze 和 Silver (双处理器)
+                        12.1.3 Xeon Gold (四处理器)
+                        12.1.4 Xeon Platinum (八处理器)
+                    12.2 "Cascade Lake-AP" 高性能
+                        12.2.1 Xeon Platinum (双处理器)
+                2017基于Kabylake微架构的V6
+                    11.1 "Kaby lake-S" (14 nm)
+                        11.1.1 Xeon E3-1200 v6系列 (单路处理器)
+                    11.2 "Kaby Lake-H" (14 nm)
+                        11.2.1 Xeon E3-1500 v6系列 (单路处理器)
+                2016基于Skylake微架构的V5
+                    10.1 "Skylake-S" (14 nm)
+                        10.1.1 Xeon E3-1200 v5系列 (单路处理器)
+                    10.2 "Skylake-H" (14 nm)
+                        10.2.1 Xeon E3-1500 v5系列 (单路处理器)
+                2015基于Broadwell微架构的v4
+                    9.1  "Broadwell-DE" (14 nm)
+                        9.1.1  Xeon D-15xx (单路处理器，SoC)
+                    9.2  "Broadwell-H" (14 nm)
+                        9.2.1  Xeon E3-1200 v4系列 (单路处理器)
+                    9.3  "Broadwell-EP" (14 nm)
+                        9.3.1  Xeon E5-1600 v4系列 (单路处理器)
+                        9.3.2  Xeon E5-2600 v4系列 (双路处理器)
+                        9.3.3  Xeon E5-4600 v4系列 (四路处理器)
+                    9.4  "Broadwell-EX" (14 nm)
+                        9.4.1  Xeon E7-4800 v4系列 (四路处理器)
+                        9.4.2  Xeon E7-8800 v4系列 (八路处理器)
+                2014基于Haswell微架构的v3
+                    8.1 "Haswell-WS" 
+                        8.1.1 Xeon E3-1200 v3系列 (单路处理器)
+                    8.2 "Haswell-EN"  Entry (入门级)
+                        8.2.1 Xeon E5-1400 v3系列 (单路处理器)
+                        8.2.2 Xeon E5-2400 v3系列 (双路处理器)
+                    8.3 "Haswell-EP" (22 nm)(性能级)
+                        8.3.1 Xeon E5-1600 v3系列 (单路处理器)
+                        8.3.2 Xeon E5-2600 v3系列 (双路处理器)
+                        8.3.3 Xeon E5-4600 v3系列 (四路处理器)
+                    8.4 "Haswell-EX" (22 nm) (扩展级)
+                        8.4.1 Xeon E7-4800 v3系列 (四路处理器)
+                        8.4.2 Xeon E7-8800 v3系列 (八路处理器)
+                2013基于Ivy Bridge微架构的v2
+                    7.1 "Gladden" (22 nm)
+                        7.1.1 Xeon E3-1100 v2系列 (单路处理器)
+                    7.2 "Ivy Bridge" (22 nm)
+                        7.2.1 Xeon E3-1200 v2系列 (单路处理器)
+                    7.3 "Ivy Bridge-EN"  (入门级)
+                        7.3.1 Xeon E5-1400 v2系列 (单路处理器)
+                        7.3.2 Xeon E5-2400 v2系列 (双路处理器)
+                    7.4 "Ivy Bridge-EP" (性能级)
+                        7.4.1 Xeon E5-1600 v2系列 (单路处理器)
+                        7.4.2 Xeon E5-2600 v2系列 (双路处理器)
+                        7.4.3 Xeon E5-4600 v2系列 (四路处理器)
+                    7.5 "Ivy Bridge-EX"  (扩展级)
+                        7.5.1 Xeon E7-2800 v2系列 (双路处理器)
+                        7.5.2 Xeon E7-4800 v2系列 (四路处理器)
+                        7.5.3 Xeon E7-8800 v2系列 (八路处理器)
+                2012基于Sandy Bridge微架构的v1
+                    Xeon E3-1100系列 (单路处理器)
+                    Xeon E3-1200系列 (单路处理器)
+                    Xeon E5-1400系列 (单路处理器)
+                    Xeon E5-2400系列 (双路处理器
+                2010Nehalem微架构的Xeon
+                2008Wolfdale
+                    2008"Wolfdale-DP" (45 nm)
+                    2008"Wolfdale" (45 nm)
+                    2008"Wolfdale-CL" (45 nm)
+                2006双核心Xeon Dual Core Xeon 5000系列
+                    "Woodcrest" (65 nm)
+                2006双核心Xeon LV
+                    Allendale" (65 nm)
+                    Conroe" (65 nm)
+                2005双核心Xeon
+                2004年64位Xeon DP及Xeon MP
+                2001年32位Xeon DP及Xeon MP
+                1999Pentium III Xeon
+                1998第一代Xeon处理器
+        Opteron高性能服务器产品
+    嵌入式
+        手机平板低成本PC
+            3215U
+            赛扬J1800/J1900
+            N3050/N3150/N3160/N3700/N3710
+        Geode 属于低功耗嵌入式处理器
+    桌面cpu
+        intel：酷睿
+            2019第十代
+            2018第九代
+            2017-2018第八代
+            2016第七代
+            2015第六代
+            2014-2015第五代
+            2013第四代
+            2012第三代
+            2011第二代
+            2008-2011第一代
+        AMD 锐龙 Rozen系列
+            2019年三代
+            2018年二代
+            2017年一代
+        intel：奔腾
+            2018年Coffee Lake微架构的5奔腾
+            2017年四代Kaby Lake微架构的G4奔腾
+            2015-2016基于Skylake微架构的G4奔腾
+            2013基于Haswell微架构的3奔腾
+            2013基于Ivy Bridge微架构的2奔腾
+            2011Sandy Bridge微架构的奔腾
+            2010Westmere微架构的奔腾
+            2009年
+        intel：赛扬
+            属性
+                字母与编号
+                    A，推出的新核心赛扬有与上一代产品有相同频率
+                    D，采用Prescott核心的赛扬产品
+                    J，表示处理器支持 禁用执行位
+                    M，表示设计用于移动平台使用
+            2018年G4900赛扬
+            2017年G3900
+            2012年G1600/G2010赛扬
+            2011年G530
+        intel  Xeon品牌
+        AMD桌面
+            APU
+                第七代APU 2015年
+                第五代APU 2014年
+                第三代APU 2013年
+                第二代APU 2012年
+                第一代APU 2011年
+            FX
+                第二代FX 2012-2013年
+                第一代FX 2011年
+            速龙XP 1999-2004年
+            速龙64 2003-2007年
+            弈龙/速龙 2007-2011年
+            1997AMD-K6出品

@@ -1,0 +1,305 @@
+matlab功能
+    四.MATLAB的图形和可视化
+        图像概括
+            ****1.图像分类****
+                1）索引图像:
+                2）灰度图像：
+                3）RGB图像：
+                4）二值图像：
+            ****2.图像的读取和显示****
+                显示
+                    imshow 文件名.格式 %显示图像
+                    image（图像数据）%显示图像
+                获取
+                    info=imfinfo（’文件名.格式’）%获取图像信息
+                    A = imread(filename, 文件格式)
+                    [X, map] = imread(...) %二维图像读取，如索引图像
+                imwrite(A,filename) %writes image data A to the file specified by filename
+        二维图和三维图
+            五、图像绘制：
+                1、基本绘图函数 
+                    plot            绘制二维线性图形和两个坐标轴 
+                    plot3           绘制三维线性图形和两个坐标轴 
+                    fplot           在制定区间绘制某函数的图像。fplot（‘f’，区域，线型，颜色） 
+                    loglog          绘制对数图形及两个坐标轴（两个坐标都为对数坐标）
+                    semilogx        绘制半对数坐标图形 
+                    semilogy        绘制半对数坐标图形 
+                2、颜色
+                    y   黄色
+                    g   绿色    
+                    b   蓝色 
+                    m   红紫色 
+                    c   蓝紫色
+                    w   白色    
+                    r   红色
+                    k   黑色
+                符号
+                    箭头
+                        +    点为加号形      
+                        ^ 向上箭头
+                        v 向下箭头
+                        >    向右箭头
+                        <      向左箭头
+                    形状
+                        .    实心小点      
+                        s   方形             
+                        *    星号           
+                        x   叉号形状        
+                        h        六角星形
+                        o    空心圆形        
+                        p      五角星形
+                        d   菱形       
+                    网格
+                        -.   组合           
+                        hold on   添加图形
+                        grid on  添加网格
+                    线
+                        -    实线
+                        .  圆点线          
+                        --   虚线           
+                3、可以用subplot（3，3，1）表示将绘图区域分为三行三列，目前使用第一区域。此时如要画不同的图形在一个窗口里，需要hold on。
+            线图
+                plot（x,y） %最简单最常用的二维绘图命令
+                fplot(fname,lims,tol) %自适应二维函数绘图命令，在函数变化率大的部分密集采样绘图，提高图形真实性。
+            数据分布图
+            离散数据图
+            地理图
+            极坐标图
+                函数
+                    对数据绘图
+                        polarplot	在极坐标中绘制线条
+                        polarscatter	极坐标中的散点图
+                        polarhistogram	极坐标中的直方图
+                        compass	绘制从原点发射出的箭头
+                        ezpolar	易用的极坐标绘图函数
+                    自定义极坐标区
+                        rlim	设置或查询极坐标区的 r 坐标轴范围
+                        thetalim	设置或查询极坐标区的 theta 坐标轴范围
+                        rticks	设置或查询 r 轴刻度值
+                        thetaticks	设置或查询 theta 轴刻度值
+                        rticklabels	设置或查询 r 轴刻度标签
+                        thetaticklabels	设置或查询 theta 轴刻度标签
+                        rtickformat	指定 r 轴刻度标签格式
+                        thetatickformat	指定 theta 轴刻度标签格式
+                        rtickangle	旋转 r 轴刻度标签
+                        polaraxes	创建极坐标区
+                属性
+                    PolarAxes 属性	极坐标区的外观和行为
+            等高线图
+                函数
+                    contour	矩阵的等高线图
+                    contourf	填充的二维等高线图
+                    contourc	低级等高线图计算
+                    contour3	三维等高线图
+                    contourslice	在三维体切片平面中绘制等高线
+                    clabel	为等高线图添加高程标签
+                    fcontour	绘制等高线
+                属性
+                    Contour 属性	等高线图的外观和行为
+                    FunctionContour 属性	等高线图的外观和行为
+            向量场
+                函数
+                    feather	绘制速度向量
+                    quiver	箭头图或速度图
+                    compass	绘制从原点发射出的箭头
+                    quiver3	三维箭头图或速度图
+                    streamslice	在切片平面中绘制流线图
+                    streamline	根据二维或三维向量数据绘制流线图
+                属性
+                    Quiver 属性	箭头图的外观和行为
+            曲面、体积和多边形
+                曲面图和网格图
+                    函数
+                        surf	曲面图
+                        surfc	曲面图下的等高线图
+                        surface	基本曲面图
+                        surfl	具有基于颜色图的光照的曲面图
+                        surfnorm	曲面图法线
+                        mesh	网格曲面图
+                        meshc	网格曲面图下的等高线图
+                        meshz	带帷幕的网格曲面图
+                        hidden	消除网格图中的隐线
+                        fsurf	绘制三维曲面
+                        fmesh	绘制三维网格图
+                        fimplicit3	绘制三维隐函数
+                        waterfall	瀑布图
+                        ribbon	条带图
+                        contour3	三维等高线图
+                        peaks	包含两个变量的示例函数
+                        cylinder	生成圆柱
+                        ellipsoid	生成椭圆面
+                        sphere	生成球面
+                        pcolor	伪彩图
+                        surf2patch	将曲面数据转换为补片数据
+                    属性
+                        Surface 属性	图曲面的外观和行为
+                        Surface 属性	基本曲面的外观和行为
+                        FunctionSurface 属性	曲面图的外观和行为
+                        ImplicitFunctionSurface 属性	隐式曲面图的外观和行为
+                        ParameterizedFunctionSurface 属性	参数化曲面图的外观和行为
+                三维可视化
+                    函数
+                        标量三维体数据
+                            contourslice	在三维体切片平面中绘制等高线
+                            flow	包含三个变量的简单函数
+                            isocaps	计算等值面端帽几何图
+                            isocolors	计算等值面和补片颜色
+                            isonormals	计算等值面顶点的法向量
+                            isosurface	从三维体数据中提取等值面数据
+                            reducepatch	缩减补片面的数量
+                            reducevolume	缩减三维体数据集 内的元素数
+                            shrinkfaces	减小补片面的大小
+                            slice	三维体切片平面
+                            smooth3	平滑处理三维数据
+                            subvolume	提取三维体数据集的子集
+                            volumebounds	体数据的坐标和颜色范围
+                        向量三维体数据
+                            coneplot	在三维向量场中以圆锥体形式绘制速度向量
+                            curl	计算向量场的旋度和角速度
+                            divergence	计算向量场的散度
+                            interpstreamspeed	基于流速插入流线图顶点
+                            stream2	计算二维流线图数据
+                            stream3	计算三维流线图数据
+                            streamline	根据二维或三维向量数据绘制流线图
+                            streamparticles	绘制流粒子
+                            streamribbon	根据向量三维体数据生成三维流带图
+                            streamslice	在切片平面中绘制流线图
+                            streamtube	创建三维流管图
+                多边形
+                    函数
+                        fill	填充的二维多边形
+                        fill3	填充的三维多边形
+                        patch	绘制一个或多个填充多边形区域
+                        surf2patch	将曲面数据转换为补片数据
+                    属性
+                        Patch 属性	补片的外观和行为
+                        Polygon 属性	多边形的外观和行为
+            动画
+        ****6.三维图形****
+            1）绘图命令
+                plot3(x,y,z) %最基本的三维图形函数，函数除了增加第三维坐标外，功能和plot相同
+                mesh(x,y,z) %绘制三维网格图。在不需要特别精细的三维曲面结果时使用。
+                surf(x,y,z) %绘制三维曲面图，各线条之间的补面用颜色填充
+            2）视点
+                view（方位角，俯视角）或者view([x,y,z]) %[x,y,z]观察点坐标
+            3）等高线
+                contour（x,y,z,n） %以z为高程值，x,y为横纵坐标的平面等值线图，n缺省值为10 
+                contour3(x,y,z,n)  %`````三维等值线图
+                meshc（x,y,z） %绘制带等值线图的网线图
+                其他相关的还有pcolor（）、meshz（）、surfc（）等，详见help。
+        ****7.符号绘图****
+            ezplot（f，[a,b]）%二维符号绘图
+            ezplot3（f，[a,b]） %三维符号绘图
+            ezmesh（）、ezsurf（）%三维符号绘图
+        ****4.其他命令****
+            subplot(a,b,n) %将绘图区分为a*b区，选择其中的n区
+            hold %在原来视图中绘图
+            plotyy（x1,y1,x2,y2）%在同一坐标系中左右使用不同的坐标
+        图标属性
+            5.颜色填充命令
+                fill(x1,y1,x2,y2,```,c)  %用c颜色填充由(x1,y1)、(x2,y2)···确定的多边形
+                erea（x,y,’r’） %用r色填充由x，y函数确定边界的区域
+                imagesc(c)使用缩放颜色显示图像
+            3.特殊坐标和图形****
+                loglog（x,y）%双对数坐标
+                semilogy(x,y) %以x轴为对数坐标
+                polar(theta,rho) %极坐标
+                stair(x,y) %阶梯图形
+                bar(x,y) %条形图
+                stem（x,y）%火柴杆状图
+                pie（x）%绘制饼状图  pie3（x）%绘制三维饼状图
+                ribbon（x,y,c）%绘制带状图，c是颜色
+            2图形标记
+                title(‘图形名称’) %给图形命名
+                legend（’图例1’，‘图例2’，····）
+                坐标
+                    xlabel(‘x轴坐标’)
+                    ylabel（‘y轴坐标名’）
+                    text(x,y,’标记’) %在坐标点（x，y）处加标记
+                    axis（[x,y的坐标范围]）
+                    axis(‘on’) %显示坐标 
+                        axis(‘off’)
+                    axis tight 是设置坐标轴来显示范围源为紧凑型
+                    模式
+                        axis ij ：矩阵轴模式
+                        axis xy ：笛卡尔轴模式，
+        使用
+            MATLAB读取mat数据并绘图
+            在坐标系的指定位置插入图片
+    数学计算
+        ****九.基于MATLAB的数据插值和拟合****
+            ****1.一维数据插值****
+            ****2.二维数据插值****
+            ****3.曲线拟合****
+        ****八.基于MATLAB的最优化问题求解****
+            ****1.线性规划问题****
+            ****2.非线性问题****
+            ****3.二次规划问题****
+        ****七.基于MATLAB的大规模矩阵计算****
+            ****1.稀疏矩阵****
+    六.MATLAB图形用户界面（GUI）设计
+        2、常用控件代码框架参考
+            控件事键
+                CallBack：点击 
+                ButtonDownFcn：单击，
+                CreateFcn：显示之前初始化
+                DeleteFcn： 销毁之前
+                KeyPressFcn：当前控件获得焦点且有按键按下时执行。
+                SelectionChangeFcn：群按钮改变选择
+            控件介绍
+            Toggle Button 的callback一般写法
+                functon   togglebutton1_callback(hObject,eventdata,handles)
+                    %这一句不用管。自动加的。 
+                button_state = get(hObject,'Value') 
+                %控件甲的callback下面hObject就是控件甲，同理控件乙callback下的hObject......
+                if button_state==get(hObject,'Max')
+                    %则……
+                else if button_state==get(hObject,'Min')
+                     %则……
+                end
+                PS：button_state是变量名，存放按钮的选择状态。如果button甲放在一个buttonGroup里，则button甲callback下的代码就要挪到buttonGroup下面去。因为buttonGroup的回调函数会覆盖掉它成员的回调函数。
+            3、怎么获得和设置控件的属性
+                通俗的说，就是怎么获取编辑框里的字符、滑块现在的位置、pop up里被选中的选项，如何控制static text显示我要求的信息等。
+                设置：set（handles.控件的tag,'要设置的属性名','要设置的属性值'）。比如：set(handles.edit1,'string','hello world');
+                获取：get（handles.控件的tag,'要获取的属性名'）
+                help里可以看到所有可能有用的属性：MATLAB->Creating Graphical User Interfaces->Laying Out GUIs and Setting Properties->What Properties Do I Need to Set?
+            4. 数据怎么在不同的控件之间传递
+                先看在一个GUI界面内部的传递数据。每一个控件的回调函数头：function myc_Callback(hObject, eventdata, handles)
+                第一个参数是hObject自调用
+                第二个参数是MATLAB的保留参数。
+                第三个handles是这个GUI界面的代号
+                    handles.变量名 = 某些值     （其实也就是给结构体添加成员变量）
+                    b=handles.变量名     （结构名加点号来引用成员变量）
+                    就可以得到这个变量值，同样也可以修改它。
+                    别忘了使用guidata(hObject, handles);在函数末尾来保存你对handles和hObject的操作。（不然你自定义的变量就没了）
+            5、在不同GUI之间传递数据
+                传入：   
+                    先看打开一个GUI界面时，传给他的参数有哪些。
+                     function mygui_OpeningFcn(hObject, eventdata, handles, varargin)
+                     所有的启动参数都是通过varargin传到它的OpeningFcn里面的。启动参数包括：
+                     figure，也就是窗口参数，如position之类。例如：打开这个GUI时，使用命令mygui('Position',[434 234 234 34])表示打开窗口在这个位置；还有哪些可控属性可以查help。
+                    自定义参数，如果传入的参数不是figure的属性（matlab查找不到你输入的属性名），则输入的参数作为一个向量存放在varargin里面。比如mygui('路人甲','80‘），那varargin{1}存放了'路人甲'，varargin{2}=’80‘
+                传出：
+                    看每一个GUI的最外层的那句 function varargout = mygui(varargin)。把GUI本身看做一个函数，b=mygui(一些传入的参数)   就执行GUI并返回结果，b就得到了传出来的结果。
+                    在GUI任意地方，将要输出的数据存在handles.output里面。
+                    handles.output=数据1；
+                    handles.secend_output=数据2；
+                    然后在GUI的outputFcn里面加上
+                    varaginout{1}=handles.output;
+                    varaginout{2}=handles.secend_output;
+                    这样就把数据传出来了。
+        gui的运行
+            图形用户界面GU设计工具的启动命令为gude，格式为:
+            1.命令方式
+                ①
+                    guide
+                        功能:启动GUI设计工具，并建立名字为 untitled. fig的图形
+                        用户界面。
+                ②
+                    guide Ilename
+                        功能:启动GUI设计工具，并打开已建立的图形用户界面
+                        filename。
+            2.菜单方式
+                在 Matlab的主窗口中，选择File菜单中的New菜单项
+                再选择其中的GU命令，就会显示GUI的设计模板。
+        按键显示图形

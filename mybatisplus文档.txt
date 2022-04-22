@@ -1,0 +1,186 @@
+mybatisplus
+    使用
+        快速开始
+            2.1 User表
+            2.2 新建Sring boot Module
+            2.3 配置文件application.properties
+            2.3 添加@MapperScan注解
+            2.4 业务编码
+                传统方式
+                    ​ pojo–>dao–>(连接mybatis，配置mapper.xml文件)–>service-controller (传统方式 )
+                新方式
+                    编写实体类 User.java（此处使用了 Lombok 简化代码）
+                    编写Mapper类 UserMapper.java
+                    在 Spring Boot 启动类中添加 @MapperScan 注解，扫描 Mapper 文件夹：
+                    添加测试类，进行功能测试：
+                    三、开始使用
+                        【添加数据：（增）】
+                        【删除数据：（删）】
+                        【修改数据：（改）】
+                        【查询数据：（查）】
+        安装
+            Release
+            Snapshot
+        配置mapperScan扫描类路径
+        mybatisplus的增加特性
+            多种主键策略
+            支持ActiveRecord
+            内置性能分析插件
+            内置全局拦截插件
+            3、排除非表字段的三种方式
+                3、 @TableField(exist=false)，这个注解用来表示数据表中不存在该字段，默认是true。
+                2、 static修饰属性（前提手动实现get、set方法，Lombok对静态属性不会提供get、set方法）。
+                1、 transient修饰实体类属性（修饰的属性不会被序列化）。
+    核心功能
+        注解
+            @TableField（“字段名”）：
+                自动填充注解
+            @TableId（“主键名”）：
+            @TableName（“数据库表名”）：
+            @Version
+                乐观锁注解
+            @EnumValue
+                枚举字段注解
+            @TableLogic
+                表字段逻辑处理
+            弃用
+                ~~@SqlParser~~
+            @KeySequence
+            @InterceptorIgnore
+            @OrderBy
+                子主题
+        分页插件
+            #XML 自定义分页
+            //Spring boot方式
+            UserMapper.xml 等同于编写一个普通 list 查询，mybatis-plus 自动替你分页
+            UserServiceImpl.java 调用分页方法
+        代码生成器
+            使用教程
+                添加依赖
+                编写配置
+            自定义模板引擎
+            自定义代码模板
+            自定义属性注入
+            字段其他信息查询注入
+            使用（以下教程仅适用 3.5.1 以上版本，对历史版本的不兼容）
+        配置
+            Sequence主键
+                # Spring-Boot
+                    # 方式一：使用配置类
+                    # 方式二：通过MybatisPlusPropertiesCustomizer自定义
+                # Spring
+                    # 方式一: XML配置
+                    # 方式二：注解配置
+            配置主键自增
+            配置日志
+        条件构造器：不好用
+            AbstractWrapper
+                allEq
+                eq
+                ne
+                gt
+                ge
+                lt
+                le
+                between
+                notBetween
+                like
+                notLike
+                likeLeft
+                likeRight
+                isNull
+                isNotNull
+                in
+                notIn
+                inSql
+                notInSql
+                groupBy
+                orderByAsc
+                orderByDesc
+                orderBy
+                having
+                func
+                or
+                and
+                nested
+                apply
+                last
+                exists
+                notExists
+            QueryWrapper查找方法类
+                select
+            UpdateWrapper 增加方法类
+                set
+                setSql
+                lambda
+            使用 Wrapper 自定义SQL
+                kotlin持久化对象定义最佳实践
+                用注解
+                用XML
+                kotlin使用wrapper
+                链式调用 lambda 式
+        CRUD 接口
+            Service CRUD 接口
+                Save
+                    插入一条记录
+                    插入批量
+                    插入批量，批量数量
+                SaveOrUpdate
+                    tableid 注解存在更新记录，否插入一条记录
+                    根据updatewrapper尝试更新，否则举行执行saveOrWrapper
+                    批量修改插入
+                    批量修改插入
+                Remove
+                    根据 entity 删除记录
+                    根据 ID 删除
+                Update
+                Get
+                List
+                Page分页查询
+                Count查询总记录数
+                Chain链式
+                    查询
+                    更新
+            Mapper CRUD 接口
+                Insert
+                Delete
+                    通过id进行删除
+                    通过id 实体类删除
+                    通过map进行删除
+                    通过columnMap条件，删除
+                Update
+                    根据whereWrapper条件，更新记录
+                    根据ID 修改
+                Select
+                    根据ID 查询
+                    entity 查询
+            mapper 层 选装件
+                AlwaysUpdateSomeColumnById
+                insertBatchSomeColumn
+                logicDeleteByIdWithFill
+    扩展
+        逻辑删除
+        通用枚举
+        字段类型处理器
+        自动填充功能
+        Sql 注入器
+        执行 SQL 分析打印
+        数据安全保护
+        多数据源
+        MybatisX 快速开发插件
+        企业高级特性
+    插件
+        插件主体(必看!)(since 3.4.0)
+            MybatisPlusInterceptor
+            使用方式(以分页插件举例)
+            拦截忽略注解 @InterceptorIgnore
+        分页
+            PaginationInnerInterceptor
+        乐观锁
+            OptimisticLockerInnerInterceptor
+        多租户
+        防止全表更新与删除
+        动态表名
+    FAQ
+        常见问题
+        捐赠支持

@@ -1,0 +1,61 @@
+linux安装
+    软件包管理工具
+        命令行
+            dpkg：
+                类似exe的windows安装包，全自动
+                没联网
+                    在线的软件包需要自己查找
+                    https://pkgs.org/
+                    https://launchpad.net/
+                    http://www.getdeb.net/
+                没有自动管理依赖
+            apt安装：
+                软件建议访问的服务器列表
+                软件安装的索引列表
+            snap安装
+            pip
+            tar 手动注册
+                bashrc手动注册
+        文本窗口界面
+            dselect
+            aptitude
+            tasksel
+        图形界面
+            synaptic
+
+    参考
+        软件包分类
+            deb二进制软件包
+                deb软件包
+                    ubuntu基于debian开发的
+                    Liunx使用apt安装本地deb软件包
+                        debian系统中提出
+                    rpm
+                        redhat系统提出的
+                可执行文件
+                版本修改说明
+                构建指令
+                编译命令
+            dsc源码包
+            区别
+                后缀不同
+                deb直接运行,dsc需要编译
+                查看软件包的区别
+                    file g++ 
+        软件包的命名规则
+            Filename Version Reversion Architecture
+            软件包名称 版本信息 修订版本信息 体系架构
+            g++  4.1.2   9ubutnut i386 
+        软件包的优先级
+            required
+                保证系统运行所必须的
+                    安装电脑时装好了
+            Important
+                缺少软件包,运行困难
+            Standard
+                支撑命令行控制台系统
+            Option
+                满足特性需求的
+            Extra
+                可能冲突s
+        软件包的依赖关系

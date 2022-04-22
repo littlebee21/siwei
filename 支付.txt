@@ -1,0 +1,124 @@
+支付
+    支付宝接口快速使用
+        前期准备
+            1.进入开发平台，选择电脑网站支付
+            2.下载SDK进行快速入门
+            3.下载下载沙箱环境
+            4.生成 RSA 密钥
+        SpringBoot开发
+            pom中添加配置信息（用于视图解析）
+            yml中添加内容
+                spring.dubbo.application.name=payment
+                spring.dubbo.registry.protocol=zookeeper
+                spring.dubbo.registry.address=192.168.67.163:2181
+                spring.dubbo.base-package=com.atguigu.gmall
+                spring.dubbo.protocol.name=dubbo
+                spring.dubbo.consumer.timeout=1000000
+                spring.dubbo.consumer.check=false
+            引入Jar包
+                增加导入支付宝的sdk包到maven仓库。
+        支付业务五代码
+            PaymentController
+            在 OrderServiceImpl中增加getOrderInfo方法
+            页面html
+            js
+            测试启动，支付渠道选择页面
+        跳转支付宝
+            2、保存支付信息
+                1、制作支付宝需要的各种参数
+                作用：追踪交易状态、去重、对账 
+                3 类AlipayConfig整合到项目
+                4 PaymentServiceImpl
+                PaymentInfoMapper
+                OrderInfo
+                5 PaymentController
+                    1、通过orderId取得订单信息
+                    2、组合对应的支付信息保存到数据库。
+                    3、组合需要传给支付宝的参数。
+                    4、根据返回的表单html，传给浏览器。
+            3、帮助用户跳转到支付宝的页面
+            5 配置alipay.properties
+        支付后的异步回调
+            1、验证回调信息的真伪
+            2、验证用户付款的成功与否
+            3、把新的支付状态写入支付信息表中。
+            4、通知电商
+            5、给支付宝返回回执。
+        支付后的同步回调
+        这里通知的测试，需要使用到内网穿透
+    3.写付款
+        付款的逻辑1
+            修改html页面中的action
+            打开这个jsp，复制一下代码到我们的Controller中，并对请求出进行修改
+            跳转到首页
+            运行测试
+            再次运行
+        付款的逻辑2
+    支付分类
+        聚合支付
+            微信支付
+                普通商户
+                    支付产品
+                        需要的东西
+                            app_id
+                                公众账号ID
+                                小程序id
+                                应用id
+                            mch_id
+                                商户号
+                            key
+                                签名需要，微信商户平台(pay.weixin.qq.com)--&gt;账户设置--&gt;API安全--&gt;密钥设置
+                            证书
+                                pkcs12格式（Java），退款需要
+                    支付工具
+                        需要的东西
+                            分账接收方商户id
+                服务商
+            支付宝支付
+                需要的东西
+                    app_id
+                        发送请求时需要
+                    应用私钥
+                        签名需要
+                    支付宝公钥
+                        签名需要
+        六、支付模块
+            短信支付验证
+            支付 - 订单 - 减库存
+                1  支付成功通知
+                    支付模块利用消息队列通知订单系统，支付成功
+                    在支付模块中配置application.properties
+                    在浏览器中访问：
+                    查看队列内容：有一个在队列中没有被消费的消息。
+                2 订单模块消费消息
+                3 订单模块发送减库存通知
+                5 验证结果
+                     
+            支付宝支付多种选择
+            总结
+                alipay
+                activemq
+                    支付模块消息队列通知订单模块
+                    订单模块通知减库存
+                    支付服务对支付宝询问
+                        延时队列
+                        多线程异步回调
+    支付概念
+        支付
+            用户付款到平台提供方账户
+        对账：reconciliation
+            第三方支付下载账单API
+                支付宝对账单下载API
+                微信支付交易账单下载API
+        结算：settlement
+            平台提供方打款给商家
+            第三方支付打款API
+                支付宝企业付款到银行卡
+                微信企业付款到银行卡
+            触发方式
+                自动结算
+                用户发起
+    原理
+        加密问题
+            1 密钥如何得来，为什么有两个利用工具生成   保存本地私钥 和支付宝公钥  把本地公钥上传给支付宝
+            2、url为什么有的用域名，有的用ip地址。

@@ -1,0 +1,91 @@
+appvue文件2
+    template模板
+        组件标签
+            <router-view>的引入
+            <router-link>路由
+                to属性
+                replace导航不留痕迹
+                append相对路径前添加基路径
+                tag类指定何种标签
+                active-class链接激活时使用的 CSS 类名
+                exact-active-class链接被精确匹配的时候应该激活的 class
+                event触发导航的事件
+            <link>animate.css库
+                首次使用配置appear
+                同时使用过渡 和动画
+                定义动画总时长
+                自定义入场动画和出场动画总时长
+                slot动画元素传递给子组件
+        事件
+            鼠标修饰符
+                只有修饰符
+                修饰符可以串联
+                .stop阻止事件冒泡
+                .prevent不再重载页面
+                .capture事件捕获模式
+                .self元素本身触发回调
+                .once只能点击一次2.1.4
+                passive滚动立刻触发2.3.0
+                ctrl等系统修饰符
+                    exact系统修饰符组合
+                鼠标修饰符
+            按键修饰符
+                enter等按键别名
+                13按键码
+                自定义键盘修饰符
+            系统修饰符
+            事件的种类
+            []动态绑定参数
+                参数值为null 移除绑定
+                参数表达式空格 引号无效
+                参数名字强制转化为小写
+            原生事件监听@click.native
+            事件的使用
+                passive和prevent不能一起使用
+                事件绑定方法
+        vue指令
+    script逻辑处理
+        import引入
+            import VueResource from ‘’
+        选项/数据
+            选项/DOM
+                el视图的挂载点
+                template标签方式定义view
+                render通过vnode创建view
+            data数据属性
+                data是一个函数
+            props父组件输出接口
+            methos事件属性
+                vue实例method中调用action方法
+                vue实例的axios的ajax方法
+                vue实例中的vue-soures方法
+                手写js动画入场动画出场动画
+            computed计算属性
+                计算属性功能
+                getter读取属性
+                 setter设值属性
+                compute和method的区别
+                    执行原理
+            watch 监听属性
+                监听属性的功能
+                watch属性的重复用compute代替
+            computed vs methods
+            全局数据的绑定
+        选项/生命周期函数
+            创建期间的生命周期函数
+                1.数据未初始化-初始化
+                2.内存中创建
+                3.挂在到页面
+            运行期间的生命周期函数
+                4.实例更新
+            销毁期间的生命周期函数
+                5.实例销毁
+    style样式表
+    vue的API
+        $vue实例组成
+            实例属性
+                $attrs属性
+            实例方法/数据
+            实例方法/事件
+            实例方法/生命周期
+            事件接口(Events interface)

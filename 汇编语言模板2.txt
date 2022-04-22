@@ -1,0 +1,88 @@
+1. 通常利用寄存器R0~R3传递参数和返回结果，这几个参数由子程序的调用者来保存
+2. 子程序将要用到的寄存器在子程序入口处保存到内存（入栈）
+3. 在子程序返回前恢复这些寄存器
+
+
+.text
+.global _start
+_start:
+    //在全局变量调用的使用，使用R0-R3进行函数的传参和返回值
+    LDR R0,=data1
+	LDR SP,=0x40002000
+    //函数的保存
+    BL sort
+	MOV R1,#1
+
+
+
+//函数的编写
+sort:
+    //函数内容的初始化
+    @ R4 is data1 address
+	@ R10 is data address change
+    @ R5 is swap count
+    @ R6 is datatmp1
+    @ R7 is datatmp2
+    @ R8 is turn count
+    @ R9 is datatmp3
+    //对当前的调用链接进行保存
+    STMFD SP!,{R4-R11,LR}
+    MOV R4,R0
+	MOV R10,R4
+    MOV R5,#0
+    MOV R6,#0
+    MOV R7,#0
+    MOV R8,#0
+    MOV R9,#0
+
+//循环的编写 //可以看出，也是可以使用缩进的
+//如果有多个循环，最好给循环+函数名+功能的方式
+loop_turn:
+    CMP R8,#5         //进行比较
+    BGE sort_return     //前置比较，目的：退出循环
+                        //由于汇编的顺序执行问题，所以总是将跳出的语句，放在前面whiledo的形式
+	//内存循环变量的初始化
+    MOV R10,R4  
+    loop_swap:
+        //四个空间分别保存，值和地址进行操作
+		MOV R0,R10      //向函数的传递空间进行，函数参数的传递
+        LDR R6,[R10],#4
+		MOV R1,R10
+        LDR R7,[R10]
+       	
+        CMP R6,R7	//进行比较，选择执行函数
+        BLCC swap   
+
+        //确定循环的边界，后置判断执行，dowhile的形式
+        RSC R9,R8,#5    //求值
+        CMP R5,R9       //比较
+        //推动下次循环
+        ADD R5,#1      
+        BCC loop_swap
+
+    ADD R8,#1
+    BAL loop_turn
+
+sort_return:
+    LDMFD SP!,{R4-R11,PC}
+
+
+swap:
+    @R4 is data1 address  //R4作为局部变量使用
+    @R5 is data2 address    
+    STMFD SP!,{R4-R11,LR}
+	MOV R4,R0   //将函数的传递的内容，读取到局部变量中使用
+    MOV R5,R1
+
+    LDR R6,[R4]
+    LDR R7,[R5]
+store:
+    STR R7,[R4]
+    STR R6,[R5]
+swap_return:
+    LDMFD SP!,{R4-R11,PC}
+
+
+.data
+data1: .word 1,4,5,6,2,4
+.end

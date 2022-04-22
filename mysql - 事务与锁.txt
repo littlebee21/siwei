@@ -1,0 +1,161 @@
+mysql - 事物与锁
+    解决方案
+        MVCC 多版本并发控制
+        Current Read
+            SQL 语句
+                select .. for update
+                select ... lock in share mode
+                insert
+                update
+                delete
+            实现方式
+                Next-Key 临键锁
+                Gap间隙锁
+                行记录锁
+        Snapshot Read
+            SQL语句
+                基本的 select ... 语句
+            快照生成
+                Read Commited
+                Read Repeatable
+            实现方式
+                行数据隐藏列
+                示意图
+    事务原理
+        事务隔离特性
+            Atomic
+            Consistency
+            Isolution
+            Durability
+        使用事务隔离级别带来的问题
+            性能
+            数据
+                公共条件
+                    分支主题
+                Dirty Read
+                Unrepeatable Read
+                Phantom Read
+                Lost Update
+                    提交覆盖(一类丢失更新)
+                    回滚覆盖(二类丢失更新)
+                隔离级别关系
+                    分支主题
+            一致性非锁定读
+        事务隔离级别标准
+            Read Uncommitted
+            Read Committed
+            Repeatable Read
+            Serialized
+        隔离级别配置
+            查询
+            修改
+        加锁协议
+            一级封锁协议
+            二级封锁协议
+            三级封锁协议
+            四级封锁协议
+        隔离级别加锁示例
+            聚簇索引
+            二级唯一索引
+            二级非唯一索引
+            无索引
+            范围查询
+                聚簇索引
+                二级非唯一索引
+    数据库锁的使用
+        表锁
+            加表锁
+                读锁
+                    允许多个会话同时持有读锁
+                    持有读锁的会话可以读表，但不能写表
+                    其他会话就算没有给表加读锁，也是可以读表的，但是不能写表
+                    其他会话申请该表写锁时会阻塞，直到锁释放。
+                写锁
+                    持有写锁的会话既可以读表，也可以写表
+                    只有持有写锁的会话才可以访问该表，其他会话访问该表会被阻塞，直到锁释放
+                    其他会话无论申请该表的读锁或写锁，都会阻塞，直到锁释放
+            释放表锁
+                如果会话在持有表锁的情况下执行 LOCK TABLES 语句，将会释放该会话之前持有的锁
+                如果会话在持有表锁的情况下执行 START TRANSACTION 或 BEGIN 开启一个事务，将会释放该会话之前持有的锁
+                如果会话连接断开，将会释放该会话所有的锁
+            示例
+        行锁
+            读锁（S锁，共享锁）
+            写锁（X 锁，排他锁）
+                常见的 INSERT、UPDATE、DELETE 会自动对操作的数据行加写锁
+            实现
+                innoDB索引
+                简单加锁流程
+                    加锁语句
+                    具体过程
+                复杂加锁流程
+                    加锁语句
+                    具体过程
+        行锁和表锁对比总结
+            开销
+            粒度
+            发生死锁
+        悲观锁与乐观锁
+            Optimistic Lock乐观锁
+                实现方式
+                    版本号
+                    CAS
+                        1. 读取内存位置 V
+                        2. 进行比较原预期值 A
+                        3. 拟写入新值 B
+                        ABA问题
+                            解决方式
+                        自旋问题
+                        只能保证一个共享变量的原子操作
+            Pessimistic Lock 悲观锁
+                实现方式
+                    Java 的 synchronized 和 ReentrantLock
+                    MySQL 的锁
+    Lock的组成和原理
+        lock_mode
+            表级锁
+                意向锁
+                    LOCK_IS
+                        IS(读意向锁)
+                    LOCK_IX
+                        IX(写意向锁)
+                LOCK_AUTO_INC
+                    innodb_autoinc_lock_mode
+                        0
+                        1
+                        2
+                    AUTO_INC互斥
+                    解锁
+                    自增中断
+            行级锁
+                读锁
+                写锁
+            兼容性
+                意向锁之间互不冲突
+                S 锁只和 S/IS 锁兼容，和其他锁都冲突
+                X 锁和其他所有锁都冲突
+                AI 锁只和意向锁兼容
+        lock_type
+            Record Lock
+                示例
+                    注意事项
+                模拟过程
+            Precise Modes精确模式
+                LOCK_ORDINARY普通锁
+                    Next-Key Lock
+                        改善幻读问题
+                        示例
+                        模拟
+                LOCK_GAP间隙锁
+                    Gap Lock
+                        示例
+                        模拟
+                        innodb_locks_unsafe_for_binlog
+                LOCK_INSERT_INTENSION锁表示插入的意向
+                LOCK_REC_NOT_GAP不锁间隙
+            兼容矩阵
+                在已有任意锁时，可以再申请插入意向锁
+                已有插入意向锁时，不兼容间隙锁与临键锁
+                移除插入意向锁
+                    间隙锁兼容除插入意向锁以外的任意锁
+                    记录锁与临键锁互斥，且与自身互斥

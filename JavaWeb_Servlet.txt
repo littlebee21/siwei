@@ -1,0 +1,43 @@
+JavaWeb——Servlet
+    组成原理
+        Tomcat工作机制动画演示(点击动图可全屏观看）
+        Servlet 的主要类型
+        Servlet 的工作原理
+        Servlet的工作模式
+    API
+        Servlet 的生命周期
+            1.init( ),
+            2.service( )方法
+            3.destory
+        Servlet API 概览
+        Servlet 的使用方法
+        Servlet 接口中定义的方法
+        接口
+            ServletRequset接口
+            ServletResponse接口
+            ServletConfig接口
+            ServletContext对象
+            GenericServlet抽象类 
+            javax.servlet.http包内容
+            HttpServlet抽象类
+            HttpServletRequest接口
+            HttpServletRequest内封装的请求
+            HttpServletResponse接口
+        Servlet 的其它两个方法
+            getServletInfo（ ），这个方法会返回Servlet的一段描述，可以返回一段字符串。
+            getServletConfig（ ），这个方法会返回由Servlet容器传给init（ ）方法的ServletConfig对象。
+    使用
+        request
+            通过request获得请求行
+            通过request获得请求头
+            通过request获得请求体
+            Request乱码问题的解决方法
+        Response
+            HttpServletResponse内封装的响应
+            通过Response设置响应
+            Response的乱码问题
+            Response的工作流程
+        Servlet的工作流程
+            编写第一个Servlet
+            Servlet的局限性
+            ServletContextListener

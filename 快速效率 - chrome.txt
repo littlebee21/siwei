@@ -1,0 +1,48 @@
+快速效率 - chrome
+chrome使用
+    需求
+        快速查找
+            快速打开
+        快速路由
+            时间路由方向路由
+            方向路由
+        快速关闭
+        搜集想要的快速生成笔记
+    参考
+        chrome的插件  emmx
+        utools emmx
+        vimium emmx
+    chrome原生快捷键
+        查找
+            F3
+                查找
+                Ctrl+G
+            查找下一条
+                Ctrl+Shift+G
+                    enter
+            查找上一条
+        输入对应的网站
+        F6复制
+            转到地址栏
+        Enter
+            跳转页面或搜索
+        Ctrl+Enter
+            加上 www. 前缀和 .com 后缀然后打开网站
+                Alt+Enter
+            在新标签页中跳转页面或搜索
+                Ctrl+K
+        转到地址栏并搜索
+        F10
+            转到 Chrome 菜单按钮
+        F11
+            全屏模式
+        F12
+            打开
+        Ctrl+T
+            新建标签页
+
+
+搜索方法：
+1，搜索 d 、  
+2，输入alt enter
+3，all search 空格分割多关键字查找

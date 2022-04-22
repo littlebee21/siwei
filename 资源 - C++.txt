@@ -1,0 +1,43 @@
+资源 - C++
+
+网站
+    c语言中文网
+  
+
+C++ 有用的书籍
+    《Essential C++ 中文版》
+    《C++ Primer Plus 第6版中文版》
+    《C++ Primer中文版（第5版）》
+    C++ Standard Library headers − C++ 标准库。
+    C++ Programming − 这本书涵盖了 C++ 语言编程、软件交互设计、C++ 语言的现实生活应用。
+    C++ FAQ − C++ 常见问题
+        Free Country − Free Country 提供了免费的 C++ 源代码和 C++ 库，
+        这些源代码和库涵盖了压缩、存档、游戏编程、标准模板库和 GUI 编程等 C++ 编程领域。
+    C and C++ Users Group − C 和 C++ 的用户团体提供了免费的涵盖各种编程领域 
+        C++ 项目的源代码，包括 AI、动画、编译器、数据库、调试、
+        加密、游戏、图形、GUI、语言工具、系统编程等。
+
+代码规范：
+    google开源代码规范 https://github.com/zh-google-styleguide/zh-google-styleguide
+
+
+开源项目：
+    语法教学
+        CPlusPlusThings https://github.com/Light-City/CPlusPlusThings
+        Cpp   https://github.com/applenob/Cpp_Primer_Practice
+    算法与设计模式
+    网络编程
+        cpp-httplib  https://github.com/yhirose/cpp-httplib
+    freeNOS 微内核操作系统
+    C++代码库
+        SGI STL 
+    数据库：
+        LevelDb
+    前端：
+        chromium 
+        node.js
+        sandstorm 私有服务器应用商店
+
+资源 - ROS
+    视频教程：
+        朱有鹏 https://www.bilibili.com/video/BV1b5411g7hr?spm_id_from=333.999.0.0

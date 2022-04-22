@@ -1,0 +1,21 @@
+文件结构
+    │  background.js
+        背景声明周期
+    │  createOutline.js
+    │  manifest.json
+    │  outliner.min.js
+    │  popup.html
+    │  popup.js
+    │  README.md
+    │  
+    ├─.idea
+    │      .gitignore
+    │      html5outliner.iml
+    │      modules.xml
+    │      workspace.xml
+    │      
+    └─img
+        128.png
+        16.png
+        32.png
+        48.png

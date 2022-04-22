@@ -1,0 +1,60 @@
+zuul
+    什么是路由网关
+        身份认证与安全：识别每个资源的验证要求，并拒绝那些与要求不符的请求
+        审查与监控：在边缘位置追踪有意义的数据和统计结果，从而为我们带来精确的生产视图；
+        动态路由：动态地将请求路由到不同的后端集群；
+    为什么使用路由网关
+        没有使用路由网关
+            缺点
+                客户端会多次请求不同的微服务，增加了客户端的复杂性。
+                存在跨域请求，在一定场景下处理相对复杂
+                认证复杂，每个服务都需要独立认
+        使用路由网关
+            优点
+                易于监控。可在微服务网关收集监控数据并将其推送到外部系统进行分析
+                易于认证。可在微服务网关上进行认证，然后再将请求转发到后端的微服务，而无须在每个微服务中进行认证
+                减少了客户端与各个微服务之间的交互次数
+    快速上手
+        maven依赖
+        增加配置
+        增加注解
+            @EnableZuulProxy
+    核心配置
+        通过服务名称配置路由
+        同时指定微服务的serviceId和对应路径
+        通过配置path和URL
+        统一设置前缀路径
+        忽略一些特殊的访问路径
+        设置敏感头
+    核心过滤器
+        zuul的过滤器类型和生命周期
+            Pre
+                ServletDetectionFilter -5
+                Servlet30WrapperFilter -3
+                FormBodyWrapperFilter -1
+                PreDecorationFilter 5
+            routing
+                RibbonRoutingFilter 10
+                SimpleHostRoutingFilter：它的执行顺序为100
+                SendForwardFilter：它的执行顺序为500，是route阶段第三个执行的过滤器
+            post
+                LocationRewriteFilter 900
+                SendResponseFilter 1000
+            error
+                SendErrorFilter 0
+            执行顺序
+                先执行pre&amp;gt;routing&amp;gt;post 然后再在同类型的过滤器按照order大小执行，越小的越先被执行
+        如何自定义过滤器
+            自定义filter
+            配置fitler
+        如何禁用过滤器
+            zuul.&amp;lt;SimpleClassName&amp;gt;.&amp;lt;filterType&amp;gt;.disable=true
+        降级回退机制
+            实现FallbackProvider
+            宕机回退
+            超时回退
+            下游服务如果是400.或者500不会回退
+        设置跨域
+        zuul的全局异常处理
+            继承SendErrorFilter
+            关闭禁用系统默认的SendErrorFilter

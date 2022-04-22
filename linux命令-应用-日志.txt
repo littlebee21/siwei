@@ -1,0 +1,201 @@
+日志
+    重要性
+        记录和分析系统错误
+        记录和分析网络错误
+        记录系统上发生的事件
+    重要的日志文件
+        /var/log/boot.log
+            本次开机启动的信息
+        /var/log/cron
+            记录 crontab 的运行信息
+        /var/log/dmesg
+            开机时的系统内核信息
+        /var/log/lastlog
+            最近一次登录信息
+        /var/log/maillog 或 /var/log/mail
+            邮件的信息
+        /var/log/messages
+            几乎系统发生的所有错误信息
+        /var/log/secure
+            账号的密码信息
+        /var/log/wtmp 或 /var/log/faillog
+            系统登陆用户的账号信息和错误登陆的账号信息
+        /var/log/httpd/* 和 /var/log/samba/*
+            网络服务的信息
+    日志所需服务与程序
+        产生日志的程序
+            1. 软件开发商提供的日志程序
+            2. Linux 发行版的日志系统
+                默认配置已经足够好了
+                    作用和特点
+                        最主要的信息收发者
+                        记录由 sysytemd 管理的服务的日志
+                        记录为二进制格式
+                        交给 rsyslog.service 进一步分析处理
+                        日志内容放置在内存中
+                        记录系统开机过程、启动服务过程的信息
+                            不需要像老式系统那样由内核自己产生一个  klogd  服务来记录这些信息
+                     使用 journalctl 观察  systemd-journald.service 记录的信息
+                        -f 类似  tail -f  的功能，持续显示  journal  日志的内容，用于实时监测
+                            -n 显示最新的几行
+                            -r 反向输出，从最新的几行到最旧的输出
+                            -p 显示出后面所接的信息重要性排序
+                            -f 类似  tail -f  的功能，持续显示  journal  日志的内容，用于实时监测
+                    使用 logger 程序把 journal 信息记录到日志文件中
+                        用法： logger  [-p 服务名称.等级] "信息"
+                    配置文件
+                        /etc/systemd/journald.conf
+                            默认配置已经足够好了
+                    日志文件
+                        /var/log/journal
+                            用户和组
+                                用户
+                                    root
+                                组
+                                    systemd-journal
+                            权限
+                                2775
+                        rsyslog.service  可以保存日志文件，因此，没有必要保存 journal 日志文件 
+                            日志文件可能撑爆磁盘空间，因此建议把它放到 /run/log 的内存中
+                            rsyslog.service  可以保存日志文件，因此，没有必要保存 journal 日志文件 
+                rsyslog.service
+                    系统登录和网络日志信息
+                    1. 使用 systemctl start/enable rsyslog.service 启动和启用服务
+                    2. 使用 /etc/rsyslog.conf 配置 rsyslog.service 
+                        1. 对哪个服务进行日志记录
+                        2. 记录该服务的哪个等级的信息
+                        3. 日志被记录在哪里
+                        例:  mail.info   /var/log/maillog_info
+                            服务: mail
+                            等级: mail 的 info 等级  
+                            文件: /var/log/maillog_info
+                    3. rsyslog.service 认识的服务
+                        可以通过 man 3 syslog 查看
+                            kern( kernel )
+                                内核产生的信息：硬件检测和内核信息
+                            user
+                                用户信息
+                            mail
+                                邮件信息
+                            daemon
+                                系统服务的日志
+                                    如 systemd 的日志
+                            auth
+                                认证和授权有关的日志
+                            syslog
+                                rsyslog本身的日志
+                            lpr
+                                打印服务
+                            news
+                                新闻组有关的服务
+                            uucp
+                                Unix to Unix Copy Protocol
+                                    早期用于 Unix 系统之间的数据交换
+                            cron
+                                cron和 at 服务
+                            authpriv
+                                认证和授权中的私人信息
+                                    如  pam 模块的信息
+                            ftp
+                                ftp服务
+                            local0~local7 
+                                本机用户的登录文件讯息
+                            软件开发商可以调用这些接口来进行日志记录
+                    4. 日志信息的等级
+                        debug
+                            调试信息
+                        info
+                            基本信息和说明
+                        notice
+                            正常信息，需要多加注意
+                        warn
+                            警告信息，但不影响daemon的运行
+                        err
+                            错误信息，服务无法启动
+                        crit
+                            严重错误
+                        alert
+                            警告级别的错误，比 crit 更严重
+                        emerg
+                            紧急的错误，最严重的错误等级
+                                硬件出现问题，导致内核无法运行
+                    5. 保存日志信息的位置
+                        1. 文件，如常见日志的目录和相关文件
+                        2. 打印机和其他输出设备，如 /dev/lp0
+                        3. 使用者名称，显示给使用者
+                        4. 远程主机，如 @study.vbird.tsai
+                        5. *，目前在线的所有人
+                    6. 所需文件
+                        1. syslog.h
+                            系统的头文件，第三方开发系统日志系统必需进行参考，可通过 man 3 syslog 查看
+                        2. rsyslogd
+                            实际的 daemon程序
+                        3. rsyslog.service
+                            控制 daemon 的 systemd service 文件
+        防止日志越来越多
+            logrotate 
+                日志轮替
+                使用 cron 来运行
+                    /etc/cron.daily/logrotate
+                1. 配置文件
+                    /etc/logrotate.conf
+                        参数
+                            weekly
+                                每周进行一次轮替
+                            rotate 4
+                                保留 4 个文件
+                            create
+                                创建一个新的日志文件
+                            dateext
+                                加上日期作为文件的一部分
+                            compress
+                                对日志文件进行压缩
+                            include /etc/logrotate.d
+                                将该目录中的 conf 文件读入 /etc/logrotate.conf
+                            针对某个日志设置参数，如 
+                            /var/log/wtmp {
+                                monthly
+                                create 0664 root utmp # 新建日志文件的权限、账号和群组
+                                minsize 1M
+                                rotate 1
+                            }
+                    /etc/logrotate.d
+                        这是一个目录，其中的文件会被自动读入到 /etc/logrotate.conf
+        观察和分析日志的程序
+            logwatch
+                可以给系统管理员发送系统日志信息邮件
+    日志文件服务器
+        rsyslogd具有日志文件服务器的功能
+            监听端口  
+                UDP/TCP 514
+        服务端
+            接收客户端机器的日志
+            /etc/rsyslog.conf
+                tcp 传输
+                    $ModLoad imtcp
+                    $InputTCPServerRun 514
+                udp 传输
+                    $ModLoad imudp
+                    $InputUDPServerRun 514
+        客户端
+            向服务端发送日志
+            /etc/rsyslog.conf
+                tcp 传输
+                    *.* @@192.168.1.100
+                udp 传输
+                    *.*  @192.168.1.100
+    日志文件通常包含的内容
+        事件发生的日期和时间
+        发生事件的主机
+        启动此事件的服务名称
+        该事件的信息实际内容
+    何时需要查看日志
+        当系统不太正常时
+        某个 daemon 老是无法正常启动时
+        某个使用者老是无法登录时
+        某个 daemon 执行过程老是不顺畅时
+例:  mail.info   /var/log/maillog_info
+    服务: mail
+    等级: mail 的 info 等级  
+    文件: /var/log/maillog_info
+软件开发商可以调用这些接口来进行日志记录

@@ -1,0 +1,173 @@
+mockito
+    快速使用
+        Spring Boot中引入单元测试很简单，依赖如下：
+        分类
+            controller单元测试
+                @Controller类的类型
+                @RequestMapping("/learn")绑定
+            service单元测试
+                @RunWith(SpringRunner.class)
+                SpringBootTest
+        语句
+            mvc网络请求模板
+                执行请求
+                    1. mockMvc.perform执行一个请求
+                构造请求
+                    2. MockMvcRequestBuilders.get(“/user/1”)构造一个请求，Post请求就用.post方法
+                参数
+                    数据格式
+                        3. contentType(MediaType.APPLICATION_JSON_UTF8)代表发送端发送的数据格式是application/json;charset=UTF-8
+                    希望的接受格式
+                        4. accept(MediaType.APPLICATION_JSON_UTF8)代表客户端希望接受的数据类型为application/json;charset=UTF-8
+                    注入session
+                        5. session(session)注入一个session，这样拦截器才可以通过
+                断言
+                6. ResultActions.andExpect添加执行完成后的断言
+                7. ResultActions.andExpect(MockMvcResultMatchers.status().isOk())方法看请求的状态响应码是否为200如果不是则抛异常，测试不通过
+                8. andExpect(MockMvcResultMatchers.jsonPath(“$.author”).value(“嘟嘟MD独立博客”))这里jsonPath用来获取author字段比对是否为嘟嘟MD独立博客,不是就测试不通过
+                9. ResultActions.andDo添加一个结果处理器，表示要对结果做点什么事情，比如此处使用MockMvcResultHandlers.print()输出整个响应结果信息
+            新断言assertThat使用
+            单元测试的回滚
+        使用整体流程
+            依赖
+            创建Mock对象
+                Mockito.mock()
+                    虚拟创建对象
+                Mockito.spy()
+                    包装真实的对象
+            定制行为
+                Mockito.when()
+            定制返回值
+                thenReturn()
+            定制异常
+                thenThrow()
+                Mockito.doThrow()
+            校验Mock对象的方法调用
+                Mockito.verify()
+            获取参数
+                ArgumentCaptor
+    主要元素
+        初始化
+            withSettings()函数
+            创建mockito对象
+                Mockito.mock()
+                    虚拟创建对象
+                Mockito.spy()
+                    包装真实的对象
+                mockmvc.perform
+                    发送前端请求
+            获取参数
+                ArgumentCaptor
+            spy(Class classToSpy)函数
+        Mockito.when()
+            4. 参数匹配器 (matchers)
+                any匹配任何
+                any
+                anyBoolean
+                anyByte
+                anyChar
+                anyCollection
+                anyCollectionOf
+                anyDouble
+                anyFloat
+                anyInt
+                anyList
+                anyListOf
+                anyLong
+                anyMap
+                anyMapOf
+                anyObject
+                anySet**
+                anySetOf
+                anyShort
+                anyString
+                anyVararg
+            内容
+                子主题
+                    argThat
+                    booleanThat
+                    byteThat
+                    charThat
+                contains字符串包含指定字符串
+                description函数：验证失败输出
+        verify
+            verify(T mock)函数
+                修饰
+                    never()函数  未发生
+                    only()函数
+                    time(int wantedNumberOfInvocations)函数  调用次数
+                    timesout(long millis) 一端时间后触发
+                方法详情
+                    after给定时间后验证
+                    atLeast至少x次验证
+                    atLeastOnce
+                    atMost
+                    calls
+            verifyNoMoreInteractions(Object… mocks)函数
+            inOrder函数
+        then
+            定制返回值thenreturn
+            定制异常
+                thenThrow()
+        do模拟期望的结果
+            mock函数
+            mockingDetails函数
+            doAnswer函数
+            doCallRealMethod函数
+            doNothing函数
+            doReturn函数
+            doThrow函数
+                定制异常
+            validateMockitoUsage()函数
+        stub(T methodCall)函数打桩：和when的功能类似
+            ignoreStubs函数
+            3. 如何做一些测试桩 (Stub)
+            11. 为连续的调用做测试桩 (stub)
+            12. 为回调做测试桩
+            15. 修改没有测试桩的调用的默认返回值 ( 1.7版本之后 )
+    两个逻辑
+        dowhen
+        whendo
+        verfity do
+        stub
+    中文文档
+        目录
+            弃用
+                reset(T… mocks)函数
+                stubVoid(T mock)函数
+            功能
+                状语
+                    5. 验证函数的确切、最少、从未调用次数
+                    6. 为返回值为void的函数通过Stub抛出异常
+                    7. 按照顺序验证执行结果
+                8. 确保交互(interaction)操作不会执行在mock对象上
+                9. 查找冗余的调用
+                14. 监控真实对象
+                简化
+                    10. 简化mock对象的创建
+            1.8
+                16. 为下一步的断言捕获参数 (1.8版本之后)
+                17. 真实的局部mocks (1.8版本之后)
+                18. 重置mocks对象 (1.8版本之后)
+                19. 故障排查与验证框架的使用 (1.8版本之后)
+                20. 行为驱动开发的别名 (1.8版本之后)
+                21. 序列化mock对象
+                22. 新的注解 : @Captor,@Spy,@ InjectMocks (1.8.3版本之后)
+                23. 验证超时 (1.8.5版本之后)
+            1.9
+                24. 自动初始化被@Spies, @InjectMocks注解的字段以及构造函数注入 (1.9.0版本之后)
+                25. 单行测试桩 (1.9.0版本之后)
+                26. 验证被忽略的测试桩 (1.9.0版本之后)
+                27. mock详情 (1.9.5版本之后)
+                28. delegate调用真实的实例 (1.9.5版本之后)
+                29. MockMaker API (1.9.5版本之后)
+            1.10
+                30. BDD风格的验证 (1.10.0版本之后)
+                31. 追踪或者Mock抽象类 (1.10.12版本之后)
+                32. Mockito mock对象通过ClassLoader能被序列化/反序列化 (1.10.0版本之后)
+                33. deep stubs更好的支持泛型 (1.10.0版本之后)
+                34. Mockito JUnit 规则 (1.10.17版本之后)
+                35. 开/关插件 (1.10.15版本之后)
+            2.0.0
+                36. 自定义验证失败消息 (2.0.0版本之后)
+    主题

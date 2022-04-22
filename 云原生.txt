@@ -1,0 +1,26 @@
+云原生
+    云原生原理
+        DevOps 持续集成交付部署
+            技术链
+            优秀博客
+                https://blog.csdn.net/qwefgh123321/article/details/103861006
+        服务网络 Service Mesh
+            在复杂的交互场景当中，通过 服务网格（Service Mesh） 实现对应用服务的治理，主要是对服务间的通讯进行管控。
+        应用架构层面
+            Microservices微服务架构
+            Serverless无服务器架构
+        容器编排
+            Kubernetes
+        容器docker
+        云cloud
+            云服务模型
+                Saas(软件即服务)
+                    用户只要接上网络，并通过浏览器，就能直接使用在云端上运行的应用，而不需要顾虑类似安装等琐事，并且免去初期高昂的软硬件投入。SaaS主要面对的是普通的用户。
+                Paas(平台即服务)
+                    PaaS是构建在 IaaS 之上的一种平台服务，提供操作系统安装、监控和服务发现等功能，用户只需要部署自己的应用即可。PaaS主要的用户是开发人员。
+                IaaS(基础架构即服务)
+                    是服务器租赁并提供基础设施外包服务。IaaS主要的用户是系统管理员。
+    Landscape图 &amp; 路线图
+        https://landscape.cncf.io
+    云原生社区
+        https://cloudnative.to/

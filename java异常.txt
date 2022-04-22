@@ -1,0 +1,85 @@
+异常
+    使用
+        throws局限
+             如果父类中被重写的方法没有throws方式处理异常，则子类重写的方法也不能使用throws
+                意味着如果子类重写的方法中有异常，必须使用try-catch-finally方式处理
+            执行的方法a中，先后又调用了另外的几个方法，这几个方法是递进关系执行的。
+        try-catch-finally
+            而执行的方法a可以考虑使用try-catch-finally方式进行处理
+            不针对运行异常编写   
+            针对于编译时异常
+        注意事项
+            catch
+                catch中的异常类型如果满足子父类关系，则要求子类一定声明在父类的上面。否则，报错
+            throws
+                子类重写的方法抛出的异常类型不大于父类被重写的方法抛出的异常类型
+            finally里面
+                1.在所有其他的错误过程发生之后被无条件执行的语句
+                2.可以在异常发生或未发生的之后无条件释放资源。
+                3.包含异常处理程序和清理代码。
+    8、异常处理
+        spring的异常
+            实现方法
+                要处理异常的话，需要实现HandlerExceptionResolver这个接口类，并且重写resolveException方法，在resolveException方法中处理自己的异常逻辑。
+            全局处理器
+                /spring-shiro-training/src/main/java/com/wangzhixuan/commons/scan/ExceptionResolver.java
+                继承HandlerExceptionResolver，并添加注解@Component交给Spring处理
+                resolveException方法里面需要做的事情
+                    使用log4j2记录异常，把异常信息记录到日志里面，方便查看日志找出问题
+                    判断方法是否是异步请求
+                    异步请求应该返回json数据并弹窗提示，同步请求返回到错误页面
+            web.xml
+                <error-page>
+                <error-code>404</error-code>
+                <location>/WEB-INF/views/error/404.jsp</location>
+                </error-page>
+                <error-page>
+                <error-code>500</error-code>
+                <location>/WEB-INF/views/error/500.jsp</location>
+                </error-page>
+                web项目的简单异常指引，一般来说有了异常处理之后可以不配这这个。
+        异常处理方式 ① String getMessage() ② printStackTrace()区别
+        try-catch-finally:真正的将异常给处理掉了
+         throws的方式只是将异常抛给了方法的调用者。  并没有真正将异常处理掉
+        throws和thow区别
+        日志和打印的区别
+            System.out.println()是指输出信息到控制台，不会记录到日志文件里面
+            在生成环境中，一般每天会生成一个日志文件，记录系统的运行信息
+    异常使用机制
+        机制1：try-catch-finally
+            throw new Exception("您输入的数据非法！")
+            finally是可选的。
+            效果
+                是得程序在编译时就不再报错，但是运行时仍可能报错
+        机制2：throws
+            效果
+                一旦当方法体执行时，出现异常
+                仍会在异常代码处生成一个异常类的对象，
+                此对象满足throws后异常类型时，就会被抛出
+                异常代码后续的代码，就不再执行！
+    常见的异常
+        error
+            Error: Java虚拟机无法解决的严重问题。
+            子主题
+                - `OutOfMemoryError`：内存耗尽
+                - `NoClassDefFoundError`：无法加载某个Class
+                - `StackOverflowError`：栈溢出
+        exception
+            IOexception受检异常
+                编译时异常
+                    是指编译器不要求强制处置的异常。
+                        一般是指编程时的逻辑错误，是程序员应该积极避免其出现的异常。java.lang.RuntimeException类及它的子类都是运行时异常。
+                    对于这类异常，可以不作处理，
+                        因为这类异常很普遍，若全处理可能会对程序的可读性和运行效率产生影响
+                子主题
+                    - `FileNotFoundException`：未找到文件
+                    - `SocketException`：读取网络失败
+            runtimeException非会受检异常
+                运行时异常
+                    是指编译器要求必须处置的异常。
+                        即程序在运行时由于外界因素造成的一般性异常。编译器要求Java程序必须捕获或声明所有编译时异常
+                    对于这类异常，如果程序不处理，可能会带来意想不到的结果
+                子主题
+                    - `IndexOutOfBoundsException`：数组索引越界
+                    - NullPointerException`：对某个`null`的对象调用方法或字段
+                    - `NumberFormatException`：数值类型的格式错误

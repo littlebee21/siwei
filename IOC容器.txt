@@ -1,0 +1,239 @@
+操作Bean
+操作BeanDefinition
+IOC容器
+    中文手册
+        功能
+        原理
+        组成
+        使用
+    IOC组成
+        IOC依赖注入容器源代码
+            Spring可扩展接口
+                1.FactoryBean
+                    AOP的基础bean，spring在IOC初始化的时候，一般的bean都是直接调用构造方法，如果该bean实现了FactroyBean接口则会调用该bean的getObject方法获取bean，这也是Spring使用此接口构造AOP的原因，在IOC调用此方法时返回一个代理，完成AOP代理的创建
+                2.BeanPostProcessor
+                    在每个bean初始化完成前后做操作
+                    方法：postProcessBeforeInitialization在bean初始化之前调用
+                    方法：postProcessAfterInitialization在bean初始化之后调用
+                3.InstantiationAwareBeanPostProcessor
+                    在bean实例化前后做一些操作，继承BeanPostProcessor，增加了3个方法
+                    Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName)
+                        实例化之前调用
+                    boolean postProcessAfterInstantiation(Object bean, String beanName)
+                        实例化之后调用
+                    PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName)
+                        在处理bean属性之前调用
+                    实例化在初始化之前
+                4.Aware
+                    自定义的主键想要使用spring容器底层的一些组件（ApplicationContext，BeanFactory）;自定义的组件实现xxxAware；在创建对象的时候，会调用接口规定的方法注入相关组件
+                    1.BeanNameAware
+                    2.ApplicationContextAware
+                    3.BeanFactoryAware
+                    4.EmbeddedValueResolverAware
+                5.BeanFactoryPostProcessor
+                    Spring允许在bean创建之前，读取bean的元属性，并根据自己的需求对元属性进行修改，如将bean的scope从sinogleton改变为prototype
+                    void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
+                6.InitializingBean
+                    继承该接口的类，在初始化bean之前会执行afterPropertiesSet()方法
+                    void afterPropertiesSet()
+                7.DisposableBean
+                    继承该接口的类，在销毁bean之前会调用destroy()方法
+                    void destroy()
+            Bean
+                简单的POJO对象
+                    初始化和销毁方法
+                        自定义init-method和destroy-method方法并在@Bean中配置
+                        实现InitializingBean 和DisposableBean接口
+                        使用JSR250注解@PostConstruct和@PreDestroy
+                        BeanPostProcessor后置处理器
+                    实例化Bean
+                        构造函数
+                        静态工厂方法
+                        实例工厂方法
+                    依赖注入
+                        构造方法注入
+                        setter注入
+                        注入方式
+                            XML配置
+                                <property/>
+                                <constructor-arg/>
+                            注解配置
+                                @Autowired注解
+                                    Spring自带注解，默认按照类型匹配的若按名称匹配，配合@Qualifier
+                                @Inject
+                                    JSR330规范，默认按照类型匹配的若按名称匹配，需要配合@Name
+                                @Resource
+                                    JSR250规范，默认按照名称匹配
+                    懒加载
+                        当容器请求Bean的时候再进行加载
+                            XML方式：lazy-init=true
+                            注解方式：@Lazy
+                    Scope作用域
+                        单例Bean使用原型Bean引用问题只创建一次Bean，返回的是单例Bean
+                            查找方法注入
+                                基于CGLib的动态代理
+                                    XML方式：lookup-method 
+                                    注解作用在方法上：@Lookup( beanName)
+                            方法注入
+                                实现ApplicationContextAware接口，每次获取原型bean时，调用getBean()方法得到一个新的bean。
+                            不再使用自动装配Bean通过getObject方法获取
+                        6种不同作用范围的Bean
+                            singleton
+                            prototype
+                            常用
+                            request
+                            session
+                            application
+                            websocket
+                            仅在WebApplication容器中使用
+            Aware感知接口
+                实现了该接口的Bean可以操控容器获取自己需要的属性和依赖
+                    ApplicationContextAware
+                    BeanNameAware
+                    BeanFactoryAware
+            Environment接口
+                profiles：偏好环境设置
+                    @Profile
+                        作用在配置类上
+                    激活 Profile
+                        spring.profiles.active
+                        ctx.getEnvironment().setActiveProfiles("环境");
+                        spring-test模块的@ActiveProfiles注解声明
+                properties：属性文件
+                    @PropertySource
+            可扩展点
+                BeanPostProcessor接口
+                    操作Bean
+                    postProcessBeforeInitialization（）
+Bean实例化完毕（注入完毕），
+afterPropertiesSet或自定义init方法执行之前
+                    postProcessAfterInitialization（）
+Bean实例化完毕（注入完毕），
+afterPropertiesSet或自定义init方法执行之后
+                    InstantiationAwareBeanPostProcessor
+前面的子接口，Bean实例化时的后置处理器
+                        postProcessBeforeInstantiation（）
+Bean实例化之前调用
+                        postProcessAfterInstantiation（）
+Bean实例化之后调用
+                        postProcessPropertyValues（）
+对属性值进行修改
+                BeanFactoryPostProcessor
+                    操作BeanDefinition
+                    BeanDefinition加载完成之后，Bean实例化之前，
+对加载的BeanDefinition进行修改
+                FactoryBean
+                    用于自定义bean的初始化，对bean的创建、初始化有完全的控制权
+用于创建复杂的Bean
+            问题
+                 ApplicationContext和BeanFactory的区别？
+                如何解决循环依赖？
+                    单例setter循环依赖
+                        解决方式：Spring通过提前曝光机制，利用三级缓存解决循环依赖
+                    构造器的循环依赖无法解决
+                        spring的三级缓存解决的是实例化之后属性赋值的循环依赖，构造器被调用是在实例化之前，所以无法解决构造器的循环依赖
+                    原型模式循环依赖无法解决
+                        多例没有使用缓存
+                线程安全问题：单例Bean线程不安全
+                    把不安全的变量封装进ThreadLocal，每个线程都保留一份独立的副本
+                    不使用成员变量，方法是安全的，因为每个线程有独立的栈空间
+                    使用原型Bean，每次调用都会生成一个新的Bean
+        元数据BeanDefinition
+            确定如何实例化Bean、管理Bean之间的依赖关系以及管理Bean，这就需要配置元数据，在Spring中由BeanDefinition代表
+    IOC原理
+        1.以xml配置方式，简单解释
+        2.准备配置文件
+            配置文件中声明Bean定义也就是为Bean配置元数据。
+        3.由IoC容器进行解析元数据
+            IoC容器的Bean Reader读取并解析配置文件，根据定义生成BeanDefinition配置元数据对象，IoC容器根据BeanDefinition进行实例化、配置及组装Bean
+        4.实例化IoC容器
+            由客户端实例化容器，获取需要的Bean
+    如何使用
+        1.在xml文件中编写beans文件
+            IOC的代码内容
+                Spring属性注入 DI
+                    applicationContext.xml已经很少使用
+                        基于注解的配置xml文件
+                            annotation自动注册bean
+                            自动装配Bean
+                                no
+                                    默认方式，手动装配方式，需要通过ref设定bean的依赖关系
+                                byName
+                                    根据bean的名字进行装配，当一个bean的名称和其他bean的属性一致，则自动装配
+                                byType
+                                    根据bean的类型进行装配
+                                        当一个bean的属性类型与其他bean的属性的数据类型一致，则自动装配
+                                constructor
+                                    根据构造器进行装配
+                                        如果bean的构造器有与其他bean类型相同的属性，则进行自动装配
+                                autodetect
+                                    如果有默认构造器，则以constructor方式进行装配，否则以byType方式进行装配
+                        组成
+                            Bean的配置
+                                bean的属性
+                                    id和name
+                                    Spring容器中的Bean的生命周期
+                                    Spring的完整生命周期
+                                复杂类型的属性注入
+                    @注解的实现
+                        @Configuration
+                            @Bean
+                                initMethod
+                                destroyMethod
+                            @Lazy
+                                指定延迟初始化
+                            @Scope
+                                指定作用域
+                        @Autowired调用/注入
+                            按照类去匹配
+                        @Qualifier指定按照名称去装配 bean
+                        @Resource
+                        @Inject
+                spring依赖注入IOC
+                    注入方式
+                        setter 方法注入
+                        构造器注入
+                        静态工厂方法注入
+                        实例工厂方法注入
+                        注解注入
+                            @Autowired
+                                构造器注入
+                                字段注入
+                                方法参数注入
+                            @Required
+                            @Qualifier
+                            @Resource
+                            @Configuration
+                            @Bean
+            基于xml的IOC案例
+            基于注释的IOC案例
+            XML配置与注解的整合开发
+        2.创建spring的工厂
+            IOC模块提供的class类
+        3.通过工厂获得类
+        4.调用该类的方法
+            注入方式
+                XML配置
+                    <property/>
+                    <constructor-arg/>
+                注解配置
+                    @Autowired注解
+                        Spring自带注解，默认按照类型匹配的
+            若按名称匹配，配合@Qualifier
+                    @Inject
+                        JSR330规范，默认按照类型匹配的
+            若按名称匹配，需要配合@Name
+                    @Resource
+                        JSR250规范，默认按照名称匹配
+            不再使用自动装配Bean
+            通过getObject方法获取
+            常用
+            仅在WebApplication容器中使用
+            InstantiationAwareBeanPostProcessor
+            前面的子接口，Bean实例化时的后置处理器
+                postProcessBeforeInstantiation（）
+            Bean实例化之前调用
+                postProcessAfterInstantiation（）
+            Bean实例化之后调用
+                postProcessPropertyValues（）
+            对属性值进行修改

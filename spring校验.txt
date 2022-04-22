@@ -1,0 +1,48 @@
+校验
+    springboot springmvc的校验框架
+        Hibernate Validator提供的校验注解：  
+            @NotBlank(message =)   验证字符串非null，且长度必须大于0    
+            @Email  被注释的元素必须是电子邮箱地址    
+            @Length(min=,max=)  被注释的字符串的大小必须在指定的范围内    
+            @NotEmpty   被注释的字符串的必须非空    
+            @Range(min=,max=,message=)  被注释的元素必须在合适的范围内
+            使用方法
+                2、基于Validator接口形式的数据校验
+                 2、基于注解形式的数据校验
+                3，自定义注解校验
+                    编写一个自定义的校验注解
+                    编写一个自定义的校验器 ConstraintValidator
+                    关联自定义的校验器和自定义的校验注解
+        后端JSR303校验
+            添加校验注解 javax.validation.constraints，定义自己的校验规则。
+            Controller @Valid，校验的Bean之后添加BindingResult可以获得校验结果。
+            编写异常处理类，@RestControllerAdvice，使用ExceptionHandler标注方法可以处理的异常。
+        JSR分组校验
+            创建标记接口,
+                public interface UpdateGroup{}
+                public interface AddGroup{}
+            jsr提供的数据校验形式
+                JSR提供的校验注解：         
+                @Null   被注释的元素必须为 null    
+                @NotNull    被注释的元素必须不为 null    
+                @AssertTrue     被注释的元素必须为 true    
+                @AssertFalse    被注释的元素必须为 false    
+                @Min(value)     被注释的元素必须是一个数字，其值必须大于等于指定的最小值    
+                @Max(value)     被注释的元素必须是一个数字，其值必须小于等于指定的最大值    
+                @DecimalMin(value)  被注释的元素必须是一个数字，其值必须大于等于指定的最小值    
+                @DecimalMax(value)  被注释的元素必须是一个数字，其值必须小于等于指定的最大值    
+                @Size(max=, min=)   被注释的元素的大小必须在指定的范围内    
+                @Digits (integer, fraction)     被注释的元素必须是一个数字，其值必须在可接受的范围内    
+                @Past   被注释的元素必须是一个过去的日期    
+                @Future     被注释的元素必须是一个将来的日期    
+                @Pattern(regex=,flag=)  被注释的元素必须符合指定的正则表达式    
+            注解分组@NotBlank(message = "品牌名不能为空", groups = {AddGroup.class, UpdateGroup.class})
+            Controller添加@Validated({UpdateGroup.class})
+            默认没有指定分组的校验注解，在分组校验情况下不生效。
+    全局异常处理
+        ApiException
+        断言处理类Asserts
+        GlobalExceptionHandler
+    两种同时使用
+        比如简单的参数校验使用Hibernate Validator来实现，
+        而一些涉及到数据库操作的复杂校验使用全局异常处理的方式来实现。

@@ -1,0 +1,15 @@
+gateway
+    服务网关
+        Gateway
+        简介
+        入门配置
+        动态配置
+        功能
+            route路由
+            Gateway:Predicate断言
+            Gateway:Filter过滤
+    快速使用流程
+        引入依赖
+        编写yml路由配值和nacos的地址
+        启动网关 - GatewayApplication
+        通过网关访问服务

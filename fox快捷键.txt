@@ -1,0 +1,38 @@
+foxit快捷键
+
+
+
+一、文档
+打开 Ctrl+O
+保存 Ctrl+S
+打印 Ctrl+P
+关闭 Ctrl+W
+
+二、内容
+复制 Ctrl+C
+粘贴 Ctrl+V
+撤销 Ctrl+Z
+
+
+
+
+
+三、视图
+    首页Home
+    页码 Ctrl+G
+    末页 End
+常用 阅读模式 Ctrl+H
+常用 打开高级搜索功能更 ctrl+shift+f
+
+放大 Ctrl++
+缩小 Ctrl+-
+
+Bookmark Alt + 1
+添加书签 Ctrl+B
+偏好设置 Ctrl+K
+查找框 Ctrl+F
+
+四、注释
+导出全部注释 Ctrl+L
+导出高亮文本 Ctrl+I
+显示所有注释 Ctrl+8

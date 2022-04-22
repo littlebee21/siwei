@@ -1,0 +1,46 @@
+代码生成
+    c语言
+        Matlab/Simulink, 
+        Dspace的Tagetlink着重生成适用于目标mcu的C代码
+    html代码生成
+    后端代码生成的内容
+    数据库表crud
+        综合代码生成工具
+            人人代码生成
+            tablego
+            spring boot code generator
+        Mybatis generator
+            mybatis-generator-core
+        mybatisplus代码生成
+            mybatisplus代码生成
+                配置代码内容
+                    全局配置
+                    数据源配置
+                    包配置
+                    自定义配置
+                    模板引擎配置
+                    策略配置
+            mybatisplus自带的代码生成工具
+            网页在线代码生成
+            客户端代码生成
+                mybatis-generator-gui
+            idea插件
+                idea的mybatisplus生成插件
+                idea插件esayCode自动生成代码(代码生成器)
+    代码生成的原理
+        1，根据ftl的模板文件留坑
+        2，根据json文件设置土
+            自定义组件
+            自定义项目结构
+            自定义参数
+        3，根据java代码填坑
+    分工
+        不重复代码：放行
+            算法
+            函数式编程
+        部分重复代码：签字
+            用json文件提取出不同的代码
+        完全重复代码：勤务
+            可以被取代的工作
+        机器的分工
+            然而是机器就需要进化和迭代

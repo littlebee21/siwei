@@ -1,0 +1,169 @@
+spring面试
+    spring常见问题总结
+        相关设计模式
+            1.单例模式
+                实现方式
+                    Spring依赖注入Bean实例默认是单例的
+            2.工厂模式
+                实现方式
+                    静态工厂
+                        beanFactory
+                    工厂模式
+                        factoryBean
+            3.代理模式
+                实现方式
+                    AOP中的JDK动态代理和CGLib
+            4.适配器模式
+                实现方式
+                    SpringMVC中的适配器HandlerAdatper
+                实现原理
+                    HandlerAdatper根据Handler规则执行不同的Handler
+            5.装饰器模式
+                实现方式
+                    Spring中用到的包装器模式在类名上有两种表现：一种是类名中含有Wrapper，另一种是类名中含有Decorator。
+            7.观察者模式
+                实现方式
+                    spring的事件驱动模型使用的是 观察者模式 ，Spring中Observer模式常用的地方是listener的实现
+                具体实现
+                    事件机制的实现需要三个部分,事件源,事件,事件监听器
+            8.策略模式
+                实现方式
+                    Spring框架的资源访问Resource接口 。该接口提供了更强的资源访问能力，Spring 框架本身大量使用了 Resource 接口来访问底层资源
+            9.模板方法模式
+            参考博客(写的很详细很棒)
+                https://blog.csdn.net/aa1215018028/article/details/81703900
+    8. Spring事务
+        使用
+            8.1 Spring管理事务的方式有几种？
+                84@ Transactiona（ rollbackFor= EXception class）注解了解吗
+            8.2 Spring事务中的隔离级别有哪几种？
+            spring的事务传播机制
+            Spring 事务底层原理是什么？如何自定义注解实现功能？
+        原理
+            83 Spring事务中哪几种事务传播行为？
+            难：spring事务的实现方式原理
+            spring事务什么时候会失效
+                aop的失效
+            spring多线线程事务能否保证数据的一致性
+    JPA
+        9.1如何使用JPA在数据库中非持久化一个字段？
+        12.Spring 支持哪些 ORM 框架？
+    Spring Aop
+        使用
+            在javaconfig中如何使用aop，
+        原理
+            aop的几种实现方式
+                解析切面
+                42 Spring AOP和 AspectJ AOP有什么区别？
+                1.Spring AOP 实现原理,什么是 Aspect？
+            54、Spring的AOP是在哪里创建的
+            aop什么时候会失效
+                动态代理
+                事务什么时候会失效
+            动态代理
+            5.指出在 Spring Aop 中 concern 和 cross-cutting concern 的不同之处。
+    Spring IOC
+        原理
+            bean的循环依赖
+                构造器方式无法解决，只能抛出异常
+                    因为加入singletonFactories三级缓存的前提是执行了构造器(因为要先构建出对象)，所以构造器的循环依赖没法解决。
+                多例方式无法解决，只能抛出异常
+                    因为Spring容器不缓存"prototype"作用域的bean，因此无法提前暴露一个创建中的bean。 
+                单例模式可以解决
+                    通过三级缓存解决
+                    在createBeanInstance()之后会调用addSingleton()方法将bean注册到singletonFactories中
+                    通过提前暴露一个单例工厂方法，从而使其他bean能够引用到该bean/提前暴露一个正在创建中的bean
+            bean线程安全问题
+                spring如何帮我们在并发下避免获取不完全的bean
+                52 Spring中的单例bean的线程安全问题了解吗？
+                spring如何处理线程并发问题
+            懒加载
+            工厂+ 反射 的方式 作为实现方式
+        5.Spring 中有多少种 IOC 容器？
+            beanfactory和ApplicationContext区别
+            11.什么是基于注解的容器配置？如何在 spring 中启动注解装配？
+        概念相关
+            51 Spring中的bean的作用域有哪些？
+                单例bean的优势
+            10.什么是 spring 的内部 bean？
+            紧耦合和松耦合的区别
+    bean生命周期
+        确定ioc容器和扫描xml形式的bean
+            装配方式（依赖注入的具体行为）
+                基于注解的自动装配
+                    实现方式
+                        注解
+                            @Autowired
+                                1.优先按照byType方式进行查找
+                                2.如果查询的结果不止一个，而且没有设置名称的话，那么会报错。
+                                3.否则@Autowired会按照byName方式来查找。
+                                　4.如果查询的结果为空，那么会抛出异常。可使用required=false解决
+                            @Resource
+                                1.默认按照byName方式进行装配，名称可以通过name属性进行指定
+                                2. 如果没有指定name属性，当注解写在字段上时，默认取字段名进行按照名称查找，如果注解写在setter方法上默认取属性名进行装配。
+                                3. 当找不到与名称匹配的bean时才通过byType进行装配。但是需要注意的是，如果name属性一旦指定，就只会按照名称进行装配。
+                                4.只指定@Resource注解的type属性，则从上下文中找到类型匹配的唯一bean进行装配，找不到或者找到多个，都会抛出异常。
+                        自动扫描(component-scan)
+                            标签将会开启Spring Beans的自动扫描，并可设置base-package属性，表示Spring将会扫描该目录以及子目录下所有被@Component标注修饰的类，对它们进行装配。 
+                基于XML配置的显式装配
+                基于Java配置的显式装配
+                    能够在编译时就发现错误
+            bean有哪些配置方式
+                javaconfig如何替代xml的方式
+                    beanDefinitionRegistryPostProccess
+                    ConfigurationClassParsers配置类解析器
+            @import的使用方式
+            @configuration的作用
+                bean之间的方法调用是怎么保证单例的
+            @Autowired的自动装配过程
+        BeanDefinition的加载过程
+            bean的生产顺序
+            beanDefinition的作用
+                beandefinitionMap
+        BeanFactory的作用
+            beanfactory构造
+        存放二级缓存
+        进入ioc容器
+            实例化
+                实例化bean有几种方式
+            no ioc 纯静态
+            初始化
+                装配配置属性
+                    手动装配和自动装配的区别
+                    什么的是bean的自动装配，有哪些方式
+                        springboot自动配置方式
+                    自动装配限制麻
+                    自动装配有几种
+                    如何让自动注入没找到依赖不报错
+                    如何让自动注入找到多个依赖不报错
+                    要将一个第三方的类配置成bean有哪些方法
+                    为什么componentScan 不设置basePackage也会被扫描
+                实现控制反转--依赖注入
+                    构造器方式注入
+                        构造器依赖注入通过容器触发一个类的构造器来实现的，该类有一系列参数，每个参数代表一个对其他类的依赖。
+                        使用构造器注入的好处
+                            1.保证依赖不可变（final关键字）
+                            2.保证依赖不为空
+                                实例化Controller的时候，由于自己实现了有参数的构造函数，所以不会调用默认构造函数，那么就需要Spring容器传入所需要的参数，这样保证了依赖不为空
+                            3.避免循环依赖
+                                在构造器注入传入参数时，比如在A中注入B，在B中注入A。先初始化A，那么需要传入B，这个时候发现需要B没有初始化，那么就要初始化B，这个时候就出现了问题，会排除循环依赖错误，而使用filed注入方式则只能在运行时才会遇到这个问题
+                    setter方法注入
+                        之所以叫setter方法注入，因为这是通过找到类的对应的setter方法，再进行相应的注入
+                        Setter方法注入是容器通过调用无参构造器或无参static工厂方法实例化bean之后，调用该bean的setter方法，即实现了基于setter的依赖注入。
+                    自动注入
+                        byname
+                        bytype
+                初始化之后
+                    判断是否复合生产标准
+                        beanPostProcessor后置处理器
+                            如何在sprign所有bean创建完之后扩展
+                            29、如何在所有BeanDefinition注册完成后做扩展
+                            生命周期回调方法
+                                P注释的方式
+                                接口的方式
+                                属性的方式
+                        11、SpringIoC的扩展点及调用时机
+        ioc ok 成熟态
+            singletonObjects成熟态
+        存放到一级缓存
+        销毁

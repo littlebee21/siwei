@@ -1,0 +1,151 @@
+elasticsearch 客户端java
+    springboot整合
+        SpringData-Elasticsearch
+        客户端
+            一类是TransportClient 为代表的ES原生客户端，
+            一种是以Rest Api为主的missing client，
+        4. SpringData-Elasticsearch
+            特点
+                继承即可使用
+                    Spring Data 的强大之处，就在于你不用写任何DAO处理，自动根据方法名或类的信息进行CRUD操作。只要你定义一个接口，然后继承Repository提供的一些子接口，就能具备各种基本的CRUD功能。
+                    其中ElasticsearchRepository接口功能最强大。该接口的方法包括：
+                根据方法名自动实现功能
+                    Spring Data 的另一个强大功能，是根据方法名称自动实现功能。
+                    比如：你的方法名叫做：findByTitle，那么它就知道你是根据title查询，然后自动帮你完成，无需写实现类。
+                    当然，方法名称要符合一定的约定：
+            4.1. 创建module
+                在gmall工程下创建一个模块：
+                引入依赖：
+                在application.properties中添加配置
+            4.2. 实体类
+                Spring Data通过注解来声明字段的映射属性，有下面的三个注解：
+                @Document
+                    作用在类，标记实体类为文档对象，一般有四个属性
+                        indexName：对应索引库名称
+                        type：对应在索引库中的类型
+                        shards：分片数量，默认5
+                        replicas：副本数量，默认1
+                @Id
+                    作用在成员变量，标记一个字段作为id主键
+                @Field
+                    作用在成员变量，标记为文档的字段，并指定字段映射属性：
+                    type：字段类型，取值是枚举：FieldType
+                    index：是否索引，布尔类型，默认是true
+                    store：是否存储，布尔类型，默认是false
+                    analyzer：分词器名称：ik_max_word
+            4.3. 创建索引及映射
+            4.4. Repository文档操作
+                4.4.1. 新增
+                4.4.2. 删除
+                4.5. 查询
+                    4.5.1. 基本查询
+                        查询一个：
+                    4.5.2. 条件查询
+                        准备一组数据：
+                            在UserRepository中定义一个方法：
+                        第一种写法：
+                            测试：
+                        第二种写法：
+                            测试：
+                    4.5.3. 自定义查询
+                        NativeSearchQueryBuilder：
+                            Spring提供的一个查询条件构建器，帮助构建json格式的请求体
+                        Page<item>
+                            ：默认是分页查询，因此返回的是一个分页的结果对象，包含属性：
+                            totalElements：总条数
+                            totalPages：总页数
+                            Iterator：迭代器，本身实现了Iterator接口，因此可直接迭代得到当前页的数据
+    一、High REST Client
+        Maven 依赖
+        client初始化：
+        RestHighLevelClient 实例依赖 REST low-level client builder
+        单文档 API：
+            1、Index API：
+                IndexRequest：
+                    getIndexRequest
+                Document Source
+                生成JSON文档
+                    自己动手
+                    使用Map
+                    将bean序列化
+                    使用Elasticsearch助手
+                    索引文档
+            2、GET API
+                参数
+                    Index
+                    Type
+                    Document id
+                GET 请求
+                Get Response
+            3、Exists API
+                Exists Request
+            4、Delete API
+                Delete Request
+            5、Update API
+                Update Request
+                Update Response
+                使用脚本更新
+                通过合并文档更新
+        多文档API
+            Multi-Get API
+                add("twitter", "tweet", "1")（通过单一id）
+                add("twitter", "tweet", "2", "3", "4")（或以相同index/type的id列表）
+                add("another", "type", "foo")（你也可以从另一个索引中得到）
+                MultiGetItemResponse itemResponse : multiGetItemResponses（迭代结果集）
+                response.isExists()（您可以检查文档是否存在）
+                response.getSourceAsString()（访问_source字段）
+            Reindex API
+            Update By Query API 不更改源的情况下更新索引文档
+                使用Task API
+                Rethrottling
+                过滤更新文档
+                直接访问选择文档的查询
+                大小与排序结合
+                使用脚本更改
+            Delete By Query API
+            6、Bulk API 批量处理
+                批量请求
+                使用Bulk处理器
+                    添加请求bulkProcessor 
+                        beforeBulk()
+                            此方法在执行bulk之前被调用，例如，您可以通过request.numberOfActions()查看numberOfActions
+                        afterBulk(...BulkResponse response)
+                            此方法在执行bulk之后被调用，例如，您可以通过response.hasFailures()检查是否存在失败请求
+                        afterBulk(...Throwable failure)
+                            当bulk失败并引发一个可抛出对象时，将调用此方法
+                        setBulkActions(10000)
+                            我们希望每10,000个请求就执行一次bulk
+                        setBulkSize(new ByteSizeValue(5, ByteSizeUnit.MB))
+                            我们希望每5MB就flush一次
+                        setFlushInterval(TimeValue.timeValueSeconds(5))
+                            无论请求的数量是多少，我们都希望每5秒flush一次
+                        setConcurrentRequests(1)
+                            设置并发请求的数量，值为0意味着只允许执行一个请求，在积累新的bulk请求时，允许执行一个值为1的并发请求
+                        setBackoffPolicy()
+                            设置一个自定义的备份策略，该策略最初将等待100ms，以指数形式增加并重试三次，当一个或多个bulk项目请求以EsRejectedExecutionException失败时，将尝试重试，该异常表明用于处理请求的计算资源太少，要禁用backoff，请传递BackoffPolicy.noBackoff()
+                    关闭Bulk Processor
+                    在测试中使用Bulk Processor
+                Bulk Response
+                Bulk Processor
+        7、Search APIs：
+            Search API
+            什么是 routing 参数?
+            SearchResponse
+            Search API 查询关系
+        8、全文查询 Full Text Queries
+            全文查询
+                Match
+                全文查询 API 列表
+                基于词项的查询
+                Term
+                Terms
+                Wildcard
+                基于词项 API 列表
+            复合查询
+                constant_score query
+                bool query
+                function_score query
+                boosting query
+                什么是复合查询？
+            特殊查询
+                Wrapper Query

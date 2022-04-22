@@ -1,0 +1,133 @@
+linux基础
+    原理
+        linux内核编译
+            代码运作流程
+            23_X Window System
+                历史
+                    创生
+                        时间
+                            1984年
+                        开发者
+                            麻省理工学院 MIT
+                        改版
+                            时间
+                                1987
+                            定名
+                                X11
+                        衍生
+                            项目
+                                XFree86
+                                    X+Free Software+x86硬件
+                                    早期 Linux 使用它作为窗口系统
+                                    后来由于授权问题不再提供开源服务
+                                Xorg
+                                    由 Xorg 基金会运营
+                                    在 新版 X11 基础上开发
+                                    提供开源许可证
+                                    替代 XFree86 用在 Linux 上作为窗口系统
+                C/S架构
+                    X Server
+                        Xorg Server
+                            管理客户计算机上的显卡、显示器、鼠标、键盘等硬件，并绘制 X Application 的GUI
+                    X Client
+                        指运行在被访问的（中心）计算机上的 X Applications
+                            X Applications 的例子
+                                xterm
+                                xclock
+                                wps
+                                typora
+                                它们都由一个称为 Window Manager 的 X Application 管理
+                    Xorg Server/Xorg Client既可以在同一台电脑上，也可以分离存在于通过网络连接的不同电脑上
+                启动 X Window System
+                    startx 脚本程序
+                        1. 查找 X Window System 的配置文件
+                            X Server
+                                1. 由 startx 命令行传入的 X Server 参数
+                                2.  无上述参数时，查找用户主目录中的 .xserverrc 配置文件
+                                3. 无以上配置文件时，查找/etc/X11/xinit/xserverrc 配置文件 
+                                4. 无以上配置文件时，执行 /usr/bin/X
+                                    读取 /etc/X11/xorg.conf这个配置文件 
+                                        现代 Linux 默认不提供这个配置文件，
+                                        由 X Server 运行时自动侦测系统硬件，
+                                        然后自行搭配最优化的驱动程序载入
+                                        可以手动创建这个文件，写入自己的
+                                        配置，以搭配自己的特殊硬件
+                                    还会读取 /etc/X11/xorg.conf.d/目录中的 .conf 配置文件
+                                        可以为每个特殊的硬件创建一个.conf文件
+                            X Client
+                                1. 由 startx 命令行传入的 X Client 参数
+                                2.  无上述参数时，查找用户主目录中的 .xinitrc 配置文件
+                                    这是一个脚本文件，它规定了 startx 启动的  X Clients 程序
+                                3. 无以上配置文件时，/etc/X11/xinit/xinitrc 配置文件 
+                                4. 无以上配置文件时，执行 /usr/bin/xterm
+                            X Server 默认启动 port 6000 与 X client 通信
+                                系统上可能有多个 X Window System，因此每个 X Server 会使用
+                                从 port 6000 开始的一个新端口 。启动 X 时的选项 X :0 对应 
+                                port 6000；X :1 对应 port 6001，以此类推 
+                        2. 使用 xinit 命令和上述配置参数启动 X Window System
+                            xinit
+                                载入 X Client
+                                    xterm -geometry +1+1 -n login -display :0
+                                        -geometry
+                                            规定 VTxxx 窗口优先使用的大小和位置
+                                        -n icon_name
+                                            指定 xterm 窗口的图标名
+                                        -display :0
+                                            这个选项指定xterm 将要与之通信的 X Server
+                                载入 X Server
+                                    X :0
+                                        :0 表示第 0 号的 X Server
+                                            它运行在系统的第一个控制台的默认显示器上
+                                    X :1
+                                        :0 表示第 1 号的 X Server
+                                            它运行在系统的第二个控制台的默认显示器上
+                    display manager
+                        按照 /usr/share/xsessions 中的 *.desktop 启动对应的 Desktop Envrionment
+            
+    管理
+        群组与用户
+        磁盘与硬件管理
+        磁盘配额与账号
+    linux的属性
+        Linux发行版本
+            组成部分
+                Linux操作系统的安装程序
+                应用软件
+                Linux操作系统内核
+                    3.0版以前
+                        稳定版
+                            主、次版本为偶数
+                        开发版
+                            主、次版本为奇数
+                    3.0版及以后
+                        主线版本
+                            滚动开发
+                            新主线版本出现后，旧版本
+                                结束开发
+                                长期维护版，继续开发维护，直到生命期结束
+                            https://www.kernel.org/release.html
+                                发布内核的版本信息
+                    内核版本
+                内核带有的工具
+            分类
+                RPM系列
+                    RedHat
+                    Fedora
+                    SUSE
+                    CentOS
+                    应用程序采用RPM二进制格式
+                deb系列
+                    Debian
+                    Ubuntu
+                    Mint
+                    应用程序采用deb二进制格式
+                其他
+                    Arch
+                    Gentoo
+                    Puppy
+                    应用程序采用其他打包格式
+        用户机制
+        linux内核版本
+            应用程序采用RPM二进制格式
+            应用程序采用deb二进制格式
+            应用程序采用其他打包格式

@@ -1,0 +1,351 @@
+python基础知识
+    python语言
+        分类
+            动态语言
+                动态语言
+                静态语言
+            解释型
+                解释型
+                编译型
+            强类型
+                强制类型语言
+                弱类型语言
+        设计特点
+            优美 清晰 简单
+            1开发效率高
+            2.可移植性好
+            3.可扩展性
+            4.可嵌入性
+        Python2与python3的区别
+            python2
+            python3
+        python的解释器
+            CPython
+            IPython
+            PyPy
+        Python的历史
+            1. 1989年圣诞节：Guido von Rossum开始写Python语言的编译器。
+            2. 1991年2月：第一个Python编译器（同时也是解释器）诞生，它是用C语言实现的（后面又出现了Java和C#实现的版本Jython和IronPython，以及PyPy、Brython、Pyston等其他实现），可以调用C语言的库函数。在最早的版本中，Python已经提供了对“类”，“函数”，“异常处理”等构造块的支持，同时提供了“列表”和“字典”等核心数据类型，同时支持以模块为基础来构造应用程序。
+            3. 1994年1月：Python 1.0正式发布。
+            4. 2000年10月16日：Python 2.0发布，增加了实现完整的[垃圾回收](https://zh.wikipedia.org/wiki/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8))，提供了对[Unicode](https://zh.wikipedia.org/wiki/Unicode)的支持。与此同时，Python的整个开发过程更加透明，社区对开发进度的影响逐渐扩大，生态圈开始慢慢形成。
+            5. 2008年12月3日：Python 3.0发布，它并不完全兼容之前的Python代码，不过因为目前还有不少公司在项目和运维中使用Python 2.x版本，所以Python 3.x的很多新特性后来也被移植到Python 2.6/2.7版本中。
+        Python的优缺点
+            1. 简单和明确，做一件事只有一种方法。
+            2. 学习曲线低，跟其他很多语言相比，Python更容易上手。
+            3. 开放源代码，拥有强大的社区和生态圈。
+            4. 解释型语言，天生具有平台可移植性。
+            5. 支持两种主流的编程范式（面向对象编程和函数式编程）都提供了支持。
+            6. 可扩展性和可嵌入性，可以调用C/C++代码，也可以在C/C++中调用Python。
+            7. 代码规范程度高，可读性强，适合有代码洁癖和强迫症的人群。
+            1. 执行效率稍低，因此计算密集型任务可以由C/C++编写。
+            2. 代码无法加密，但是现在很多公司都不销售卖软件而是销售服务，这个问题会被淡化。
+            3. 在开发时可以选择的框架太多（如Web框架就有100多个），有选择的地方就有错误。
+        Python的应用领域
+        python的解释器 和 代码机制
+            缓存机制及小数据池
+                缓存机制
+                小数据池
+            深浅拷贝
+            Ipython交互式调试器
+        从终端运行Python程序
+            搭建编程环境
+                开发环境
+                    linux
+                    windows
+                知识点
+                Windows环境
+                Linux环境
+                    编辑器sublime
+                macOS环境
+            确认Python的版本
+            编写Python源代码
+            运行程序
+            输入python进入交互环境
+            输入exit()
+    python的代码组成
+        符号
+            python的基本运算
+                算术运算
+                赋值运算
+                比较运算
+                逻辑运算
+                    与运算
+                    或运算
+                成员运算
+                身份运算
+                运算符优先级
+            注释
+            ：
+            负号
+        python交互模式的输入与输出
+            输入
+                raw_input()
+                input()
+            输出
+                repr()
+                print()
+        python的基础数据类型
+            int
+            bool
+                True
+                False
+            str
+                相关函数
+                1.取值
+                2.首字母大写s.capitalize
+                3.标题中除字母间隔的单词首字母大写s.title
+                4.大小写翻转
+                5.大小写转换
+                6.默认去除字符串首尾两端符号
+                7.字符串分割
+                8.连接
+                9.居中显示
+                10.查询索引
+                11.判断
+                12.格式化输出
+                13.开头结尾判断
+                14.计数
+                15.替换
+                16.公共操作方法
+            tuple
+            list
+                查
+                增
+                删
+                改
+                其它
+                增：
+                    list.append(object)             追加一个元素
+                    list.insert(index,object)       选择插入
+                    list.extend(iterable)           迭代追加
+                删：
+                    list.pop(index)                 默认从右删，加索引指定删除
+                    list.remove(object)             根据元素值删
+                    list.clear()                    清空列表
+                    del list[index]                 索引删除
+                    del list[start:end:count ]      切片删除
+                    del list                        删除列表
+                改
+                    list[index]=object              索引更改单个元素
+                    list[start:end]=iterable        切片迭代更改
+                    list[atart:end:n]=iterable      加步长必须一一对应迭代更改
+                查
+                    list[index]
+                    list[start:end:n]
+                    for   in    遍历
+                其它方法
+                    list.index(object,start,end)     查找索引，可切片
+                    len(list)                        列表长度
+                    list.count(object)               统计元素个数
+                    list.sort(reverse=True)          int型元素排序，默认从小到大
+                    list.reverse()                   列表元素翻转
+            dict
+                增
+                删
+                改
+                查
+                其它
+                字典的遍历
+            set
+            各种数据类型之间对比
+            基本数据类型的转换
+        常量和变量
+            变量
+                变量命名规则
+                变量思想
+            常量
+        python的程序结构
+            顺序结构
+            选择结构
+                两种选择 可选
+                两种选择 二选一
+                多种选择 可选
+                多种选择 多选一
+                嵌套
+            循环结构
+                while
+                    while...break
+                    while...continue
+                    while....else..
+                for
+        算法&数据结构
+            常用算法
+                lowB三人组
+                    冒泡排序
+                    选择排序
+                    插入排序
+                NB三人组
+                    快排
+                    堆排
+                    归排
+                算法常识
+                    时间复杂度/空间复杂度/稳定性
+                    二分查找
+                    递归
+            数据结构
+                栈
+                队列
+                链表
+                    单向链表
+                    单向链表反转
+                数组
+                字典实现原理
+                    哈希表
+                    哈希函数
+                树
+                    二叉树、满二叉树、完全二叉树
+                    hash树
+                    B-tree/B+tree
+        python函数 
+            函数三要素
+                传递参数
+                    参数传递
+                        可变对象
+                        不可变对象
+                        处理参数传递的形式
+                            形式1：值传递
+                            形式2：指针传递
+                        检查参数传递类型的方法
+                        参数传递方法
+                            关键字传递
+                            位置传递
+                            包裹传递
+                                解包裹
+                    参数
+                        按参数类型分类
+                            必须参数
+                            默认参数 
+                            可变参数
+                        按传递方式分类
+                            位置传递参数
+                            关键字传递参数
+                            包裹传递参数
+                                包裹位置参数
+                                包裹关键字参数
+                返回值
+                函数的变量作用域
+            匿名函数
+                表达式：lambda[arg1[,arg2,....argN]]:expression
+                匿名函数的使用
+                    方法1 赋值给一个变量调用
+                    方法2 作为返回值返回
+            reduce
+            偏函数
+            返回回调函数
+            递归函数
+            python内置函数
+        三器
+            迭代器
+            生成器
+            装饰器
+        python面向对象
+            面向对象
+                主要目的
+                    提高程序的重复使用性
+                核心思想：相近对象 归为类class
+                设计思想
+                    根据class创建实例
+                面向对象和面向过程的对比
+                三大特点
+                数据成员：类变量 和 实例变量
+                方法
+            对象组织结构
+                基本结构
+                    类class
+                        类的属性 attribute
+                            数据属性
+                            内置(特殊)类属性
+                            属性分类
+                                私有属性
+                                基本属性
+                            变量
+                                特殊变量
+                                私有变量
+                                不可随意访问变量
+                        类的方法 method
+                            方法分类
+                                私有方法
+                                专有方法
+                                公有方法
+                                普通方法
+                        类的参数
+                        类的初始化方法_init_(self,...)
+                    实例对象
+                类的使用
+                    创建类对象                                         class classname（base）：              class document string class_suite
+                    创建实例对象  summer=Bird()
+                    创建对象属性 和 方法                       class Bird(object):                                   have feather=True                                     def move(self.dx.dy);
+                    属性的引用 summer.have_feather
+                    方法的引用 summer.move(x,y)
+                    类的初始化 def_init_(self,name,salary):
+                实例的使用
+                    变量访问：获取内部属性
+                    变量访问：外部代码修改
+            继承
+                基类
+                    基类的init()
+                    调用基类的实现过程
+                    调用基类的方法：
+                        加上积累的类名前缀 self
+                        带上self参数变量
+                多重继承
+                继承的使用 class SubClassName(Parentclass1):
+            多态
+                多态的原则
+            BIF
+    python代码框架
+        python的库文件的使用
+            os
+        python模块的使用
+            包
+                _init_.py
+                包的导入
+            模块
+                模块的实现方式--搜索路径
+                添加搜索目录
+                模块的安装
+                模块的导入
+                    方法1
+                    方法2
+                    导入顺序
+                    按优先级导入模块
+                模块重命名
+                把下一个版本的新特性导入到旧版本
+            内建函数BIL
+            模块中变量的作用域
+            名称空间
+        标准的代码模板
+            运行测试的代码结构
+            python的错误&异常代码
+                异常检测的步骤
+                异常的类别
+                异常处理的方法
+                    程序结构 程序流程
+                    方法结构的功能
+                    无法将异常交给合适的处理器
+            python的调试代码
+                assert断言
+                logging允许配置记录信息级别
+                pdb让程序单步运行
+                pdb.set_trace()设置断点
+                with上下文管理
+                raise Exception抛出异常
+                sys.exc_info()获取异常信息
+    编程方法
+        计算机硬件编程
+            控制寄存器
+                控制变量=控制寄存器
+            数据寄存器
+                while case for快速刷新实现
+                    刷新数码管
+                    交通灯
+                    点阵
+                case 多分枝 小时间间隔
+                if 少分支 多时间间隔
+            状态寄存器
+        其他工具介绍
+            IDLE - 自带的集成开发工具
+            IPython - 更好的交互式编程工具
+            Sublime / Visual Studio Code - 高级文本编辑器
+                插件
+            PyCharm - Python开发神器

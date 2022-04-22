@@ -1,0 +1,167 @@
+CompletableFuture
+    功能
+        2.7. 优化商品详情页
+        串行化
+    对比
+        thenApply()
+            如果希望返回值非嵌套，可以使用thenCompose
+        区别
+            thenAccept()
+                跟一个有参数、无返回值的方法，称为Consumer
+                    返回值也是CompletableFuturet;
+                        thenAccept方法：消费处理结果。接收任务的处理结果，并消费处理，无返回结果。
+            thenRun()
+                跟的是一个无参数、无返回值的方法，即Runnable
+                    最终返回CompletableFuture&lt;Void&gt;
+            thenApply()
+                跟一个有参数、有返回值的方法，称为Function
+                    返回值是CompletableFuture&lt;String&gt;
+    使用
+        一、创建异步任务
+            任务原型
+                因为初始时没有CompletableFuture对象，也没有参数可传，
+                所以提交的只能是Runnable/Supplier，只能是静态方法
+                通过静态方法生成CompletableFuture之后，
+                便可以链式提交其他任务（Runnable、Consumer、Function），且都是成员方法
+            1、Future.submit
+            2、supplyAsync / runAsync
+                static CompletableFuture<Void> runAsync(Runnable runnable)
+                public static CompletableFuture<Void> runAsync(Runnable runnable, Executor executor)
+                public static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier)
+                public static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier, Executor executor)
+                区别
+                    runAsync方法不支持返回值。
+                    supplyAsync可以支持返回值。
+                    如果指定线程池，则使用指定的线程池运行。以下所有的方法都类同。
+                    没有指定Executor的方法会使用ForkJoinPool.commonPool() 作为它的线程池执行异步代码
+                返回
+                    计算完成时回调方法action
+            提交给CompletableFuture执行的任务有四种
+                Runnable
+                    无返回值，无参数
+                Consumer
+                    无返回值，有参数
+                Supplier
+                    有返回值，无参数
+                Function
+                    有返回值，有参数
+        二、异步回调
+            1、thenApply / thenApplyAsync
+                public <U> CompletableFuture<U> thenApply(Function<? super T,? extends U> fn)
+                public <U> CompletableFuture<U> thenApplyAsync(Function<? super T,? extends U> fn)
+                public <U> CompletableFuture<U> thenApplyAsync(Function<? super T,? extends U> fn, Executor executor)
+            2、thenAccept / thenRun
+                子主题
+                    public CompletionStage<Void> thenAccept(Consumer<? super T> action);
+                    public CompletionStage<Void> thenAcceptAsync(Consumer<? super T> action);
+                    public CompletionStage<Void> thenAcceptAsync(Consumer<? super T> action,Executor executor);
+                子主题
+                    public CompletionStage<Void> thenRun(Runnable action);
+                    public CompletionStage<Void> thenRunAsync(Runnable action);
+                    public CompletionStage<Void> thenRunAsync(Runnable action,Executor executor);
+                thenRun方法：
+                    只要上面的任务执行完成，就开始执行thenRun，只是处理完任务后，执行 thenRun的后续操作
+                参数
+                    参数接收的是之前supplyAsync()这个任务的返回值
+                    thenApply 方法：当一个线程依赖另一个线程时，获取上一个任务返回的结果，并返回当前任务的返回值。
+                    thenApply接收的是一个Function，如果这个Function返回值是另一个CompletableFuture，就会出现嵌套的CompletableFuture
+                结果
+                    CompletableFuture可以在结果上再加一个callback，依次往复
+            3、 exceptionally
+                exceptionally处理异常情况。
+            4、whenComplete
+                whenCompleteAsync
+                     whenCompleteAsync：是执行把 whenCompleteAsync 这个任务继续提交给线程池来进行执行。
+                     whenComplete：是执行当前任务的线程执行继续执行 whenComplete 的任务。
+            5、handle
+            参数
+                BiConsumer<? super T,? super Throwable>可以定义处理业务
+        三、组合处理
+            1、thenCombine / / 
+                功能是在两个CompletableFuture完成之后，把两个返回值传进去，再额外做一些事
+                参数
+                    第一个参数是一个CompletableFuture，
+                    第二个参数是BiFunction（2个输入参数，一个返回值）
+            3、thenCompose
+                它传入的参数是Function，其返回值必须是CompletionStage子类，也即CompletableFuture类型
+             thenAcceptBoth
+            runAfterBoth
+            2、applyToEither / acceptEither / runAfterEither
+            4、allOf / anyOf
+                public static CompletableFuture<Void> allOf(CompletableFuture<?>... cfs);
+                public static CompletableFuture<Object> anyOf(CompletableFuture<?>... cfs);
+                anyOf：只要有一个任务完成
+                    返回值
+                        allOf返回值是CompletableFuture&lt;Void&gt;，因为每个传入的CompletableFuture的返回值可能不同，所以组合的结果是无法确定的
+                allOf：等待所有任务完成
+                    返回值
+                        anyOf的含义是只要任意一个CompletableFuture结束，就可以做接下来的事情，由于每个CompletableFuture的返回值类型可能不同，意味着无法判断类型，所以其返回值是CompletableFuture&lt;Object&gt;
+                测试结果：
+                    几乎同时完成任务！
+        任务的网状执行
+            1、在每个任务的返回值里，存储了依赖它的下个执行任务，
+                即每个任务的CompletableFuture对象的栈里，存储了该节点的出边对应的任务集合
+            2、对于AND逻辑，节点依赖多个上级任务，则它会被触发多次，会判断是否所有上级任务都完成，如果不是就不会执行
+            3、对于OR逻辑，节点依赖多个上级任务，则它会被触发多次，但只会执行一次，只要有一个上级任务完成，就会执行
+            BiApply和OrApply
+                正因为有AND和OR两种关系，因此对应了BiApply和OrApply两个对象，
+                它们构造方法几乎一样，
+                5、BiApply和OrApply都是二元操作符
+                    即只能传入两个被依赖的任务，任何一个多元操作，都会被转换为多个二元操作的叠加
+                只是内部执行时，一个是AND逻辑，一个是OR逻辑
+    内部原理
+        CompletableStage链式方法 组合方法
+            其所有方法的返回值都是CompletableStage类型，正因为如此，才能实现链式调用
+            thenApply()
+                fuction参数
+                    Function<? super T,? extends U> T：
+                    输入参数必须是?_super_T类型（T或T的父类型），T代表调用thenApply的对象的类型
+                    返回值必须是?_Extends_U类型（U或U的子类型），U即thenApply返回值的CompletableStage类型
+                        上一个任务返回结果的类型 U：当前任务的返回值类型
+            thenApplyAsync
+                带有Async默认是异步执行的。这里所谓的异步指的是不在当前线程内执行。
+        构造 ForkJoinPool
+            CompletableFuture中任务的执行依靠ForkJoinPool
+        任务类型的适配
+            ForkJoinPool接受的任务是ForkJoinTask类型，所以需要一个适配机制，把任务类型转换成ForkJoinTask，然后提交给ForkJoinPool
+            为了完成转换，CompletableFuture内部定义了一系列的内部类
+                supplyAsync()内部，会把一个Supplier转换为一个AsyncSupply，然后提交
+                runAsync()内部，会把一个Runnable转换为一个AsyncRun，然后提交
+                thenRun/thenAccept/thenApply内部，分别把Runnable/Consumer/Function转换为UniRun/UniAccept/UniApply对象，然后提交
+        链式执行过程
+            supplyAsync(Supplier)
+                其内部构造了一个AsyncSupply对象，该对象有三个关键点
+                    1、继承自ForkJoinTask，所以能够提交给ForkJoinPool执行
+                    2、封装了Supplier f，即它所执行任务的具体内容
+                    3、该任务的返回值，即CompletableFuture，也被封装在里面
+                ForkJoinPool执行AsyncSupply（ForkJoinTask类型），该任务输入是Supply，输出是CompletableFuture
+            thenApply()
+                这里提交的任务不可能立即执行，在此构建了一个UniApply对象，即一个ForkJoinTask类型的任务，这个任务放入了上面的任务的栈中
+                每一个CompletableFuture对象内部都有一个栈，存储后续依赖它的任务，这个栈也是Treiber_Stack
+                UniApply类似于上面的AsyncSupply，构造方法传入了4个参数
+                    1、执行它的ForkJoinPool
+                    2、输出一个CompletableFuture对象，即thenApply()的返回值，用来链式执行下一个任务
+                    3、其依赖的前置任务
+                    4、输入，即一个Function对象
+                UniApply被放入上面的CompletableFuture的栈中，上面的任务执行完成之后，就会从栈中弹出并执行
+            thenRun()
+                类似thenApply()，不过构建的是UniRun对象
+        thenApply/thenApplyAsync
+            它们调用的是同一个方法，只不过传入参数不同
+            如果前置任务没有完成，它们都会将当前任务的下一个任务入栈，然后再出栈执行
+            只有再当前任务已完成情况下，thenApply才会立即执行，不会入栈再出栈，不会交给ForkJoinPool；thenApplyAsync还是将下一个任务封装为ForkJoinTask，入栈再出栈执行
+    异步调用
+        nodejs
+            很多语言，比如Node.js，采用回调的方式实现异步编程。Java的一些框架，比如Netty，自己扩展了Java的
+        netty
+        guava
+            等多个扩展方法；Google guava也提供了通用的扩展Future；Scala也提供了简单易用且功能强大的Future/Promise异步编程模式。
+        future
+        java
+            JDK8开始，Concurrent包提供了一个强大的异步编程工具CompletableFuture
+            JDK8前，异步编程可以通过线程池和Future来实现，但功能不够强大
+            CompletableFuture实现了Future接口，所以具有Future特性
+                调用get()会阻塞当前线程，直到结果返回
+                另一个线程调用complete()完成该Future，所有阻塞在get()的线程都会获得返回结果
+        vue
+            promise

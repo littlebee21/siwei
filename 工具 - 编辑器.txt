@@ -1,0 +1,64 @@
+编辑器
+        keil4
+        eclipse: java开发工具
+        MPLAB X : PIC
+        keil MDK5
+        IAR
+        1、Source Insight
+            查看内核源码
+        7、Vscode
+            安装C/C++插件
+            launch.json 文件来对调试功能进行配置
+            安装 pyOCD
+                开源的J-Link软件
+            安装 GNU Arm Embedded Toolchain
+        2、UltraEdit 
+        3，hexdump
+        6、Qtcreator
+        SublimeText3 3170 x64 中文.7z
+        Arduino
+        MATLAB
+        VIM
+            tmux工作多窗口，工作现场保存  
+
+
+
+        markdown格式工具：不能同时标记多个标签
+        Notepad++
+        3.记事本
+        2.Dreamweaver
+    web
+        WebStorm开发工具安装
+        idea开发环境
+
+    
+    同步方式：
+        用samba挂载Linux开发的目录到Window上变成虚拟目录的
+        WinSCP
+    
+    代码合并
+        BeyondCompare
+
+使用方式：  
+    windows下使用vscode进行代码编辑
+    linux下使用配置好的ivm进行代码编辑
+    windows下的cv为 cc    cv
+    xshell下的cv为 c-c 和 s-insert
+    gitbash下的cv为 c-c  和 s-insert
+
+总结：
+vscode更加轻便，vim中也能使用vscode的按键方式
+复制粘贴vim方案：
+    多行缩进：shift+v小手指食指选中   数字键+jk     >
+    多行复制：shift+v小手指           数字键+jk     y
+    复制到windows中  
+    多行光标跳转： shift+[]
+    多行剪切： 
+        剪切到windows系统当中：使用autohotkey进行   ctrl+shift+X
+
+切换的文件方案：
+    hisf的fzf方案
+
+
+
+

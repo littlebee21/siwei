@@ -1,0 +1,63 @@
+idea插件
+    代码编写
+        Alibaba Java Coding Guidelines
+            阿里Java编程规约插件
+        InnerBuilder builder模式快速生成
+        lombok plugin 所有属性反射
+            lombok 插件 maven helper
+            maven 依赖管理助手
+            解析maven pom结构，分析冲突；
+    重置插件
+        ide eval reset插件
+    debug插件
+        FindBugs
+            代码缺陷扫描
+        PMD 代码缺陷扫描
+    代码阅读
+        Rainbow brackets 括号插件
+            让代码中的括号更具标识性
+        String Manipulation 字符串简化
+            String相关辅助简化，搭配 CTRL+W 、ALT+J等文本选择快捷键使用
+        依赖
+            sequence Diagram 时序图插件
+                代码时序图
+                显示多个类之间的铰链关系
+            Java Method Reference Diagram
+            Code Navigator
+                class 类图
+                依赖类之间的图形导航
+                UML图的创建
+        字节码
+            jclasslib bytecode viewer(字节码查看工具)
+    工具插件
+        Codota
+        Translation 翻译
+            翻译插件，阅读源码必备
+            GenerateAllSetter
+        Chinese插件
+        Key Promoter X
+            对你的鼠标操作进行 快捷键提示
+        GenerateSerialVersionUID
+            Alt
+            +
+            Insert
+            快速生成SerialVersionUID
+        GsonFormat 将json 文本转成java类
+        RestfulToolkit
+            快速跳转到Restful Api处( use: Ctrl(Command) + \ or Ctrl + Alt + N )
+            展示Resultful 接口结构
+            http 简单请求工具
+        MyBatis Log Plugin
+            把 Mybatis 输出的sql日志还原成完整的sql语句，看起来更直观。
+            Free Mybatis
+        MyBatis 免费的插件
+            参考
+        maven helper 解决maven冲突的问题
+    代码生成插件
+        MyBatisCodeHelperPro(联想生成mapper.xml)
+            逆向工程
+        GenerateAllSetter 快速setter
+    记忆插件
+        presentation Assistant
+            会自动显示操作快捷键
+    语言

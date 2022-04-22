@@ -1,0 +1,31 @@
+widnow的快捷键
+        切换窗口
+            窗口快速切换Alt+Tab
+            切回桌面win+D
+            切换到特定任务win+n
+        锁屏
+            随手锁屏win+L
+        打开
+            文件夹win+E
+            Windows+R 运行
+            Windows+U设置
+            Ctrl+Esc 显示开始菜单
+        关闭
+            关掉页面Ctrl+w
+    widnow的快捷键
+        切换窗口
+            窗口快速切换Alt+Tab
+            切回桌面win+D
+            切换到特定任务win+n
+        锁屏
+            随手锁屏win+L
+        打开
+            文件夹win+E
+            Windows+R 运行
+            Windows+U设置
+            Ctrl+Esc 显示开始菜单
+        关闭
+            关掉页面Ctrl+w
+        输入法切换
+            Ctrl+Shift 输入法切换
+            Ctrl+空格 中英文切换

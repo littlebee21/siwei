@@ -1,0 +1,256 @@
+linux系统移
+系统开发
+    主题
+        硬件平台
+        启动代码
+        系统部署
+        系统移植
+    主题
+        内核调试
+        根文件系统制作
+        集成部署Linux系统
+    19_开机流程、模块管理和Loader
+        开机流程
+            1. 系统加电
+            2. 执行 BIOS/UEFI BIOS 中烧录的程序载入 CMOS 中记录的硬件信息与硬件自检
+                载入硬件信息
+                    CPU 与外部设备的通信频率
+                    开机设备的搜索顺序
+                    硬盘大小与类型
+                    系统时钟时间
+                    外部设备总线是否启动即插即用设备功能
+                    各外部设备的 I/O 地址
+                    与 CPU 通信的 IRQ 中断
+            3. 读取第一个可开机的设备，通常是 BIOS/UEFI BIOS 所设置的启动硬盘
+            4. BIOS  读取启动硬盘的第一个扇区 （MBR）中存放的开机管理程序 ( Boot Loader )
+                BIOS 通过 INT  13 中断读取 MBR
+            5. 开机管理程序把操作系统的内核载入内存，内核开始接管启动流程
+                Boot Loader  的功能
+                    1. 认识操作系统的文件格式
+                    2. 加载操作系统内核到内存中执行
+                    3. 加载各磁盘分区中第一个磁盘扇区上存放的对应于该磁盘分区中的操作系统的  boot loader
+                    4. 提供开机菜单选项
+                    5. 加载 Linux 的虚拟文件系统到内存中，在内存中解压缩并仿真成一个根目录，供加载内核模块使用
+                关于Linux Kernel
+                    内核在磁盘上的位置 
+                        /boot 目录，文件名为 vmlinuz
+                    开机时加载内核模块
+                         内核模块在磁盘上的位置 
+                            /lib/modules，不可以使用单独的磁盘分区，而必须与 / 目录在同一分区
+                        因此开机时要加载内核，必须挂载根目录，这样才能读取内核模块
+                    问题：开机时需要加载根目录，这个根目录常常存储在硬盘上，因此需要首先载入硬盘驱动程序，这个驱动程序存放在  /lib/modules  中，但尚未挂载 / 目录，该怎么读取驱动程序呢? 
+                        虚拟文件系统可以解决这个问题
+                        虚拟文件系统为： /boot/initrd 或  /boot/initramfs
+            6. 操作系统内核侦测所有硬件信息，载入适当的驱动程序
+            7. 内核主动调用 systemd 程序，并以 default.target 流程开机
+                centos 下: /etc/systemd/system/default.target，
+                这是一个到实际的 target 的链接文件
+                查看 default.target 对应的实际 target 文件的内容，
+                以便确定启动该 target 时需要做什么工作
+                1. systemd 执行 
+                    sysinit.target 
+                        初始化系统
+                            1. 特殊文件系统设备挂载
+                                .mount 结尾的服务
+                            2. 特殊文件系统的启用
+                                lvm等
+                            3. 日志系统服务
+                                systemd-journald
+                            4. 载入额外的核心模块
+                                /etc/modules-load.d/*.conf 配置的模块
+                                    不带模块参数
+                                /etc/modprobe.d/*.conf 配置的模块
+                                    可以给模块加上调用参数
+                            5. 载入额外的核心参数
+                                /etc/sysctl.conf
+                                /etc/sysctl.d/*.conf
+                            6. 启动随机数发生器
+                                系统的密码加密等功能
+                            7. 本地文件系统挂载
+                                /boot
+                                /home
+                                swap
+                            8. 动态设备管理服务
+                                systemd-udevd.service
+                            启动基本的内核功能、文件系统、文件系统设备驱动
+                    basic.target
+                        准备操作系统
+                2. systemd 启动 multi-user.target  下的本机与服务器服务
+                3. systemd  执行 multi-user.target 下的 /etc/rc.d/rc.local 文件
+                4.  systemd 执行 multi-user.target  下的  getty.target 及登陆服务
+                5. systemd  执行 graphical所需的服务
+                新式 target 与老式 runlevel 之间的对应关系
+                    runlevel
+                        0
+                            poweroff.target
+                                init 0 / systemctl poweroff
+                        1
+                            rescue.target
+                                init 1 / systemctl rescue
+                        2
+                        3
+                        4
+                        multi-user.target
+                            init 2, init 3, init 4 / systemctl isolate multi-user.target
+                        5
+                            graphical.target
+                                init 5 / systemctl isolate graphical.target
+                        6
+                            reboot.target
+                                init 6 / systemctl reboot
+            8. graphical.target 所需依赖的服务
+                # systemctl list-dependencies graphical.target
+            9. 兼容 rc.local 启动脚本文件
+                /etc/rc.d/rc.local
+                    这个文件需要可执行权限
+                    在系统启动的最后阶段运行
+                由系统自动启动的 rc-local.service 判断和执行 rc.local 文件
+            10. 提供tty界面与登录服务
+                getty.target
+        内核与内核模块
+            内核
+                文件
+                    /boot/vmlinuz 或 /boot/vmliuz-version
+                解压缩所需 ram disk
+                    /boot/initramfs 或 /boot/initramfs-version
+                源代码
+                    位置
+                        /usr/src/linux 或 /usr/src/kernels
+                信息
+                    内核版本
+                        /proc/version
+                    内核功能
+                        /proc/sys/kernel
+            内核模块
+                位置
+                    /lib/modules/$(uname -r)/kernel/
+                        arch
+                            与硬件平台有关的模块
+                        crypto
+                            内核支持的加密技术
+                        drivers
+                            硬件驱动程序
+                                显卡
+                                网卡
+                                pci硬件等
+                        fs
+                            内核支持的文件系统
+                        lib
+                            一些函数库
+                        net
+                            网络相关模块和防火墙模块
+                        sound
+                            音效相关的模块
+                文件类型
+                    .ko 文件
+                模块的依赖性
+                    文件
+                        记录在 /lib/modules/$(uname -r)/modules.dep 文件中
+                    创建和更新依赖性
+                        1. 把编译好的 .ko 模块文件放置到相应的模块文件目录中
+                        2. # depmod 可以创建和更新 modules.dep 文件
+                模块的挂载
+                    自动挂载
+                        解决好模块的依赖性之后，重启计算机，就可自动挂载模块
+                    手动挂载
+                        # modprobe 模块名
+                            挂载模块并处理模块的依赖性
+                        # insmod 模块文件名
+                            挂载模块，不考虑模块的依赖性
+                移除模块
+                    # rmmod 模块名
+                查看模块信息
+                    # modinfo 模块名/模块文件名
+        添加新硬件驱动程序的方法
+            1. 把新硬件的驱动程序源代码加入内核源代码，重新编译内核
+            2. 编译新硬件的源代码，生成内核模块文件，把它挂载到内核上
+        grub
+            启动流程
+                stage1
+                    读取并运行 MBR 扇区的 grub 主程序
+                stage2
+                    grub主程序读取并按照 /boot/grub中的 grub 配置文件执行后面的流程
+                /boot/grub中的配置文件
+                    目录
+                        fonts
+                            grub 运行过程中使用的字体
+                        i386-pc
+                            针对一般 x86 结构计算机的相关模块
+                                子主题
+                        themes
+                            grub的主题
+                    文件
+                        grub.cfg
+                            启动菜单
+                        grubenv
+                            一些环境区块的符号
+                grub 启动菜单的主要内容
+                    grub.cfg
+                        磁盘与分区的表示
+                            1. 使用 uuid 表示
+                                使用 #blkid 磁盘名/分区名查看 uuid
+                            2. 使用代号表示
+                                磁盘
+                                    从0开始编号
+                                    /dev/sda 为0号磁盘，以此类推
+                                分区
+                                    从1开始编号
+                                    比如 /dev/sda1 为0号磁盘上的1号分区，以此类推
+                                表示方法
+                                    (hd0, msdos1)
+                                        表示/dev/sda1这个 MSDOS 分区
+                                    (hd0, gpt1)
+                                        表示  /dev/sda1 这个 GPT 分区
+                                    简易写法
+                                        (hd0, 1)
+                        写好菜单项的重点
+                            1. 菜单项以 menuentry 表示，后面跟菜单项的名字，再后面跟菜单项的一些启动选项，如 --class, --unrestricted 等，再后面跟跟用花括号括起的菜单项内容
+                            2. 菜单项中首先加载菜单项后面部分需要用到的模块，如对vfat，NTFS文件系统的支持
+                            3. 设置/boot的位置为 root
+                                如果/boot为独立分区，把root设置为该分区的uuid或设备号码
+                                如果/boot不是独立分区，使用 set root=根分区uuid或设备号/boot 的方式进行设置
+                            4. 使用 linux /vmliuz内核文件 这条命令载入内核
+                            5. 使用 initrd /initramfs虚拟盘文件 这条命令载入虚拟盘
+                自定义grub启动菜单
+                    grub菜单的默认环境值
+                        /etc/default/grub.cfg 
+                            设置超时时间，默认启动菜单项等
+                    自定义菜单项
+                        1. 在 /etc/grub.d/40_custom 中增加自定义菜单项
+                        2. # grub-mkconfig -o /boot/grub/grub.cfg 更新 grub.cfg
+                    一个设置Grub启动菜单项的例子
+                        使用 chainloader 时，root 设置为含有 boot sector 的磁盘分区的代号
+                        chainloader +1 表示读入 boot sector 中的 boot loader 代码
+                把 grub 的 boot loader 安装到磁盘上 ( BIOS/MBR 方式 )，并对grub进行配置
+                    1. 安装 grub 和 os-prober 软件包
+                    2. # grub-install -i386-pc /dev/sdX
+                    3. # grub-mkconfig -o /boot/grub/grub.cfg 生成启动菜单
+                    4. 经过上述步骤之后，通常已经安装并配置好了 grub。
+        但如果 os-prober 不能检测到磁盘上的所有系统，就
+        需要在 /etc/grub.d/40_custome 文件中增加菜单项，
+        然后执行 # grub-mkconfig -o /boot/grub/grub.cfg
+ 更新启动菜单
+    Linux系统启动过程
+        Linux操作系统的运行级别
+        追踪一下Init初始化过程
+            守护进程
+新式 target 与老式 runlevel 之间的对应关系
+    runlevel
+        0
+            poweroff.target
+                init 0 / systemctl poweroff
+        1
+            rescue.target
+                init 1 / systemctl rescue
+        2
+        3
+        4
+        multi-user.target
+            init 2, init 3, init 4 / systemctl isolate multi-user.target
+        5
+            graphical.target
+                init 5 / systemctl isolate graphical.target
+        6
+            reboot.target
+                init 6 / systemctl reboot
+启动基本的内核功能、文件系统、文件系统设备驱动

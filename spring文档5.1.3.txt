@@ -1,0 +1,207 @@
+spring5.1.3
+    Overview
+        1. 我们所说的“Spring”
+        2. Spring 的历史和 Spring 框架
+        3. Design Philosophy
+        4. 反馈和贡献
+        5. Getting Started
+    Core
+        1. IoC 容器
+            Spring IoC 注解的使用
+                xml方式
+                注解方式
+            常用注解标签
+                @Configuration
+                @Bean
+                @Component
+                @Controller
+                @Service
+                @Repository
+                @ComponentScan
+                    1.开启包扫描
+                    2.加注解@Component
+            给Bean取别名
+                注解方式
+                xml方式
+            通过注解注入Bean
+                @Autowired
+                    一、通过方法注入Bean
+                        1：通过有参构造方法注入
+                        2：通过set()方法注入
+                    二、通过属性直接注入Bean
+                    三、集合类型Bean的注入
+                        1、List(Set)集合类型Bean的注入
+                        2，Map的注入
+                    四、String、Integer等简单类型的注入
+                    五、SpringIoC容器内置接口实例注入
+            通过注解设定Bean的作用域Scope
+                一、Singleton作用域、prototype作用域、Web环境作用域（request作用域、session作用域、application作用域、websocket作用域）
+                二、自定义作用域
+                三、方法注入
+            通过注解开启Bean的懒加载
+                将所有Spring管理的Bean单例都声明为懒加载:
+            Bean的初始化和销毁逻辑
+                方式一
+                方式二
+                方式三
+        2. Resources
+            2.1. Introduction
+            2.2. 资源接口
+            2.3. 内置资源实现
+            2.4. 资源加载器
+            2.5. ResourceLoaderAware 接口
+            2.6. 资源依赖
+            2.7. 应用程序上下文和资源路径
+        3. 验证，数据绑定和类型转换
+        4. Spring 表达语言(SpEL)
+        5. Spring 面向方面的编程
+        6. Spring AOP API
+        7. Null-safety
+        8. 数据缓冲区和编解码器
+            8.1. DataBufferFactory
+            8.2. DataBuffer
+            8.3. PooledDataBuffer
+            8.4. DataBufferUtils
+            8.5. Codecs
+            8.6. 使用 DataBuffer
+        9. Appendix
+            9.1. XML 模式
+            9.2. XML 模式创作
+    Testing
+        1. Spring 测试简介
+        2. Unit Testing
+        3. Integration Testing集成测试
+            3.1. Overview
+            3.2. 集成测试的目标
+            3.3. JDBC 测试支持
+            3.4. Annotations
+            3.5. Spring TestContext 框架
+            3.6. Spring MVC 测试框架
+            3.7. WebTestClient
+            3.8. PetClinic 示例
+        4. Further Resources
+    Data Access
+        1. Transaction Management
+            1.1. Spring 框架的事务支持模型的优点
+                1.1.1. GlobalTransaction
+                1.1.2. 本地 Transaction
+                1.1.3. Spring 框架的一致编程模型
+            1.2. 了解 Spring 框架事务抽象
+            1.3. 将资源与事务同步
+            1.4. 声明式 TransactionManagement
+            1.5. 程序化 TransactionManagement
+            1.6. 在程序性和声明性事务 Management 之间进行选择
+            1.7. Transaction 绑定事件
+            1.8. 应用服务器特定的集成
+            1.9. 常见问题的解决方案
+            1.10. 更多资源
+        2. DAO Support
+        3. 使用 JDBC 进行数据访问
+        4. 对象关系 Map(ORM)数据访问
+            4.1. Spring ORM 简介
+            4.2. ORM 集成的一般注意事项
+            4.3. Hibernate
+            4.4. JPA
+        5. 使用对象 XMLMap 器编组 XML
+        6. Appendix
+    Web Servlet
+        1. Spring Web MVC有专题
+            1.1. DispatcherServlet
+            1.2. Filters
+            1.3. 带注解 的控制器
+            1.4. URI 链接
+            1.5. 异步请求
+            1.6. CORS
+            1.7. 网络安全
+            1.8. HTTP 缓存
+            1.9. 查看技术
+            1.10. MVC 配置
+            1.11. HTTP/2
+        2. REST Clients
+            2.1. RestTemplate
+            2.2. WebClient
+        3. Testing
+        4. WebSockets
+            4.1. WebSocket 介绍
+            4.2. WebSocket API
+            4.3. SockJS 后备
+            4.4. STOMP
+        5.其他 Web 框架
+            5.1. 通用配置
+            5.2. JSF
+            5.3. Apache Struts 2.x
+            5.4. 挂毯 5.x
+            5.5. 更多资源
+    Web Reactive
+        1. Spring WebFlux
+        2. WebClient
+            2.1. Configuration
+            2.2. retrieve()
+            2.3. exchange()
+            2.4. 请求正文
+            2.5. Client 端过滤器
+            2.6. Testing
+        3. WebSockets
+            3.1. WebSocket 介绍
+            3.2. WebSocket API
+        4. Testing
+        5. Reactive Libraries
+    Integration
+        1.使用 Spring 进行远程处理和 Web 服务
+            1.1. 使用 RMI 公开服务
+            1.2. 使用 Hessian 通过 HTTP 远程调用服务
+            1.3. 使用 HTTP 调用程序公开服务
+            1.4. Web Services
+            1.5. 通过 JMS 公开服务
+            1.6. AMQP
+            1.7. 选择技术时的注意事项
+            1.8. REST 端点
+        2.企业 JavaBeans(EJB)集成
+            2.1. 访问 EJB
+                2.1.1. Concepts
+                2.1.2. 访问本地 SLSB
+                2.1.3. 访问远程 SLSB
+                2.1.4. 访问 EJB 2.x SLSB 与 EJB 3 SLSB
+        3. JMS(Java 消息服务)
+            3.1. 使用 Spring JMS
+            3.2. 发送信息
+            3.3. 接收讯息
+            3.4. 支持 JCA 消息端点
+            3.5. Comments 驱动的侦听器端点
+            3.6. JMS 命名空间支持
+        4. JMX管理监控
+            4.1. 将您的 Bean 导出到 JMX
+            4.2. 控制 Bean 的 Management 接口
+            4.3. 控制您的 Bean 的 ObjectName 实例
+            4.4. 使用 JSR-160 连接器
+            4.5. 通过代理访问 MBean
+            4.6. Notifications
+            4.7. 更多资源
+        5. JCA CCI
+            5.1. 配置 CCI
+            5.2. 使用 Spring 的 CCI 访问支持
+            5.3. 将 CCI 访问建模为操作对象
+            5.4. Transactions
+        6. Email
+            6.1. Usage
+            6.2. 使用 JavaMail MimeMessageHelper
+        7.任务执行和计划
+            7.1. Spring TaskExecutor 抽象
+            7.2. Spring TaskScheduler 抽象
+            7.3. 计划和异步执行的 Comments 支持
+            7.4. 任务命名空间
+            7.5. 使用 Quartz Scheduler
+        8.缓存抽象
+            8.1. 了解缓存抽象
+            8.2. 基于声明式 Comments 的缓存
+            8.3. JCache(JSR-107)注解
+            8.4. 基于声明式 XML 的缓存
+            8.5. 配置缓存存储
+            8.6. 插入不同的后端缓存
+            8.7. 如何设置 TTL/TTI /驱逐策略/ XXX 功能？
+        9. Appendix
+            9.1. XML 模式
+    Languages
+        1. Kotlin
+        2. Apache Groovy
+        3. 动态语言支持

@@ -1,0 +1,247 @@
+linux文件命令
+    7：设备管理
+        mount命令 – 文件系统挂载
+        MAKEDEV命令 – 建立设备
+        lspci命令 – 显示当前设备所有PCI总线信息
+        setleds命令 – 设定键盘上方三个 LED 的状态
+        sensors命令 – 检测服务器内部温度及电压
+    关机命令
+        shutdown
+            安全关机
+        reboot
+            重启
+        poweroff  
+        halt
+            关机
+        如何正确关机
+            作为个人电脑使用
+                虽提供了多用户能力，但仅单用户使用
+                    关机不影响其他用户
+                    可以
+                        按电源键
+                        鼠标点击关机按钮
+                        命令行方式
+                        关机
+            作为工作站/服务器使用
+                多用户同时登录计算机
+                    随便关机影响其他用户
+                    不应
+                        按电源键
+                        鼠标点击关机按钮
+                        命令行方式但不通知用户，立即
+                        关机
+                    需要时可以
+                        命令行方式通知用户，等待一段时间后
+                            关机
+            工作站/服务器关机前
+                查看系统使用状态
+                    在线人员
+                        $who
+                    网络使用情况
+                        $netstat -a
+                    列出后台运行的程序
+                        $ps -aux
+                通知在线用户
+                    将要在何时关机
+                做好这些准备工作后，可多调用几次 $sync 命令将计算机内存中缓冲的数据同步到硬盘上，防止丢失数据
+            具有关机权限的用户
+                非远程登录的任何用户，都具有关机权限
+                远程登录的用户，只有root具有关机权限
+    查看系统硬件数据文件传输
+        设备的文件名
+            SCSI/SATA/USB硬盘
+                /dev/sd[a-p]
+            IDE硬盘
+                /dev/hd[a-d]
+            USB闪存盘
+                /dev/sd[a-p]
+            磁盘设备文件名的顺序取决于内核侦测到的磁盘顺序
+            打印机
+                25针打印机
+                    /dev/lp[0-2]
+                USB打印机
+                    /dev/usb/lp[0-15]
+            鼠标 
+                通用
+                    /dev/input/mouse[0-15]
+                PS2接口
+                    /dev/psaux
+                当前鼠标
+                    /dev/mouse
+            CDROM/DVDROM
+                /dev/scd[0-1]
+                /dev/sr[0-1]
+                /dev/cdrom
+                不同的 Linux 发行版使用的设备名可能不同
+        设备信息
+            dmidecode
+                查看cpu、主板、内存信息
+            lspci
+                列出系统上的pci设备信息
+            lsusb
+                列出系统上的usb设备信息
+            分区工具
+                fdisk
+                gdisk
+                cfdisk
+                parted
+                查看磁盘信息
+            dmesg
+                查看内核运行期间发出的信息
+            vmstat
+                分析系统目前状态: cpu/内存/IO
+            iostat
+                实时列出CPU/IO 信息
+            smartctl
+                查看硬盘健康状态
+                    利用的  smartd.service 服务
+    磁盘
+        查看磁盘信息
+            du
+            df
+            fdisk
+                识别磁盘信息
+            列出磁盘信息
+                lsblk
+                    列出可用磁盘
+                blkid
+                    列出设备的uuid
+        文件系统的检验
+            xfs
+                xfs_repair
+            ext4
+                fsck.ext4
+        4：磁盘管理
+            df命令 – 显示磁盘空间使用情况
+            fdisk命令 – 磁盘分区
+            lsblk命令 – 查看系统的磁盘
+            hdparm命令 – 显示与设定硬盘参数
+            vgextend命令 – 扩展卷组
+        管理
+            磁盘分区
+                fdisk
+                    MBR分区
+                        #fdisk /dev/sda
+                            常用命令
+                                d
+                                    删除分区
+                                n
+                                    添加新分区
+                                p
+                                    列出分区表
+                                q
+                                    不保存退出
+                                w
+                                    储存分区然后退出
+                gdisk
+                    GPT分区
+                        #gdisk /dev/sda
+                            常用命令
+                                d
+                                    删除分区
+                                n
+                                    添加新分区
+                                p
+                                    列出分区表
+                                q
+                                    不保存退出
+                                w
+                                    储存分区然后退出
+                parted
+                    列出磁盘的基本信息
+                        #parted /dev/sda print
+                partprobe
+                    更新Linux核心的磁盘分区表信息而无需重启系统
+            格式化分区
+                mkfs
+                mkfs.ext4
+                mkfs.xfs
+                    可以通过设置格式化参数利用cpu的多核功能和xfs文件系统的并行读写功能提高磁盘性能
+                    # grep 'processor'/proc/cpuinfo
+                        看到几个cpu核心，就把xfs的agcount设置为几
+                    # mkfs.xfs -f -d agcount=2 /dev/sda1
+                        有两个cpu核心
+                要查看可以格式化多少种文件系统，只需 #mkfs[TAB][TAB]即可
+            挂载  卸载 
+                mount / umount
+                #umount 目录/设备文件
+                挂载
+                    开机挂载
+                        /etc/fstab
+                        /etc/mtab
+                    挂载可移动设备
+                        光驱
+                            #mount /dev/sr0 用户目录
+                        优盘
+                            #mount 挂载参数 用户目录
+                    挂载环回设备
+                        用途
+                            把iso文件挂载在目录下
+                                命令 #mount -o loop 文件.iso 用户目录
+                            挂载环回设备文件
+                                命令 #mount -o loop 文件 用户目录
+                                环回设备文件可以使用dd 创建
+                    挂载目录
+                        #mount -bind 源目录 目标目录 
+                    挂载交换分区或交换文件
+                        交换分区
+                            创建
+                                mkswap /dev/sda1
+                            挂载
+                                swapon /dev/sda1
+                        交换文件
+                            创建
+                                dd if=/dev/zero of=/tmp/swap bs=1M count=128
+                                mkswap /tmp/swap
+                            挂载 
+                                swapon /tmp/swap
+                    挂载命令
+                        mount
+                            参数
+                                -t
+                                    指定文件类型
+                                        Linux可以查询文件系统的superblocks以确定文件系统类型，可以不显式指出-t参数
+                                -o
+                                    指定uid,gid
+                                -rw
+                                    可读可写
+                                -ro
+                                    只读
+                                -exec/-noexec
+                                    可执行二进制文件
+            磁盘配额
+                quota 的
+                    暂停
+                        # xfs_quota -x -c "disable -up" /home
+                            -u
+                                usrquota
+                            -p
+                                prjquota
+                    重启
+                        # xfs_quota -x -c "enable -up" /home
+                            -u
+                                usrquota
+                            -p
+                                prjquota
+                    Quota 仍在计算配额，但 disable 时，超出 Quota 不再限制磁盘的所有权，直到重新被enable 为止
+                    关闭
+                        # xfs_quota -x -c "off -up" /home
+                            -u
+                                usrquota
+                            -p
+                                prjquota
+                            只有重新挂载之后才能恢复 Quota 的功能
+                    关闭
+                        # xfs_quota -x -c "remove -p" /home
+                            -p
+                                prjquota
+                            移除了所有 project 的配额限制，如果需要恢复，则需手动逐项添加回去
+关机
+关机
+做好这些准备工作后，可多调用几次 $sync 命令将计算机内存中缓冲的数据同步到硬盘上，防止丢失数据
+查看磁盘信息
+磁盘设备文件名的顺序取决于内核侦测到的磁盘顺序
+不同的 Linux 发行版使用的设备名可能不同
+Quota 仍在计算配额，但 disable 时，超出 Quota 不再限制磁盘的所有权，直到重新被enable 为止
+移除了所有 project 的配额限制，如果需要恢复，则需手动逐项添加回去
+只有重新挂载之后才能恢复 Quota 的功能

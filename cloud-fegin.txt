@@ -1,0 +1,89 @@
+cloud fegin
+    feign、ribbon、hystrix关系
+        结论
+            feign超时
+            ribbon超时
+            hystrix超时
+            在Spring Cloud中使用Feign进行微服务调用分为两层：
+                Hystrix的调用
+                Ribbon的调用
+                Feign自身的配置会被覆盖。
+        Ribbon和Hystrix的超时时间配置的关系具体是什么
+            Hystrix的超时时间=Ribbon的重试次数(包含首次) * (ribbon.ReadTimeout + ribbon.ConnectTimeout)
+        Ribbon的重试次数
+            Ribbon重试次数(包含首次)= 1 + ribbon.MaxAutoRetries  +  ribbon.MaxAutoRetriesNextServer  +  (ribbon.MaxAutoRetries * ribbon.MaxAutoRetriesNextServer)
+    feign
+        如何使用
+            依赖
+            在启动类上添加注解，开启feign功能
+            在创建一个报名为client创建一个同名接口
+            在contoller层就可以使用了
+            feign的配置
+                Feign如何使用
+                    常用配置
+                        依赖
+                        增加配置
+                        增加注解
+                    本身集成了ribbon
+                    禁用Hystrix对feign的支持
+                        全局禁用
+                        单个禁用
+                            编写一个Feign.Builder
+                            在feignClient增加配置
+                    如何关闭熔断
+                        全局关闭
+                        局部关闭
+                    如何设置超时
+                        全局设置
+                        局部设置
+                    如何关闭超时
+                        全局关闭
+                        局部关闭
+            如何自定义
+                设置日志级别
+                    NONE【性能最佳，适用于生产】：不记录任何日志（默认值）。
+                    HEADERS：记录BASIC级别的基础上，记录请求和响应的header。
+                    BASIC【适用于生产环境追踪问题】：仅记录请求方法、URL、响应状态代码以及执行时间。
+                    FULL【比较适用于开发及测试环境定位问题】：记录请求和响应的header、body和元数据。
+                如何使用日志级别
+                    在代码中
+                    yml配置
+                如何使用feign注解代替springmvc的注解
+                    在代码中
+                    yml配置
+                创建拦截器统一设置参数 RequestInterceptor
+                    实现接口
+                    重写方法
+        实现原理
+            动态代理
+                feignclient
+                FeignClientFactoryBean代理类
+                FeignInvocationHandler 动态代理实现类
+                SynchronousMethodHandler 方法处理类
+                LoadBalancerFeignClient  负载均衡客户端
+                Ribbon负载聚恒
+    hystrix
+        hystrix应用场景
+            服务限流
+            服务熔断
+            服务降级
+            超时监控
+            请求合并
+            线程隔离
+                采用舱壁模式
+        熔断原理
+            Closed:关闭状态，所有请求都是正常访问
+            Open：打开状态，所有请求都是降级
+            Half-Open：半开状态，在open之后5秒后允许一个请求过去
+        隔离策略
+            线程隔离
+                通过线程池策略来接收请求，会消耗一定的线程，自行斟酌，不要把核心线程数列队等设置太大
+                线程池预估建议
+                    Thread Size=每秒请求QPS*每个请求预计耗时s+预留空间breathing room；比如：QPS等于30，预计0.2秒也就是200毫秒一个请求，预留空间比如说4个线程，那么Size=30*0.2+4=10，得出线程数为10；队列大小设置5~10差不多
+            信号量
+                使用的是Semaphore信号量隔离，本质是计数器，不会消耗大量线程
+    ribbon
+        Ribbon如何使用
+            依赖
+            增加注解
+            增加配置

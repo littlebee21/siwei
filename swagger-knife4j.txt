@@ -1,0 +1,105 @@
+knife4j
+    主题
+        1.序章
+            1.1 项目介绍
+            1.2 项目背景
+            1.3 支持用户
+            1.4 界面赏鉴
+            1.5 GVP申请
+        2.社区
+            2.1 获取帮助
+            2.2 参与其中
+            2.3 源代码
+            2.4 Apache 2.0 许可证
+            2.5 社区
+            2.6 版本说明
+            2.7 赞助我们
+            2.8 示例代码
+    使用
+        1.6 快速开始
+            添加依赖
+            创建swagger配置依赖
+            和swagger一样添加注释
+            启动并且访问
+    组成
+        3.1 增强模式
+            yml配置
+                开启增强
+            buildExtensions
+        添加的内容
+            3.2 i18n国际化
+            3.3 接口添加作者
+            3.4 自定义文档
+            3.10 导出离线文档
+            3.20 导出Postman
+            3.22 自定义Swagger Models名称
+            3.23 自定义主页内容
+            3.24 自定义Footer
+        修饰性功能
+            3.6 接口排序
+            3.7 分组排序
+                @ApiSupport>@ApiSort>@Api
+        测试
+            3.5 访问权限控制
+                3.5.1 生产环境屏蔽资源
+                    /doc.html	
+                        Knife4j提供的文档访问地址
+                    /v2/api-docs-ext	
+                        Knife4j提供的增强接口地址,自2.0.6版本后删除
+                    /swagger-resources	
+                        Springfox-Swagger提供的分组接口
+                    /v2/api-docs	
+                        Springfox-Swagger提供的分组实例详情接口
+                    /swagger-ui.html	
+                        Springfox-Swagger提供的文档访问地址
+                    /swagger-resources/configuration/ui	
+                        Springfox-Swagger提供
+                    /swagger-resources/configuration/security	
+                        Springfox-Swagger提供
+                3.5.2 访问页面加权控制：用户密码登录
+                    使用过程
+                        也可以在yml种自行配置账号缪吗
+                        开后便有默认的账号密码
+                        在webxml种添加相应的filter
+            3.8 请求参数缓存
+            3.11 过滤请求参数
+            3.12 包含请求参数
+            3.13 搜索API接口
+            3.14 清除缓存
+            3.17 自定义Host
+                3.17.1 前置条件
+                    服务端必须开启跨域配置
+                3.17.2 配置形式
+                3.17.3 原理
+            3.21 全局参数
+            3.25 JSR303
+                使用流程
+                    在创建Swagger的配置文件中导入springfox的关于JSR303的配置文件
+            授权测试
+                3.19 OAuth2
+                    3.19.1 简化模式(implicit)
+                    3.19.2 授权码模式(authorization_code)
+                    3.19.3 客户端模式(client_credentials)
+                    3.19.4 密码模式(password)
+            增强脚本
+                3.18 afterScript
+        配置
+            3.26 禁用调试
+            3.27 禁用搜索框
+            3.28 禁用OpenApi结构显示
+            3.29 版本控制
+        不推荐使用1
+            3.9 动态请求参数
+            3.15 动态请求参数添加文档注释
+            3.16 动态响应参数添加文档注释
+    4.生态衍生
+        4.1 Knife4jCloud综合管理平台
+        4.2 Knife4jAggregation微服务聚合中间件
+        4.3 Knife4jAggregationDesktop
+    5.其它语言
+        5.1 前置说明
+        5.2 源码运行方式介绍
+        5.3 执行步骤解析
+        5.4 基于源码来改造得到Front版本
+        5.5 基于IIS使用knife4j
+        5.6 基于Nginx方式使用

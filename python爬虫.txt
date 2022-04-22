@@ -1,0 +1,389 @@
+1.PYTHON爬虫
+    爬虫的属性
+        合法性和背景调研
+            爬虫合法性探讨
+                1. 网络爬虫领域目前还属于拓荒阶段，虽然互联网世界已经通过自己的游戏规则建立起一定的道德规范(Robots协议，全称是“网络爬虫排除标准”)，但法律部分还在建立和完善中，也就是说，现在这个领域暂时还是灰色地带。
+                2. “法不禁止即为许可”，如果爬虫就像浏览器一样获取的是前端显示的数据（网页上的公开信息）而不是网站后台的私密敏感信息，就不太担心法律法规的约束，因为目前大数据产业链的发展速度远远超过了法律的完善程度。
+                3. 在爬取网站的时候，需要限制自己的爬虫遵守Robots协议，同时控制网络爬虫程序的抓取数据的速度；在使用数据的时候，必须要尊重网站的知识产权（从Web 2.0时代开始，虽然Web上的数据很多都是由用户提供的，但是网站平台是投入了运营成本的，当用户在注册和发布内容时，平台通常就已经获得了对数据的所有权、使用权和分发权）。如果违反了这些规定，在打官司的时候败诉几率相当高。
+            Robots.txt文件
+        爬虫的应用领域
+        爬虫按规模分类
+            大规模--搜索引擎
+            中规模--Scrapy
+            小规模--Requests
+            request 和 scrapy对比
+        爬虫按属性分类
+            通用网络爬虫
+            聚焦网络爬虫
+            增量式爬虫
+            深层网络爬虫
+        背景
+            大数据时代
+                企业产生的用户数据：百度指数、阿里指数、TBI腾讯浏览指数、新浪微博指数
+                数据平台购买数据：数据堂、国云数据市场、贵阳大数据交易所
+                政府/机构公开的数据
+                数据管理咨询公司：麦肯锡、埃森哲、艾瑞咨询
+                爬取网络数据：如果需要的数据市场上没有，或者不愿意购买，那么可以选择招/做一名爬虫工程师，自己动手丰衣足食。拉勾网Python爬虫职位
+    爬虫的组成
+        工具
+            builtwith--识别网站
+            httpie------命令行http客户端
+            postman--网页调试与RESful请求
+            python-whois 查询网站所有者
+            robotparser ----解析robots.txt的工具
+        一个简单的爬虫
+            1. 设定抓取目标（种子页面/起始页面）并获取网页。
+            2. 当服务器无法访问时，按照指定的重试次数尝试重新下载页面。
+            3. 在需要的时候设置用户代理或隐藏真实IP，否则可能无法访问页面。
+            4. 对获取的页面进行必要的解码操作然后抓取出需要的信息。
+            5. 在获取的页面中通过某种方式（如正则表达式）抽取出页面中的链接信息。
+            6. 对链接进行进一步的处理（获取页面并重复上面的动作）。
+            7. 将有用的信息进行持久化以备后续的处理。
+        爬虫框架
+            控制节点
+            爬虫节点
+            资源库
+        字符串转换
+        爬虫文件
+        爬虫的相关库工具
+            1. Chrome Developer Tools：谷歌浏览器内置的开发者工具。![](./res/chrome-developer-tools.png)
+            2. POSTMAN：功能强大的网页调试与RESTful请求工具。![](./res/postman.png)
+            3. HTTPie：命令行HTTP客户端。``` Shell
+                pip3 install httpie
+            4. BuiltWith：识别网站所用技术的工具。``` Shell
+            5. python-whois：查询网站所有者的工具。``` Shell
+            6. robotparser：解析robots.txt的工具。``` Python
+        爬虫框架：步骤4
+            Pyspider
+            brownant
+            you-get
+    爬虫使用库
+        发送请求库
+            request
+                解决编码的方法
+                request构造器
+                    Request.Request()
+                    创建一个新的 Request 对象。
+                request属性
+                    proxies代理
+                    带headers和params的请求
+                        params
+                        控制访问参数
+                    Request.method 只读
+                        包含请求的方法 (GET, POST, 等.)
+                    Request.url 只读
+                        包含这个请求的URL。
+                    Request.headers 只读
+                        包含请求相关的Headers对象。
+                    Request.context 只读 
+                        包含请求的上下文(例如：audio, image, iframe, 等)
+                    Request.referrer 只读
+                        ?包含请求的来源 (例如：client)。
+                    Request.mode 只读
+                        包含请求的模式 (例如： cors, no-cors, same-origin, navigate).
+                    Request.credentials 只读
+                        包含请求的证书(例如： omit, same-origin).
+                    Request.redirect 只读
+                        包含?如何处理重定向模式，它可能是一个 follow ，error或者manual。
+                    Request.integrity 只读
+                        包含请求的子资源的完整性值 (例如： sha256-BpfBw7ivV8q2jLiT13fxDYAe2tJllusRSZ273h2nFSE=).
+                    Request.cache 只读
+                        包含请求的缓存模式 (例如： default, reload, no-cache).
+                    Request实现了Body, 所以它还具有以下属性可用:
+                        Body.body 只读
+                            一个简单getter用于曝光一个ReadableStream的主体内容.
+                        Body.bodyUsed 只读
+                            存储一个Boolean判断主体是否已经被用于一个响应中.
+                        Request实现 Body, 因此它也有以下方法可用:
+                            Body.arrayBuffer()
+                        返回解决一个ArrayBuffer表示的请求主体的promise.
+                            Body.blob()
+                        返回解决一个Blob表示的请求主体的promise.
+                            Body.formData()
+                        返回解决一个FormData表示的请求主体的promise.
+                            Body.json()
+                        返回解决一个JSON表示的请求主体的promise.
+                            Body.text()
+                        返回解决一个USVString(文本)表示的请求主体的promise.
+                    ?包含请求来源的策略 (例如：no-referrer)。
+                        Request.referrerPolicy 只读
+                    常见的状态码
+                方法
+                    Request.clone()
+                        创建当前request的副本
+                    import requests
+                    1.发起HTTP get请求
+                        import requests
+                        response = requests.get('https://www.baidu.com/')
+                        print(type(response))
+                        print(response.status_code)
+                        print(type(response.text))
+                        print(response.text)
+                        print(response.cookies)
+                    2.各类请求方式
+                        7.基本的post请求
+                            requests.post('http://httpbin.org/post')
+                            post请求需要用户携带一些数据，典型的就是用户登录
+                            import requests
+                            data = {'name': 'germey', 'age': '22'}
+                            response = requests.post("http://httpbin.org/post", data=data)
+                            print(response.text)
+                        2.基本的get请求
+                            import requests
+                            response = requests.get('http://httpbin.org/get')
+                            print(response.text)
+                        requests.put('http://httpbin.org/put')
+                        requests.delete('http://httpbin.org/delete')
+                        requests.head('http://httpbin.org/get')
+                        requests.options('http://httpbin.org/get')
+                        1.发送请求request.get
+                    3.带参数GET请求
+                        import requests
+                        response = requests.get("http://httpbin.org/get?name=germey&age=22")
+                        print(response.text)
+                    4.解析json
+                        import requests
+                        import json
+                        response = requests.get("http://httpbin.org/get")
+                        print(type(response.text))#str格式
+                        print(response.json())#json格式输出
+                        print(json.loads(response.text))#和上结果一样
+                        print(type(response.json()))#json是dict格式，即字典格式
+                    5.获取二进制数据
+                        import requests
+                        response = requests.get("https://github.com/favicon.ico")
+                        print(type(response.text), type(response.content))#str和bytes格式
+                        print(response.text)#乱码
+                        print(response.content)#二进制字节流
+                    【3】高级操作
+                        (1) 文件上传
+                            import requests
+                            files = {'file': open('favicon.ico', 'rb')}
+                            response = requests.post("http://httpbin.org/post", files=files)
+                            print(response.text)
+                        (2) 获取cookie
+                            import requests
+                            response = requests.get("https://www.baidu.com")
+                            print(response.cookies)
+                            for key, value in response.cookies.items():
+                                print(key + '=' + value)
+                        (3)session可以维持会话信息
+                            import requests
+                            s = requests.Session()
+                            s.get('http://httpbin.org/cookies/set/number/123456789')#供测试的网址 
+                            #用session维持会话信息，相对于在一个浏览器中操作
+                            response = s.get('http://httpbin.org/cookies')
+                            print(response.text)
+                    状态码判断
+                        2.状态码判断
+                        import requests
+                        response = requests.get('http://www.jianshu.com/hello.html')
+                        exit() if not response.status_code == requests.codes.not_found else print('404 Not Found')
+                        import requests
+                        response = requests.get('http://www.jianshu.com')
+                        exit() if not response.status_code == 200 else print('Request Successfully')
+                操作步骤
+                    2. URL参数和请求头。``` Python
+                    3. 复杂的POST请求（文件上传）。``` Python
+                    4. 操作Cookie。``` Python
+                    5. 设置代理服务器。``` Python
+            aiohttp
+            urllibs
+            httple
+            curl
+            alhttp
+            hyper(HTTP/2)
+            tomato
+        数据提取
+            解析数据库
+                特殊格式处理
+                计算机视觉解析
+                自然语言处理
+            0.下载数据
+                urlib
+                分布式进程
+                    多进程（**multiprocessing**）
+                     多线程（**threading**）
+                        threading.local类
+                    concurrent.futures模块
+            1.解析器
+                xml解析
+                    xpath语言
+                        xpath的功能
+                        xpath选取节点方法
+                            xpath的路径表达式
+                            路径表达式举例
+                            路径表达式举例
+                        查看元素的xpath语法
+                    lxml库
+                        etree库
+                        解析库
+                html解析
+                    PyQuery
+                css解析器
+                    Beautiful soup
+                        beautiful soup的功能
+                        beautiful soup的属性
+                        查找方法原理
+                            遍历导航树
+                            搜索树节点
+                通用解析
+                    Re（正则表达式）
+                        常用正则表达式方法
+                2.json  转换python类型字符串
+                    转换属性
+                        转换的分类
+                        json和python数据类型对应关系
+                    转换原理
+                        json模块函数
+                            序列化
+                    python字典/列表以json格式保存
+                2.format字符串格式化
+                BeautifulSoup的使用
+                    1. 遍历文档树
+                        获取标签
+                        获取标签属性
+                        获取标签内容
+                        获取子（孙）节点
+                        获取父节点/祖先节点
+                        获取兄弟节点
+                    2. 搜索树节点
+                        find / find_all
+                        select_one / select
+                    四种对象
+                        Tag标签,
+                            属性
+                                name
+                                attr
+                                NavigableString , 
+                                    说白了就是：Tag 对象里面的内容
+                                    print(soup.title.string)
+                                     # 输出结果如下：
+                                    The Dormouse's story
+                                BeautifulSoup , 
+                                Comment .
+                                    Comment
+                                    Comment 对象是一个特殊类型的 NavigableString 对象。如果 HTML 页面中含有注释及特殊字符串的内容。而那些内容不是我们想要的，所以我们在使用前最好做下类型判断。例如：
+                                    if type(soup.a.string) == bs4.element.Comment:
+                                        ...    # 执行其他操作，例如打印内容
+                PyQuery的使用
+                    实例 - 获取知乎发现上的问题链接
+            5. 序列化和压缩
+                pickle 
+                json
+                zlib
+        存储
+            缓存和持久化
+                pymysql
+                sqlalchemy
+                peewee
+                redis
+                pymongo
+            生成数字签名hashlib
+            MongoDB
+            MySQL
+            Reids爬取的中间结果
+            SQUte
+        工具库
+            光学字符识别
+                光学字符识别（OCR）是从图像中抽取文本的工具，可以应用于公安、电信、物流、金融等诸多行业，例如识别车牌，身份证扫描识别、名片信息提取等。在爬虫开发中，如果遭遇了有文字验证码的表单，就可以利用OCR来进行验证码处理。Tesseract-OCR引擎最初是由惠普公司开发的光学字符识别系统，目前发布在Github上，由Google赞助开发。
+            处理更复杂的验证码
+                很多网站为了分别出提供验证码的是人还是机器使用了更为复杂的验证码，例如拼图验证码、点触验证码、九宫格验证码等。关于这方面的知识，在崔庆才同学的《Python 3网络爬虫开发实战》有较为详细的讲解，有兴趣的可以购买阅读。
+            验证码处理服务
+    爬虫爬取实现的方法
+        爬虫进阶
+            图片验证码
+            MQ消息队列
+            任务调度
+            异步编程
+                asyncio
+                Twisted(optional)
+                Tomorrow
+        爬虫的注意事项
+            相对链接-绝对链接
+            设置代理服务器
+            限制下载速度
+            记录经过链接数量
+            解决验证SSL证书
+        反爬虫的方法
+            页面不能右键
+                一个优雅的通用解决办法是，在连接前加个view-source:。
+                view-source:https://www.dmzj.com/view/yaoshenji/41917.html
+            通过Referer的反扒爬虫
+            1、robots.txt配置 ——反爬等级 ★
+            2、User-Agent检测 ——反爬等级 ★
+                伪造UA
+            3、账户进行访问控制 ——反爬等级 ★★
+                很多网站不适用，比如信息网的房源数据普通游客也是能看得到的 。
+            4、有限数据访问 ——反爬等级 ★★★
+                很多网站不适用，需要全量数据访问 。
+            5、访问频率限制 ——反爬等级 ★★★
+                容易误伤普通用户 。
+            6、cookie/token等有效时间 ——反爬等级 ★★★
+                用户体验差点 。
+            7、ip黑名单 ——反爬等级 ★★★
+                现在网上很多IP代理池，爬虫会不断的换IP地址进行爬取 。
+            8、ID连续性问题——反爬等级 ★★★★
+                ID不连续在查找定位问题时候可能没那么方便，但是无伤大局 。
+            9、JS动态加载 ——反爬等级 ★★★★
+                用户体验差点 。
+            10、信息图片化 ——反爬等级 ★★★★
+                界面用户体验不是很好 。
+            11、接口加密 ——反爬等级 ★★★★
+                前后台工作量比较大 。
+            12、接口加密 ——反爬等级 ★★★★★
+                政府部门不一定同意增加水印 。
+            13、验证码 ——反爬等级 ★★★★★
+                用户体验不是很好 。
+            14、自定义字体 ——反爬等级 ★★★★★
+            15、信息混淆策略 ——反爬等级 ★★★★★
+                页面复杂化 。
+    爬虫的采集实现步骤
+        url
+            爬虫模拟登录
+                方式1：session
+                方式2：cookie放在headers里
+                方式3：cookie转化为字典放在get里
+            步骤1：url列表
+            步骤2：计算url
+            步骤3：递归url
+            步骤4：读取数据库
+        发送请求
+            步骤5：确定目标
+            步骤6：发起请求
+                    普通请求
+                    伪造普通请求
+                    模拟行为请求
+                    多线程进程协程
+                    浏览器自动化
+        数据提取
+            2.获得响应的html字符串
+            3.编码解码
+            数据预处理
+                python数据预处理的函数
+                步骤1：数据清洗
+                步骤2：数据集成
+                步骤3：数据交换
+                步骤4：数据约束
+            步骤7：解析数据
+                解析内容
+                    基本元素
+        数据存储
+            步骤8：存储入表
+            步骤9：文件
+            步骤10：redis中转站
+            步骤11：数据库
+            步骤12：excel 文本
+    并发下载
+        协程和异步I/O
+            协程的概念
+                1. 执行效率极高，因为子程序（函数）切换不是线程切换，由程序自身控制，没有切换线程的开销。
+                2. 不需要多线程的锁机制，因为只有一个线程，也不存在竞争资源的问题，当然也就不需要对资源加锁保护，因此执行效率高很多。
+            历史回顾
+                1. Python 2.2：第一次提出了生成器（最初称之为迭代器）的概念（PEP 255）。
+                2. Python 2.5：引入了将对象发送回暂停了的生成器这一特性即生成器的`send()`方法（PEP 342）。
+                3. Python 3.3：添加了`yield from`特性，允许从迭代器中返回任何值（注意生成器本身也是迭代器），这样我们就可以串联生成器并且重构出更好的生成器。
+                4. Python 3.4：引入`asyncio.coroutine`装饰器用来标记作为协程的函数，协程函数和`asyncio`及其事件循环一起使用，来实现异步I/O操作。
+                5. Python 3.5：引入了`async`和`await`，可以使用`async def`来定义一个协程函数，这个函数中不能包含任何形式的`yield`语句，但是可以使用`return`或`await`从协程中返回值。
+            示例代码
+                1. 生成器 - 数据的生产者。``` Python

@@ -1,0 +1,30 @@
+嵌入式 - 面试
+面试资源：
+    github：
+        https://github.com/xiaowenxia/embedded-notes
+        https://github.com/ZhongYi-LinuxDriverDev/EmbeddedSoftwareEngineerInterview
+    gitee
+        https://gitee.com/langcai1943/embedded_exercise_problems
+    视频教程：
+
+c语言面试题 emmmmx
+c++面试题
+数据结构和算法面试 emmmmmmx
+linux面试题 emmx
+arm 面试题 emmx
+    stm32面试题
+外设 面试题 emmx
+bash面试题 emmmmx
+
+git 命令 
+    git 使用说明
+    git cheatsheet
+    git 底层技术
+
+freertos 源码详解
+协程--croutine.c
+tcpip 协议栈知识点
+tcpip模型
+以太网协议
+ARP协议
+TCP协议

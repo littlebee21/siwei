@@ -1,0 +1,328 @@
+Kafka
+    Kafka高可用架构
+        每台机器+机器上的broker进程，就可以认为是kafka集群中的一个节点
+        每个节点存储一部分topic的partition每个节点可以设置多个副本，选举一个为leader，其他副本为follower生产者只能往leader里写数据，写入数据到leader的时候，leader就会将数据同步到follower上去
+    如何保证从消息队列拿出来的数据按照顺序执行？
+        场景：通过mysql binlog进行数据复制，新增，修改，删除操作语句，必须保证顺序一致。
+        RabbitMQ
+            造成原因：rabbitMQ顺序不一致情况：一个queue多个消费者consumer
+            解决：设置多个queue，每个queue对应一个消费者，这种顺序操作的数据写入到一个queue里面去
+        kafka
+            kafka能做到的保障：1.写入partition中的数据一定是有顺序的。2.生产者在写的时候，可以指定一个key，比如指定某个订单的id作为key3.这个订单相关的数据，一定会被分发到一个partition中。而且这个partition中的数据一定是有顺序的4.一个消费者只能消费一个partition中的数据。
+            1.首先对需要保证顺序的数据指定一个key，保证这些数据都写入同一个partition中2.一个partition只能被一个消费者消费。但是消费者内部如果多线程
+            但是消费者内部如果多线程
+                解决：使用内存队列处理，将key hash后分发到内存队列中，然后每个线程处理一个内存队列的数据。
+    Kafka
+        概述
+            消息队列
+                应用场景
+                    异步处理
+                模式
+                    点对点模式
+                        一对一
+                        消费者主动拉取数据
+                        消息收到后消息清除
+                    发布/订阅模式
+                        一对多
+                        数据生产后，推送给所有订阅者
+            为什么需要消息队列
+                解耦
+                冗余
+                扩展性
+                灵活性&amp;峰值处理能力
+                可恢复性
+                顺序保证
+                缓冲
+                异步通信
+            什么是Kafka
+                一个分布式的基于发布/订阅模式的消息队列
+                    消息保存时根据Topic进行归类
+                    kafka集群有多个kafka实例
+                主要应用于大数据实际处理领域
+                依赖zookeeper
+            架构
+                producer
+                    消息生产者
+                consumer
+                    消息消费者
+                topic
+                    理解为一个队列
+                consumer group
+                    kafka用来实现一个topic消息的广播和单播的手段
+                    一个topic可以有多个CG
+                    topic的消息会复制到所有的CG，但是每个partion只会把消息发给CG中的一个consumer
+                    如果需要实现广播，只要每个consumer有一个嘟咧的CG就可以
+                    要实现单播只要所有的consumer在同一个CG
+                    用CG还可以将consumer进行自由的分组而不需要每次发送消息到不同的topic
+                        ？？
+                broker
+                    一台服务器就是一个broker
+                    一个集群由多多个broker组成
+                    一个broker可以容纳多个topic
+                partition
+                    为了实现扩展性，一个非常大的topic可以分不到多个broker上
+                    一个topic可以分为多个partition,每个partion是一个有序队列
+                    partition中的每条消息都会被分配一个有序的id(iffset)
+                    kafka只能保证一个partion中的顺序将消息发送给consumer，不能保证一个topic的整体（多个partition）的顺序
+                offset
+                    kafka的存储文件都是按照offset.kafka来命名
+                    用offset做名字的好处是方便查找
+                    the first offset就是00000000000.kafka
+        集群部署
+            环境准备
+                集群规划
+                    hadoop102
+                        zk
+                        kafka
+                    hadoop103
+                        zk
+                        kafka
+                    hadoop104
+                        zk
+                        kafka
+                tar包下载
+            集群部署
+                解压安装包
+                    tar -zxvf kafka_2.11-0.11.0.0.tgz -C /opt/module/
+                修改解压后的文件名
+                    mv kafka_2.11-0.11.0.0/ kafka
+                创建logs目录
+                    mkdir logs
+                修改配置文件
+                    cd config
+                    vi server.properties
+                        broker.id=0
+                        delete.topic.enable=true
+                        log.dirs=/opt/module/kakfa/logs
+                        zookeeper.connect=hadoop102:2181,hadoop103:2181,hadoop104:2181
+                配置环境变量
+                    sudo vi /etc/profile
+                        export KAFKA_HOME=/opt/module/kafka
+                        export PATH=$PATH:$KAFKA_HOME/bin
+                    source /etc/profile
+                分发安装包
+                修改hadoop103,hadoop104配置文件server.properties中的broker.id的值
+                启动集群
+                    bin/kafka-server-start.sh conf/server.properties &amp;
+                关闭集群
+                    bin/kafka-server-stop.sh stop
+            Kafaka命令操作
+                查看当前服务器中的所有topic
+                    bin/kafka-topic.sh --zookeeper hadoop102:2181 --list
+                创建topic
+                    bin/kafka-topics.sh --zookeeper hadoop102 2181 \ --create --replication-factor 3 --partitions 1 --topic first
+                    选项说明
+                        --topic：定义topic名
+                        --replication-factor：定义副本数
+                        --partitions：定义分区数
+                删除topic
+                    bin/kafka-topic.sh --zookeeper hadoop102:2181 --delete --topic first
+                    需要server.properties中设置delete.topic.enable=true，否则只是标记删除或者直接重启
+                发送消息
+                    bin/kafka-console-producer.sh --broker-list hadoop102:9092 --topic first
+                消费消息
+                    bin/kafka-console-consumer.sh --zookeeper hadoop102:2181 --from-beginning --topic first
+                    选项说明
+                        --from-beginning：会把first主题中以往所有的数据读取出来，根据业务场景选择是否增加该配置
+                查看某个topic的详情
+                    bin/kafka-topics.sh --zookeeper hadoop102:2181 --describe --topic first
+        架构深入
+            工作流程几文件存储机制
+                生产过程分析
+                    写入方式
+                        producer采用推模式将消息发布到broker
+                        每条消息都被追加到分区中，属于顺序写磁盘
+                            顺序写磁盘效率比随机写内存要高，保障kafka吞吐量
+                    分区
+                        概述
+                            消息发送时都被发送到一个topic，其本质就是一个目录
+                            而topic是由一些partition logs（分区日志）组成
+                            每个partition中的消息都是有序的，生产的消息不断追加到partition log上，其中的每一个消息都被赋予了一个唯一的offset值
+                        分区原因
+                            方便在集群中扩展，每个partition可以通过调整以适应他所在的机器，而一个topic又可以有多个partition组成，因此整个集群就可以适应任意大小的数据了
+                            可以跳高并发，因为可以以partition为单位读写
+                        分区原则
+                            指定了partition，则直接使用
+                            未指定partition但指定key，通过对key的value进行hash出一个partition
+                            partition和key都未指定，使用轮询选出一个partition
+                    副本
+                        同一个分区partition可能会有多个replication
+                            对应server.properties配置中的default.replication.factor=N
+                        没有replication的情况下，一旦broker宕机，其上所有partition的数据都不可被消费，同时producer也不能再将数据存于其上的partition
+                        引入replication之后，同一个partition可能会有多个replication，而这时需要在这些replication之间选出一个leader，producer和consumer只与整个leader交互，其它replication作为follower从leader中复制数据
+                broker保存消息
+                    存储方式
+                        物理上把topic分成一个或多个partition
+                        每个partition物理上对应一个文件夹
+                    存储策略
+                        无论消息是否被消费，kafka都会保留所有消息
+                        删除旧数据的策略
+                            基于时间
+                                log.retention.hours=168
+                            基于大小
+                                log.retention.bytes=1073741824
+                        Kafk读取特定消息的时间复杂度为O(1)
+                    Zookeeper存储结构
+                消费过程分析
+            Kafka消费者
+                消费方式
+                    consumer采用pull模式从broker中读取数据
+                    pull VS push
+                        push
+                            push 模式很难适应消费速率不同的消费者，因为消息发送速率由broker决定
+                            broker的目标是尽可能以最快速度传递消息，但是这样容易造成consumer来不及处理消息，典型的表现就是拒绝服务以及网络拥塞
+                            优点
+                                不需要轮询
+                                    消息发送速率由broker决定
+                            缺点
+                                ？？
+                        pull
+                            优点
+                                可以根据consumer的消费能力以适当的速率消费消息
+                            缺点
+                                如果kafka没有数据，消费者可能会陷入循环中，一直返回空数据
+                                    kafka的改进？
+                                        针对这一点，kafka的消费者在消费数据时会传入一个时长参数timeout，如果当前没有数据可供靠费，consumer会等待一段时间后再返回，这段时长即为timeout
+                分区配置策略
+                    RoundRobin
+                    Range
+                offset的维护
+                消费者组案例
+            高效读写数据
+                顺序写磁盘
+                    生成着生产数据，要写入到log文件中，写的过程是一直追加到文件末端，为顺序写
+                零拷贝技术
+            Zookeeper在Kafka中的作用
+        Kafka API
+            Producer API
+                消息发送流程
+                    Kafka的Producer发送消息采用的是异步发送的方式
+                    两个线程
+                        main线程
+                            将消息发送给RecordAccumulator
+                            流程
+                                producer
+                                    interceptors
+                                        serializer
+                                            partitioner
+                        sender线程
+                            不断从RecordAccumulator中拉取消息发送到kafka broker
+                    一个线程共享变量
+                        RecordAccumulator
+                    配置参数
+                        batch.size
+                            只有数据累积到batch size之后，sender才会发送数据
+                        linger.ms
+                            如果数据迟迟未达到batch.size，sender等待linger.time之后就会发送数据
+                异步发送API
+                    依赖
+                        org.apache.kafka:kafka-clients:0.11.0.0
+                    编码
+                        类
+                            KafkaProducer
+                                生产者对象用于发送数据
+                            ProducerConfig
+                                生产者配置参数
+                            ProducerRecord
+                                每条数据都要封装成一个ProducerRecord对象
+                        带回调的函数的API
+                        不带回调函数的API
+                同步发送
+                    同步的意思是，一条消息发送之后，会阻塞当前线程，直至返回ack
+            Consumer API
+                概念
+                自动提交offset
+                    依赖
+                        org.apache.kafka:kafka-clients:0.11.0.0
+                    编码
+                        类
+                            KafkaConsumer
+                            ConsumerConfig
+                            ConsumerRecord
+                    配置
+                        enbale.auto.commit
+                            是否开启自动提交offset
+                        auto.commit.interval.ms
+                            自动提交offset的时间间隔
+                手动提交offset
+                    概述
+                        自动提交十分简洁方便，但是由于其是基于时间提交的，开发人员难以把握offset提交的时机。
+                        手动提交offset的方法
+                            commitSync
+                                阻塞当前线程，一直到提交成功，并且会自动失败重试
+                            commitAsync
+                                没有失败重试机制，故有可能提交失败
+                            都会提交本次poll的一批数据最高的偏移量提交
+                    enbale.auto.commit设为false
+                    同步提交
+                        consumer.commitSync()
+                    异步提交
+                        consumer.commitAsync()
+                    数据漏消费和重复消费分析
+                        无论是同步提交还是异步提交offset，都有可能会造成数据的漏消费或者重复消费
+                        先提交offset后消费，有可能造成数据的漏消费
+                        先消费后提交offset，有可能会造成数据的重复消费
+                        如何避免
+                            0.11之前版本
+                                消费者端去保证
+                            0.11之后版本
+                                Kafka实现精准一次
+                自定义存储offset
+                    概述
+                        0.9之前，offset存储在zookeeper
+                        0.9之后，默认将offset存储在kafka的一个内置的topic中
+                        Kafka还可以选择自定义存储offset
+                        offset的维护是相当繁琐的，需要考虑到消费者的rebalance
+                    rebalance
+                        当有新的消费者加入消费者组，已有的消费者推出消费者组或者所订阅的主题的分区发生变化，就会出发到分区的重新分配
+                        消费者要首先获取到自己被重新分配的分区，并且定位到每个分区最近提交的offset位置继续消费
+                    编码
+                        接口
+                            ConsumerRebalanceListener
+                        consumer.subscribe()时传递一个ConsumerRebalanceListener对象
+                        参考
+            自定义Interceptor
+                原理
+                    Producer拦截器是在kafka0.10版本被引入的，主要用于实现clients端的定制化控制逻辑
+                    拦截器使得用户在消息发送前以及producer回调逻辑前有机会对消息做一些定制化需求，比如修改消息
+                    指定多个拦截器时会形成一个拦截器链
+                编码
+                    类、接口
+                        org.apache.kafka.clients.producer.ProducerInterceptor
+                    参考
+        Kafka监控
+            Kafka Manager
+                下载
+                上传压缩包
+                解压
+                修改配置文件conf/application.conf
+                    kafka-manage.zkhosts=&quot;hadoop102:2181,hadoop103:2181,hadoop104:2181&quot;
+                启动kafka-manager
+                    bin/kafka-manager
+                登入hadoop102:9000页面查看详细信息
+            Kafka Monitor
+                官网
+        Flume对接Kafka
+            &nbsp;参考
+                https://github.com/jast90/awesome-books/issues/19
+        Kafka面试题
+            Kafka中的ISR、OSR、AR分别代表什么？
+            Kafka中的HW、LEO分别代表什么？
+            Kafka中是怎么体现消息顺序性的？
+            Kafka中的分区器、序列化器、拦截器是否了解？它们之间的顺序是什么？
+            Kafka生产者客户端的整体结构是什么样子的？使用几个现成处理？分别是什么？
+            “消费组中的消费者个数如果超过topic的分区，那么就会有消费者消费不到数据”这句话是否正确？
+            消费者提交消费位移时提交的是当前消费到的最新消息的offset还是offset+1?
+            有哪些情形会造成重复消费？
+            有哪些情景会造成消息漏消费？
+            当你使用kafka-topics.sh 创建一个topic之后，Kafka背后会执行什么逻辑？
+            topic的分区数可不可以增加？如果可以，怎么增加？如果不可以，那又是为什么？
+            topic的分区数可不可以减少？如果可以，怎么减少？如果不可以，那又是为什么？
+            Kafka有内部的topic吗？如果有是什么？有什么用？
+            Kafka分区分配的概念？
+            简述kakfa的日志目录结构？
+            如果我指定一个offset，Kafka Controller怎么查找对应的消息？
+            聊一聊kafka Controller的作用？
+            Kafka中哪些地方需要选举？这些地方的选举策略又是哪些？
+            失效副本是这什么？有哪些应对措施？
+            kafka的那些设计让它如此高的性能？

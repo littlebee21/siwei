@@ -1,0 +1,87 @@
+语言对比 - 面向对象
+封装: 
+    2.1namespace的定义（define）
+    3、数据类型及类
+        java所有容器都是类和对象
+        java函数和变量部必须是类的一部分
+        变量和类可以定位为全局变量
+        java没有结构和联合
+    7，变量三大要素
+        链接
+            Java不支持预处理功能，使用import
+            Java不支持头文件
+            子类访问父类  
+                C++ ::
+                java super
+        作用域
+            Java不在所有类之外定义全局变量，static替代全局变量
+            Java不支持宏定义，而是使用final
+        读写特性
+                java，final替代常量
+                C/ C++，const
+    7，函数
+        默认参数  
+            Java不支持缺省函数参数，
+            c++支持默认参数
+
+继承：
+    继承数量
+        c++支持多重继承：
+            三种继承方式：public private protect，默认：private，一般只用public
+            三种继承方式解释：继承后属性的 权限会发生变化
+            多继承：   点+半径   ----圆
+        java单继承+接口多实现：extend +public继承
+    限制继承：
+        C++ final关键字
+        java final关键字
+    根基类
+        C++没有根基类
+        java有根基类object
+        javascript根基类prototype
+	实现原理：
+		C++ C:B:A单继承 构造函数A:B:C   析构函数C:B:A
+			c:B,A 多继承  构造B:A:c     析构函数c：A：B 先继承的先调用构造函数
+
+		
+多态
+    重载语法
+        运算符重载：Java不支持操作符重载。C++操作符重载
+        函数重载: 
+    重写语法：
+        java；final关键字限制函数重写
+        C++： final关键字限制函数重写
+    类转型：
+        类型转换的语法
+            向上转型：
+                java类 实现 接口
+                C++ 类 实现 类
+            向下转型：抽象-》具体
+                C++不准许
+                java准许
+    实现策略：
+        C++语言：虚函数的类+继承+向上转换
+			动态分配形式 ：Shape *shape = new Rect(1,2); 在Rect中加virual
+			静态分配形式 ： Shape *shape;   Rect rect(1,2);    shape = &rec;
+        java语言：接口+实现+向上转换
+
+
+代码模板语法：
+C++
+    class Empty
+    {
+    public:
+        Empty(); // 缺省构造函数
+        Empty(带参构造函数)  ：初始化列表
+        Empty( const Empty& ); // 拷贝构造函数
+        ~Empty(); // 析构函数
+        Empty& operator=( const Empty& ); // 赋值运算符
+        Empty* operator&(); // 取址运算符
+        const Empty* operator&() const; // 取址运算符 const
+    };
+java
+
+
+
+关键字：
+1，基类父类，子类派生类，继承封装多态
+

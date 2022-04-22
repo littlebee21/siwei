@@ -1,0 +1,61 @@
+linux快捷键
+    对于程序执行的控制
+        开启
+            ctrl+q : 继续屏幕输出
+        暂停
+            ctrl+s : 暂停屏幕输出
+        终止
+            ctrl+c ：终止进程/命令
+        关闭
+            dtrl+d : 关闭终端
+        执行
+            Ctrl – o ：执行当前命令，并选择上一条命令。
+    命令行本身
+        linux命令的使用技巧
+            补齐
+                tab按键可以补齐
+                    如果重复冲突无法补齐
+            查询
+                对查找的内容分进行过滤
+            修改
+                通过进制和格式进行修改
+        对于命令行的操作
+            删除
+                开始
+                    Ctrl+w:删除光标前面的单词的字符
+                        word
+                    ctrl+u : 删除此处至开始的所有内容
+                        u开头
+                            这个比较常用删除所有
+                    ctrl+k : 删除此处至末尾的所有内容
+                        kill
+                    ctrl+d ：删除光标后面的所有内容
+                        delete
+                    ctrl+z
+                        子主题
+                所有内容
+            清屏
+                Ctrl+l  : 相当于clear，即清屏
+                Alt – d ：由光标位置开始，往右删除单词。往行尾删
+            复制粘贴
+                粘贴
+                    Ctrl+y:粘贴Ctrl+u或ctrl+k剪切的内容
+                    Shift+ctrl+v ：粘贴
+                复制
+                    Shift+ctrl+c ：复制
+        光标左右
+            单个字符
+                Ctrl – b ：往回(左)移动一个字符
+                    before
+                Ctrl – f ：往后(右)移动一个字符
+                    forword
+            单词
+                Alt – b ：往回(左)移动一个单词
+                    before
+                Alt – f ：往后(右)移动一个单词
+                    forword
+                ctrl+左右键:在单词之间跳转
+            beef牛肉记忆
+            行头尾
+                ctrl+a ：光标跳转到command 之前
+                ctrl+e ：光标跳转到command 之后

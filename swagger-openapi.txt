@@ -1,0 +1,116 @@
+swagger
+    原理
+    openapi基本结构
+        info
+            元数据openapi info，title.description.version
+        伺服器servers
+        路径path
+            url
+            description
+        参数url cookie
+            URL路径（/users/{userId}），
+            查询字符串（/users?role=admin），
+            标头（X-CustomHeader: Value）
+            cookie（Cookie: debug=0）
+        请求正文get post
+        回应response
+            content
+                application/json
+                application/xml
+        输入和输出模型components/schemas
+        身份验证方法securitySchemes security
+    附加结构
+        API服务器和基本路径
+            基本路径
+                服务器URL格式
+                服务器模板
+            例子
+                Https和HTTP
+                生产，开发和登台
+                SaaS和内部部署
+                不同地理区域的区域端点
+            覆盖服务器
+            相对网址
+        媒体类型
+            媒体类型名称
+            多种媒体类型
+        path路径与运作
+            路径
+            路径模板
+            运作方式
+            操作参数
+            查询路径中的字符串
+            operationld
+            不推荐使用的操作
+            覆盖全局服务器
+        parameter描述参数
+            参数类型
+            路径参数
+            查询参数
+            查询参数中的保留字符
+            标头参数
+            Cookie参数
+            必需和可选参数
+            模式与内容
+            默认参数值
+            常见错误
+            枚举参数
+            常数参数
+            空值和可空参数
+            参数示例
+            不推荐使用的参数
+            常用参数
+            路径所有方法的通用参数
+            各种路径的通用参数
+            参数依赖
+            参数序列化
+                路径参数
+                查询参数
+                标头参数
+                Cookie参数
+                序列化和RFC6570
+                其他序列化方法
+        request描述请求正文
+            与 OpenAP2.0的区别
+            requestBody，内容和媒体类型
+            anyOf， oneof
+            上传文件
+            索取正文示例
+            可重复使用的实体
+            表格数据
+            表单数据中的复杂序列化
+        reponse描述回应
+            响应媒体类型
+            HTTP状态码
+            反应体
+            返回文件的响应
+            anyOf， oneof
+            空响应体
+            响应标题
+            预设回应
+            重用响应
+            将响应值链接到其他操作
+            常问问题
+            参考
+        schemas数据模型（模式）
+        Authorization验证
+            与 OpenMP20相比的变化
+            描述安全性
+            步骤1定义 securitySchemes
+            步骤2应用安全性
+            范围
+            使用多种身份验证类型
+        link链接
+    主题
+        components组件部分通用定义
+            组件结构
+            组件示例
+            外部定义的组件
+            与 OpenAP2.0的区别
+        callback回呼
+        使用$ ref
+            sre语法
+            转义字符
+            注意事项
+            可以使用sref的地方
+            sre和兄弟元素

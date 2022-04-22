@@ -1,0 +1,108 @@
+多线程 - 驱动
+多线程
+    定时
+        定时器的使用
+            1） TIM3 时钟使能
+            2） 初始化定时器参数
+                设置自动重装值
+                分频系数
+                计数方式
+        定时器的时钟来源
+            1） 内部时钟（CK_INT）
+            2） 外部时钟模式 
+            3） 外部时钟模式 
+            4） 内部触发输入（ITRx）：
+        高级控制定时器(TIM1和TIM8)
+        通用定时器(TIMx)
+        寄存器
+            控制
+                CR1 控制寄存器 1
+                CR2 控制寄存器 2
+                SMCR 从模式控制寄存器
+                DMA
+                    DCR DMA 控制寄存器
+                    DIER DMA/中断使能寄存器
+                    DMAR 连续模式的 DMA 地址寄存器
+                时间
+                    APR 自动重装载寄存器
+                    PSC 预分频寄存器
+            数据
+                CCMR1 捕获/比较模式寄存器 1
+                CCMR2 捕获/比较模式寄存器 2
+                CCER 捕获/比较使能寄存器
+                CCR1 捕获/比较寄存器 1
+                CCR2 捕获/比较寄存器 2
+                CCR3 捕获/比较寄存器 3
+                CCR4 捕获/比较寄存器 4
+            状态
+                SR 状态寄存器
+                CNT 计数器寄存器
+                EGR 事件产生寄存器
+    中断
+        优先级
+        NVIC嵌套中断
+            中断向量表向量表
+        EXTI外部中断
+    Timer / Watchdog Timer (定时器)
+     3.5ARM内核典型嵌入式处理
+        3.5.1S3C2410/S3C2440芯片的内部结构
+        3.5.2存储器控制组件
+            存储器控制器
+            总线控制器
+            外部主控器
+            NAND Flash控制器
+        3.5.3时钟及电源管理组件
+            时钟信号
+                MPLL（锁相环时钟）
+                UPLL(USB时钟)
+                HCLK（接到AHB时钟）
+                PCLK（接到APB时钟）
+            电源管理模式
+                正常模式
+                慢速模式
+                空闲模式
+                掉电模式
+        3.5.4中断控制器及中断控制
+            中断源
+                有子寄存器中断源
+                没有子寄存器中断源
+            中断挂起寄存器
+                源中断挂起寄存器SRCPND
+                子源中断挂起寄存器SUBSRCPND
+                中断挂起寄存器INTPND
+            中断屏蔽寄存器
+                子源中断屏蔽寄存器INTSUBMASK
+                中断屏蔽寄存器INTMASK
+            中断模式寄存器
+                中断模式寄存器INTMOD
+        3.5.5实时时钟RTC
+            RTC控制寄存器
+                CLKRST
+                CNTSEL
+                CLKSEL
+                RTCEN
+            RTC告警控制寄存器
+            告警秒分时日月年数据寄存器
+            RTC循环复位寄存器
+            BCD码的年，月，日，星期，时，分，秒数据寄存器
+                BCDSEC
+                BCDMIN
+                BCDHOUR
+                BCDDATE
+                BCDMON
+                BCDYEAR
+            滴答时钟计数寄存器
+        3.5.6通用I/O接口GPIO
+            控制寄存器GPxCON
+            数据寄存器GPxDAT
+            上拉寄存器GPxUP
+        3.5.7串行异步通信UART
+            UART线路寄存器ULCONn
+            UART控制寄存器UCONn
+            UART发送/接收状态寄存器UTRSTAT0
+            UART数据寄存器URXHn
+            UART波特率除数寄存器UBRDIVn=INT（UCLK/(波特率*16)）-1
+        3.5.8看门狗定时器WDT
+            看门狗定时器控制寄存器WTCON
+            看门狗定时器计数寄存器WTCNT
+            数据寄存器WTDAT

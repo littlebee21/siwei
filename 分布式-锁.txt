@@ -1,0 +1,153 @@
+分布式锁
+    场景举例
+        分布式锁应对高并发场景
+            分段加锁+合并扣减
+            大公司一般都有分布式kv存储
+                tair，redis，mongodb，高并发，每秒几万几十万都没问题，甚至每秒百万
+                    实时库存数据放kv存储里去，先查库存再扣减库存，你在操作库存的时候，直接扣减
+                    如果你发现扣减之后是负数的话，此时就认为库存超卖了，回滚刚才的扣减，返回提示给用户
+                    对kv做的库存修改写MQ，异步同步落数据库，相当于异步双写，用分布式kv抗高并发，做好一致性方案
+        京东618 iPhone12手机秒杀
+    分布式锁思考
+        保证在分布式系统中，同一方法在同一时刻只可被一台机器的一个线程执行
+        应该为可重入锁，避免产生死锁
+        高可用的获取和释放锁
+        获取和释放锁性能要好
+    分布式锁使用
+    功能与解决方案
+        基于数据库方案
+            两种方式
+                乐观锁
+                    CAS（compare and swap）
+                    版本号机制
+                悲观锁
+                    for update
+            总结
+                悲观锁简单易用、保障数据一致性，但并发量较大时，导致请求排队，影响数据库稳定，消耗服务器性能
+                乐观锁主要基于系统数据存储逻辑上，可能存在一些局限性，例：并发场景中直接更改了共享数据属性，导致脏数据
+        基于缓存方案(Redis)
+            setnx+expire
+            setnx+value(随机值/系统时间)+expire
+            Redis普通分布式锁
+                set my:lock 随机值 NX PX 30000set orderId:1:lock uuid NX PX 30000
+                    随机值一定要随机，比如UUID。根据lua脚本进行解锁（过期时间问题，需要对比value值进行锁删除）
+                    NX：设置必须没有这个key值才能成功
+                        如果redis没有orderId:1:lock，那么设置成功。如果有就返回失败。
+                    PX 30000:过了30s之后，key自动过期，被删除
+                轮询原理
+                缺点
+                    redis如果只做了单机，那么分布式锁就失效了
+                    redis主从架构，master保存了锁数据，但是还没同步到slave就挂掉了。导致分布式锁机制失效
+        基于Zookeeper方案
+            Curator框架
+                基于zookeeper进行优化，实现分布式锁等功能
+                    优化了zookeeper存在的羊群效应
+                        即几十个客户端同时竞争一把锁的情况下
+                            锁释放时，需要通知所有的几十个客户端
+                            竞争加锁时，几十个客户端乱哄哄的争抢加锁
+                    保证了在锁释放时，只需要通知顺序子节点即可
+                        同时只有顺序节点拿到锁，没有其他几十个客户端争抢锁这种情况出现
+                原理
+                    加锁
+                        客户端
+                            执行加锁逻辑，生成节点 /usr/lock/
+                                它是第一个进行加锁的客户端
+                                    生成临时顺序节点 /usr/lock/******01
+                        分支主题
+                        其他客户端
+                            节点 /usr/lock/已经生成
+                                且已经有一个子节点存在
+                                    生成临时顺序节点 /usr/lock/******02
+                        分支主题
+                        其他客户端
+                            节点 /usr/lock/已经生成
+                                且已经有两个子节点存在
+                                    生成临时顺序节点 /usr/lock/******03
+                    释放锁
+                        删除临时顺序节点
+                            通知下一个临时顺序节点节点进行加锁
+                    临时节点
+                        如果有一把锁，被多个人竞争，此时多个人排队，第一个拿到锁的人会执行，然后释放锁。后面的每个人都会去监听排在自己前面的那个人创建的node上，一旦某个人释放了锁，排在自己后面的人就会被zookeeper给通知，一旦被通知了之后，就ok了，自己就获取到了锁，就可以自己执行代码了
+                在zookeeper脑裂时仍存在两个客户端同时上锁的可能
+        redisson
+            原理
+                RedLock算法
+                Redission看门狗：锁续期
+                基于redis m-s集群模式，可能会出现问题
+                    若m-s模式中，m刚加完锁未来的及同步到s，此时m宕机
+                        此时客户端认为锁已经加上了
+                    s重新成为m时，刚刚的锁丢了
+                    其他客户端执行加锁逻辑，发现未加锁，则直接进行加锁
+                        好！问题出现了~ 两个客户端都加上了锁
+            使用
+                加锁
+                    阻塞式等待，默认加锁时间为30s（看门狗默认时间）
+                    自动续期
+                    解锁时间要大于业务执行时间
+                    客户端
+                        向集群某一master节点，发送lua脚本，执行加锁逻辑lock(key,time)
+                            lua脚本
+                                加锁
+                                    可重入，下次再加锁时，lua脚本判断客户端id是不是自己的，是的话支持重入，加锁次数+1
+                                开启watchdog看门狗
+                                    这是个后台线程，每 time/3 s执行一次，刷新锁的过期时间
+                                        客户端宕机时，看门狗线程被销毁，key按ttl过期消失
+                    其他客户端
+                        执行加锁逻辑
+                            已加锁
+                                等待锁释放
+                            未加锁
+                                直接加锁
+                释放锁
+                    加锁次数为0时
+                        执行lua脚本删除对应的缓存key
+                        LockName = id + threadId , 其他客户端执行unlock时先判断当前threadId是否在字典里
+                读写锁
+                    写锁（排它锁）
+                    读锁（共享锁）
+                信号量
+                    acquire()
+                    release()
+                    tryAcquire()
+                闭锁
+                删除锁执行lua脚本
+                    删除这把锁的时候，执行lua脚本，找到那个key的value，跟自己传过去的value比较下，如果是一样的，那么才会删除这个key
+                    为什么要比较value？如果设置了锁之后，过了30s，当初设置的锁已经过期不存在了，然后被其他系统写了锁。30s以后执行完了，然后如果只根据key去删除，那么可能删除了别的系统的锁。
+            锁类型
+                hash key
+                    myLock:&amp;quot;874398-843k0-0835-9884-87774:1&amp;quot;
+                    里面会保存客户端id，其他客户端不可重入锁 or 删除锁
+        redis分布式锁与zookeeper分布式锁对比
+            redis轮询
+            zookeeper监听
+        还有方式
+            系统文件的
+            memcacheed
+    3) 分布式锁的演进
+        阶段一
+                    public MapString, ListCatalog2Vo>> getCatalogJsonDbWithRedisLock() {        //阶段一        Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent("lock", "111");        //获取到锁，执行业务        if (lock) {            MapString, ListCatalog2Vo>> categoriesDb = getCategoryMap();            //删除锁，如果在此之前报错或宕机会造成死锁            stringRedisTemplate.delete("lock");            return categoriesDb;        }else {            //没获取到锁，等待100ms重试            try {                Thread.sleep(100);            } catch (InterruptedException e) {                e.printStackTrace();            }            return getCatalogJsonDbWithRedisLock();        }    }​public MapString, ListCatalog2Vo>> getCategoryMap() {        ValueOperationsString, String> ops = stringRedisTemplate.opsForValue();        String catalogJson = ops.get("catalogJson");        if (StringUtils.isEmpty(catalogJson)) {            System.out.println("缓存不命中，准备查询数据库。。。");            MapString, ListCatalog2Vo>> categoriesDb= getCategoriesDb();            String toJSONString = JSON.toJSONString(categoriesDb);            ops.set("catalogJson", toJSONString);            return categoriesDb;        }        System.out.println("缓存命中。。。。");        MapString, ListCatalog2Vo>> listMap = JSON.parseObject(catalogJson, new TypeReferenceMapString, ListCatalog2Vo>>>() {});        return listMap;    }
+                问题： 1、setnx占好了位，业务代码异常或者程序在页面过程中宕机。没有执行删除锁逻辑，这就造成了死锁
+                解决：设置锁的自动过期，即使没有删除，会自动删除
+        阶段二
+                   public Map> getCatalogJsonDbWithRedisLock() {        Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent("lock", "111");        if (lock) {            //设置过期时间            stringRedisTemplate.expire("lock", 30, TimeUnit.SECONDS);            Map> categoriesDb = getCategoryMap();            stringRedisTemplate.delete("lock");            return categoriesDb;        }else {            try {                Thread.sleep(100);            } catch (InterruptedException e) {                e.printStackTrace();            }            return getCatalogJsonDbWithRedisLock();        }    }
+                问题： 1、setnx设置好，正要去设置过期时间，宕机。又死锁了。 解决： 设置过期时间和占位必须是原子的。redis支持使用setnx ex命令
+        阶段三
+                public Map> getCatalogJsonDbWithRedisLock() {    //加锁的同时设置过期时间，二者是原子性操作    Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent("lock", "1111",5, TimeUnit.SECONDS);    if (lock) {        Map> categoriesDb = getCategoryMap();        //模拟超长的业务执行时间        try {            Thread.sleep(6000);        } catch (InterruptedException e) {            e.printStackTrace();        }        stringRedisTemplate.delete("lock");        return categoriesDb;    }else {        try {            Thread.sleep(100);        } catch (InterruptedException e) {            e.printStackTrace();        }        return getCatalogJsonDbWithRedisLock();    }}
+                问题： 1、删除锁直接删除？？？ 如果由于业务时间很长，锁自己过期了，我们直接删除，有可能把别人正在持有的锁删除了。 解决： 占锁的时候，值指定为uuid，每个人匹配是自己的锁才删除。
+        阶段四
+                 public Map> getCatalogJsonDbWithRedisLock() {        String uuid = UUID.randomUUID().toString();        ValueOperations ops = stringRedisTemplate.opsForValue();     //为当前锁设置唯一的uuid，只有当uuid相同时才会进行删除锁的操作        Boolean lock = ops.setIfAbsent("lock", uuid,5, TimeUnit.SECONDS);        if (lock) {            Map> categoriesDb = getCategoryMap();            String lockValue = ops.get("lock");            if (lockValue.equals(uuid)) {                try {                    Thread.sleep(6000);                } catch (InterruptedException e) {                    e.printStackTrace();                }                stringRedisTemplate.delete("lock");            }            return categoriesDb;        }else {            try {                Thread.sleep(100);            } catch (InterruptedException e) {                e.printStackTrace();            }            return getCatalogJsonDbWithRedisLock();        }    }
+                问题： 1、如果正好判断是当前值，正要删除锁的时候，锁已经过期，别人已经设置到了新的值。那么我们删除的是别人的锁 解决： 删除锁必须保证原子性。使用redis+Lua脚本完成
+        阶段五-最终形态
+                 public MapString, ListCatalog2Vo>> getCatalogJsonDbWithRedisLock() {        String uuid = UUID.randomUUID().toString();        ValueOperationsString, String> ops = stringRedisTemplate.opsForValue();        Boolean lock = ops.setIfAbsent("lock", uuid,5, TimeUnit.SECONDS);        if (lock) {            MapString, ListCatalog2Vo>> categoriesDb = getCategoryMap();            String lockValue = ops.get("lock");            String script = "if redis.call(\"get\",KEYS[1]) == ARGV[1] then\n" +                    "    return redis.call(\"del\",KEYS[1])\n" +                    "else\n" +                    "    return 0\n" +                    "end";            stringRedisTemplate.execute(new DefaultRedisScriptLong>(script, Long.class), Arrays.asList("lock"), lockValue);            return categoriesDb;        }else {            try {                Thread.sleep(100);            } catch (InterruptedException e) {                e.printStackTrace();            }            return getCatalogJsonDbWithRedisLock();        }    }
+                保证加锁【占位+过期时间】和删除锁【判断+删除】的原子性。更难的事情，锁的自动续期
+    分布式锁特征
+        互斥性
+            任意时刻，只能一个线程持有锁
+        锁超时释放
+            锁超时了，可释放，防止资源浪费及死锁
+        可重入性
+            同一个线程可重复获取当前持有的锁
+        高可用、高性能
+            加锁和解锁开销尽可能低，且保证高可用，避免分布式锁失效
+        安全性
+            锁只能被持有的线程删除，不能被其他线程删除

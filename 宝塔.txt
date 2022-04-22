@@ -1,0 +1,264 @@
+宝塔
+    功能
+        宝塔安装的内容管理
+        宝塔安装使用
+            面板安装及常见问题
+                环境要求
+                    操作系统：全新系统(支持CentOS、Ubuntu、Debian、Fedora、Deepin)，
+确保是干净的操作系统，没有安装过其它环境带的Apache/Nginx/php/MySQL
+宝塔Linux6.0版本是基于centos7开发的，强烈建议使用centos7.x 系统
+内存要求：内存要求最低512MB，推荐768MB以上，纯面板约占系统60MB内存
+                SSH（远程桌面）工具操作
+                安装宝塔面板
+                面板常用Linux命令
+                    子主题
+                        文件管理停止面板服务
+                            /etc/init.d/bt stop
+                        启动面板服务
+                            /etc/init.d/bt start
+                        重启面板服务
+                            /etc/init.d/bt restart
+                        卸载面板服务
+                            /etc/init.d/bt stop && chkconfig --del bt && rm -f /etc/init.d/bt && rm -rf /www/server/panel
+                    端口
+                        查看当前面板端口
+                            cat /www/server/panel/data/port.pl
+                        修改面板端口，如要改成8881（centos 6 系统）
+                            echo '8881' > /www/server/panel/data/port.pl && /etc/init.d/bt restart
+                        修改面板端口，如要改成8881（centos 7 系统）
+                            echo '8881' > /www/server/panel/data/port.pl && /etc/init.d/bt restart
+                    强制修改MySQL管理(root)密码，如要改成123456
+                        cd /www/server/panel && python tools.py root 123456
+                    修改面板密码，如要改成123456
+                        cd /www/server/panel && python tools.py panel 123456
+                    查看宝塔日志
+                        cat /tmp/panelBoot.pl
+                    查看软件安装日志
+                        cat /tmp/panelExec.log
+                    查看面板错误日志
+                        cat /tmp/panelBoot
+                    查看数据库错误日志
+                        cat /www/server/data/*.err
+                    站点配置文件位置
+                        /www/server/panel/vhost
+                    删除域名绑定面板
+                        rm -f /www/server/panel/data/domain.conf
+                    清理登陆限制
+                        rm -f /www/server/panel/data/*.login
+                    查看面板授权IP
+                        cat /www/server/panel/data/limitip.conf
+                    关闭访问限制
+                        rm -f /www/server/panel/data/limitip.conf
+                    查看许可域名
+                        cat /www/server/panel/data/domain.conf
+                    关闭面板SSL
+                        rm -f /www/server/panel/data/ssl.pl && /etc/init.d/bt restart
+                    站点配置文件目录(nginx)
+                        /www/server/panel/vhost/nginx
+                    站点配置文件目录(apache)
+                        /www/server/panel/vhost/apache
+                    站点默认目录
+                        /www/wwwroot
+                    数据库备份目录
+                        /www/backup/database
+                    站点备份目录
+                        /www/backup/site
+                    站点日志
+                        /www/wwwlogs
+                面板登录常见问题
+                    Linux面板忘记密码
+                    Linux面板清除登录限制
+                    Linux面板删除域名绑定面板
+                    Linux面板关闭ip访问限制
+                    Windows面板WEB页面忘记密码或范围限制解决方法
+            安装网站所需环境
+                LNMP和LAMP环境的安装
+                Tomcat环境的安装
+                Node.js环境安装
+                windows环境安装
+            域名解析到站点
+        管理
+            首页管理：图形界面
+                系统操作
+                站点管理
+                服务器状态
+                软件管理
+                网络流量
+            数据库管理
+                添加数据库
+                root密码修改
+                phpMyAdmin管理工具
+                数据库的备份与导入
+                数据库的权限设置
+                数据库密码修改
+            网站管理
+                添加网站
+                修改默认页
+                默认站点
+                站点列表
+                站点的运行与停止
+                备份站点
+                站点的有效期设置
+                如何绑定域名
+                子目录绑定
+                网站目录修改
+                流量限制
+                添加伪静态
+                修改默认文档
+                配置文件
+                添加SSL证书
+                切换PHP版本
+                如何调试JSP文件
+                301重定向配置
+                反向代理配置
+                风险漏洞扫描
+            FTP管理
+                添加FTP
+                修改FTP端口
+                FTP的启动与停止
+                修改FTP密码
+            文件管理
+                文件的基础操作
+                文件的上传
+                远程下载
+                权限管理
+                终端的使用
+                回收站
+            计划任务
+                Shell脚本的添加
+                备份网站
+                备份数据库
+                日志切割
+                释放内存
+                访问URL
+                任务列表
+            软件管理
+                Nginx
+                Apache
+                MySQL
+                Pure-Ftpd
+                Tomcat
+                phpMyAdmin
+                PM2管理器
+                宝塔一键部署源码
+                又拍云存储
+                FTP存储空间
+                申请内测
+                PHP守护
+                宝塔跑分
+                Linux工具箱
+                Redis
+                PHP
+                Memcached
+                宝塔WebHook
+                GitLab
+                宝塔一键迁移
+                七牛云存储
+                阿里云OSS
+            面板设置
+                启动和关闭面板
+                自动更新和面板SSL
+                面板名称、端口的修改
+                面板域名绑定、授权IP
+                修改默认建站目录和备份目录
+                服务器IP和服务器时间
+                面板账号和密码的修改
+                面板账号和官网账号的绑定
+                面板关联
+        运维
+            监控管理
+                CPU
+                硬盘IO
+                内存
+                网络IO
+            安全管理
+                SSH的设置
+                PING命令的禁用
+                WEB日志管理
+                放行端口
+                屏蔽IP
+                面板操作日志管理
+    使用实例 
+        提前准备
+            打开安全端口
+        使用宝塔面板安装workpress
+            三、安装网站环境
+            四、必要的安全设置
+            建立WordPress网站
+                点击添加站点
+                域名根据实际情况填写，如果是国内空间，则域名必须备案
+                国外空间则不需要
+                一般写一个顶级域名和一个www二级域名即可，比如www.pandacui.com,
+                pandacui.com
+                FTP可以选择不创建
+                    后面可以用宝塔面板的文件管理
+                数据库选择MySQL
+                    会提示输入用户名名称和密码
+                    自动建立与用户名同名的数据库
+                PHP版本选择你安装的PHP版本
+            下载WordPress安装程序
+                上传WordPress安装程序
+                解压WordPress压缩包
+                进入wordpress目录，全选所有文件，点击复制或剪切，然后返回到站点目录，选择粘贴所有
+                之后就可以删除wordpress目录和wordpress压缩包
+            运行wordPress安装程序
+            设置伪静态规则
+            设置固定链接
+        使用宝塔面板安装springboot项目
+            1 阿里云服务器相关
+                1.1 购买服务器
+                1.2 购买域名
+                1.3 备案
+                1.4 域名解析
+                1.5 安全策略(安全组)
+            2 宝塔面板相关
+                2.1 安装CentOS宝塔面板
+                2.2 面板相关设置
+                2.3 面板软件安装及环境配置1
+                    安装tomcat和jdk
+                2.4.1 添加站点
+                    点击添加站点
+                    填写域名
+                    添加备注
+                    ftp 和数据库可以先不进行创建其他保持默认
+                2.4.2 站点设置
+                    点击已经添加的站点最右侧的设置连接进入设置界面
+                    点击反向代理
+                    点击添加反向代理
+                    代理名称社会为你的项目名称即可
+                    目标URL就是访问公网IP/域名之后会被转发到服务器中可以访问的ip:端口(这里我们使用127.0.0.1:端口即可,端口是80可以省略不写)其他保持默认,点击保存即可.
+                2.5 数据库相关
+                    2.5.1 创建数据库
+                        进入宝面板
+                        点击 数据库–root密码 对root用户的密码进行修改
+                            注意:一般修改为一个你项目中配置文件比较常用的密码就行
+                        点击添加数据库
+                            注意:这里的数据库名要和你项目中数据库名字一样就行(比如你项目中访问的数据库名字的blog 这里就写blog)
+                            用户名一般也设置为你数据库名字就行,密码设置为root密码就行(为了方便记忆)
+                        其他保持默认点击提交.数据库就创建完成
+                    2.5.2 导入数据库表
+                        将你window本地中的数据库导出为.sql文件保存到桌面上.
+                        进入宝塔面板–数据库–管理
+                        就桌面生成的sql导入即可.
+            3 SpringBoot项目打包
+                3.1 配置文件修改
+                3.2 maven插件打包项目jar
+            4 宝塔面板上传项目相关
+                4.1 上传jar和配置文件
+                4.2 运行项目
+            5 项目遇到问题解决及优化
+                5.1 项目运行报错及解决
+                    解决80端口占用问题:
+                        一、第一种:通过命令获取出占用80端口的进程,将其"杀死"
+                        第一种方式存在弊端：当我们解决了端口占用问题之后再次点击数据库--管理（或者PhpMyAdmin）发现又出现了之前的问题2.5.2中提到的页面不存在问题
+                        2,修改Nginx的默认端口
+                5.2 项目优化
+                5.2.1 项目运行优化
+                    顿开远程连接,项目就不能正常运行了
+                        使用 screen 工具进行解决
+        war包放到tomcat中运行
+            1、将要部署的war包上传到服务器的部署目录，会自动解压war包
+            2、添加项目并更改项目的路径
+            添加完成后，点击映射
+        jar包使用命令运行
+        Intellij IDEA快速实现Docker镜像部署

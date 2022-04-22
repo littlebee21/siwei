@@ -1,0 +1,55 @@
+linux命令 - 网络
+
+网络
+    文件传输
+        tftp命令 – 上传及下载文件
+        curl命令 – 文件传输工具
+        fsck命令 – 检查并修复Linux文件系统
+        ftpwho命令 – 显示ftp会话信息
+        lprm命令 – 删除打印队列中的打印任务
+    网络设置
+        设置的内容
+            IP地址
+            子网掩码
+            网关
+            DNS
+        使用nmcli 命令设置网络
+            查看现有的网络设置
+                nmcli connection show [device]
+            设置参数
+                connection.autoconnect [yes|no]
+                ipv4.method [auto|manual]
+                ipv4.dns [dns_server_ip]
+                ipv4.address [IP/Netmask]
+                ipv4.gateway [gw_ip]
+            手动设置
+                例: 
+                    1. 修改配置文件
+                        # nmcli connection modify eth0 \
+                        > connection.autoconnect yes \
+                        > ipv4.method manual \
+                        > ipv4.address 172.16.1.1/16 \
+                        > ipv4.gateway 172.16.200.254 \
+                        > ipv4.dns 172.16.200.254
+                    2. 重启网卡，使配置文件生效
+                        # nmcli connection up eth0
+            自动设置
+                例: 
+                    1. 修改配置文件
+                        # nmcli connection modify eth0 \
+                        > connection.autoconnect yes \
+                        > ipv4.method auto
+                    2. 重启网卡，使配置文件生效
+                        # nmcli connection up eth0
+    查看网络连接
+        ping
+        ifconfig
+        netstat
+    网络通讯
+        ftp
+        telnet
+        ssh命令 – 安全连接客户端
+        netstat命令 – 显示网络状态
+        ping命令 – 测试主机间网络连通性
+        dhclient命令 – 动态获取或释放IP地址
+        ifconfig命令 – 显示或设置网络设备

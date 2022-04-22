@@ -1,0 +1,96 @@
+vim 插件 
+    主题
+        代码补全
+            7、自动补全（YouCompleteMe）    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+            8、自定义代码片段补全（ultisnips）
+            9、代码对齐（tabular）
+            10、快速添加/删除注释（nerdcommenter）
+        插件管理器
+            常用1、插件管理 （Vundle）
+            常用 插件管理器 vim-plug
+        代码检查
+            11、代码动态检查（ale）
+            常用：12，quickfix，对代码内容的修复
+            SimplyFold代码折叠插件
+        鼠标
+            常用在.vimrc文件末尾添加一行 set mouse=a
+            状态栏优化（vim-airline）
+        搜索跳转
+            搜索LeaderF
+            模糊搜索（fzf.vim）
+            13、快速定位（vim-easymotion）
+            13、个人WIKI（vimwiki）
+            可以用：Universal-ctags 函数定义跳转
+            14，插件SrcExpl:
+                跳回到定义处：cr; 从定义处返回space，进行全文查找内容
+没必要系列：
+        界面
+            没必要：3、目录树（NERDTree）
+            没必要：5、标签列表（taglist.vim）
+            没必要：4、标签导航 （tagbar）
+            没必要：2、主题（solarized）
+        
+    vim插件的使用
+        寻找vim插件
+            GitHub ,去 github
+            Vimawesom
+            google 搜索
+        华清远见的vim插件
+            (1) 将 vim_t.tar.gz 复制到虚拟机的用户主目录	
+                内部文件内容
+                    .vim_mru_files
+                    .viminfo
+                    vimrc
+                    vimrc1
+            (2) 解压
+                fs@ubuntu:~$ tar -xvf vim_t.tar.gz	
+            (3) 修改文件权限  
+                fs@ubuntu:~$ chmod 777 .vim* -R
+            (4) 修改作者信息
+                fs@ubuntu:~$ vim .vimrc
+        插件安装的方式
+            使用Vim包管理器
+                vim - plug
+                    创建vimrc文件写入内容,然后在vim内部使用安装列出的插件
+                    更新插件
+                    恢复插件
+    vim插件配置
+        vim中使用鼠标
+        代码缩进
+    vim下的目录
+        ~/.vim/plugin
+        ~/.vim/doc
+        ~/.vim/syntax
+
+    vim插件的安装方式
+        1，手动安装插件（少用）
+            原理
+                当启动vim时，首先处理我的。vimrc文件
+                然后扫描 ~/.vim中的所有目录，查找包含在pack/*/start中的插件
+                    没有这个文件夹就自己创建
+                将Vim插件放在 ~
+        5，从本地文件进行安装（少用）
+        2，从github安装
+        3，从 http://vim-scripts.org/vim/scripts.html 进行安装
+        4，从不在 GitHub 上的另一个 git 软件库进行安装
+        5，Vundle安装
+        
+    vim插件原理
+        配置vimrc文件
+            /etc/vimrc
+                影响整个系统的vim
+            ~/.vimrc
+                影响当前用户的Vim
+            ~/.vimrc文件中的配置会覆盖/etc/vimrc中的配置
+        vim文件的位置
+            .vim的隐藏文件夹中
+        Vim的插件安装位置
+            Vim的runtimepath目录
+        Vim的查看安装的插件
+            Vim命令行下运行"set rtp
+            vim命令下运行 :scriptnames
+        vim插件的本质
+            vim启动时自动加载的vim script脚本
+            vim启动时会自动加载runtimepath下的plugin目录下的所有文件
+        依赖
+            Ctags工具是用来遍历源代码文件生成tags文件

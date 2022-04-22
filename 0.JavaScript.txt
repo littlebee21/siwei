@@ -1,0 +1,211 @@
+JavaScript
+    ECMAScript标准
+    格式
+        严格模式
+            严格模式的功能
+            严格模式的内容
+                删除
+                    不允许删除变量或对象
+                    不允许删除函数
+                    不允许删除一个不允许删除的属性
+                使用
+                    不允许使用未声明的变量
+                    不允许使用八进制
+                    不允许使用转义字符
+                    不允许对一个使用getter方法读取的属性赋值
+                变量
+                    变量名不能使用eval
+                    变量名不能使用arguments
+                    不允许变量重名
+                赋值
+                    不允许只读属性赋值
+                eval()创建的变量不能被调用
+                this不指向全局变量
+            严格模式的声明
+        使用换行和分号 作为分隔符
+    JS模块化规范
+        模块化要解决什么问题以及怎么实现模块化
+            什么是模块化
+            模块化有什么好处
+            传统的模块化开发方式
+            模块化的发展历程
+        CommonJS
+            NodeJS
+        Module Loader
+            RequireJS in AMD
+            SeaJS in CMD
+        Es6 Module
+            ES6 Module in Browser
+            ES6 Module in Node.js
+            Dynamic import
+        Module Bundler
+            Browserify
+            Webpack
+        ES6 Module 与 CommmonJS 的区别
+            加载方式
+            同步/异步
+            输出值的方式
+            循环加载的处理方式
+        模块化之间的差异
+        模块化的现状
+    语言转化
+        Babel
+    通用
+        js程序结构
+            选择
+                if 两种选择 可选
+                if else 两种选择 二选一
+                if elif elif else多种选择 多选一
+                嵌套
+            循环结构
+                while
+                    while...break
+                    while...continue
+                    while....else..
+                for
+                    for...of 用于遍历一个迭代器 数组
+                    for...in 用来遍历对象中的属性
+                    for遍历
+            跳转语句
+                break 语句用于跳出循环。
+                continue 用于跳过循环中的一个迭代
+                label:statements标签引用跳转
+            异常语句
+                try 语句测试代码块的错误
+                catch 语句处理错误
+                throw 语句创建自定义错误
+                finnal都执行
+        标点符号
+            es6：二进制和八进制字面量
+            es6：··$组装字符串和变量
+            转义字符
+            js基本运算
+                算术运算
+                    注意
+                字符连接符+
+                比较运算符
+                赋值运算
+                逻辑运算
+                    &&与运算
+                    ||或运算
+                    !非运算
+                in成员运算
+                身份运算
+                运算符优先级
+                对象运算符
+                三元运算符
+                其它运算符
+                    逗号运算符
+                    void运算符
+                    typeof
+                    undefined
+            比较运算
+                ==  ===
+    数据类型
+        基本数据类型
+            null
+            undefined
+            Number对象
+                数值属性
+                    js的数值始终64位
+                    js的数值精度为15位
+                    NaN非数值
+                语法
+                    new Number(value)
+                属性
+                    Infinity无限大
+                    MAX_VALUE：最大的正数
+                    MIN_VALUE：最小的正数
+                    NaN：特殊的非数字值
+                    NEGATIVE_INFINITY：特殊的负无穷大值，在溢出时返回
+                    POSITIVE_INFINITY：特殊的正无穷大值，在溢出时返回
+                    prototype：Number对象上允许的额外属性
+                方法
+                    valueOf  数值返回
+                    toFixed()  指定数字保留，四舍五入
+                    toExponential字符串返回,以指数形式来表示某一数字
+                    toPrecision():返回一个字符串，既可以是指数型，也可以是小数型
+            Boolean对象
+                语法
+                    new Boolean([value])
+                转换值的判断
+            String对象
+                空值“”
+                字符串属性
+                属性
+                    length
+                方法
+                    String.valueOf()返回原始字符串值
+                        描述
+                            返回对应的字符串
+                        返回值
+                            返回String的原始字符串值
+                    String.localeCompare(target)本地顺序比较两个字符串
+                        参数
+                            要与string使用区分地区设置的方式比较的字符串
+                        返回值
+                            string<target,比0小的数
+                            string>target,比0大的数
+                            string=target，返回0
+                        注意
+                            当使用>或者<操作符比较字符串的时候，是按照字符的Unicode编码进行比较的，不考虑本地的顺序，这种方式不准确
+                            使用localeCompare()提供了一个根据默认的本地排序来比较字符串的方法，这个函数利用底层的操作系统提供的排序进行
+                    String.fromCharCode(c1,c2,...)字符编码中创建字符串
+                    迭代搜索
+                        String.lastIndexOf(substring[,start])查找字符串位置
+                        String.indexOf(substring[,start])查找字符串位置
+                        index和search区别
+                        String.search(regexp)查找字符串位置
+                            描述
+                                根据一个正则表达式查找
+                            参数
+                                一个RegExp对象，指定要在字符串string中查找的模式。如果这个参数不是一个RegExp，它将先传入RegExp()构造函数，后转换为一个RegExp对象
+                            返回
+                                string中第一个匹配regexp的子串的开始位置，如果没有找到匹配则返回-1
+                        String.match(regexp)找包含匹配数组
+                    下标提取字符串
+                        String.charAt(n)
+                        String.charCodeAt(n)
+                    提取字符串
+                        String.slice(start,end)截取字符串
+                        string.substr(start.longth)字符串截取
+                        String.substring(from,to)截取字符串
+                            描述
+                                截取字符串
+                            参数
+                                起始点
+                                结束点
+                            返回值
+                                返回截取之后的字符串
+                    字符串操作
+                        String.repalce(regexp,replacement)特换字符串
+                    格式化
+                        string.trim删除字符串两端空白
+                        String.concat(value,...)连接字符串
+                    字符串转化
+                        String.toLowerCase()转换大写和小写
+                        String.toUperCase()转换小写到大写
+                        String.toLocaleLowerCase()
+                        String.toLocaleUpperCase()
+                        String.split(delimiter,limit)字符串切割成数组
+                    String.link(url)创建超链接
+                    String.anchor(name)查找超链接锚点元素
+                        描述
+                            用anchor方法差un关键一个<<a>HTML锚元素
+                        参数
+                            超链接的name属性
+                        返回值
+                            返回创建的锚点元素
+        关键词
+            es6-let块内定义变量
+            es6-const指针常量
+            block 作用域
+            ES6：Symbol唯一标识符
+            迭代器（Iterators）
+        js数据类型的检测
+            typeof
+            instanceof
+            constructor
+            Object.prototype.toString.call()
+    函数
+    对象

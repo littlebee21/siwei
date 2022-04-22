@@ -1,0 +1,61 @@
+微服务粒度划分
+    单体设计优先
+        Yagni (You aren't gonna need it)
+            设计刚刚好的系统
+            过犹不及
+            过度设计
+            敏捷
+        系统边界识别
+            ![dropped image link](https://martinfowler.com/bliki/images/microservice-verdict/path.png)
+            在微服务中重构比在单体应用中重构成本高多了
+            在单体应用中，随着用户的反馈，系统的维护 有利于识别良好的、稳定的系统边界
+            几种演进方式
+                良好架构单体应用优先
+                单体应用组件分离微服务
+                粗粒度服务，之后再拆分
+    微服务技术栈的管理 
+        不限死使用的语言和框架， 但是也不允许完全的灵活性
+            语言和框架
+                前端
+                    Vuejs
+                    AngularJS
+                后端
+                    nodejs
+                        typescript
+                        hapi
+                    ruby
+                        grape
+                    java
+                        jersery
+                        spring boot
+        微服务化的一个好处 :smiley: 就是： 根据工作的不同来选用合理的工具
+    划分微服务的注意事项
+        领域驱动的划分
+        按照业务来组织工作
+    如何划分微服务？
+        按照领域模型划分
+        新项目不建议直接使用微服务
+            你很可能并不真的理解业务领域， 从而也很难理解各个服务的边界
+            不能为了微服务而微服务，微服务本身也是有成本的， 如果成本大于收益，得不偿失
+        微服务架构提倡通过对特定业务领域的分析与建模，将复杂的、 集中的、耦合度高的应用系统分解成**小而专、耦合度低并且高度自治**的一组服务
+            微服务的“微”并不是一个真正可衡量、看得见、摸得着的“微”。这个“微”所表达的，是一种设计思想和指导方针，是需要团队或者组织共同努力找到的一个平衡点
+            :!!: **业务独立性**和**团队自主性**。首先，应该保证微服务是具有业务独立性的单元，在这个前提下，由团队来判断当前的服务大小是否合适，考虑到团队的沟通成本，一般不建议超过10个人，或者在超过10个人的团队中，可以再划分子团队。在这种情况下，当团队中大部分成员认为当前的服务是能够容易维护的、容易理解的，这就是我们认为适合团队的、有意义的“微”。
+    演进式设计
+        微服务可能出现来回往复的拆分和合并，知道开发人员真正理解了服务的边界应该是什么
+        根据业务的实际情况作调整， 而不是守着架构一成不变
+        大多数软件架构的腐化都发生在维护期， 微服务也不是银弹，无法解决这个问题， 因此长期维护的项目架构必须演进 :recycle:
+    颗粒度控制在什么程度？
+        职责的单一性
+            而不是代码的多少
+        我们的疑问？
+            需求大小？
+            代码？
+            职责？
+        ![防止服务循环依赖](http://jbcdn2.b0.upaiyun.com/2016/01/d71254948a7a4b96c0bd9490e2a71fc0.png)
+    收集的资料
+        http://wldandan.github.io/blog/categories/microservices/
+        https://martinfowler.com/microservices/ 
+        http://insights.thoughtworkers.org/evolutionary-architecture-micro-services/ 
+        https://martinfowler.com/bliki/MonolithFirst.html
+        http://www.jiagoushuo.com/article/1000532.html
+        https://coggle.it/diagram/WPRq45VczAABUIGl/t/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%B2%92%E5%BA%A6%E5%88%92%E5%88%86

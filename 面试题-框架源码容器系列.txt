@@ -1,0 +1,102 @@
+四、框架源码容器系列
+    Mybatis
+        1.什么是 MyBatis？讲下 MyBatis 的缓存。
+        2.Mybatis 是如何进行分页的？分页插件的原理是什么？
+        3.简述 Mybatis 的插件运行原理，以及如何编写一个插件？
+        4.Mybatis 动态 sql 是做什么的？都有哪些动态 sql？能简述一下动态 sql 的执行原理不？
+        5.#{}和 ${}的区别是什么？
+        6.为什么说 Mybatis 是半自动 ORM 映射工具？它与全自动的区别在哪里？
+        7.Mybatis 是否支持延迟加载？如果支持，它的实现原理是什么？
+        8.MyBatis 与 Hibernate 有哪些不同？
+        9.简述 Mybatis 的 Xml 映射文件和 Mybatis 内部数据结构之间的映射关系？
+        10.MyBatis 里面的动态 Sql 是怎么设定的?用什么语法?
+        mybatis 脑图展示
+    如何实现一个IOC容器
+    框架
+        数据库框架框架
+            mybatis
+                mybatis的优缺点
+                mybatis和hibernate的对比
+                #{}和${}的区别
+                mybatis插件运行原理及开发流程
+            mysql
+                索引的基本原理
+                mysql聚簇和非聚簇索引的区别
+                mysql索引结构，各自的优劣
+                索引的设计原则
+                mysql锁的类型有哪些
+                mysql执行计划怎么看
+                事务的基本特性和隔离级别
+                怎么处理慢查询
+                ACID靠什么保证的
+                什么是MVCC
+                mysql主从同步原理
+                简述Myisam和Innodb的区别
+                简述mysql中索引类型及对数据库的性能的影响
+                RDB和AOF机制
+            redis
+                Redis的过期键的删除策略
+                Redis线程模型，单线程为什么快
+                缓存雪崩、缓存穿透、缓存击穿
+                简述redis事务实现
+                redis集群方案
+                redis主从复制的核心原理
+        分布式
+            理论
+                CAP理论，BASE理论
+                负载均衡算法、类型
+                分布式架构下，Session 共享有什么方案
+                简述你对RPC、RMI的理解
+                分布式id生成方案
+                分布式锁解决方案
+                分布式事务解决方案
+                如何实现接口幂等性
+                简述ZAB协议
+                zk的数据模型和节点类型
+                简述zk的命名服务、配置管理、集群管理
+                讲下Zookeeper watch机制
+                zk和eureka的区别
+                Spring Cloud和Dubbo的区别
+                什么是Hystrix？简述实现机制
+                springcloud核心组件及其作用
+            dubbo
+                Dubbo 的整体架构设计及分层
+            springcloud netflix
+            springcloud
+                消息中间件
+                    简述RabbitMQ的架构设计
+                    RabbitMQ如何确保消息发送 ？ 消息接收？
+                    Rabbitmq事务消息
+                    RabbitMQ死信队列、延时队列
+                    简述kafka架构设计
+                    Kafka消息丢失的场景及解决方案
+                    Kafka是pull？push？优劣势分析
+                    Kafka中zk的作用
+                    Kafka中高性能的原因分析
+                    简述kafka的rebalance机制
+                    拓展【面试重重点】JVM性能调优实战
+    容器技术
+        java容器框架
+            spring是什么
+            对Aop的理解
+            对IOC的理解
+            BeanFactory和ApplicationContext有什么区别
+            简述spring bean的生命周期
+            spring支持的bean作用域
+            Spring框架中的单例Bean是线程安全的么
+            spring框架中使用了哪些设计模式及应用场景
+            spring事务的实现方式原理以及隔离级别
+            spring的事务传播机制
+            spring事务什么时候会失效
+            什么的是bean的自动装配，有哪些方式
+            spring、springmvc、springboot的区别
+            springboot自动配置原理
+            如何理解springboot的starter
+        Tomcat
+            1.Tomcat 的缺省端口是多少，怎么修改？
+            2.Tomcat 有哪几种 Connector 运行模式(优化)？
+            3.Tomcat 有几种部署方式？
+            4.Tomcat 容器是如何创建 servlet 类实例？用到了什么原理？
+            5.Tomcat 工作模式？
+            6.内存调优,垃圾回收策略调优
+            什么是嵌入式服务器，为什么使用嵌入式服务器

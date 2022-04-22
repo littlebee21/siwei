@@ -1,0 +1,35 @@
+传感器
+    传感器 emmx
+        红外传感器
+        运动传感器
+            MPU6050
+        光敏传感器
+        烟雾传感器
+        温度传感器
+            温度传感器DHT11
+    Sensor(传感器)
+        RIP(人体红外)
+        Temperature(温度)
+        humidity sensor（湿度传感器）
+        geomagnetic sensor（地磁传感器）
+        acceleration transducer（加速度传感器）
+        optoelectronic switch （光电开关）
+        pneumatic sensor (气流传感器)
+        current sensor (电流传感器)
+        soil sensor (土壤传感器)
+        llumination sensor (光照传感器)
+        laser sensor (激光传感器)
+        Motion(运动)
+        Moisture sensor (土壤温度传感器)
+        电压传感器
+        three-axis gyroscope（三轴陀螺仪）
+        Camera 感光元件（图像传感器）
+        baroceptor（气压传感器）
+        gas sensor（气敏传感器）
+        Dust concentration sensor（粉尘浓度传感器）PM2.5
+        Water level sensor（水位传感器）
+        Pulse sensor（脉搏传感器）
+        EEG sensor（脑皮质电位传感器）
+        Flex Sensor (弯曲传感器）
+        proximity sensor (近距离传感器)
+        Atmospheric Pressure Sensor （气压传感器）

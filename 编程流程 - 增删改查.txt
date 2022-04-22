@@ -1,0 +1,82 @@
+编程流程 - 增删改查
+
+普通数据结构本质
+    不能说是依赖关系，应该是时许关系：
+        依赖    初始化结束操作 init end是子集
+        依赖    增删 insert deleta   
+        依赖    改 modify 
+        依赖    查search 打印 printf
+    其中每个环节都依赖于：
+        创建和消除多个 destroy_node create_linkstack  
+        创建和消除单个 destroy_node create_node
+
+    eg：
+        地址 = 创建    创建会生成地址
+        增加（地址）                增加使用地址
+        地址 = 删除                 删除返回地址   
+        销毁（地址）   销毁会使用地址
+
+增删改查的功能泛化：
+    2，字符串会有更多的处理函数：分离/反转/匹配
+    3，复杂数据结构/对象会有更多自定义的结构：
+    4，数据结构按照功能能分化：数据，控制，状态
+
+
+原理：
+    功能不同封装成不同的函数，也能封装成不同
+
+数据库
+如何编写增删改查
+    考虑线程进程
+        异步返回
+        多线程
+        事务
+    高级
+        增insert
+            批量新增
+            存在修改不存在插入
+            又名为
+                添加
+                创建
+        删delete
+            批量删除
+            不能删除有关联元素
+        改set
+            又名为
+                编辑
+        查get
+            条件查询
+                mybatis提供条件查询构造器
+                mybatis提供动态sql
+            *条件
+                列表查询
+                    userMapper.selectList(
+                普通查询
+                    user.selectById();
+                特殊查询
+                    new EntityWrapper<User>().eq("name", "张三")
+                链式查询chain
+            where
+            groupby
+            limite
+                分页查询
+                    new Page<User>(1, 10),
+    不同的api
+        stream流实现批量集合操作
+        mybatisplus wrapper实现
+        mybatis mapper实现
+            控制层UserController
+                控制层基类BaseController
+                    已经封装好了获取登录用户方法，
+                    ajax异步返回的结果方法
+                    以及初始化分页信息的方法
+                继承BaseController
+            业务层UserServiceImpl
+                接口IUserService
+                    面向接口编程
+                    好处是实际开发过程中可以根据业务先把接口写好，然后在实现具体的功能，提高工作效率
+                继承mybatis-plus的通用类ServiceImpl
+                    里面已经包含了单表的增删改查功能，不需重写。
+            dao层UserMapper，继承通用BaseMapper
+                Mapper 继承该接口后，无需编写 mapper.xml 文件，即可获得CRUD功能
+        jdbc实现

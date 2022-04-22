@@ -1,0 +1,36 @@
+vim - 保存和打开
+    打开文件
+        vim [option] .... file....
+        +# 直接定位到第#行+/pattern 打开文件后，直接定位到第一个匹配到pattern的地方-b 以二进制方式打开文件-d file1 file2 对比打开多个文件-m file 只读方式打开文件-e 直接以末行模式打开
+    打开多个文件
+        vim file1 file2 
+        :next 下一个
+        :prev 上一个
+        :first 第一个
+        :last:最后一个
+        :qall 退出全部
+        :wall 保存全部
+        wqall 保存并退出全部
+        :xall 保存并退出全部
+    关闭文件
+        末行模式
+            :w 保存
+            :q 退出
+            :wq 保存并退出
+            :x 保存并退出
+            :q! 强制退出
+            :wq! 强制保存并退出
+        命令模式
+            ZZ 保存并退出
+            ZQ 不保存退出
+        扩展命令行模式
+            按":"来进入
+            w 保存
+            q 退出
+            wq 保存并退出
+            q! 强制退出
+            x 保存并退出
+            r file 读入文件
+            w file 另存为
+            !command 直接执行命令
+            r! command 直接把命令的结果写到文件中

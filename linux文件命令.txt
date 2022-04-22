@@ -1,0 +1,115 @@
+linux文件命令
+    出发点 和 切换
+        一般的出发点都i是在home的文件夹中
+        ~符号作为根目录
+        ../../作为
+        cd
+    目录
+        查
+            pwd
+            ls
+                ls -l      以长列表格式显示文件、目录的详细信息
+                常用选项
+                    -a
+                        查看隐藏文件和隐藏目录
+                    -l
+                        使用长格式查看详细信息
+                    -h
+                        将文件大小以人类可读模式显示出来
+                    -i
+                        显示文件的inode信息
+                    -n
+                        列出uid和gid
+                    -R
+                        递归显示子目录中的内容
+                    --full-time
+                        显示完整时间
+            file
+            dirname取得路径中的目录名
+            basename取得路径中的文件名
+        改
+            创建
+                touch,mkdir,rm,rmdir
+                mkdir命令 – 创建目录
+            删除
+                rmdir
+                    常用选项
+                        -p
+                            递归删除空目录
+                rm
+                    常用选项
+                        -r
+                            递归进行删除
+                        -f
+                            强制进行删除
+                        -i
+                            删除前进行询问
+    文件
+        查
+            ls命令 – 显示指定工作目录下的内容及属性信息
+            pwd命令 – 显示当前路径
+            wc
+                过滤  统计
+            file查看与文件类型有关的基本信息
+            grep
+            比较合并更新
+                diff
+                    作用
+                        按行比较文件
+                            通常用于比较文本文件
+                    选项
+                        -b
+                            忽略对应的行中的空白字符差异
+                        -B
+                            忽略空白行的差异
+                        -i
+                            忽略大小写差异
+                    syntax
+                        diff -bBi from-file  to-file
+                    例
+                        比较两个文件
+                        比较两个目录
+                        比较不同目录下的两个文件
+                patch
+                    作用
+                        结合 diff 对文件进行更新，常用于对源代码文件进行升级或打补丁
+                    思路
+                        1. 使用 diff 比较 新、旧文件
+                        2. 将新旧文件的差异处制作成补丁文件
+                        3. 将补丁文件作用在旧文件上，对其进行升级
+                    选项
+                        -pN
+                            取消N层目录，N=0,1,2...
+                        -R
+                            使用 patch 文件还原更改
+                    syntax
+                        更新
+                            $ patch -pN < patch_file
+                        还原
+                            $ patch -R -pN < patch_file
+                    例
+                        制作补丁文件
+                            $ diff -Naur passwd.old passwd.new > passwd.patch
+                        更新旧文件
+                            $ patch -p0 < passwd.patch
+                                用补丁更新 passwd.old 文件，上例制作了它的补丁文件
+                        还原为旧文件
+                            $ patch -R -p0 < passwd.patch
+                                用补丁把更新后的 passwd.old 文件恢复为它原来的内容
+                cmp
+                    作用
+                        按字节比较文件
+                            可以比较二进制文件和文本文件
+                    选项
+                        -l
+                            列出两个文件中的所有不同字节
+                    syntax
+                        cmp -l src-file dest-file
+        改
+            touch
+                作用
+                    创建新的空文件
+                    修改文件的时间
+            cp命令 – 复制文件或目录
+            mv命令 – 移动或改名文件
+            链接

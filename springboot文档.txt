@@ -1,0 +1,654 @@
+模板
+    II。入门
+        I. Spring Boot文件
+            1.关于文档
+            2.获得帮助
+            3.第一步
+            4.使用Spring Boot
+            5.了解Spring Boot功能
+            6.转向生产
+            7.高级主题
+        8.介绍Spring Boot
+        9.系统要求
+            9.1.Servlet容器
+        10.安装Spring Boot
+            10.1.Java Developer的安装说明
+                10.1.1.Maven安装
+                10.1.2.Gradle安装
+            10.2.安装Spring Boot CLI
+                10.2.1.手动安装
+                10.2.2.使用SDKMAN安装！
+                10.2.3.OSX Homebrew安装
+                10.2.4.MacPorts安装
+                10.2.5.命令行完成
+                10.2.6.Windows Scoop安装
+                10.2.7.快速启动Spring CLI示例
+            10.3.从早期版本的Spring Boot升级
+        11.开发您的第一个Spring Boot应用程序
+            11.1.创建POM
+            11.2.添加Classpath依赖项
+            11.3.编写代码
+                11.3.1.@RestController和@RequestMapping Annotations
+                11.3.2.@EnableAutoConfiguration注释
+            11.3.3.“主要”方法
+            11.4.运行示例
+            11.5.创建一个可执行的Jar
+    III。使用Spring Boot
+        13.构建系统
+            13.1.依赖管理
+            13.2.Maven
+                13.2.1.继承Starter Parent
+                13.2.2.在没有父POM的情况下使用Spring Boot
+                13.2.3.使用Spring Boot Maven插件
+            13.3.Gradle
+            13.4.Ant
+            13.5.Starters
+        14.构建您的代码
+            14.1.使用“默认”包
+            14.2.找到主应用程序类
+        15.配置类
+            15.1.导入其他配置类
+            15.2.导入XML配置
+        16.自动配置
+            16.1.逐步更换自动配置
+            16.2.禁用特定的自动配置类
+        17. Spring Beans和依赖注入
+        18.使用@SpringBootApplication Annotation
+        19.运行您的应用程序
+            19.1.从IDE运行
+            19.2.作为打包应用程序运行
+            19.3.使用Maven插件
+            19.4.使用Gradle插件
+            19.5.热插拔
+        20.开发人员工具devtools
+            20.1.Property默认值
+            20.2.自动重启
+            20.2.1.记录条件评估中的更改
+            20.2.2.不包括资源
+            20.2.3.观看其他路径
+            20.2.4.禁用重启
+            20.2.5.使用触发器文件
+            20.2.6.自定义重新启动类加载器
+            20.2.7.已知限制
+            20.3.LiveReload
+            20.4.全局设置
+            20.5.远程应用
+                20.5.1.运行远程客户端应用程序
+                20.5.2.远程更新
+        21.包装您的生产应用程序
+    IV。Spring Boot功能
+        23. SpringApplication
+            23.1.启动失败
+            23.2.自定义横幅
+            23.3.自定义SpringApplication
+            23.4.更流畅的构建Fluent Builder API
+            23.5.应用程序事件和监听器
+            23.6.web环境
+            23.7.访问应用程序参数
+            23.8.使用ApplicationRunner或CommandLineRunner
+            23.9.申请退出
+            23.10.管理功能
+        24.外部配置
+            24.1.配置随机值
+            24.2.访问命令行属性
+            24.3.应用程序Property文件
+            24.4.配置文件特定的属性
+            24.5.属性中的占位符
+            24.6.加密属性
+            24.7.使用YAML而不是属性
+                24.7.1.加载YAML
+                24.7.2.在Spring环境中将YAML公开为属性
+                24.7.3.多个档案的YAML文件
+                24.7.4.YAML缺点
+            24.8.类型安全的配置属性
+                24.8.1.第三方配置
+                24.8.2.轻松绑定
+                24.8.3.合并复杂类型
+                24.8.4.属性转换
+                    转换持续时间
+                    转换数据大小
+                24.8.5.@ConfigurationProperties验证
+                24.8.6.@ConfigurationProperties vs. @Value
+        25.profile何时加载
+            25.1.添加活动配置文件
+            25.2.以编程方式设置配置文件
+            25.3.配置文件特定的配置文件
+        26.日志记录
+            26.1.日志格式
+            26.2.控制台输出
+            26.2.1.彩色编码输出
+            26.3.文件输出
+            26.4.日志级别
+            26.5.日志组
+            26.6.自定义日志配置
+            26.7.Logback Extensions
+            26.7.1.特定于配置文件的配置
+            26.7.2.环境属性
+        27. JSON
+            27.1.Jackson
+            27.2.GSON
+            27.3.JSON-B
+        28.开发Web应用程序
+            28.1.“Spring Web MVC框架”
+                28.1.1.Spring MVC自动配置
+                28.1.2.HttpMessageConverters
+                28.1.3.自定义JSON序列化程序和反序列化程序
+                28.1.4.MessageCodesResolver的信息
+                28.1.5.静态内容
+                28.1.6.欢迎页面
+                28.1.7.自定义Favicon
+                28.1.8.路径匹配和内容协商
+                28.1.9.ConfigurableWebBindingInitializer
+                28.1.10.模板引擎
+                28.1.11.错误处理
+                自定义错误页面
+                将错误页面映射到Spring MVC之外
+                28.1.12.Spring HATEOAS
+                28.1.13.CORS支持
+            28.2.“Spring WebFlux框架”
+                28.2.1.Spring WebFlux自动配置
+                28.2.2.带有HttpMessageReaders和HttpMessageWriters的HTTP编解码器
+                28.2.3.静态内容
+                28.2.4.模板引擎
+                28.2.5.错误处理
+                    自定义错误页面
+                28.2.6.网络过滤器
+            28.3.JAX-RS和Jersey
+            28.4.嵌入式Servlet容器支持
+                28.4.1.Servlet，过滤器和监听器
+                    注册Servlet，过滤器和监听器Spring Beans
+                28.4.2.Servlet上下文初始化
+                    扫描Servlet，过滤器和侦听器
+                28.4.3.ServletWebServerApplicationContext
+                28.4.4.自定义嵌入式Servlet容器
+                    程序化定制
+                    直接自定义ConfigurableServletWebServerFactory
+                28.4.5.JSP限制
+            28.5.嵌入式Reactive Server支持
+            28.6.Reactive Server资源配置
+        29.安全
+            29.1.MVC安全
+            29.2.WebFlux安全
+            29.3.OAuth2
+            29.3.1.客户
+            OAuth2共同提供者的客户注册
+            29.3.2.资源服务器
+            29.3.3.授权服务器
+            29.4.执行器安全
+            29.4.1.跨站点请求伪造保护
+        30.使用SQL数据库
+            30.1.配置DataSource
+                30.1.1.嵌入式数据库支持
+                30.1.2.连接到生产数据库
+                30.1.3.连接到JNDI数据源
+            30.2.使用JdbcTemplate
+            30.3.JPA和Spring Data JPA
+                30.3.1.实体类
+                30.3.2.Spring数据JPA存储库
+                30.3.3.创建和删除JPA数据库
+                30.3.4.在View中打开EntityManager
+            30.4.Spring数据JDBC
+            30.5.使用H2的Web控制台
+                30.5.1.更改H2控制台的路径
+            30.6.使用jOOQ
+                30.6.1.代码生成
+                30.6.2.使用DSLContext
+                30.6.3.jOOQ SQL方言
+                30.6.4.自定义jOOQ
+        31.使用NoSQL Technologies
+            31.1.Redis
+                31.1.1.连接到Redis
+            31.2.MongoDB的
+                31.2.1.连接到MongoDB数据库
+                31.2.2.MongoTemplate
+                31.2.3.Spring数据MongoDB存储库
+                31.2.4.嵌入式Mongo
+            31.3.Neo4j的
+                31.3.1.连接到Neo4j数据库
+                31.3.2.使用嵌入模式
+                31.3.3.Neo4jSession
+                31.3.4.Spring数据Neo4j存储库
+            31.4.Gemfire
+            31.5.Solr的
+                31.5.1.连接到Solr
+                31.5.2.Spring Data Solr存储库
+            31.6.Elasticsearch
+                31.6.1.通过REST客户端连接到Elasticsearch
+                31.6.2.使用Jest连接到Elasticsearch
+                31.6.3.使用Spring数据连接到Elasticsearch
+                31.6.4.Spring Data Elasticsearch存储库
+            31.7.Cassandra
+                31.7.1.连接到Cassandra
+                31.7.2.Spring数据Cassandra存储库
+            31.8.Couchbase
+                31.8.1.连接到Couchbase
+                31.8.2.Spring数据Couchbase存储库
+            31.9.LDAP
+                31.9.1.连接到LDAP服务器
+                31.9.2.Spring数据LDAP存储库
+                31.9.3.嵌入式内存LDAP服务器
+            31.10.InfluxDB
+                31.10.1.连接到InfluxDB
+        32.缓存
+            32.1.支持的缓存提供程序
+            32.1.1.通用
+            32.1.2.JCache（JSR-107）
+            32.1.3.EhCache 2.x
+            32.1.4.Hazelcast
+            32.1.5.Infinispan
+            32.1.6.Couchbase
+            32.1.7.Redis
+            32.1.8.Caffeine
+            32.1.9.简单
+            32.1.10.None
+        33.消息传递
+            33.1.JMS
+                33.1.1.ActiveMQ支持
+                33.1.2.Artemis支持
+                33.1.3.使用JNDI ConnectionFactory
+                33.1.4.发送消息
+                33.1.5.收到消息
+            33.2.AMQP
+                33.2.1.RabbitMQ支持
+                33.2.2.发送消息
+                33.2.3.收到消息
+            33.3.Apache Kafka支持
+                33.3.1.发送消息
+                33.3.2.收到消息
+                33.3.3.卡夫卡流
+                33.3.4.其他Kafka Properties
+        34.使用RestTemplate调用REST服务
+            34.1.RestTemplate自定义
+        35.使用WebClient调用REST服务
+            35.1.WebClient运行时
+            35.2.WebClient自定义
+        36.验证
+        37.发送电子邮件
+        38.使用JTA的分布式事务
+            38.1.使用Atomikos事务管理器
+            38.2.使用Bitronix事务管理器
+            38.3.使用Java EE托管事务管理器
+            38.4.混合XA和非XA JMS连接
+            38.5.支持替代嵌入式事务管理器
+        39. Hazelcast
+        40. Quartz Scheduler
+        41.任务执行和调度
+        42. Spring Integration
+        43. Spring Session
+            提供httpsession
+            支持集群的session处理
+            共享session
+        44.对JMX的监测和管理
+        45.测试
+            45.1.测试范围依赖性
+            45.2.测试Spring应用程序
+            45.3.测试Spring Boot应用程序
+                45.3.1.检测Web应用程序类型
+                45.3.2.检测测试配置
+                45.3.3.排除测试配置
+                45.3.4.使用模拟环境进行测试
+                45.3.5.使用正在运行的服务器进
+                45.3.6.使用JMX
+                45.3.7.嘲弄和间谍Beans
+                45.3.8.自动配置的测试
+                45.3.9.自动配置的JSON测试
+                45.3.10.自动配置的Spring MVC测试
+                45.3.11.自动配置Spring WebFlux测试
+                45.3.12.自动配置的数据JPA测试
+                45.3.13.自动配置的JDBC测试
+                45.3.14.自动配置的数据JDBC测试
+                45.3.15.自动配置的jOOQ测试
+                45.3.16.自动配置的数据MongoDB测试
+                45.3.17.自动配置的数据Neo4j测试
+                45.3.18.自动配置的数据Redis测试
+                45.3.19.自动配置的数据LDAP测试
+                45.3.20.自动配置的REST客户端
+                45.3.21.自动配置的Spring REST文档测试
+                    使用Mock MVC自动配置Spring REST文档测试
+                    使用REST Assured自动配置Spring REST文档测试
+                45.3.22.额外的自动配置和切片
+                45.3.23.用户配置和切片
+                45.3.24.使用Spock测试Spring Boot应用程序
+            45.4.测试实用程序
+                45.4.1.ConfigFileApplicationContextInitializer
+                45.4.2.TestPropertyValues
+                45.4.3.OutputCapture
+                45.4.4.TestRestTemplate
+        46. WebSockets
+        47.网络服务
+        48.使用WebServiceTemplate调用Web服务
+        49.创建自己的自动配置
+            49.1.了解自动配置Beans
+            49.2.找到自动配置候选者
+            49.3.条件Annotations
+            49.3.1.课程条件
+            49.3.2.Bean条件
+            49.3.3.Property条件
+            49.3.4.资源条件
+            49.3.5.网络应用条件
+            49.3.6.SpEL表达条件
+            49.4.测试您的自动配置
+            49.4.1.模拟Web上下文
+            49.4.2.覆盖Classpath
+            49.5.创建自己的初学者
+            49.5.1.命名
+            49.5.2.autoconfigure模块
+            49.5.3.入门模块
+        50. Kotlin的支持
+            50.1.要求
+            50.2.空安全
+            50.3.Kotlin API
+                50.3.1.runApplication
+                50.3.2.扩展
+            50.4.依赖管理
+            50.5.@ConfigurationProperties
+            50.6.测试
+            50.7.资源
+                50.7.1.进一步阅读
+                50.7.2.例子
+    V. Spring Boot Actuator：生产就绪功能
+        52.启用生产就绪功能
+        53.终端
+            53.1.启用端点
+            53.2.公开端点
+            53.3.保护HTTP端点
+            53.4.配置端点
+            53.5.用于执行器Web端点的超媒体
+            53.6.CORS支持
+            53.7.实现自定义端点
+                53.7.1.接收输入
+                    输入类型转换
+                53.7.2.自定义Web端点
+                    Web端点请求谓词
+                    路径
+                    HTTP方法
+                    消费
+                    产生
+                    Web端点响应状态
+                    Web端点范围请求
+                    Web端点安全
+                53.7.3.Servlet端点
+                53.7.4.控制器端点
+            53.8.健康信息
+                53.8.1.自动配置的HealthIndicators
+                53.8.2.编写自定义HealthIndicators
+                53.8.3.反应健康指标
+                53.8.4.自动配置的ReactiveHealthIndicators
+            53.9.应用信息
+                53.9.1.自动配置的InfoContributors
+                53.9.2.定制应用信息
+                53.9.3.Git提交信息
+                53.9.4.建立信息
+                53.9.5.编写自定义InfoContributors
+        54.通过HTTP进行监控和管理
+            54.1.自定义管理端点路径
+            54.2.自定义管理服务器端口
+            54.3.配置特定于管理的SSL
+            54.4.自定义管理服务器地址
+            54.5.禁用HTTP端点
+        55.对JMX的监测和管理
+            55.1.自定义MBean名称
+            55.2.禁用JMX端点
+            55.3.通过HTTP使用Jolokia for JMX
+            55.3.1.定制Jolokia
+            55.3.2.禁用Jolokia
+        56.记录器
+            56.1.配置记录器
+        57.度量标准
+            57.1.入门
+            57.2.支持的监控系统
+                57.2.1.AppOptics
+                57.2.2.Atlas
+                57.2.3.Datadog
+                57.2.4.Dynatrace
+                57.2.5.Elastic
+                57.2.6.Ganglia
+                57.2.7.Graphite
+                57.2.8.Humio
+                57.2.9.Influx
+                57.2.10.JMX
+                57.2.11.KairosDB
+                57.2.12.New Relic
+                57.2.13.Prometheus
+                57.2.14.SignalFx
+                57.2.15.简单
+                57.2.16.StatsD
+                57.2.17.Wavefront
+            57.3.支持的指标
+                57.3.1.Spring MVC指标
+                57.3.2.Spring WebFlux指标
+                57.3.3.Jersey服务器指标
+                57.3.4.HTTP客户端度量标准
+                57.3.5.缓存指标
+                57.3.6.数据源度量标准
+                57.3.7.Hibernate度量标准
+                57.3.8.RabbitMQ指标
+            57.4.注册自定义指标
+            57.5.自定义个别指标
+                57.5.1.常用标签
+                    57.5.2.Per-meter属性
+            57.6.度量标准端点
+        58.审计
+        59. HTTP跟踪
+            59.1.自定义HTTP跟踪
+        60.过程监测
+            60.1.扩展配置
+            60.2.编程
+        61. Cloud Foundry支持
+            61.1.禁用Extended Cloud Foundry Actuator支持
+            61.2.Cloud Foundry自签名证书
+            61.3.自定义上下文路径
+    VI。部署Spring Boot应用程序
+        63.部署到云端
+            63.1.Cloud Foundry
+                63.1.1.绑定到服务
+            63.2.Heroku的
+            63.3.OpenShift
+            63.4.亚马逊网络服务（AWS）
+                63.4.1.AWS Elastic Beanstalk
+                使用Tomcat平台
+                使用Java SE平台
+                63.4.2.摘要
+                63.5.Boxfuse和亚马逊网络服务
+                63.6.谷歌云
+        64.安装Spring Boot应用程序
+            64.1.支持的操作系统
+            64.2.Unix / Linux服务
+                64.2.1.安装为init.d服务（系统V）
+                    保护init.d服务
+                64.2.2.安装为systemd服务
+                64.2.3.自定义启动脚本
+                    写入时自定义启动脚本
+                    它运行时自定义脚本
+            64.3.Microsoft Windows服务
+    七。Spring Boot CLI
+        66.安装CLI
+        67.使用CLI
+            67.1.使用CLI运行应用程序
+                67.1.1.推断“抓住”依赖关系
+                67.1.2.推断“抓住”坐标
+                67.1.3.默认导入语句
+                67.1.4.自动主要方法
+                67.1.5.自定义依赖关系管理
+            67.2.多源文件的应用程序
+            67.3.打包您的应用程序
+            67.4.初始化一个新项目
+            67.5.使用嵌入式Shell
+            67.6.将扩展添加到CLI
+        68.使用Groovy Beans DSL开发应用程序
+        69.使用settings.xml配置CLI
+    X.附录
+        A.常见应用程序属性
+        B.配置元数据
+            B.1.元数据格式
+                B.1.1.组属性
+                B.1.2.Property属性
+                B.1.3.提示属性
+                B.1.4.重复的元数据项
+            B.2.提供手动提示
+                B.2.1.价值提示
+                B.2.2.价值提供者
+                任何
+                课程参考
+                处理为
+                记录器名称
+                Spring Bean参考
+                Spring个人资料名称
+            B.3.使用注释处理器生成自己的元数据
+                B.3.1.嵌套属性
+                B.3.2.添加其他元数据
+        C.自动配置类
+            C.1.来自“spring-boot-autoconfigure”模块
+            C.2.来自“spring-boot-actuator-autoconfigure”模块
+        D.测试自动配置注释
+        E.可执行的Jar格式
+            E.1.嵌套的JAR
+                E.1.1.可执行Jar文件结构
+                E.1.2.可执行文件War文件结构
+            E.2.Spring Boot的“JarFile”课程
+                E.2.1.与标准Java“JarFile”的兼容性
+            E.3.启动可执行的Jars
+                E.3.1.启动器清单
+                E.3.2.爆炸档案
+            E.4.PropertiesLauncher功能
+            E.5.可执行的Jar限制
+            E.6.替代单罐解决方案
+            F.依赖版本
+    八。构建工具插件
+        71. Spring Boot Maven插件
+            71.1.包括插件
+            71.2.打包可执行文件夹和War文件
+        72. Spring Boot Gradle插件
+        73. Spring Boot AntLib模块
+            73.1.Spring Boot Ant任务
+            73.1.1.spring-boot:exejar
+            73.1.2.例子
+        73.2.spring-boot:findmainclass
+            73.2.1.例子
+        74.支持其他构建系统
+            74.1.重新包装档案
+            74.2.嵌套库
+            74.3.寻找主类
+            74.4.重新打包实施示例
+    IX。'如何'指南
+        76. Spring Boot申请
+            76.1.创建自己的失败分析器
+            76.2.自动配置疑难解答
+            76.3.在开始之前自定义Environment或ApplicationContext
+            76.4.构建ApplicationContext层次结构（添加父或根上下文）
+            76.5.创建非Web应用程序
+        77.属性和配置
+            77.1.在构建时自动展开属性
+                77.1.1.使用Maven自动Property扩展
+                77.1.2.使用Gradle自动Property扩展
+            77.2.外化SpringApplication的配置
+            77.3.更改应用程序的外部属性的位置
+            77.4.使用“短”命令行参数
+            77.5.使用YAML作为外部属性
+            77.6.设置活动Spring Profiles
+            77.7.根据环境更改配置
+            77.8.发现外部属性的内置选项
+        78.嵌入式Web服务器
+            78.1.使用其他Web服务器
+            78.2.禁用Web服务器
+            78.3.更改HTTP端口
+            78.4.使用随机未分配的HTTP端口
+            78.5.在运行时发现HTTP端口
+            78.6.启用HTTP响应压缩
+            78.7.配置SSL
+            78.8.配置HTTP / 2
+                78.8.1.带有Undertow的HTTP / 2
+                78.8.2.带Jetty的HTTP / 2
+                78.8.3.与Tomcat的HTTP / 2
+                78.8.4.带有Reactor Netty的HTTP / 2
+            78.9.配置Web服务器
+            78.10.向应用程序添加Servlet，过滤器或监听器
+                78.10.1.使用Spring Bean添加Servlet，过滤器或监听器
+                    禁用Servlet或过滤器的注册
+                78.10.2.使用类路径扫描添加Servlet，过滤器和侦听器
+            78.11.配置访问日志记录
+            78.12.在前端代理服务器后面运行
+                78.12.1.自定义Tomcat的代理配置
+            78.13.使用Tomcat启用多个连接器
+            78.14.使用Tomcat的LegacyCookieProcessor
+            78.15.使用Undertow启用多个侦听器
+            78.16.使用@ServerEndpoint创建WebSocket端点
+        79. Spring MVC
+            79.1.编写JSON REST服务
+            79.2.编写XML REST服务
+            79.3.自定义Jackson ObjectMapper
+            79.4.自定义@ResponseBody渲染
+            79.5.处理多部分文件上载
+            79.6.关闭Spring MVC DispatcherServlet
+            79.7.关闭默认MVC配置
+            79.8.自定义ViewResolvers
+        80.使用Spring安全性进行测试
+        81. Jersey
+            81.1.使用Spring安全性保护Jersey端点
+        82. HTTP客户端
+            82.1.配置RestTemplate以使用代理
+        83.记录
+            83.1.配置Logging for Logging
+                83.1.1.配置仅文件输出的回溯
+            83.2.配置Log4j进行日志记录
+                83.2.1.使用YAML或JSON配置Log4j 2
+        84.数据访问
+            84.1.配置自定义数据源
+            84.2.配置两个DataSource
+            84.3.使用Spring数据存储库
+            84.4.从Spring配置中分离@Entity定义
+            84.5.配置JPA属性
+            84.6.配置Hibernate命名策略
+            84.7.配置Hibernate二级缓存
+            84.8.在Hibernate组件中使用依赖注入
+            84.9.使用自定义EntityManagerFactory
+            84.10.使用两个EntityManagers
+            84.11.使用传统的persistence.xml文件
+            84.12.使用Spring Data JPA和Mongo Repositories
+            84.13.自定义Spring数据的Web支持
+            84.14.将Spring数据存储库公开为REST端点
+            84.15.配置JPA使用的组件
+            84.16.使用两个DataSource配置jOOQ
+        85.数据库初始化
+            85.1.使用JPA初始化数据库
+            85.2.使用Hibernate初始化数据库
+            85.3.初始化数据库
+            85.4.初始化Spring批处理数据库
+            85.5.使用更高级别的数据库迁移工具
+            85.5.1.在启动时执行Flyway数据库迁移
+            85.5.2.在启动时执行Liquibase数据库迁移
+        86.消息传递
+            86.1.禁用事务处理的JMS会话
+        87.批量申请
+            87.1.在启动时执行Spring批处理作业
+        88.执行器
+            88.1.更改执行器端点的HTTP端口或地址
+            88.2.自定义'whitelabel'错误页面
+            88.3.消除明智的价值观
+        89.安全
+            89.1.关闭Spring Boot安全配置
+            89.2.更改UserDetailsS​​ervice和添加用户帐户
+            89.3.在代理服务器后运行时启用HTTPS
+        90.热插拔
+            90.1.重新加载静态内容
+            90.2.重新加载模板而不重新启动容器
+            90.2.1.Thymeleaf模板
+            90.2.2.FreeMarker模板
+            90.2.3.Groovy模板
+            90.3.快速申请重新启动
+            90.4.重新加载Java类而不重新启动容器
+        91.建立
+            91.1.生成构建信息
+            91.2.生成Git信息
+            91.3.自定义依赖性版本
+            91.4.使用Maven创建可执行JAR
+            91.5.使用Spring Boot应用程序作为依赖项
+            91.6.可执行jar运行时提取特定库
+            91.7.使用排除项创建不可执行的JAR
+            91.8.使用Maven开始远程调试Spring Boot应用程序
+            91.9.从Ant构建可执行文件，而不使用spring-boot-antlib
+        92.传统部署
+            92.1.创建可部署的War文件
+            92.2.将现有应用程序转换为Spring Boot
+            92.3.将WAR部署到WebLogic
+            92.4.使用Jedis代替Lettuce

@@ -1,0 +1,11 @@
+效率 - vim
+
+vim和鼠标对比：
+1，在vim下使用鼠标进行复制，比键盘的复制速度快
+
+
+
+vim和vscode对比：
+切换文件：
+    vim：    :wq vim newfile 
+    vscode慢 :ctrl+p  nf

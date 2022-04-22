@@ -1,0 +1,987 @@
+标准库函数框架
+    用户层
+        user
+            main.c主函数
+                初始化
+                检查
+                    while(font_init())   //检查字库
+                1.图片显示流程
+                    变量
+                    1.while(f_opendir(&picdir,"0:/PICTURE"))//打开图片目录
+                    2.totpicnum=pic_get_tnum("0:/PICTURE"); //得到总有效文件数
+                    3.为文件变量分配内存
+                         //为长文件缓存区分配内存
+                        //为带路径的文件名分配内存
+                        申请2*totpicnum个字节的内存,用于存放图片索引
+                    图片显示
+                        打开图片目录
+                        记录所有图片索引
+                        piclib_init(); //初始化画图
+                            curindex=0; //从0开始显示
+                        打开图片目录
+                            显示图片
+                            显示图片名字
+                            while(1)自动切换
+                    释放内存
+                2.照相机时延main
+                    变量函数
+                        camera_refresh(void)相机刷新
+                        camera_new_pathname文件名自增
+                    1.创建photo文件夹
+                    2.照相机ov7670芯片初始化
+                    3.设置定时器捕获芯片
+                    4.设置窗口然后清空lcd显示
+                    while(1)
+                        拍照按键检测到
+                            SD卡没有问题
+                                得到文件名
+                                如果保存失败
+                                如果保存成功
+                            SD卡错误
+                        拍照按键检测不到延时5ms
+                        更新显示并且灯光闪烁
+                3.串口使用main
+                    while(1)
+                        如果有发送状态
+                        没有发送状态位
+                IIC实现 对24cxx  EEPROM的读写
+                整合
+                    变量
+                    1.创建photo文件夹
+                    2.照相机ov7670芯片初始化
+                    3.设置定时器捕获芯片
+                    4.设置窗口然后清空lcd显示
+                    while(1)
+                        拍照按键检测到
+                            SD卡没有问题
+                                新建照片文件
+                                如果拍照失败
+                                如果拍照成功
+                                    输出成功
+                                    piclib_init(); //初始化画图
+                                    显示图片
+                                    显示图片名字
+                                    发送图片给上位机
+                            SD卡错误
+                        拍照按键检测不到延时5ms
+                        更新显示并且灯光闪烁
+            stdio.h标准输入输出文件
+                sprintf输出格式化到str字符串
+                    用处
+            stm32f10x_it.c中断服务函数   
+            stm32f10x_conf.h头文件整理
+        software
+            FATFS文件系统的实现
+                FATS文件夹
+                    src
+                        option
+                            cc936.c
+                    exfun
+                        ff.c
+                        exfun.c全局变量 存取API
+                        fattest.c测试封装
+                    diskio.c
+                    ffconf.h 相关配置
+                FATS代码文件
+                    fattest.c测试封装
+                    cc936.c码表转换
+                    移植修改：ffconf.h 相关配置
+                        属性
+                             _FS_TINY（FATFS 和 Tiny FATFS）
+                            _FS_READONLY是否只读
+                             _VOLUMES支持逻辑设备数目
+                            _CODE_PAGE语言类型
+                             _MAX_SS扇区缓冲的最大值
+                        支持功能
+                             _USE_STRFUNC是否支持字符串操作
+                             _USE_FASTSEEK快速定位
+                             _USE_MKFS是否使能格式化
+                            _USE_LABEL支持磁盘盘符
+                             _USE_LFN支持长文件名
+                    1...ff.c文件API
+                        初始化
+                            f_mount (FATFS* fs, const TCHAR* path, BYTE opt);  磁盘挂载
+                            f_mkfs (const TCHAR* path, BYTE sfd, UINT au);   在盘上创建文件系统/分区
+                        获取读创建
+                            文件
+                                f_open：创建/打开一个用于访问文件的文件对象
+                                    打开方式
+                                f_findfirst (); 查找文件
+                                f_findnext  查找文件
+                                f_close：关闭一个打开的文件
+                            文件夹
+                                f_opendir：打开/创建一个目录
+                                f_mkdir - 创建一个目录
+                                f_getcwd ); 获取目录
+                                f_closedir ; 关闭一个目录
+                            磁盘
+                                f_fdisk ;分区 
+                                f_getfree - 获取空闲簇 Get Free Clusters
+                                f_getfree; 得到磁盘上剩余簇
+                        属性
+                            变量
+                                FILINFO文件属性
+                                FATFS
+                                FIL文件位置
+                                DIR目录位置
+                                FRESULT文件返回结果
+                            控制
+                                f_chmod - 改变属性（Attribute）
+                                f_forward 转移文件数据到另一个文件流
+                            状态
+                                文件指针
+                                    f_lseek：移动文件读写指针
+                                    f_tell - 获取当前读/写指针
+                                    f_eof - 测试一个文件是否到达文件末尾
+                                文件状态
+                                    f_stat - 获取文件状态
+                                    f_error - 测试一个文件是否出错
+                            性质
+                                大小
+                                    f_size - 获取一个文件大小
+                                    f_truncate：截断文件大小
+                                    u32 exf_fdsize(u8 *fdname);  //得到文件夹大小
+                                时间
+                                    f_utime ;  修改时间戳
+                                名字位置
+                                    f_rename - 重命名/移动一个文件或文件夹
+                                卷标
+                                    f_getlabel ; 获取卷标
+                                    f_setlabel (const TCHAR* label);  设置卷标
+                                出错
+                                    f_error - 测试一个文件是否出错
+                            数据
+                                读取数据
+                                    f_read：从一个文件读取数据
+                                    f_readdir - 读取目录条目
+                                    TCHAR* f_gets; 从文件中读取字符串     
+                                写入数据
+                                    f_write：写入数据到一个文件
+                                    int f_putc (TCHAR c, FIL* fp);  写入字符到文件  
+                                    int f_puts (const TCHAR* str, FIL* cp);    写入字符串到文件   
+                                    int f_printf (); 写一个格式化的字符磁盘I/O接口
+                                删除文件
+                                    f_unlink (const TCHAR* path); 删除文件文件夹    
+                                刷新
+                                    f_sync：刷新写文件的缓存信息
+                                工作位置
+                                    FRESULT f_chdir (const TCHAR* path); 切换目录
+                                    FRESULT f_chdrive (const TCHAR* path);   切换盘符
+                    2.exfun.c磁盘API
+                        创建
+                            u8 exfuns_init(void);       //为fats申请内存初始化
+                            u8 exf_copy(u8(*fcpymsg)(u8*pname,u8 pct,u8 mode),u8 *psrc,u8 *pdst,u32 totsize,u32 cpdsize,u8 fwmode);    //文件复制
+                            u8 exf_fdcopy(u8(*fcpymsg)(u8*pname,u8 pct,u8 mode),u8 *psrc,u8 *pdst,u32 *totsize,u32 *cpdsize,u8 fwmode);           //文件夹复制
+                        属性
+                            磁盘容量
+                                u8 exf_getfree(u8 *drv,u32 *total,u32 *free); //得到磁盘总容量和剩余容量
+                            文件类型
+                                u8 f_typetell(u8 *fname);      //识别文件类型
+                            Подтема
+                                u8* exf_get_src_dname(u8* dpfn);
+                    3..移植修改：diskio.c磁盘驱动
+                        初始化
+                            DSTATUS disk_initialize (BYTE pdrv);  磁盘初始化
+                        修改
+                            DRESULT disk_write (BYTE pdrv, const BYTE* buff, DWORD sector, UINT count);写扇区
+                        属性
+                            磁盘状态
+                                DSTATUS disk_status (BYTE pdrv);    获取磁盘状态
+                            参数的获取
+                                DRESULT disk_ioctl (BYTE pdrv, BYTE cmd, void* buff); 其它表参数的获取
+                            Подтема
+                                DRESULT disk_read (BYTE pdrv, BYTE* buff, DWORD sector, UINT count); 读扇区
+                fatfs的移植流程
+                    1.修改integer.h 里面数据类型定义的一致
+                    2.关于 ffconf.h 里面的相关配置
+                    3.在 diskio.c 里面实现物理磁盘读写
+            picture图片的显示
+                属性
+                    JPG/JPEG 解码库TjpgDec
+                BMP.C格式图片
+                    u8 bmp_encode();编码保存
+                        参数
+                        内容
+                            变量
+                                BITMAPINFO hbmp; //bmp头
+                                    u16 bmpheadsize; //bmp头大小
+                                u16 tx,ty;  //图像尺寸
+                                u16 *databuf;  //数据缓存区地址
+                                u16 pixcnt;   //像素计数器
+                                u16 bi4width;   //水平像素字节数
+                            1.分配文件存储空间
+                            2. BMP 初始化各个相关信息
+                            3.创建新 BMP 文件，写入 BMP 位图信息
+                            4.保存位图数据
+                            5.关闭文件
+                    u8 stdbmp_decode(const u8 *filename);
+                        变量
+                        申请readlen大小的内存
+                        读取图片的信息
+                        初始化智能画图
+                        开始解码
+                        while(1)
+                            while读取1024扇区
+                                24位颜色图
+                                16位颜色图
+                                32位颜色图
+                                8位颜色图
+                                读取一个像素颜色然后画点显示
+                                像素累加换行
+                            读取最后一批数据
+                            关闭文件
+                        释放内存
+                    u8 minibmp_decode(u8 *filename,u16 x,u16 y,u16 width,u16 height,u16 acolor,u8 mode);
+                    1.JPEG/JPG 的解码过程
+                        1、从文件头读出文件的相关信息
+                        2、从图像数据流读取一个最小编码单元(MCU) 
+                        3、将颜色分量单元从数据流恢复成矩阵数据
+                        4、 8× 8 的数据矩阵进一步解码
+                        5、颜色系统 YCrCb 向 RGB 转换
+                        6、排列整合各个 MCU 的解码数据
+                git.c格式图片
+                    获取
+                        u16 gif_getdatablock(FIL *gfile,u8 *buf,u16 maxnum);   //读取一个数据块
+                        u8 gif_readextension(FIL *gfile,gif89a* gif, int *pTransIndex,u8 *pDisposal); //读取扩展部分
+                        int gif_getnextcode(FIL *gfile,gif89a* gif);  //从LZW缓存中得到下一个LZW码,每个码包含12位
+                    检测
+                        u8 gif_check_head(FIL *file);    //检测GIF头
+                    修改
+                        u16 gif_getrgb565(u8 *ctb);  //将RGB888转为RGB565
+                        void gif_recovergctbl(gif89a* gif);    //恢复全局颜色表
+                        void gif_clear2bkcolor(u16 x,u16 y,gif89a* gif,ImageScreenDescriptor pimge); //恢复成背景色
+                    属性
+                        //逻辑屏幕描述块LogicalScreenDescriptor;
+                        //图像描述块ImageScreenDescriptor;
+                        //图像描述gif89a;
+                        LZW相关参数
+                            void gif_initlzw(gif89a* gif,u8 codesize);  //初始化LZW相关参数
+                        方法
+                            u8 gif_getinfo(FIL *file,gif89a * gif); //得到逻辑屏幕描述,图像尺寸等
+                            int gif_getnextbyte(FIL *gfile,gif89a* gif);   //得到LZW的下一个码
+                            u8 gif_readcolortbl(FIL *file,gif89a * gif,u16 num); //读取颜色表
+                            void gif_savegctbl(gif89a* gif);    //保存全局颜色表
+                    方法
+                        u8 gif_drawimage(FIL *gfile,gif89a* gif,u16 x0,u16 y0);   //画GIF图像的一帧
+                        u8 gif_dispimage(FIL *gfile,gif89a* gif,u16 x0,u16 y0,int Transparency, u8 Disposal); //显示图片
+                        解码
+                            u8 gif_decode(const u8 *filename,u16 x,u16 y,u16 width,u16 height);//在指定区域解码一个GIF文件.
+                            void gif_quit(void);     //退出当前解码.
+                tjpg.c
+                    JRESULT jd_prepare (JDEC*, UINT(*)(JDEC*,BYTE*,UINT), void*, UINT, void*);
+                    JRESULT jd_decomp (JDEC*, UINT(*)(JDEC*,void*,JRECT*), BYTE);
+                    解码
+                        u8 jpg_decode(const u8 *filename,u8 fast);
+                piclib画图
+                    初始化
+                        void piclib_init(void);        //初始化画图
+                        void ai_draw_init(void);       //初始化智能画图
+                    属性
+                        像素
+                            u8 is_element_ok(u16 x,u16 y,u8 chg);    //判断像素是否有效
+                        内存
+                            void *pic_memalloc (u32 size); //pic申请内存
+                            void pic_memfree (void* mf); //pic释放内存
+                    画图方法
+                        u16(*read_point)(u16,u16);    //u16 read_point(u16 x,u16 y)      读点函数
+                        void(*draw_point)(u16,u16,u16);   //void draw_point(u16 x,u16 y,u16 color)      画点函数
+                        void(*draw_hline)(u16,u16,u16,u16);  //void draw_hline(u16 x0,u16 y0,u16 len,u16 color)  画水平线函数
+                        u16 piclib_alpha_blend(u16 src,u16 dst,u8 alpha); //alphablend半透明处理
+                        u8 ai_load_picfile(const u8 *filename,u16 x,u16 y,u16 width,u16 height,u8 fast);//智能画图
+                        画颜色
+                            void(*fill)(u16,u16,u16,u16,u16);  ///void fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 color) 单色填充函数
+                            void(*fillcolor)(u16,u16,u16,u16,u16*); //void piclib_fill_color(u16 x,u16 y,u16 width,u16 height,u16 *color) 颜色填充
+            text汉字的显示
+                font字库
+                    初始化
+                        u8 font_init(void);     //初始化字库
+                    方法
+                        u32 fupd_prog(u16 x,u16 y,u8 size,u32 fsize,u32 pos);  //显示更新进度
+                        u8 updata_fontx(u16 x,u16 y,u8 size,u8 *fxpath,u8 fx); //更新指定字库
+                        u8 update_font(u16 x,u16 y,u8 size,u8* src);       //更新全部字库
+                text.c文字
+                    void Get_HzMat(unsigned char *code,unsigned char *mat,u8 size);   //得到汉字的点阵码
+                    void Show_Font(u16 x,u16 y,u8 *font,u8 size,u8 mode);     //在指定位置显示一个汉字
+                    void Show_Str(u16 x,u16 y,u16 width,u16 height,u8*str,u8 size,u8 mode); //在指定位置显示一个字符串
+                    void Show_Str_Mid(u16 x,u16 y,u8*str,u8 size,u8 len);
+            system 通用函数
+                sys.c 中断分组
+                    sys.h 引脚由地址->名称
+                    void WFI_SET(void);  //执行WFI指令
+                    void INTX_DISABLE(void);//关闭所有中断
+                    void INTX_ENABLE(void); //开启所有中断
+                    void MSR_MSP(u32 addr); //设置堆栈地址
+                delay.c系统延时功能
+                    void delay_init(void);延时函数初始化
+                    void delay_ms(u16 nms);延时ms
+                    void delay_us(u32 nus);延时us
+                usart.c串口的初始化中断接收
+                    控制
+                    void uart_init(u32 bound);初始化
+                    串口中怎样接收一个完整数据包
+                        如果数据存储器不为0
+                            读取数据
+                            如果未完成可以接收
+                                1.如果接收到包头
+                                2.如果接收到包尾
+                                    对之前的数据校验
+                                对数据操作
+                                    1.继续将数据放在缓存里
+                                    2.停止接收数据
+                    void USART1_IRQHandler(void)串口中断函数
+                        如果数据寄存器不为空
+                            读取数据
+                            如果未接受完
+                                如果已经接收到了0x0d
+                                    如果是0x0a就接收完成
+                                    如果不是就重置从新发送
+                                如果没接收到0x0d
+                                    如果接收到0x0d
+                                    如果没接收到0x0d
+                                        继续将数据存在
+                                        如果出错清空状态从新接收
+                    printf 的支持代码
+                    usart.h
+            malloc内存动态分配使用
+                参数
+                    定义支持的SRAM块数
+                    是否外部内存数量
+                    //mem1内存参数设定
+                        //内存块大小为32字节
+                        //最大管理内存 40K
+                        //内存表大小
+                初始化
+                    void my_mem_init(u8 memx);  //内存管理初始化函数(外/内部调用)
+                属性
+                    状态
+                        u8 my_mem_perused(u8 memx); //获得内存使用率(外/内部调用)
+                    控制
+                        void mymemset(void *s,u8 c,u32 count); //设置内存
+                        void mymemcpy(void *des,void *src,u32 n);//复制内存
+                        内部
+                            u32 my_mem_malloc(u8 memx,u32 size); //内存分配(内部调用)
+                            u8 my_mem_free(u8 memx,u32 offset); //内存释放(内部调用)
+                        外部
+                            void *mymalloc(u8 memx,u32 size); //内存分配(外部调用)
+                            void myfree(u8 memx,void *ptr);   //内存释放(外部调用)
+                            void *myrealloc(u8 memx,void *ptr,u32 size);//重新分配内存(外部调用)
+        Hardware
+             
+                中断
+                    void EXTIX_Init(void); //外部中断初始化
+                    void EXTI8_Init(void);
+                timer定时器
+                    STM32定时器定时计算公式
+                    TIM3_Int_Init(u16 arr,u16 psc)
+                    void TIM3_IRQHandler(void)串口中断函数
+                电源
+            协议设备
+                SPI组件函数API
+                    void SPI2_Init(void); //初始化SPI口
+                    设置
+                        void SPI2_SetSpeed(u8 SpeedSet); //设置SPI速度
+                    方法
+                        u8 SPI2_ReadWriteByte(u8 TxData);//SPI总线读写一个字节
+                OV7670摄像头驱动API
+                    u8   OV7670_Init(void);初始化
+                    属性
+                        参数指令
+                            分辨率
+                        void OV7670_Light_Mode(u8 mode);模式设置
+                        void OV7670_Color_Saturation(u8 sat);色度设置
+                        void OV7670_Brightness(u8 bright);亮度设置
+                        void OV7670_Contrast(u8 contrast);对比度设置
+                        void OV7670_Special_Effects(u8 eft);特效设置
+                        void OV7670_Window_Set(u16 sx,u16 sy,u16 width,u16 height)窗口;图像输出
+            连接设备
+                led灯
+                    LED1=1;//关闭DS1
+                beep.c蜂鸣
+                    BEEP=0;//关闭蜂鸣器
+                key按键
+                    void KEY_Init(void);//IO初始化
+                    u8 KEY_Scan(u8);   //按键扫描函数
+            存储设备
+                SD卡驱动函数API
+                    SD卡初始化流程
+                    命令和响应
+                        void SDIO_Send_Cmd(u8 cmdindex,u8 waitrsp,u32 arg);
+                        void SDIO_Send_Data_Cfg(u32 datatimeout,u32 datalen,u8 blksize,u8 dir);
+                    初始化
+                        SD_Error SD_Init(void);   //初始化SD卡
+                        SD_Error SD_PowerON(void);    //卡上电
+                        SD_Error SD_PowerOFF(void); //SD卡 Power OFF
+                        SD_Error SD_InitializeCards(void);//初始化所有的卡,并让卡进入就绪状态
+                    属性
+                        控制
+                            时钟
+                                void SDIO_Clock_Set(u8 clkdiv);  //SDIO时钟初始化设置 //clkdiv:时钟分频系数
+                            总线宽度
+                                SD_Error SD_EnableWideBusOperation(u32 wmode); /设置SDIO总线宽度(MMC卡不支持4bit模式)
+                            工作模式
+                                SD_Error SD_SetDeviceMode(u32 mode);//设置SD卡工作模式
+                            选卡
+                                SD_Error SD_SelectDeselect(u32 addr); //选卡
+                            中断
+                                SD_Error SD_ProcessIRQSrc(void);//SDIO中断处理函数
+                            DMA
+                                void SD_DMA_Config(u32*mbuf,u32 bufsize,u32 dir); //配置SDIO DMA
+                        状态
+                            SD_Error SD_GetCardInfo(SD_CardInfo *cardinfo); //得到卡信息
+                            SDCardState SD_GetState(void);//返回SD卡的状态//返回值:SD卡状态
+                            SD_Error SD_SendStatus(uint32_t *pcardstatus);//读取当前卡状态
+                            SD_Error IsCardProgramming(u8 *pstatus) //检查卡是否正在执行写操作
+                        数据
+                            读
+                                SD_Error SD_ReadBlock(u8 *buf,long long addr,u16 blksize);  //SD卡读取一个块
+                                SD_Error SD_ReadMultiBlocks(u8 *buf,long long  addr,u16 blksize,u32 nblks);  //SD卡读取多个块
+                                u8 SD_ReadDisk(u8*buf,u32 sector,u8 cnt);  //读SD卡,fatfs/usb调用
+                            写
+                                SD_Error SD_WriteBlock(u8 *buf,long long addr,  u16 blksize); //SD卡写1个块
+                                SD_Error SD_WriteMultiBlocks(u8 *buf,long long addr,u16 blksize,u32 nblks);
+                                u8 SD_WriteDisk(u8*buf,u32 sector,u8 cnt); //写SD卡,fatfs/usb调用
+                FLASH函数API
+                    编程与擦除实现流程
+                    W25X驱动函数
+                        初始化
+                            void W25QXX_Init(void);
+                        属性
+                            状态
+                                ID
+                                    u16  W25QXX_ReadID(void);         //读取FLASH ID
+                                u8  W25QXX_ReadSR(void);          //读取状态寄存器
+                                void W25QXX_Write_SR(u8 sr);     //写状态寄存器
+                            控制
+                                写
+                                    void W25QXX_Write_Enable(void);    //写使能
+                                    void W25QXX_Write_Disable(void);  //写保护
+                                    void W25QXX_Write_NoCheck(u8* pBuffer,u32 WriteAddr,u16 NumByteToWrite);
+                                掉电模式
+                                    void W25QXX_PowerDown(void); //进入掉电模式
+                                唤醒
+                                    void W25QXX_WAKEUP(void);    //唤醒
+                                空闲
+                                    void W25QXX_Wait_Busy(void);   //等待空闲
+                            数据
+                                void W25QXX_Read(u8* pBuffer,u32 ReadAddr,u16 NumByteToRead);   //读取flash
+                                void W25QXX_Write(u8* pBuffer,u32 WriteAddr,u16 NumByteToWrite);//写入flash
+                                void W25QXX_Erase_Chip(void);        //整片擦除
+                                void W25QXX_Erase_Sector(u32 Dst_Addr); //扇区擦除
+                LCD组件函数API
+                    初始化
+                        void LCD_Init(void); 初始化
+                            LCD驱动参数
+                                #define SSD_HOR_PULSE_WIDTH  1  //水平脉宽
+                                #define SSD_HOR_BACK_PORCH  210  //水平前廊
+                                #define SSD_HOR_FRONT_PORCH  45  //水平后廊
+                                #define SSD_VER_PULSE_WIDTH  1  //垂直脉宽
+                                #define SSD_VER_BACK_PORCH  34  //垂直前廊
+                                #define SSD_VER_FRONT_PORCH  10  //垂直前廊
+                            LCD分辨率
+                                #define SSD_HOR_RESOLUTION  800  //LCD水平分辨率
+                                #define SSD_VER_RESOLUTION  480  //LCD垂直分辨率
+                            LCD自动计算参数
+                    属性
+                        控制
+                            坐标
+                                void LCD_SetCursor(u16 Xpos, u16 Ypos); 设置光标
+                            窗口尺寸
+                                void LCD_Set_Window(u16 sx,u16 sy,u16 width,u16 height);设置窗口
+                            方向
+                                void LCD_Scan_Dir(u8 dir); 设置屏扫描方向
+                                void LCD_Display_Dir(u8 dir); 设置屏幕显示方向
+                            背光
+                                void LCD_SSD_BackLightSet(u8 pwm);SSD1963 背光控制
+                            寄存器
+                                void LCD_WriteReg(u16 LCD_Reg, u16 LCD_RegValue);
+                                u16 LCD_ReadReg(u16 LCD_Reg);
+                            开关
+                                void LCD_DisplayOn(void);开显示
+                                void LCD_DisplayOff(void);关显示
+                                void LCD_Clear(u16 Color);清屏
+                        状态
+                        数据
+                            图形
+                                void LCD_Draw_Circle(u16 x0,u16 y0,u8 r);画圆
+                                void LCD_DrawRectangle(u16 x1, u16 y1, u16 x2, u16 y2);画矩形
+                                void LCD_DrawLine(u16 x1, u16 y1, u16 x2, u16 y2); 画线
+                                void LCD_DrawPoint(u16 x,u16 y);画点
+                                void LCD_Fast_DrawPoint(u16 x,u16 y,u16 color);快速画点
+                                u16  LCD_ReadPoint(u16 x,u16 y); 读点
+                            颜色
+                                void LCD_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 color);填充单色
+                                void LCD_Color_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 *color);填充指定颜色
+                            字符
+                                void LCD_ShowChar(u16 x,u16 y,u8 num,u8 size,u8 mode);显示一个字符
+                            数字
+                                void LCD_ShowNum(u16 x,u16 y,u32 num,u8 len,u8 size);  显示一个数字
+                                void LCD_ShowxNum(u16 x,u16 y,u32 num,u8 len,u8 size,u8 mode);显示 数字
+                            字符串
+                                void LCD_ShowString(u16 x,u16 y,u16 width,u16 height,u8 size,u8 *p);显示一个字符串,12/16字体
+                            RAM
+                                void LCD_WriteRAM_Prepare(void);
+                                void LCD_WriteRAM(u16 RGB_Code);
+    CMSIS 核心层 emmx
+        中间件访问层
+        内核函数层core
+            system_stm32f10x.c时钟配置文件
+            core_cm3.c   内核外设寄存器函数
+                stdint.h
+            stm32f103.h  片上外设寄存器映射
+                数据类型  int16
+                中断线
+                定义外部设备 ADC
+                结构体封装寄器，寄存器地址映射  地址->名称
+                寄存器声明
+                寄存器位操作
+            core_cm3.h   内核外设寄存器映射
+                stdint.h
+            startup/arm启动文件
+        外设访问层FWLib stm32f10x_ppp.c
+stm32f10x_ppp.h
+             
+                 中断
+                    misc.c 中断向量控制器
+                        misc.h
+                    NVIC嵌套中断
+                        初始化
+                            NVIC_DeInit 将外设 NVIC 寄存器重设为缺省值
+                            NVIC_Init 根据 NVIC_InitStruct 中指定的参数初始化外设 NVIC 寄存器
+                            NVIC_StructInit 把 NVIC_InitStruct 中的每一个参数按缺省值填入
+                            NVIC_SCBDeInit 将外设 SCB 寄存器重设为缺省值
+                        属性
+                            数据
+                                NVIC_GetBASEPRI 返回 BASEPRI 屏蔽值
+                            控制
+                                优先级
+                                    NVIC_PriorityGroupConfig 设置优先级分组：先占优先级和从优先级
+                                    NVIC_SETPRIMASK 使能 PRIMASK 优先级：提升执行优先级至 0
+                                    NVIC_RESETPRIMASK 失能 PRIMASK 优先级
+                                    NVIC_SETFAULTMASK 使能 FAULTMASK 优先级：提升执行优先级至-1
+                                    NVIC_RESETFAULTMASK 失能 FAULTMASK 优先级
+                                    NVIC_BASEPRICONFIG 改变执行优先级从 N（最低可设置优先级）提升至 1
+                                    NVIC_SystemHandlerPriorityConfig 设置指定的系统 Handler 优先级
+                                向量表
+                                    NVIC_SetVectorTable 设置向量表的位置和偏移
+                                系统复位
+                                    NVIC_GenerateSystemReset 产生一个系统复位
+                                    NVIC_GenerateCoreReset 产生一个内核（内核+NVIC）复位
+                                低功耗模式
+                                    NVIC_SystemLPConfig 选择系统进入低功耗模式的条件
+                                服务函数使能
+                                    NVIC_SystemHandlerConfig 使能或者失能指定的系统 Handler
+                            状态
+                                通道待处理位设置
+                                    NVIC_SetIRQChannelPendingBit 设置指定的 IRQ 通道待处理位
+                                    NVIC_ClearIRQChannelPendingBit 清除指定的 IRQ 通道待处理位
+                                    NVIC_GetIRQChannelPendingBitStatus 检查指定的 IRQ 通道待处理位设置与否
+                                通道活动位设置
+                                    NVIC_GetIRQChannelActiveBitStatus 检查指定的 IRQ 通道活动位设置与否
+                                服务函数标识符
+                                    NVIC_GetCurrentActiveHandler 返回当前活动的 Handler（ IRQ 通道和系统 Handler）的标识符
+                                内核版本号
+                                    NVIC_GetCPUID 返回 ID 号码， Cortex-M3 内核的版本号和实现细节
+                                服务函数handler待处理位
+                                    NVIC_GetCurrentPendingIRQChannel 返回当前待处理 IRQ 标识符
+                                    NVIC_GetSystemHandlerPendingBitStatus 检查指定的系统 Handler 待处理位设置与否
+                                    NVIC_SetSystemHandlerPendingBit 设置系统 Handler 待处理位
+                                    NVIC_ClearSystemHandlerPendingBit 清除系统 Handler 待处理位
+                                服务函数hander活动位
+                                    NVIC_GetSystemHandlerActiveBitStatus 检查系统 Handler 活动位设置与否
+                                出错地址
+                                    NVIC_GetFaultHandlerSources 返回表示出错的系统 Handler 源
+                                    NVIC_GetFaultAddress 返回产生表示出错的系统 Handler 所在位置的地址
+                    EXTI外部中断
+                        初始化
+                            EXTI_DeInit 将外设 EXTI 寄存器重设为缺省值
+                            EXTI_Init 根据 EXTI_InitStruct 中指定的参数初始化外设 EXTI 寄存器
+                            EXTI_StructInit 把 EXTI_InitStruct 中的每一个参数按缺省值填入
+                        属性
+                            控制
+                                EXTI_GenerateSWInterrupt 产生一个软件中断
+                            线路标志位
+                                EXTI_GetFlagStatus 检查指定的 EXTI 线路标志位设置与否
+                                EXTI_ClearFlag 清除 EXTI 线路挂起标志位
+                                EXTI_GetITStatus 检查指定的 EXTI 线路触发请求发生与否
+                                EXTI_ClearITPendingBit 清除 EXTI 线路挂起位
+                定时器
+                    通用定时器（ TIM）
+                        变量
+                            TIM_TimeBaseInitTypeDef
+                                TIM_Prescaler分频系数
+                                TIM_CounterMode 计数方式
+                                TIM_Period 自动重载计数周期值
+                                TIM_ClockDivision时钟分频因子
+                                TIM_RepetitionCounter 是高级定时器使用的
+                        初始化
+                            TIM_DeInit 将外设 TIMx 寄存器重设为缺省值
+                            TIM_TimeBaseInit 根据 TIM_TimeBaseInitStruct 中指定的参数初始化 TIMx 的时间基数单位
+                            TIM_OCInit 根据 TIM_OCInitStruct 中指定的参数初始化外设 TIMx
+                            TIM_ICInit 根据 TIM_ICInitStruct 中指定的参数初始化外设 TIMx
+                            TIM_TimeBaseStructInit 把 TIM_TimeBaseInitStruct 中的每一个参数按缺省值填入
+                            TIM_OCStructInit 把 TIM_OCInitStruct 中的每一个参数按缺省值填入
+                            TIM_ICStructInit 把 TIM_ICInitStruct 中的每一个参数按缺省值填入
+                        属性
+                            控制
+                                TIM外设
+                                    TIM_Cmd 使能或者失能 TIMx 外设
+                                TIM中断
+                                    TIM _ITConfig 使能或者失能指定的 TIM 中断
+                                DMA接口
+                                    TIM_DMAConfig 设置 TIMx 的 DMA 接口
+                                    TIM_DMACmd 使能或者失能指定的 TIMx 的 DMA 请求
+                                内部时钟
+                                    TIM_InternalClockConfig 设置 TIMx 内部时钟
+                                    TIM_ITRxExternalClockConfig 设置 TIMx 内部触发为外部时钟模式
+                                外部时钟
+                                    TIM_TIxExternalClockConfig 设置 TIMx 触发为外部时钟
+                                    TIM_ETRClockMode1Config 配置 TIMx 外部时钟模式 1
+                                    TIM_ETRClockMode2Config 配置 TIMx 外部时钟模式 2
+                                外部触发
+                                    TIM_ETRConfig 配置 TIMx 外部触发
+                                    TIM_SelectInputTrigger 选择 TIMx 输入触发源
+                                预分频
+                                    TIM_PrescalerConfig 设置 TIMx 预分频
+                                计数器模式
+                                    TIM_CounterModeConfig 设置 TIMx 计数器模式
+                                预装载寄存器
+                                    TIM_ARRPreloadConfig 使能或者失能 TIMx 在 ARR 上的预装载寄存器
+                                    TIM_OC1PreloadConfig 使能或者失能 TIMx 在 CCR1 上的预装载寄存器
+                                    TIM_OC2PreloadConfig 使能或者失能 TIMx 在 CCR2 上的预装载寄存器
+                                    TIM_OC3PreloadConfig 使能或者失能 TIMx 在 CCR3 上的预装载寄存器
+                                    TIM_OC4PreloadConfig 使能或者失能 TIMx 在 CCR4 上的预装载寄存器
+                                    TIM_OC1FastConfig 设置 TIMx 捕获比较 1 快速特征
+                                输出电平
+                                    TIM_ForcedOC1Config 置 TIMx 输出 1 为活动或者非活动电平
+                                    TIM_ForcedOC2Config 置 TIMx 输出 2 为活动或者非活动电平
+                                    TIM_ForcedOC3Config 置 TIMx 输出 3 为活动或者非活动电平
+                                    TIM_ForcedOC4Config 置 TIMx 输出 4 为活动或者非活动电平
+                            数据
+                            状态
+                                TIM_SelectCCDMA 选择 TIMx 外设的捕获比较 DMA 源
+                    高级控制定时器（ TIM1）
+                    系统定时器（ SysTick）
+                        控制
+                            时钟源
+                                SysTick_CLKSourceConfig 设置 SysTick 时钟源
+                            重装载值
+                                SysTick_SetReload 设置 SysTick 重装载值
+                            系统计数器
+                                SysTick_CounterCmd 使能或者失能 SysTick 计数器
+                                SysTick_GetCounter 获取 SysTick 计数器的值
+                            系统定时器中断
+                                SysTick_ITConfig 使能或者失能 SysTick 中断
+                        状态
+                            SysTick_GetFlagStatus 检查指定的 SysTick 标志位设置与否
+                独立看门狗（ IWDG）
+                窗口看门狗（ WWDG）
+                备份寄存器（ BKP）
+            协议
+                CAN总线协议
+                    CAN发送数据流程
+                IIC协议总线
+                    void IIC_Init(void);                //初始化IIC的IO口
+                    属性
+                        控制
+                            u8 IIC_Wait_Ack(void);     //IIC等待ACK信号
+                        状态
+                        数据
+                            发送
+                                void IIC_Start(void);    //发送IIC开始信号
+                                void IIC_Stop(void);      //发送IIC停止信号
+                                void IIC_Send_Byte(u8 txd);   //IIC发送一个字节
+                                void IIC_Ack(void);     //IIC发送ACK信号
+                                void IIC_NAck(void);    //IIC不发送ACK信号
+                                void IIC_Write_One_Byte(u8 daddr,u8 addr,u8 data);
+                            读取
+                                u8 IIC_Read_Byte(unsigned char ack);//IIC读取一个字节
+                                u8 IIC_Read_One_Byte(u8 daddr,u8 addr);
+                串行外设接口SPI
+                    初始化
+                        SPI_DeInit 将外设 SPIx 寄存器重设为缺省值
+                        SPI_Init 根据 SPI_InitStruct 中指定的参数初始化外设 SPIx 寄存器
+                        SPI_StructInit 把 SPI_InitStruct 中的每一个参数按缺省值填入
+                    SPI_Cmd 使能或者失能 SPI 外设
+                    属性
+                        控制
+                            中断
+                                SPI_ITConfig 使能或者失能指定的 SPI 中断
+                            DMA请求
+                                SPI_DMACmd 使能或者失能指定 SPI 的 DMA 请求
+                                SPI_DMALastTransferCmd 使下一次 DMA 传输为最后一次传输
+                            NSS管脚
+                                SPI_NSSInternalSoftwareConfig 为选定的 SPI 软件配置内部 NSS 管脚
+                            SS输出
+                                SPI_SSOutputCmd 使能或者失能指定的 SPI SS 输出
+                            SPI数据大小
+                                SPI_DataSizeConfig 设置选定的 SPI 数据大小
+                            传输字CRC计算
+                                SPI_CalculateCRC 使能或者失能指定 SPI 的传输字 CRC 值计算
+                            数据传输方向
+                                SPI_BiDirectionalLineConfig 选择指定 SPI 在双向模式下的数据传输方向
+                        状态
+                            SPI_GetFlagStatus 检查指定的 SPI 标志位设置与否
+                            SPI_ClearFlag 清除 SPIx 的待处理标志位
+                            SPI_GetITStatus 检查指定的 SPI 中断发生与否
+                            SPI_ClearITPendingBit 清除 SPIx 的中断待处理位
+                        数据
+                            发送
+                                SPI_SendData 通过外设 SPIx 发送一个数据
+                                SPI_TransmitCRC 发送 SPIx 的 CRC 值
+                            接受
+                                SPI_ReceiveData 返回通过 SPIx 最近接收的数据
+                                SPI_GetCRC                   返回指定 SPI 的发送或者接受 CRC 寄存器值
+                                SPI_GetCRCPolynomial 返回指定 SPI 的 CRC 多项式寄存器值
+            连接
+                通用同步异步收发器USART
+                    变量
+                        USART_RX_BUF[USART_REC_LEN]接受数据缓存区
+                        USART_RX_STA;接收状态标志位
+                    初始化
+                        USART_Init 根据 USART_InitStruct 中指定的参数初始化外设 USARTx 寄存器
+                            变量
+                            使能串口时钟
+                            设置输出口引脚
+                            设置输入口引脚
+                            设置串口中断
+                            设置串口协议
+                            开启串口开启串口中断
+                        USART_DeInit 将外设 USARTx 寄存器重设为缺省值
+                        USART_StructInit 把 USART_InitStruct 中的每一个参数按缺省值填入
+                    属性
+                        控制
+                            最大接收字节数
+                                #define USART_REC_LEN     200   //定义最大接收字节数 200
+                                extern u8  USART_RX_BUF[USART_REC_LEN]; //接收缓冲,最大USART_REC_LEN个字节.末字节为换行符
+                            使能
+                                #define EN_USART1_RX    1  //使能（1）/禁止（0）串口1接收
+                                USART_Cmd 使能或者失能 USART 外设
+                            中断
+                                USART_ITConfig 使能或者失能指定的 USART 中断
+                            DMA请求
+                                USART_DMACmd 使能或者失能指定 USART 的 DMA 请求
+                            USART 节点的地址
+                                USART_SetAddress 设置 USART 节点的地址
+                            USART 的唤醒方式
+                                USART_WakeUpConfig 选择 USART 的唤醒方式
+                            中断检测长度
+                                USART_LINBreakDetectLengthConfig 设置 USART LIN 中断检测长度
+                            保护时间
+                                USART_SetGuardTime 设置指定的 USART 保护时间
+                            时钟预分频
+                                USART_SetPrescaler 设置 USART 时钟预分频
+                            模式
+                                USART_LINCmd 使能或者失能 USARTx 的 LIN 模式
+                                USART_SmartCardCmd 使能或者失能指定 USART 的智能卡模式
+                                USART_IrDAConfig 设置 USART IrDA 模式
+                                USART_IrDACmd 使能或者失能 USART IrDA 模式
+                                USART_HalfDuplexCmd 使能或者失能 USART 半双工模式
+                            NACK传输
+                                USART_SmartCardNackCmd 使能或者失能 NACK 传输
+                        状态
+                            标志位
+                                extern u16 USART_RX_STA;           //接收状态标记
+                                USART_GetFlagStatus 检查指定的 USART 标志位设置与否
+                                USART_ClearFlag 清除 USARTx 的待处理标志位
+                            静默模式
+                                USART_ReceiverWakeUpCmd 检查 USART 是否处于静默模式
+                            中断
+                                USART_ClearITPendingBit 清除 USARTx 的中断待处理位
+                                USART_GetITStatus 检查指定的 USART 中断发生与否
+                        数据
+                            USART_SendData 通过外设 USARTx 发送单个数据
+                            USART_ReceiveData 返回 USARTx 最近接收到的数据
+                            USART_SendBreak 发送中断字
+                通用输入/输出（ GPIO）
+                    参数
+                        GPIO_InitTypeDef
+                            GPIOMode_TypeDef;
+                            GPIOSpeed_TypeDef;
+                            GPIO_Mode引脚模式
+                            GPIO_Speed引脚速度
+                            BitAction
+                    初始化
+                        GPIO_DeInit 将外设 GPIOx 寄存器重设为缺省值
+                        GPIO_Init 根据 GPIO_InitStruct 中指定的参数初始化外设 GPIOx 寄存器
+                        GPIO_StructInit 把 GPIO_InitStruct 中的每一个参数按缺省值填入
+                    属性
+                        控制
+                            复用功能
+                                GPIO_PinRemapConfig 改变指定管脚的映射
+                                GPIO_AFIODeInit 将复用功能（重映射事件控制和 EXTI 设置）重设为缺省值
+                            高低控制
+                                GPIO_SetBits 设置指定的数据端口位
+                                GPIO_ResetBits 清除指定的数据端口位
+                                GPIO_WriteBit 设置或者清除指定的数据端口位
+                                GPIO_Write 向指定 GPIO 数据端口写入数据
+                            管脚设置寄存器
+                                GPIO_PinLockConfig 锁定 GPIO 管脚设置寄存器
+                            事件输出管脚选择
+                                GPIO_EventOutputConfig 选择 GPIO 管脚用作事件输出
+                            事件
+                                GPIO_EventOutputCmd 使能或者失能事件输出
+                            中断
+                                GPIO_EXTILineConfig 选择 GPIO 管脚用作外部中断线路
+                        数据
+                        状态
+                            GPIO_ReadInputDataBit 读取指定端口管脚的输入
+                            GPIO_ReadInputData 读取指定的 GPIO 端口输入
+                            GPIO_ReadOutputDataBit 读取指定端口管脚的输出
+                            GPIO_ReadOutputData 读取指定的 GPIO 端口输出
+                模拟/数字转换器ADC
+                    初始化
+                        ADC_DeInit 将外设 ADCx 的全部寄存器重设为缺省值
+                        ADC_Init 根据 ADC_InitStruct 中指定的参数初始化外设 ADCx 的寄存器
+                        ADC_StructInit 把 ADC_InitStruct 中的每一个参数按缺省值填入
+                    修改
+                        ADC_Cmd 使能或者失能指定的 ADC
+                    ADC属性
+                        状态
+                            校准寄存器
+                                重置校准
+                                    ADC_GetResetCalibrationStatus 获取 ADC 重置校准寄存器的状态
+                                ADC_ResetCalibration 重置指定的 ADC 的校准寄存器
+                                ADC_GetCalibrationStatus 获取指定 ADC 的校准状态
+                            软件转换启动
+                                ADC_GetSoftwareStartConvStatus 获取 ADC 软件转换启动状态
+                            通道间断模式
+                                ADC_DiscModeChannelCountConfig 对 ADC 规则组通道配置间断模式
+                                ADC_DiscModeCmd 使能或者失能指定的 ADC 规则组通道的间断模式
+                                ADC_RegularChannelConfig 设置指定 ADC 的规则组通道，设置它们的转化顺序和采样时间
+                            中断
+                                ADC_ClearITPendingBit 清除 ADCx 的中断待处理位
+                                ADC_GetITStatus 检查指定的 ADC 中断是否发生
+                            待处理标志位
+                                ADC_GetFlagStatus 检查制定 ADC 标志位置 1 与否
+                                ADC_ClearFlag 清除 ADCx 的待处理标志位
+                        控制
+                            经外部触发启动转换功能
+                                ADC_ExternalTrigConvConfig 使能或者失能 ADCx 的经外部触发启动转换功能
+                            注入组转换
+                                ADC_SoftwareStartinjectedConvCmd 使能或者失能 ADCx 软件启动注入组转换功能
+                                ADC_GetsoftwareStartinjectedConvStatus 获取指定 ADC 的软件启动注入组转换状态
+                                ADC_InjectedChannleConfig 设置指定 ADC 的注入组通道，设置它们的转化顺序和采样时间
+                                ADC_InjectedDiscModeCmd 使能或者失能指定 ADC 的注入组间断模式
+                                ADC_AutoInjectedConvCmd 使能或者失能指定 ADC 在规则组转化后自动开始注入组转换
+                                ADC_ExternalTrigInjectedConvConfig 配置 ADCx 的外部触发启动注入组转换功能
+                                ADC_ExternalTrigInjectedConvCmd 使能或者失能 ADCx 的经外部触发启动注入组转换功能
+                            通道转化序列长度
+                                ADC_InjectedSequencerLengthConfig 设置注入组通道的转换序列长度
+                            转换偏移量
+                                ADC_SetinjectedOffset 设置注入组通道的转换偏移值
+                            看门狗
+                                ADC_AnalogWatchdogCmd 使能或者失能指定单个/全体，规则/注入组通道上的模拟看门狗
+                                ADC_AnalogWatchdongThresholdsConfig 设置模拟看门狗的高/低阈值
+                                ADC_AnalogWatchdongSingleChannelConfig对单个 ADC 通道设置模拟看门狗
+                            温度传感器
+                                ADC_TampSensorVrefintCmd 使能或者失能温度传感器和内部参考电压通道
+                        数据
+                            ADC_GetDuelModeConversionValue 返回最近一次双 ADC 模式下的转换结果
+                            ADC_GetConversionValue 返回最近一次 ADCx 规则组的转换结果
+                            ADC_GetInjectedConversionValue 返回 ADC 指定注入通道的转换结果
+                    ADC方法
+                        ADC_DMACmd 使能或者失能指定的 ADC 的 DMA 请求
+                        ADC_ITConfig 使能或者失能指定的 ADC 的中断
+                        ADC_StartCalibration 开始指定 ADC 的校准程序
+                        ADC_SoftwareStartConvCmd 使能或者失能指定的 ADC 的软件转换启动功能
+            存储
+                FSMC灵活静态存储器控制器
+                    指令
+                    初始化
+                        FSMC NORSRAMDelni初始化 FSMC NOR/SRAM寄存器到他们的默认值
+                        FSMC NANDDelnit初始化 FSMC NAND体寄存器到他们的默认值
+                        FSMC PCCARDDelnit初始化 FSMC PCCARD体寄存器到他们的默认值
+                        参数初始化
+                            FSMC NORSRAMInit 依照 FSMC NORSRAMInitStruct结构体指足的参数初始化 FSMC NOR/SRAM
+                            FSMC NANDInit依照 FSMC NANDInit Struct结构体指定的参数初始化 FSMC NAND
+                            FSMC PCCARDInit依照 FSMC PCCARDInitstruct结构体指定的参数初始化 FSMC PCCARD
+                        参数填充
+                            FSMC NORSRAMStructinit用默认值填充 FSMC NORSRAMInitStruct的成员
+                            FSMC NANDStructInit用默认值填充 FSMC NANDInitstruct的每一个成员
+                            FSMC PCCARDStructInit用默认值填充 FSMC PCCARDInitStruct的每一个成员
+                    使能函数
+                        FSMC NORSRAMCmd  使能或禁止指定的 NOR/SRAM内存体
+                        FSMC NANDCm使能或禁止指定的NAND内存体
+                        FSMC PCCARDCmd 使能或禁止指定的 PCCARD内存体
+                    属性
+                        控制
+                            ECC功能
+                                FSMC NANDECCCmd使能或禁止 FSMC NAND ECC功能
+                            中断
+                                FSMC ITConfig使能或禁止指定的FSMC中断
+                                FSMC ClearlTPendingBit清除FSMC中断挂起位
+                        数据
+                        状态
+                            FSMC GetECC返回纠错代码寄存器的值
+                            FSMC GetFlag Statu 检查指定的FSMC标志是否置位
+                            FSMC GetlTStatus检查指定的FSMC中断是否已经发生
+                            FSMC挂起
+                                FSMC Clear Flag清除FSMC挂起标志
+                SDIO的代码分析
+                    命令格式
+                    初始化
+                        SDIO_DeInit 初始化 SDIO 设备寄存器到它们的默认值
+                        SDIO_Init 依照 SDIO_InitStruct 结构体指定的参数初始化 SDIO 设备
+                        SDIO_StructInit 用默认值填充 SDIO_InitStruct 的每一个成员
+                        SDIO_CmdStructInit 用默认值填充 SDIO_CmdInitStruct 的每一个成员
+                    属性
+                        控制
+                            时钟
+                                SDIO_ClockCmd 使能或禁止 SDIO 时钟
+                            电源状态
+                                SDIO_SetPowerState 设置控制器的电源状态
+                            中断
+                                SDIO_ITConfig 使能或禁止 SDIO 中断
+                                SDIO_CEATAITCmd 使能或者禁止 CE-ATA 中断
+                            DMA请求
+                                SDIO_DMACmd 使能或禁止 SDIO DMA 请求
+                            数据路径
+                                SDIO_DataConfig 依照 SDIO_DataInitStruct 中的参数初始化 SDIO 数据路径
+                                SDIO_DataStructInit 用默认值填充 SDIO_DataInitStruct 的每一个成员
+                            剩余的字数
+                                SDIO_GetFIFOCount 返回一个 FIFO 读写剩余的字数
+                                SDIO_GetDataCounter 返回发送剩余数据字节数
+                            命令完成信号
+                                SDIO_CommandCompletionCmd 使能或者禁止命令完成信号
+                            I/O模式
+                                SDIO_SendSDIOSuspendCmd 使能或者禁止 SD I/O 模式中止命令发送
+                                SDIO_SetSDIOReadWaitMode 设置 SD I/O 读等待模式
+                                SDIO_SetSDIOOperation 使能或者禁止 SD I/O 模式操作
+                        状态
+                            SDIO_GetPowerState 取得控制器的电源状态
+                            SDIO_GetFlagStatus 检查指定的 SDIO 标志是否置位
+                            接受响应
+                                SDIO_GetCommandResponse 返回最新接收响应命令的命令序号
+                                SDIO_GetResponse 返回最新命令卡的接收响应
+                            中断
+                                SDIO_GetITStatus 检查指定的 SDIO 中断是否产生
+                            挂起标志
+                                SDIO_ClearITPendingBit 清除 SDIO 中断挂起位
+                                SDIO_ClearFlag 清除 SDIO 挂起标志
+                        数据
+                            SDIO_ReadData 从 Rx FIFO 读一个数据字
+                            SDIO_WriteData 向 Tx FIFO 内写一个数据字
+                    方法
+                        SDIO_SendCommand 依照 SDIO_CmdInitStruct 中的参数初始化并发送命令
+                        SDIO_SendCEATACmd 发送 CE-ATA 命令
+                        SDIO_StopSDIOReadWait 停止 SD I/O 读等待操作
+                        SDIO_StartSDIOReadWait 开始 SD I/O 读等待操作
+                DMA控制器
+                    初始化
+                        DMA_DeInit 将 DMA 的通道 x 寄存器重设为缺省值
+                        DMA_Init 根据 DMA_InitStruct 中指定的参数初始化 DMA 的通道 x 寄存器
+                        DMA_StructInit 把 DMA_InitStruct 中的每一个参数按缺省值填入
+                    DMA_Cmd 使能或者失能指定的通道 x
+                    属性
+                        控制：中断
+                            DMA_GetITStatus 检查指定的 DMA 通道 x 中断发生与否
+                            DMA_ITConfig 使能或者失能指定的通道 x 中断
+                        状态：剩余袋传书数据数目
+                            DMA_GetCurrDataCounte 返回当前 DMA 通道 x 剩余的待传输数据数目
+                        状态：标志位设置标志位
+                            DMA_GetFlagStatus 检查指定的 DMA 通道 x 标志位设置与否
+                        状态：待处理标志位
+                            DMA_ClearFlag 清除 DMA 通道 x 待处理标志位
+                            DMA_ClearITPendingBit 清除 DMA 通道 x 中断待处理标志位
+                        数据
+    stm32f103片上外部设备

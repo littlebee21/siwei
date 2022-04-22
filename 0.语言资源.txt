@@ -1,0 +1,48 @@
+0.语言资源
+语言生态
+    93.verySource.com:://www.verysource.com/(可查询C/C++,Java,PHP,Python等源代码)
+    c
+        28.C语言网
+    c++
+        29. C++技术网
+        63.zh.cppreference.com C++的文档，整理的十分详细，但是不建议初学者查阅，初学者在学习阶段应该把C++ primer作为文档查阅
+        98.C/C++ 程序员之家://www.cplusplus.me/
+    python
+        51.Python3官方手册教程: ://www.runoob.com/manual/pythontutorial3/docs/html/
+        54.Python Tip: ://www.pythontip.com/
+        56.Python Free:://www.pythonf.cn/
+        87.Python学习网://www.py.cn/
+        74.玩蛇网://www.iplaypy.com/
+        125.Python量化投资://www.lizenghai.com/
+        124.莫烦PYTHON://morvanzhou.github.io/
+        114.Python教程网://www.python66.com/
+        155.Python黑洞网://www.pythonheidong.com/
+        157.Python笔记://www.pynote.net
+        258.Python小栈://www.mariz.cn/
+        281.Python中文学习大本营://www.pythondoc.com/
+        285.PythonTip://www.pythontip.com/blog/
+    java
+        72.java知识分享网://www.java1234.com/
+        84.java学习网://www.javalearns.com/
+        58.HOW2j.CN:://how2j.cn/
+        144.NXTUTOR://www.xntutor.com/（powershell，java等教程）
+        196.Maven教程网://mvnbook.com/（java Maven的专业教程网站）
+        204.Java自学网://www.javazx.com
+        236.java自学网://www.javazx.com
+        283.Java教程网://www.liangzl.com/
+    php
+        21. PHP中文网
+        105.PHP自学网://zixuephp.net/index.html
+        109.PHP study:://www.daixiaorui.com/
+        107.风雪之隅://www.laruence.com/（php）
+        223.php学习://phpff.com/
+        230.PHPFANS://www.phpfans.net/
+
+
+教程网站
+    4.菜鸟教程
+    5.C语言中文网
+    13. w3cschool
+    147.易百教程://www.yiibai.com
+    148.菜鸟博客://birdteam.net/
+    150.WIKI教程://iowiki.com/

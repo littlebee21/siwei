@@ -1,0 +1,128 @@
+rabbitmq
+    使用场景
+        资源管理
+        配置文件与命名规范
+        消息落库+定时任务
+        生产环境运维监控
+        日志追踪
+        如何减少连接数
+    功能
+        削峰：存储特性
+            延迟队列
+                TTL+DLX实现
+                设置队列过期时间实现延时队列
+                设置消息过期时间实现延时队列
+                基于延迟队列插件实现
+            服务端流控
+                内存控制
+                磁盘控制
+            消费端限流
+                设置channel的prefetch count
+                可以用队列的 x-max-length 最大消息数来实现限流吗？例如秒杀场景。
+        解耦
+            权限管理
+            RabbitMQ 如何实现延迟队列？
+        异步
+            异步与线程池相比
+    使用机制
+        可靠性消息
+            生产者或者消费者断线重连
+            提供可靠性消息的投递模式(confirm)、返回模式(return)
+        TTL消息过期时间
+        持久化
+            2.7.1.   交换机持久化
+            2.7.2.   队列持久化
+            2.7.3.   消息持久化
+        配置
+            rabbitmq channel参数详解
+            路由方式5
+                分类
+                    一对一
+                        直连 Direct
+                            绑定键和路由键完全匹配
+                    一对多
+                        搬砖 work
+                        主题 Topic（订阅）
+                            # 0 个或者多个单词
+                            * 不多不少一个单词
+                        广播 Fanout
+                            不需要绑定键，发送到所有绑定队列
+                    匹配规则 topix
+                        RoutingKey 为一个 点号'.': 分隔的字符串。 
+                        BindingKey和RoutingKey一样也是点号“.“分隔的字符串。
+                        BindingKey可使用 _ 和 # 用于做模糊匹配，_匹配一个单词，#匹配多个或者0个
+                        headers:不依赖路由键匹配规则路由消息。
+            rabbit的端口协议
+            如何支持集群
+                .erlang.cookie
+            如何设置优先级队列
+            10、消息传输保证层级？
+        插件系统
+        多客户端支持
+            java原生api操作
+            Spring Boot集成RabbitMQ
+                配置类代码
+                生产者代码
+                消费者代码
+                参数解析
+            Spring集成RabbitMQ配置文件解读
+            UI管理界面
+             AmqpTemplate 和 RabbitTemplate 的区别？
+            基于 r Docker  安装 y HAproxy  负载d +Keepalived 
+                MQ
+            如何动态地创建消费者监听队列？
+    消息队列原理
+        事务机制
+        生产者消息到消费的过程？
+            2.1.1.   生产者发送消息
+            2.1.2.   管理工具中查看消息
+            25、消息怎么路由？
+                无法被路由的消息，去了哪里？
+                RabbitMQ publish/subscribe发布订阅(共享资源)
+                消息（路由键）
+                交换器（路由键表）匹配
+                有键去队列，没键去黑洞
+                当routing key和binding key能对应上的时候就发到相应的队列中
+            2.1.3.   消费者获取消息
+            2.1.4. 生产者消息确认机制
+                8.如何确保消息正确地发送至 RabbitMQ？ 如何确保消息接收方消费了消息？
+            2.1.5. 消费者消息确认机制（ACK）
+                2.1.5.1.   自动ACK存在的问题
+                2.1.5.2.   演示手动ACK
+    数据结构
+        元数据
+        Connection
+            生产者和消费者与Broker建立的TCP长连接
+        consummer
+        producer
+        channel信道
+            其中每一个 channel 运行在一个独立的线程上，多线程共享同一个 socket。 
+            虚拟连接，减少TCP创建和销毁的性能损耗，api编程最主要接口
+            业务操作的接口
+        message
+            bindingkey交换器和队列绑定的键
+            Routing Key消息携带的路由键
+            14、RabbitMQ 允许发送的 message 最大可达多大？
+            message 最大可达多大？
+        cluster集群
+            broker真实的代理服务
+                vhost虚拟的broker
+                    Node节点
+                        exchange
+                            8、死信队列？DLX
+                                消息什么时候变成死信
+                                消息流转图
+                                Basic.Reject 的用法是什么？
+                        queue
+                            rabbitmq的对列结构
+                                header
+                                rabbit_amqqueue_process：负责协议相关的消息处理
+                                backing_queue：是消息存储的具体形式和引擎
+                            存储message
+                        topic
+            共享元数据
+                 node 位置信息
+                node 关系信息
+        交换机与队列、队列与消费者的绑定关系是什么样的？
+        Channel 和 vhost 的作用是什么？
+        1.RabbitMQ 中的 broker 是指什么？cluster 又是指什么？

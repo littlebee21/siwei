@@ -1,0 +1,19 @@
+bug - java
+失败bug
+    代码问题
+        mybatis
+            mybatis的tableid 不能为多个
+        注解使用问题
+    环境问题
+        docker问题
+            docker安装的mysql时区问题
+            docker容器启动失败问题
+        jdk的版本配置问题
+            jdk不匹配的问题
+        版本jar包和服务器的匹配
+    配置问题
+        maven
+            maven的导入失败问题
+        mybatis的驼峰转换问题
+            mybatis 中带下划线变量映射的坑
+        端口占用的问题

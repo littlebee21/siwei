@@ -1,0 +1,60 @@
+maven 命令
+    格式
+        maven 命令的格式为 mvn [plugin-name]:[goal-name]，可以接受的参数如下，
+        参数
+            -D 指定参数，如 -Dmaven.test.skip=true 跳过单元测试；
+            -P 指定 Profile 配置，可以用于区分环境；
+            -e 显示maven运行出错的信息；
+            -o 离线执行命令,即不去远程仓库更新包；
+            -X 显示maven允许的debug信息；
+            -U 强制去远程更新snapshot的插件或依赖，默认每天只更新一次。
+    查看
+        mvn -version
+            查看maven的版本及配置信息
+        mvn dependency:list
+            显示所有已经解析的所有依赖
+        mvn dependency:tree 
+            以树的结构展示项目中的依赖
+        mvn dependency:analyze  
+            对项目中的依赖进行分析，依赖未使用，使用单未引入
+    创建
+        mvn site
+            生成站点目录
+        mvn eclipse:eclipse 
+            将maven生成eclipse项目结构
+        mvn eclipse:clean
+            清除maven项目中eclipse的项目结构
+    生命周期命令
+        clean清空输出目录
+            mvn clean 
+                清除编译产生的target文件夹内容，可以配合相应命令一起使用，如mvn clean package， mvn clean test
+            mvn test
+                default生命周期的test
+            mvn clean install
+        compile编译
+            mvn compile
+                编译项目代码
+        test单元测试
+            mvn test 
+                运行单元测试
+        package打包
+            mvn package
+                打包项目
+            mvn package -Dmaven.test.skip=true   
+                打包项目时跳过单元测试
+        install安装到本地仓库
+            mvn install  
+                打包后将其安装在本地仓库
+        deploy 打包项目到私服发布
+            mvn deploy  
+                打包后将其安装到pom文件中配置的远程仓库
+        web项目的命令
+            deploy
+                运行打包部署：mvn tomcat:deploy
+                撤销部署：mvn tomcat:undeploy
+                重新部署：mvn tomcat:redeploy
+                部署展开的war文件：mvn war:exploded tomcat:exploded
+            启动tomcat：mvn tomcat:run
+            启动jetty：mvn jetty:run
+            启动web应用：mvn tomcat:start
+            停止web应用：mvn tomcat:stop

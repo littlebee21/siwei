@@ -1,0 +1,24 @@
+mysql
+    bin目录
+       2、data目录：日志文件数据文件
+        用于放置一些日志文件以及数据库。
+       3、include目录：头文件
+        用于放置一些头文件，如：mysql.h、mysql_ername.h等。
+       4、lib目录
+        用于放置一系列库文件。
+       5、share目录：字符集语言
+        用于存放字符集、语言等信息。
+       6、my.ini
+        是MySQL数据库中使用的配置文件。
+       7、my-huge.ini
+        适合超大型数据库的配置文件。
+       8、my-large.ini
+        适合大型数据库的配置文件。
+       9、my-medium.ini
+        适合中型数据库的配置文件。
+       10、my-small.ini
+        适合小型数据库的配置文件。
+       11、my-template.ini
+        是配置文件的模板，MySQL配置向导将该配置文件中选择项写入到my.ini文件。
+       12、my-innodb-heavy-4G.ini
+        表示该配置文件只对于InnoDB存储引擎有效，而且服务器的内存不能小于4GB。

@@ -1,0 +1,110 @@
+资源 - 嵌入式汇总
+硬件
+    博客
+        linxu
+            9.Linux99网
+                http://www.linux99.com/
+            46Linux时代
+                http://linux.chinaunix.net/
+            27.Linux人
+                http://www.linux-ren.org/forum-56-1.html
+            70.猪哥的公房菜-嵌入式Linux新手入门导引
+                http://www.embeddedlinux.org.cn/html/xinshourumen/201009/08-896.html?1284165739
+            71.linux学习资料备份（持续整理）
+                http://blog.csdn.net/rheostat/article/details/7614309
+            56LinuxSir
+                http://www.linuxsir.org/bbs/
+        历年电子竞赛资料下载
+        嵌入式开发常用工具
+    
+        1.我爱音频网：www.52audio.com/archives/category/teardowns；
+        2. 小破站；
+        3. 电路城www.cirmall.com/articles/list-teardown;
+        4. 淘宝;
+        5. iot库：www.iotku.com；
+        6. 我爱方案网：www.52solution.com;
+        7. 电子产品方案开发网：www.elefans.com/kf;
+        8. 国家标准信息查询：www.gov.cn/fuwu/bzxxcx/bzh.htm;
+        9. 专利汇：www.patenthub.cn;
+        10. 华清商城：www.hqchip.com;
+        11. 立创商城：www.szlcsc.com;
+        12. 屏库：www.panelook.cn;
+        13. 全球电池网：www.qqdcw.com;
+        14. 半导小芯：www.semiee.com;
+        15. 21ic电子网：www.21icsearch.com；
+        16. Alldatasheet：www.alldatasheet.com;
+    培训机构
+        清华远见
+            http://www.farsight.com.cn/
+            华清远见在线的所有资料 http://download.hqyj.com/download/ebooks.htm
+        飞凌嵌入式
+            http://www.witech.com.cn/
+        粤嵌
+        正点原子资料
+        野火
+            fire download：野火资料下载中心
+            野火：野火电子论坛
+        讯为
+            讯为iTOP4412群里的问价
+            讯为开发社区：北京讯为ARM开发社区
+        韦东山 100ask download：百文网资料下载中心韦东山
+    单片机
+        ST系列
+            st官网资源
+                ST：ST中文社区
+                库开发工具的迭代
+                HAL库
+                    HAL库包的文件组成
+                    HAL库和标准库的区别
+        收藏夹
+        乐鑫
+    官网
+        讯为官网：讯为官网
+        GNU：GNU官网
+        Linux：Linux内核官网
+        Debian：Debian官网
+        Ubuntu：Ubuntu官网
+    培训机构的资料
+        子主题
+            armfly：安富莱/硬汉嵌入式论坛
+            NXP社区：恩智浦论坛
+            Linux源码：可在线阅读Linux内核源码
+            Buildroot：buildroot源码
+            荔枝派：荔枝派指南
+            u-boot：u-boot源码下载页面
+            bear-pi：小熊派demo
+            单片机教程网：单片机基础、设计实例、论坛
+            ChinaUnix：Linux/Unix相关
+            PyQt5：PyQt5教程
+            qter：QT开源社区
+            git手册：git学习手册
+            开源项目风格：Google 开源项目风格指南 (中文版)
+            21ic：21IC中国电子网
+            芯路恒电子：小梅哥博客、FPGA论坛
+            嵌入式开发者社区：创龙论坛
+            micropython：micropython中文网
+            泰晓科技：Linux相关
+            电堂科技：STM32相关
+            源代码使用示例聚合器：从超过100万个开源项目搜索CPP代码示例
+            KST-51 ：《手把手教你学51单片机》 
+            原子哥：专注电子技术教学
+            digoboy：地瓜派视频网
+            c.biancheng：C语言中文网
+            open-c-book ：《C语言编程透视》
+            PyQt5：PyQt5在线教程
+            open-shell-book：《Shell 编程范例》 
+            software_unit_test：《软件单元测试入门与实践》
+            kerneltravel：Linux内核之旅
+            蜗窝科技：慢下来，享受技术
+            bookstack栈网
+            wireshark：抓包工具下载链接
+            MobaXterm：一个好用的终端软件
+            Stduino：一款面向32位处理器快速入门学习的集成开发平台 
+            
+    资源
+        51\STM32学习资料
+        Nordic 学习资料
+        Linux设备驱动（中/英文）和国嵌视频
+        硬件工程师资料
+        面向对象编程基础
+        QT应用程序

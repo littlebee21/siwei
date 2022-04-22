@@ -1,0 +1,366 @@
+sql语言
+SQL语言
+    功能
+    SQL的属性
+        SQL版本与标准
+        SQL 对大小写不敏感：SELECT 与 select 是相同的
+        RDBMS关系型数据库管理系统
+    SQL 数据类型
+        SQL AND & OR 运算符
+        数据库对象
+            数据库表
+                名字标识
+                数据的记录（行）
+            SQL 函数
+                Aggregate 计算函数
+                    AVG() - 返回平均值
+                    COUNT() - 返回行数
+                    FIRST() - 返回第一个记录的值
+                    LAST() - 返回最后一个记录的值
+                    MAX() - 返回最大值
+                    MIN() - 返回最小值
+                    SUM() - 返回总和
+                Scalar 转换函数
+                    UCASE() - 将某个字段转换为大写
+                    LCASE() - 将某个字段转换为小写
+                    MID() - 从某个文本字段提取字符，MySql 中使用
+                    SubString(字段，1，end) - 从某个文本字段提取字符
+                    LEN() - 返回某个文本字段的长度
+                    ROUND() - 对某个数值字段进行指定小数位数的四舍五入
+                    NOW() - 返回当前的系统日期和时间
+                    FORMAT() - 格式化某个字段的显示方式
+    sql原理
+        sql语句的执行流程
+            子主题
+    DDL(数据库定义语言)
+        创建用户
+            4. DCL``` SQL
+                -- 创建名为hellokitty的用户
+                create user 'hellokitty'@'%' identified by '123123';
+
+                -- 将对school数据库所有对象的所有操作权限授予hellokitty
+                grant all privileges on school.* to 'hellokitty'@'%';
+
+                -- 召回hellokitty对school数据库所有对象的insert/delete/update权限
+                revoke insert, delete, update on school.* from 'hellokitty'@'%';
+                ```
+
+
+        控制
+            set names utf8; 命令用于设置使用的字符集。
+        数据库
+            数据库创建
+                CREATE DATABASE - 创建新数据库
+                use RUNOOB; 命令用于选择数据库。
+            数据库删除
+                drop database 删除数据库
+            MySQL 连接
+            MySQL 创建数据库
+            MySQL 删除数据库
+            MySQL 选择数据库
+        数据表
+            MySQL 创建数据表
+                创建数据表
+                    CREATE TABLE - 创建新表
+                    CREATE INDEX - 创建索引（搜索键）
+            MySQL 删除数据表
+                DROP TABLE - 删除表
+            MySQL 临时表
+            MySQL 复制表
+            ALTER TABLE -   修改表结构
+                add sage int新增列
+                drop删除约束
+                drop column 删除列名
+                alter  column  sid  float修改列类型
+                alter column 列名  新数据类型新增约束
+            表的操作
+                创建
+                    create table 表名(字段1 类型（长度） [完整性约束],字段2 类型（长度） [完整性约束]...)
+                改名
+                    alter table 表名 rename 新表名
+                删除
+                    drop table 表名
+                添加字段
+                    alter table 表名 add  新字段 类型（长度） [完整性约束] [fisrt/after 字段]
+                删除字段
+                    alter table 表名 drop 字段
+                修改字段
+                    alter table 表名  modify 字段 类型（长度）[完整性约束] [fisrt/after 字段]
+                    alter table 表名  cahnge 原字段 新字段类型（长度）[完整性约束] [fisrt/after 字段]
+                排序字段
+                    modify和change均可操作顺序只有first和after
+                查看表结构
+                    show create table 表名
+                    desc 表名
+                外键的创建与删除
+                    alter table 表名 add constraint 名称描述 foreign key (字段) references 关系表名 (关系表内字段) on update cascade on delete cascade;
+                    alter table 表名 drop foreign key 名称描述;
+        索引
+            DROP INDEX - 删除索引
+        视图
+            1. 可以将实体数据表隐藏起来，让外部程序无法得知实际的数据结构，让访问者可以使用表的组成部分而不是整个表，降低数据库被攻击的风险。
+            2. 在大多数的情况下视图是只读的（更新视图的操作通常都有诸多的限制），外部程序无法直接透过视图修改数据。
+            3. 重用SQL语句，将高度复杂的查询包装在视图表中，直接访问该视图即可取出需要的数据；也可以将视图视为数据表进行连接查询。
+            4. 视图可以返回与实体数据表不同格式的数据，
+            视图的规则和限制。
+                1. 视图可以嵌套，可以利用从其他视图中检索的数据来构造一个新的视图。视图也可以和表一起使用。
+                2. 创建视图时可以使用`order by`子句，但如果从视图中检索数据时也使用了`order by`，那么该视图中原先的`order by`会被覆盖。
+                3. 视图无法使用索引，也不会激发触发器（实际开发中因为性能等各方面的考虑，通常不建议使用触发器，所以我们也不对这个概念进行介绍）的执行。
+            视图使用
+                创建视图
+                    创建视图。
+                    提示：因为视图不包含数据，所以每次使用视图时，都必须执行查询以获得数据，如果你使用了连接查询、嵌套查询创建了较为复杂的视图，你可能会发现查询性能下降得很厉害。因此，在使用复杂的视图前，应该进行测试以确保其性能能够满足应用的需求。
+                使用视图
+                    使用视图。
+                        select stuname, avgscore from vw_avg_score order by avgscore desc;
+                        +--------------+----------+
+                        | stuname     | avgscore |
+                        +--------------+----------+
+                        | 杨过         |     95.6 |
+                        | 任我行       |     53.5 |
+                        | 王语嫣       |     84.3 |
+                        | 纪嫣然       |     73.8 |
+                        | 岳不群       |     78.0 |
+                        | 东方不败     |     88.0 |
+                        | 项少龙       |     92.0 |
+                        +--------------+----------+
+                删除视图
+                    删除视图。
+                        drop view vw_avg_score;
+                        说明：如果希望更新视图，可以先用上面的命令删除视图，也可以通过create or replace view来更新视图。
+        数据
+            MySQL 插入数据
+            MySQL 查询数据
+            MySQL 导出数据
+            MySQL 导入数据
+    函数
+        1、拼接字符串
+            concat()
+            select concat(first_name, ',', last_name) from table
+        2、判断空值
+            ifnull()
+            select ifnull(salary_pct,0), salary_pct from table
+        3、排序
+            order by
+            多字段排序
+                select * from table order by emp_id desc, name asc
+            按昵称排序
+                select length(name) 名字长度 from table order by 名字长度
+        4、单行函数
+            字符函数
+                length()
+                    获取字节长度【utf-8中文占3个字节，gbk中文占2个字节】
+                concat()
+                upper()
+                    lower()
+                substr()
+                    数据库索引是从1开始
+                    substr(“数据与编程之美”,5) ===> 之美
+                    substr(“数据与编程之美”,1,3)
+                        从索引第一个开始，截取3个字符
+                instr('str1','str2')
+                    返回str2在str1第一次出现的索引
+                trim()
+                    去掉字符串前后特定字符
+                    trim('a' from 'aaaaa数据与编程之美aaaa')
+                lpad('龙傲天',10,'*')
+                    左填充
+                replace('str1','str2','str3')
+                    用str3替换str1中的str2
+            数学函数
+                round(1.65，2)
+                    四舍五入
+                ceil(1.01)  ===> 2
+                    向上取整
+                floor(9.99) ====> 9
+                    向下取整
+                truncate(1.224,,1) ===> 1.2
+                    截断函数
+                mod()
+                    取余
+            日期函数
+                now()
+                    当前日期包含时间
+                curdate()
+                    当前日期不包含日期
+                curtime()
+                    当前时间
+                year('1996-11-02')
+                    1996
+                str_to_date('1996-11-02','%Y-%m-%d')
+                date_format(now(),'%y年%m月%d日')
+                datediff(now(),'1996-11-02')
+            流程控制函数
+                select if(pct is null,'哈哈','呵呵')
+                case 要判断的字段和表达式when 常量1 then 要显示的值；when 常量2 then 要显示的值；
+                    select salary,dept_id,case dept_idwhen 30 then salary *1.1when 40 then salary*2.2else salary*3.3end as new_salaryfrom table
+                    select salary,casewhen salary>2000 then 'a'when salary>1500 then 'b'else 'c'end as '级别'from table
+        5、分组函数
+            sum()
+                select sum(salary) from table
+                忽略null值
+            avg()
+                select avg(age) from table
+                忽略null值
+            max()
+                min()
+            count()
+                忽略null值
+                select count(*) from table
+                    统计行数
+                select count(distinct salary) from table
+        聚合函数      
+            max()
+            min()
+            sum()
+            avg()
+            count()
+    DML(数据库操纵语言)
+        INSERT INTO 表插入新数据
+            在指定的列--插入数据
+                            2. DML``` SQL
+            -- 插入学院数据
+            insert into tb_college (collname, collmaster) values 
+            ('计算机学院', '左冷禅'),
+            ('外国语学院', '岳不群'),
+            ('经济管理学院', '风清扬');
+
+            -- 插入学生数据
+            insert into tb_student (stuid, stuname, stusex, stubirth, stuaddr, collid) values
+            (1001, '杨逍', 1, '1990-3-4', '四川成都', 1),
+            (1002, '任我行', 1, '1992-2-2', '湖南长沙', 1),
+            (1033, '王语嫣', 0, '1989-12-3', '四川成都', 1),
+            (1572, '岳不群', 1, '1993-7-19', '陕西咸阳', 1),
+            (1378, '纪嫣然', 0, '1995-8-12', '四川绵阳', 1),
+            (1954, '林平之', 1, '1994-9-20', '福建莆田', 1),
+            (2035, '东方不败', 1, '1988-6-30', null, 2),
+            (3011, '林震南', 1, '1985-12-12', '福建莆田', 3),
+            (3755, '项少龙', 1, '1993-1-25', null, 3),
+            (3923, '杨不悔', 0, '1985-4-17', '四川成都', 3),
+            (4040, '隔壁老王', 1, '1989-1-1', '四川成都', 2);
+
+            -- 删除学生数据
+            delete from tb_student where stuid=4040;
+
+            -- 更新学生数据
+            update tb_student set stuname='杨过', stuaddr='湖南长沙' where stuid=1001;
+
+            -- 插入老师数据
+            insert into tb_teacher (teaid, teaname, teatitle, collid) values 
+            (1122, '张三丰', '教授', 1),
+            (1133, '宋远桥', '副教授', 1),
+            (1144, '杨逍', '副教授', 1),
+            (2255, '范遥', '副教授', 2),
+            (3366, '韦一笑', '讲师', 3);
+
+            -- 插入课程数据
+            insert into tb_course (couid, couname, coucredit, teaid) values 
+            (1111, 'Python程序设计', 3, 1122),
+            (2222, 'Web前端开发', 2, 1122),
+            (3333, '操作系统', 4, 1122),
+            (4444, '计算机网络', 2, 1133),
+            (5555, '编译原理', 4, 1144),
+            (6666, '算法和数据结构', 3, 1144),
+            (7777, '经贸法语', 3, 2255),
+            (8888, '成本会计', 2, 3366),
+            (9999, '审计学', 3, 3366);
+
+            -- 插入选课数据
+            insert into tb_record (sid, cid, seldate, score) values 
+            (1001, 1111, '2017-09-01', 95),
+            (1001, 2222, '2017-09-01', 87.5),
+            (1001, 3333, '2017-09-01', 100),
+            (1001, 4444, '2018-09-03', null),
+            (1001, 6666, '2017-09-02', 100),
+            (1002, 1111, '2017-09-03', 65),
+            (1002, 5555, '2017-09-01', 42),
+            (1033, 1111, '2017-09-03', 92.5),
+            (1033, 4444, '2017-09-01', 78),
+            (1033, 5555, '2017-09-01', 82.5),
+            (1572, 1111, '2017-09-02', 78),
+            (1378, 1111, '2017-09-05', 82),
+            (1378, 7777, '2017-09-02', 65.5),
+            (2035, 7777, '2018-09-03', 88),
+            (2035, 9999, default, null),
+            (3755, 1111, default, null),
+            (3755, 8888, default, null),
+            (3755, 9999, '2017-09-01', 92);
+            ```
+
+
+            无需指定要插入数据的列名
+            select  '张三'，15，18批量插入多条数据
+        DELETE - 从数据库中删除数据
+        UPDATE - 更新数据库中的数据
+            如果我们省略了 WHERE 子句
+             set sname='李四'修改表中数据值
+            WHERE 子句用于过滤记录
+                文本字段 vs. 数值字段
+                WHERE 子句中的运算符
+        SELECT - 从数据库中提取数据
+            select
+                SELECT DISTINCT列出不同（distinct）的值
+            表的内容from
+                单表查询
+                联表查询
+                    内连接
+                        1、 等值连接：ON A.id=B.id
+                        2、 不等值连接：ON A.id > B.id
+                        3、 自连接：SELECT * FROM A T1 INNER JOIN A T2 ON T1.id=T2.pid
+                    外连接
+                        左连接
+                            select * from 表1 left join 表2 on 表1.字段=表2.字段 where...
+                        右连接
+                            select * from 表1 right join 表2 on 表1.字段=表2.字段 where...
+                        全连接
+                            select * from 表1 left join 表2 on 表1.字段=表2.字段 union select * from 表1 right join 表2 on 表1.字段=表2.字段 where...
+                    交叉连接cross join
+                    联合查询
+            关键字
+                条件:where   
+                    WHERE 子句用于过滤记录
+                        文本字段 vs. 数值字段
+                        WHERE 子句中的运算符
+                    比较运算
+                        >,<,=,>=,<=,!=,<>
+                    闭合区间
+                        between（a,b）[包含a,b]
+                    条件范围
+                        in(a,b,c)
+                    逻辑运算
+                        and、or、not
+                    模糊条件
+                        like
+                            通配符%
+                            单配符_
+                分组查询:group by
+                    分组之后要显示全部内容在select中使用group_concat(字段)
+                筛选:having  
+                    多与group by 联合使用，配合聚合函数条件
+                排序:order by
+                    默认顺序asc
+                    倒序desc  
+                limit分页查询
+                    limit n默认从1开始显示n条
+                    limit m,n从m+1开始显示n条
+                其它         
+                    重命名as             
+                        字段/表 as 新名字(或者不写as用空格)
+                    格式化concat        
+                        select concat(字符串1,字段,字符串2,字段2...)as 新名字 from...
+                        select concat_ws(字符串,字段1,字段2...) as 新名字 from ...
+                    分组显示group_concat
+                        select group_concat(字段) from 表 group by 字段
+                    去重distinct        
+                         select distinct 字段 from...
+                    四则远算+-*/        
+                        select 字段*n from ...
+            查询优先级
+                from>where>select>group by>having>order by>limit
+    SQL的使用
+        DCL(数据库控制语言)
+            DCL语句 数据库控制语言例如控制用户的访问权限GRANT、REVOKE（取消授权）
+        mysql算法+函数
+            MySQL NULL 值处理
+            MySQL 处理重复数据
+        要创建一个显示数据库中数据的网站

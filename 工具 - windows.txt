@@ -1,0 +1,37 @@
+工具 - windows
+windows
+    网页
+        常用
+            思维导图资源平台
+            文档下载助手
+                用户：689178973  密码：309856
+            视频的下载
+                YouTube网页版下载器
+                Think4V UtubeDown
+                UtubeGet
+                youtubedl
+                pip工具
+        图形软件
+            adobe软件
+                photoshop
+                pr
+        桌面壁纸
+            Rainmeter：高度定制化桌面
+            TranslucentTB：透明化系统任务栏
+            Wallpaper Engine：改变你对桌面壁纸的认识
+            MacType：美化系统的字体
+            f.lux：屏幕护眼小工具
+   
+    操作系统
+        应用
+            windows的cmd
+            powershell
+            控制面板
+            计算机
+            Windows 系统启动项的管理页面
+            任务管理起
+        环境变量
+            cmd命令行就是配置再path路径中的
+            需要在路径中添加对应文件的bin文件就可以
+
+        

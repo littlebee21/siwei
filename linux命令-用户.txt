@@ -1,0 +1,378 @@
+用户管理
+    用户管理
+        1.查找用户
+            id
+            users
+            who
+            who am i
+            whoami
+        密码设置与修改
+            passwd
+        修改用户信息
+            usermod
+        修改用户组信息
+            groupmod
+        添加 删除用户
+            useradd / adduser
+            userdel / deluser
+        添加 删除用户组
+            groupadd
+            groupdel
+    用户权限
+        exit 退出当前登录账户
+            只有退出了用户才能进行删除
+        控制用户权限
+            针对组设置好权限
+        管理
+            群组与用户
+            磁盘与硬件管理
+            磁盘配额与账号
+        切换用户和超级用户
+            su
+            sudo
+        账号与权限管理
+            切换用户身份
+                作用
+                    切换使用者身份
+                su
+                sudo
+                    作用
+                        使用sudo用户的账号执行后面接着的指令
+                    语法
+                        sudo [-b] [-u username] 指令
+                        选项
+                            -b
+                                将后续的指令放到背景中让系统自行执行，而不与目前的 shell 产生影响
+                            -u
+                                后面可以接欲切换的用户账户，若无此选项则表示切换身份为 root
+                    配置
+                        /etc/sudoers
+                            作用
+                                指定用户的sudo权限
+                            案例
+                                案例1
+                                    目标
+                                        使用 wheel 群组设定 sudoer
+                                    配置内容
+                                        %wheel  ALL=(ALL)  ALL
+                                            %后面的名字是一个群组
+                                    作用
+                                        使wheel 群组中的用户具有root 用户的全部功能
+                                案例2
+                                    目标
+                                        免除wheel 群组中的sudoer需要使用密码的限制
+                                    配置内容
+                                        %wheel  ALL=(ALL)  NOPASSWD: ALL
+                                    作用
+                                        使wheel群组中的用户具有root 用户的全部功能，且无需输入密码
+                                案例3
+                                    目标
+                                        赋予一般用户辅助root 用户修改其它用户密码的能力，但不可修改root用户的密码
+                                    配置内容
+                                        myuser1  ALL=(root)  !/usr/bin/passwd, /usr/bin/passwd [A-Za-z]*, !/usr/bin/passwd root
+                                            (root)表示可切换到 root账户
+                                            !表示不可以执行后面的命令
+                                            指令必须使用绝对路径指定
+                                    作用
+                                        可切换到 root 用户使用 passwd
+                                        不可使用不带参数的 /usr/bin/passwd
+                                        不可使用 /usr/bin/passwd root
+                                        不能修改 root 的密码
+                                        可以使用 /usr/bin/passwd [A-Za-z]*
+                                            可以修改任何其它用户的密码
+                            别名
+                                User_Alias
+                                    指定用户别名
+                                    例如  User_Alias ADMPW = pro1, pro2, pro3, myuser1, myuser2
+                                        ADMPW是用户别名的名字
+                                            需要大写，可以使用任意名字
+                                        =后面是系统中的用户
+                                    用法
+                                        在 /etc/sudoers 文件的开头指定
+                                Cmnd_Alias
+                                    指定命令别名
+                                    例如 
+                                        Cmnd_Alias ADMPWCOM = !/usr/bin/passwd, /usr/bin/passwd [A-Za-z]*, !/usr/bin/passwd root
+                                            ADMPWCOM是命令别名的名字
+                                                需要大写，可以使用任意名字
+                                            =后面是可以执行及不能执行的命令
+                                    用法
+                                        在 /etc/sudoers 文件的开头指定
+                                用法
+                                    在 /etc/sudoer 中使用
+                                    例如
+                                        ADMPW   ALL=（root）  ADMPWCOM
+                        visudo
+                            用于编辑 /etc/sudoers
+            账号与权限管理
+                ACL
+                    功能
+                        提供传统的owner、group、others 的rwx权限之外的详细权限设置，可针对单一用户、单一文件或单一目录设置r、w、x权限
+                        我的理解
+                            在某个文件/目录上除了原本的传统owner、group、others的r、w、x权限之外，设置附加的用户和组对该项目的r、w、x权限
+                    命令
+                        getfacl
+                            作用
+                                显示目录或文件的acl设置
+                            选项
+                                与 setfacl相似
+                        setfacl
+                            作用
+                                设置acl
+                            语法
+                                # setfacl [-bkRd] [{-m|-x} acl 参数] 目标文件名
+                            选项
+                                -m
+                                    设置 acl 参数给文件使用，不可与 -x 合用
+                                -x
+                                    删除后续的 acl 参数，不可与 -m 合用
+                                -b
+                                    移除所有的 acl 设置参数
+                                -k
+                                    移除默认的 acl 参数
+                                -R
+                                    递归设置 acl
+                                -d
+                                    设置默认 acl 参数，只对目录有效，在该目录中新建的文件将使用此默认值
+                            acl 参数
+                                u:用户:权限
+                                g:组账户:权限
+                                m:权限
+                                    用于设置可以使用的最大权限
+                                    可以避免设置过多权限
+                                    m:mask的意思
+                                    d:[u|g]:[user|group]:权限
+                                        设置目录的默认权限
+                传统账号和权限
+                    ID
+                        登陆者ID
+                            登录用户ID
+                                UID
+                            登录群组ID
+                                GID
+                        文件所属者ID
+                            文件拥有者ID
+                            文件拥有群组ID
+                        系统中只有一套ID
+这些ID都是用户和群组
+的"数字身份证"
+                            用于登录时
+                                就是
+                                    UID
+                                    GID
+                            写到文件属性中时
+                                就是
+                                    文件拥有者ID
+                                    文件拥有群组ID
+                    账号
+                        用户ID和群组ID的字符串形式的助记符
+                            帮助用户进行记忆
+                    特殊文件
+                        关联账号和ID
+                            /etc/passwd
+                                作用
+                                    关联用户账号和ID
+                                字段
+                                    账号名称
+                                    密码
+                                        已转移到/etc/shadow中保存
+                                    UID
+                                        0
+                                            系统管理员账号
+                                        1-999
+                                            系统账号
+                                                1-200
+                                                    Linux发行版创建的系统账号
+                                                201-999
+                                                    用户有系统账号需求时创建
+                                                登录shell 通常是/sbin/nologin
+                                        1000-以上
+                                            用户账号
+                                    GID
+                                        对应初始群组
+                                            是登登录用户的有效群组
+                                    使用者信息说明
+                                    主文件夹
+                                    shell
+                            /etc/group
+                                作用
+                                    关联组账号和ID
+                                字段
+                                    群组名称
+                                    群组密码
+                                    GID
+                                    此群组支持的账号名称
+                        保存账号对应的密码
+                            /etc/shadow
+                                作用
+                                    管理用户的密码
+                                字段
+                                    账号名称
+                                    密码
+                                        加密过
+                                    最近更动密码的日期
+                                    密码不可被更动的天数
+                                    密码需要重新变更的天数
+                                    密码需要变更期限前的天数
+                                    密码过期后的账号宽限时间（密码失效日）
+                                    账号失效日期
+                                    保留
+                            /etc/gshadow
+                                作用
+                                    管理组密码
+                        用户主目录的参考基准目录
+                            /etc/skel
+                                作用
+                                    含有用户主目录的标准配置文件
+                    相关命令
+                        用户相关
+                            新增
+                                useradd
+                                    作用
+                                        添加账户
+                                    常用选项
+                                        -u
+                                            指定新建用户的uid
+                                                指定的数字应尚未用作uid
+                                        -g
+                                            指定新建用户的初始组
+                                        -G
+                                            指定新建用户的附加组
+                                        -M
+                                            强制不创建用户主目录
+                                                用于系统账号
+                                        -m
+                                            强制创建用户主目录
+                                                用于用户账号
+                                        -d
+                                            指定已存在的目录作为用户的主目录
+                                                使用绝对路径
+                                    默认值
+                                        GROUP=100
+                                            私有群组机制
+                                                系统创建一个与账号一致的群组
+                                            公共群组机制
+                                                系统在users群组中创建账号
+                                        HOME=/home
+                                            用户主文件夹的基准目录/home
+                                        INACTIVE=1
+                                            密码失效日
+                                                /etc/shadow 的第七字段
+                                        EXPIRE=
+                                            账号失效日
+                                                /etc/shadow 的第八字段
+                                        SHELL=/bin/bash
+                                            默认的shell
+                                        SKEL=/etc/skel
+                                            用户主文件夹参考基准目录
+                                        CREATE_MAIL_SPOOL=yes
+                                            创建用户的 mailbox
+                            更动
+                                passwd
+                                    作用
+                                        修改密码
+                                    选项
+                                        --stdin
+                                            从标准输入获取密码
+                                                例: echo "123456" | passwd --stdin whx
+                                        -l
+                                            锁定密码(使密码失效)
+                                        -u
+                                            解锁密码(恢复密码的使用)
+                                        -S
+                                            列出密码相关参数
+                                                即 /etc/shadow 文件中的有关信息
+                                        -n
+                                            后面接天数，/etc/shadow文件的第四字段，多久不能修改密码天数
+                                        -x
+                                            后面接天数，/etc/shadow文件的第五字段，多久必须修改密码天数
+                                        -w
+                                            后面接天数，/etc/shadow文件的第六字段，密码过期前的警告天数
+                                        -i
+                                            后面接日期，/etc/shadow 文件的第七字段，密码失效日期
+                                chage
+                                    作用
+                                        列出和修改用户密码的详细参数
+                                usermod
+                                    作用
+                                        修改账户信息
+                                    选项
+                                        与useradd 相似
+                            删除
+                                userdel
+                                    作用
+                                        删除用户
+                                    选项
+                                        -r
+                                            删除用户的主文件夹
+                            查询
+                                id
+                                    作用
+                                        查阅用户的id有关信息
+                                    用法
+                                        id [username]
+                                finger
+                                    作用
+                                        列出finger 数据
+                                chfn
+                                    作用
+                                        修改finger数据
+                                    选项
+                                        -f 用户的姓名
+                                        -o 办公室房间号码
+                                        -p 办公室电话号码
+                                        -h 家里的电话号码
+                                chsh
+                                    作用
+                                        列出和改变shell
+                                    选项
+                                        -l
+                                            列出 /etc/shells 中的信息
+                                        -s shell
+                                            改为 shell
+                        组相关
+                            newgrp
+                            groups
+                            gpasswd
+                                root 的功能
+                                    -A
+                                        设置群组管理员
+                                    -M
+                                        将某些账号加入该群组
+                                    -r
+                                        移除群组密码
+                                    -R
+                                        使群组密码失效
+                                群组管理员的功能
+                                    -a
+                                        将账户加入群组
+                                    -d
+                                        将账户从群组中移除
+                            groupadd
+                                创建群组
+                            groupmod
+                                -g
+                                    修改  gid
+                                -n
+                                    修改群组名称
+                            groupdel
+                                删除群组
+                                    注意，删除用户之前不能删除用户的初始群组
+    文件权限
+        chmod
+            修改文件权限
+        chown
+        chgrp
+不能修改 root 的密码
+系统中只有一套ID
+这些ID都是用户和群组
+的"数字身份证"
+    用于登录时
+        就是
+            UID
+            GID
+    写到文件属性中时
+        就是
+            文件拥有者ID
+            文件拥有群组ID
+登录shell 通常是/sbin/nologin

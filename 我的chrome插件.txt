@@ -1,0 +1,46 @@
+我的chrome插件
+    chrome的快捷键
+        alt+1
+            发送的onetab进行缓存
+        alt+2
+            使用多关键字搜索进行查找
+        alt+3
+            search all tabs搜索 
+        alt+z
+            显示大纲
+    我的插件
+        快速阅读
+            大纲
+                smarttoc
+                html5 outliner
+                octotree
+        快速定位
+            多关键字空格分割进行查找 Multi Search & Multi Jump
+            vimium
+        回头阅读
+            search all tabs 
+                就是搜索最近打开的网页
+                    4
+        后台运行
+            abblock plus 免费拦截器
+            javadocsearch
+            videospeed controller
+        打开和关闭
+            onetab
+                缺点
+                    没有办法使用vimium进行打开
+                        但是可以使用搜索+ctrl+h的方式进行打开
+        美化插件：
+            stylish 没啥用
+    插件的快捷键安排
+        alt+数字按键
+    通用操控
+        应为utools的存在
+            我已经减少了很多的插件和chrome快捷键的使用
+        打开词条的链接
+        chrome的查看内容
+            使用键盘进行搜索
+            使用鼠标或者触控板进行阅读
+        chrome的原生快捷键\
+
+

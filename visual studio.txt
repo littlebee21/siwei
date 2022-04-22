@@ -1,0 +1,39 @@
+visual studio
+    visual studio组成
+        快捷键
+            注释：ctrl+k+c
+            取消注释：ctrl+k+u
+            对其代码：ctrl+k+d
+            F1 转到MSDN
+            撤销：ctrl+z
+            保存：ctrl+s
+            智能提示：ctrl+j
+            折叠代码：#region  #endregion
+            shift+home:向左边全选
+            shift+end：向右边全选
+        控件工具箱
+        资源管理器图标
+    visual studio使用
+        开发
+            快速导航、编写并修复代码
+        调试
+            轻松调试、探查和诊断
+        测试
+        协作
+        扩展
+        源控件项目状态的源控件状态图标
+        语言的安装
+            点击 工具 获取工具和更新 请看下图
+            选择需要安装的语言环境
+    开发平台vs使用
+        C# 的集成开发环境
+            Visual Studio 2010 (VS)
+            Visual C# 2010 Express (VCE)
+            Visual Web Developer
+            文本编辑器
+        如何快速查看类/方法的定义
+            右键转到定义
+            快捷键选中按F12即可跳转到定义
+        利用visual studio管理.net的类库和命名空间
+            信号图标
+            程序集

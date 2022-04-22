@@ -1,0 +1,43 @@
+资源 - vim
+    简明 VIM 练级攻略  https://coolshell.cn/articles/5426.htm
+
+
+
+
+
+短视频 ：https://www.bilibili.com/video/BV1Sb411x7uQ?p=27
+    【插件简介】提高编码效率简介
+    【vim自带】适合新手操作的鼠标功能
+    【vim自带】提高编码效率之几种括号的匹配定位
+    【vim自带】多窗口的全身而退（退出vim）
+    【插件comments】提高编码效率之快速注释之单行注释
+    【插件comments】提高编码效率之快速注释之当前位置到文件首的注释
+    【插件comments】提高编码效率之快速注释之当前位置到文件尾的注释
+    【插件comments】提高编码效率之快速注释之多行注释
+    【插件comments】提高编码效率之快速注释之函数体注释
+    【插件comments】提高编码效率之快速注释之全文注释
+    【插件code_complete】提高编码效率之快速包含头文件
+    【插件code_complete】提高编码效率之快速插入头文件预编译选项
+    【插件code_complete】提高编码效率之快速创建注释
+    【插件code_complete】提高编码效率之快速搭建main函数框架
+    【插件code_complete】提高编码效率之快速定义函数
+    【插件code_complete】提高编码效率之快速定义宏
+    【插件code_complete】提高编码效率之函数参数的快速补充
+    【插件code_complete】提高编码效率之快速建立if分支框架
+    【插件code_complete】提高编码效率之快速建立switch分支框架
+    【插件code_complete】提高编码效率之快速建立for循环框架
+    【插件code_complete】提高编码效率之快速建立while循环框架
+    【vim工程】sourceinsight窗口模式快速体验
+    【vim工程】sourceinsight窗口模式打开与关闭
+    【vim工程】sourceinsight窗口布局调整
+    【vim工程】执行工程文件同步操作Createtag
+    【vim工程】通过LookupFile命令在工程中快速寻找某个文件
+    【插件SrcExpl】子窗口SrcExpl常用操作
+    【插件Quick】子窗口QuickFix常用操作
+    【插件NerdTree】子窗口NerdTree常用操作
+    【插件minibuf】子窗口minibuf常用操作
+    【插件ctags】子窗口taglist常用操作
+
+
+
+

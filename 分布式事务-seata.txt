@@ -1,0 +1,227 @@
+seata
+    角色介绍
+        TC 事务协调者：状态中心：收集回滚
+            Transaction Coordinator (TC)： 事务协调器
+        TM 事务管理者：控制中心：全局事务控制
+            Transaction Manager (TM)： 事务管理器
+        RM 资源管理器：控制中心：本地事务控制jar
+            Resource Manager (RM)： 控制分支事务
+            undo_log回滚日志表
+                undo_log必须在每个业务数据库中创建，用于保存回滚操作数据。
+                当全局提交时，undolog记录直接删除。
+                当全局回滚时，将现有数据撤销，还原至操作前的状态
+                beforeImage
+                    操作前镜像
+                afterImage
+                    操作后镜像
+    配合组件
+        Server
+            全局ID生成器
+            调度
+                重试回滚调度
+                重试提交调度
+                异步提交调度
+                超时检查调度
+                删除回滚日志调度
+            消息处理器
+                请求消息处理器
+                响应消息处理器
+                资源管理器消息处理器
+                事物管理器消息处理器
+                心跳消息处理器
+            配置中心
+                apollo
+                consul
+                custom
+                etcd3
+                nacos
+                spring-cloud
+                zookeeper
+            注册中心
+                服务发现
+                    consul
+                    custom
+                    etcd3
+                    eureka 
+                    nacos
+                    redis
+                    sofa
+                    zookeeper
+            会话管理器
+                全局会话管理器
+                异步提交会话管理器
+                重试提交会话管理器
+                重试回滚会话管理器
+        Client
+            SPI扩展
+            注册中心
+                服务发现
+                    consul
+                    custom
+                    etcd3
+                    eureka 
+                    nacos
+                    redis
+                    sofa
+                    zookeeper
+                负载均衡
+                    随机
+                    轮询
+                    最少调用
+                    一致性哈希
+            配置中心
+                apollo
+                consul
+                custom
+                etcd3
+                nacos
+                spring-cloud
+                zookeeper
+            编码解码
+                序列化
+                    fst
+                    hession
+                    kryo
+                    protobuf
+                压缩
+                序列化
+                    fst
+                    hession
+                    kryo
+                    protobuf
+                    seata
+                压缩
+                    7z
+                    bzip2
+                    gzip
+                    lz4
+                    zip
+            SQL解析
+                Druid驱动的解析方式
+                    Mysql
+                    Oracle
+                    PostgreSql
+            RPC集成
+                dubbo-Alibaba
+                dubbo-apache
+                grpc
+                http
+                motan
+                sofa
+            Spring集成
+                增强器
+                拦截器
+    seata的模式
+        seata的设计思想和组成
+        AT模式
+        seata复合框架
+            组成
+            模式
+                AT模式
+                    两阶段提交模式（非数据库支持的两阶段提交）
+                        １．第一阶段，业务数据和回滚日志记录在同一个本地事务中提交，释放本地锁和连接资源。
+                        ２．二阶段：提交异步化，非常快速地完成。回滚通过一阶段的回滚日志进行反向补偿。
+                    AT模式
+                        写隔离
+                            一阶段本地事务提交前，需要确保先拿到 全局锁 。拿不到 全局锁 ，不能提交本地事务。拿 全局锁 的尝试被限制在一定范围内，超出范围将放弃，并回滚本地事务，释放本地锁。
+                        读隔离
+                            在数据库本地事务隔离级别读已提交（Read Committed） 或以上的基础上;Seata（AT 模式）的默认全局隔离级别是 读未提交（Read Uncommitted） 。
+                            必需要求全局的读已提交 ，目前 Seata 的方式是通过 SELECT FOR UPDATE 语句的代理。
+                        缺点
+                            数据锁时间长，不适合高并发
+                            一旦有别的方式修改了数据（不使用全局事务锁的方式，ｅｇ:客户端手动操作ＳＱＬ），而又正好需要回滚数据，会导致混滚失败(undo_log中记录镜像不一致)
+                    TC相关表
+                        global_table:全局事务
+                            每当有一个全局事务发起后，就会在该表中记录全局事务的ID
+                        branch_table：分支事务
+                            记录每一个分支事务的ID，分支事务操作的哪个数据库等信息
+                        lock_table：全局锁
+                        xid：全局事务的ID ip+端口+事务ID
+                    AT模式如何做到对业务的无侵入
+                        一阶段提交
+                            1.TM 方法执行时，由于该方法被@GlobalTranscation修饰，该TM会向TC发起全局事务，生成XID（全局锁）
+                            2.RM 进行写表，UNDO_LOG记录回滚日志（Branch ID），通知TC操作结果
+                            RM写表过程，Seata会拦截业务SQL，首先解析SQL语句，在业务数据被更新前，将其报错成before image，然后执行业务SQL，在业务数据更新之后，再将其保存为after image，最后生成行锁。以上操作全部在一个数据库事务哪完成，这样保证了一阶段操作的原子性。
+                        二阶段步骤
+                            因为业务SQL在一阶段已经提交至数据库，所以Seata只需要将一阶段保存的快照数据和行锁删掉，完成数据清理即可。
+                            正常：TM执行成功，通知TC全局提交，TC此时通知所有的RM提交成功，删除UNDO_LOG回滚日志
+                            异常：TM执行失败，通知TC全局回滚，TC此时通知所有RM进行回滚，根据UNDO_LOG反向操作，使用before image还原业务数据，删除UNDO_LOG，但在还原前要首先校验脏写，对比数据库当前业务数据和 after image ，如果两份数据完全一致说明没有脏写，可以还原业务数据。如果出现脏写，那么就需要转人工处理。
+                TCC模式
+                    两阶段模式（非谅两阶段体提交模式）
+                        一阶段 prepare 行为二阶段 commit 或 rollback 行为
+                            调用 自定义 的 prepare 逻辑。
+                            调用自定义的 commit 逻辑 OR 调用自定义的 rollback 逻辑。
+                    缺点
+                        开发任务大，每一个业务操作，都需要３个自定义方法处理，无法复用
+                    实现方式举例
+                        需要操作的目标字段，都要添加一个相关的冻结字段，try操作是操作冻结字段，cc操作时，将冻结的数值更新到目标字段。
+                XA模式（标准的二次提交）
+                    以 XA 协议的机制来管理分支事务的一种 事务模式。
+                    流程
+                        执行阶段：可回滚：业务 SQL 操作放在 XA 分支中进行，由资源对 XA 协议的支持来保证 可回滚持久化：XA 分支完成后，执行 XA prepare，同样，由资源对 XA 协议的支持来保证 持久化（即，之后任何意外都不会造成无法回滚的情况）
+                        完成阶段：分支提交：执行 XA 分支的 commit分支回滚：执行 XA 分支的 rollback
+                    存在的问题
+                        在第二阶段中，如果协调器和业务系统都挂了，将导致部分成功，部分失败
+                saga模式
+                    每个参与者都提交本地事务，当出现某一个参与者失败则补偿前面已经成功的参与者一阶段正向服务和二阶段补偿服务都由业务开发实现
+                    业务场景
+                        业务流程长、业务流程多参与者包含其它公司或遗留系统服务，无法提供 TCC 模式要求的三个接口
+                    优势
+                        一阶段提交本地事务，无锁，高性能事件驱动架构，参与者可异步执行，高吞吐补偿服务易于实现
+                    缺点
+                        不保证隔离性
+                            每个业务独立提交事务
+                具体步骤
+                    1.TM端是有@GlobalTransaction 进行全局事务开启，提交，回滚
+                    2.TM开始RPC调用远程服务。
+                    3.RM端seata-client通过扩展DataSourceProxy，实现自动生成 UNDO_LOG与TC上报
+                    4.TM告知TC提交/回滚全局事务
+                    5.TC通知RM各自执行commit/rollback 操作，同时清除undo_log
+                比较
+                    ＴＣＣ
+                        缺点
+                            开发麻烦，一个业务需要三个方法来满足（try, confirm, cancel）因为每个目标字段都需要一个冻结字段来支撑事务操作；
+                        优点
+                            可以做到，不存在脏数据的问题；
+                    ｓａｇａ
+                        缺点
+                            数据没有很好的隔离，有脏数据的风险；
+                        优点
+                            开发简单（只需要原有逻辑上增加回滚逻辑），不需要预留冻结字段(导致有脏数据风险)
+        主流程
+            事物模式
+                AT
+                TCC
+                SAGA
+                XA
+            事物传播机制
+                REQUIRED
+                REQUIRES_NEW
+                NOT_SUPPORTED
+                SUPPORTS
+                NEVER
+                MANDATORY
+    3.seata实现2PC事务
+        部署启动Seata Server
+            发现注册
+                0：下载Nacos Server和Seata Server
+                1：部署Nacos Server
+            配置
+                第一步：修改conf/registry.conf：
+                第二步：下载所需脚本文件
+                第三步：修改config.txt
+                第五步：将config.txt导入至nacos
+                第六步：将导入至nacos中的config.txt信息迁移至对应的命名空间(namespace)
+            创建数据库
+                bank1库，包含张三账户
+                bank2库，包含李四账户
+                分别在bank1、bank2库中创建undo_log表，此表为seata框架使用：
+                SEATA AT 模式需要 UNDO_LOG 表支持，所有我们需要在业务数据库中新增一张UNDO_LOG 表
+            启动
+        dtx/dtx-seata-demo/dtx-seata-demo-bank1 ，操作张三账户，连接数据库bank1
+            （2）父工程maven依赖说明
+            （3）配置seata
+            （4）创建代理数据源
+            第四步：引入seata
+                只需要在订单业务上加上@GlobalTransactional注解即可
+        dtx/dtx-seata-demo/dtx-seata-demo-bank2 ，操作李四账户，连接数据库bank2

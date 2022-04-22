@@ -1,0 +1,22 @@
+项目
+    获取项目阶段
+    提高项目的启动效率
+        cnpm提高npm的安装速度
+            已经
+        maven 的阿里云镜像提高maven
+            已经
+        docker阿里云
+            已经
+        python pip
+        apt 
+        snap
+    环境搭建
+        windows
+        保持软件的原有环境
+        windows软件的安装和卸载
+            软件园
+            安装
+                破解
+                配置
+            卸载
+        命令行环境的使用

@@ -1,0 +1,417 @@
+javascript - 对象
+    HTML DOM属性
+        htmlcollection和nodelist区别
+        对象DOM的联系逻辑
+        约束DOM属性
+        XML DOM
+    鼠标键盘对象
+        属性获取
+            relatedTarget 返回与事件的目标节点相关的节点。
+            鼠标属性
+                button 返回当事件被触发时，哪个鼠标按钮被点击。
+                clientX返回当事件被触发时，鼠标指针的水平坐标。
+                clientY返回当事件被触发时，鼠标指针的垂直坐标。
+                Location  返回按键在设备上的位置
+                screenX返回当某个事件被触发时，鼠标指针的水平坐标。
+                screenY返回当某个事件被触发时，鼠标指针的垂直坐标。
+            键盘属性
+                altKey 返回当事件被触发时，"ALT" 是否被按下。
+                ctrlKey返回当事件被触发时，"CTRL" 键是否被按下。
+                shiftKey  返回当事件被触发时，"SHIFT" 键是否被按下
+                charCode  返回onkeypress事件触发键值的字母代码。
+                key  在按下按键时返回按键的标识符。
+                keyCode返回onkeypress事件触发的键的值的字符代码，或者 onkeydown 或 onkeyup 事件的键的代码。
+                which  返回onkeypress事件触发的键的值的字符代码，或者 onkeydown 或 onkeyup 事件的键的代码。
+                metaKey返回当事件被触发时，"meta" 键是否被按下。
+        方法
+            initMouseEvent() 初始化鼠标事件对象的值
+            initKeyboardEvent()初始化键盘事件对象的值
+    event事件对象
+        target 返回触发此事件的元素（事件的目标节点）
+        获取事件属性
+            type 返回当前 Event 对象表示的事件的名称
+            currentTarget 返回其事件监听器触发该事件的元素
+            eventPhase  返回事件传播的当前阶段
+            timeStamp 返回事件生成的日期和时间
+            bubbles返回布尔值，指示事件是否是起泡事件类型
+            cancelable  返回布尔值，指示事件是否可拥可取消的默认动作
+        事件的修改
+            initEvent() 初始化新创建的 Event 对象的属性。
+            preventDefault() 通知浏览器不要执行与事件关联的默认动作。
+            stopPropagation()  不再派发事件
+            阻止冒泡:e.stopPropagation与window.event.cancelBubble
+            阻止默认:e.preventDefault与window.event.returnValue
+        事件监听对象
+            handleEvent() 把任意对象注册为事件处理程序
+        文档事件对象
+    1.documnt对象
+        查找元素
+            document.getElementsByTagName() 返回带有指定标签名的对象集合。
+            document.getElementById() 返回对拥有指定 id 的第一个对象的引用。
+            document.getElementsByClassName() 返回文档中所有指定类名的元素集合，作为 NodeList 对象。
+            document.getElementsByName() 返回带有指定名称的对象集合。
+            document.activeElement 返回当前获取焦点元素
+            特定元素
+                document.title 返回当前文档的标题。
+                document.body 返回文档的body元素
+                document.scripts 返回页面中所有脚本的集合。
+                document.documentElement 返回文档的根节点
+                document.embeds 返回文档中所有嵌入的内容（embed）集合
+            特定元素集合
+                document.anchors 返回对文档中所有 Anchor 对象的引用。
+                document.images 返回对文档中所有 Image 对象引用。
+                document.links 返回对文档中所有 Area 和 Link 对象引用。
+                document.forms 返回对文档中所有 Form 对象引用。
+            HTMLCollection对象
+                功能
+                tem() 返回 HTMLCollection 中指定索引的元素。
+                length 返回 HTMLCollection 中元素的数量。
+                namedItem() 返回 HTMLCollection 中指定 ID 或 name 属性的元素。
+        检查文本
+            document.strictErrorChecking 设置或返回是否强制进行错误检查。
+        创建对象
+            属性
+                document.createAttribute() 创建一个属性节点
+            元素
+                document.createElement() 创建元素节点。
+            文本
+                document.createTextNode() 创建文本节点。
+            注释节点
+                document.createComment() 可创建注释节点。
+            导入节点
+                document.adoptNode(node) 从另外一个文档返回 adapded 节点到当前文档。
+                document.importNode() 把一个节点从另一个文档复制到该文档以便应用。
+            打开文档流
+                document.close() 关闭用 document.open() 方法打开的输出流，并显示选定的数据。
+                document.open() 打开一个流，以收集来自任何 document.write() 或 document.writeln() 方法的输出。
+                document.write()   //用于向当前文档写入内容
+                document.writeIn()  //用于向当前文档写入内容，尾部添加换行符。
+            document.createDocumentFragment() 创建空的 DocumentFragment 对象，并返回此对象。
+        删改节点
+            document.renameNode() 重命名元素或者属性节点。
+            document.normalizeDocument() 删除空文本节点，并连接相邻节点的
+            document.normalize() 删除空文本节点，并连接相邻节点
+        document属性
+            windows BOM相关
+                location
+                    document.referrer 返回载入当前文档的文档的 URL。
+                    document.URL 返回文档完整的URL
+                    document.baseURI 返回文档的绝对基础 URI
+                    document.documentURI 设置或返回文档的位置
+                    document.domain 返回当前文档的域名。
+                navigitior
+                    document.documentMode 返回用于通过浏览器渲染文档的模式
+                history
+                    document.lastModified 返回文档被最后修改的日期和时间。
+                    document.cookie 设置或返回与当前文档有关的所有 cookie。
+                        创建cookie
+                        读取cookie
+                        修改cookie
+                        删除coolie
+                处理文档implementation对象
+                    document.implementation 返回处理该文档的 DOMImplementation 对象。
+            文档属性
+                status
+                    document.readyState 返回文档状态 (载入中……)
+                css
+                    document.querySelector() 返回文档中匹配指定的CSS选择器的第一元素
+                    document.querySelectorAll()  返回文档中匹配的CSS选择器的所有元素节点列表
+                encoding
+                    document.inputEncoding 返回用于文档的编码方式（在解析时）。
+                声明类型
+                    document.doctype 返回与文档相关的文档类型声明 (DTD)。
+    2.element基础元素
+        获取节点
+            element.getElementsByTagName() 返回指定标签名的所有子元素集合。
+            element.querySelector() 返回匹配指定 CSS 选择器元素的第一个子元素
+            element.querySelectorAll() 返回匹配指定 CSS 选择器元素的所有子元素节点列表
+            关系节点
+                element.childNodes 返回元素的一个子节点的数组
+                element.firstChild 返回元素的第一个子节点
+                element.lastChild 返回的最后一个子节点
+                element.previousSibling 返回某个元素紧接之前元素
+                element.nextSibling 返回该元素紧跟的一个节点
+                element.parentNode 返回元素的父节点
+                element.children 返回元素的子元素的集合
+                element.ownerDocument 返回元素的根元素（文档对象）
+            NodeList 节点列表
+                nodelist.item() 返回某个元素基于文档树的索引
+                nodelist.length 返回节点列表的节点数目。
+        节点检查
+            element.isEqualNode() 检查两个元素是否相等
+            element.isContentEditable 如果元素内容可编辑返回 true，否则返回false
+            element.isDefaultNamespace() 如果指定了namespaceURI 返回 true，否则返回 false。
+            element.isSameNode() 检查两个元素所有有相同节点。
+            element.isSupported() 如果在元素中支持指定特征返回 true。
+            element.compareDocumentPosition() 比较两个元素的文档位置。
+            element.hasChildNodes() 返回一个元素是否具有任何子元素
+            element验证操作
+                checkValidity()验证合法性
+                setCustomValidity()设置提示信息
+        创建节点
+            element.appendChild() 为元素添加一个新的子元素
+            element.insertBefore() 现有的子元素之前插入一个新的子元素
+            element.accessKey 设置或返回accesskey一个元素
+        删改节点
+            element.removeChild() 删除一个子元素
+            element.cloneNode() 克隆某个元素
+            element.replaceChild() 替换一个子元素
+            element.toString() 一个元素转换成字符串
+            element.normalize() 只有结构
+        element属性
+            element其它属性
+                1.名称
+                    element.title 设置或返回元素的title属性
+                    element.id 设置或者返回元素的 id。
+                    element.tagName 作为一个字符串返回某个元素的标记名（大写）
+                    element.classList 返回元素的类名，作为 DOMTokenList 对象。
+                    element.style 设置或返回元素的样式属性
+                    element.nodeName 返回元素的标记名（大写）
+                    element.nodeValue 返回元素的节点值
+                    element.nodeType 返回元素的节点类型
+                2.内容
+                    element.innerHTML 设置或者返回元素的内容。
+                    element.textContent 设置或返回一个节点和它的文本内容
+                    element.dir 设置或返回一个元素中的文本方向
+                    element.contentEditable 设置或返回元素的内容是否可编辑
+                其它属性
+                    element.namespaceURI 返回命名空间的 URI。
+                    element.lang 设置或者返回一个元素的语言。
+                盒子宽高
+                    offsetParennt偏移操作
+                        element.offsetParent 返回元素的偏移容器
+                        element.offsetHeight 返回任何一个元素的高度包括边框和填充，但不是边距
+                        element.offsetTop 返回当前元素的相对垂直偏移位置的偏移容器
+                        element.offsetLeft 返回当前元素的相对水平偏移位置的偏移容器
+                        element.offsetWidth 返回元素的宽度，包括边框和填充，但不是边距
+                    滚动偏移
+                        element.scrollWidth 返回元素的整个宽度（包括带滚动条的隐蔽的地方）
+                        element.scrollTop 返回当前视图中的实际元素的顶部边缘和顶部边缘之间的距离
+                        element.scrollLeft 返回当前视图中的实际元素的左边缘和左边缘之间的距离
+                        element.scrollHeight 返回整个元素的高度（包括带滚动条的隐蔽的地方）
+                    盒子属性操作
+                        element.clientWidth 在页面上返回内容的可视宽度（不包括边框，边距或滚动条）
+                        element.clientHeight 在页面上返回内容的可视高度（不包括边框，边距或滚动条）
+                标签顺序
+                    element.tabIndex 设置或返回元素的标签顺序。
+                键值对
+                    element.getFeature() 返回指定特征的执行APIs对象。
+                    element.setUserData() 在元素中为指定键值关联对象。
+                    element.getUserData() 返回一个元素中关联键值的对象。
+            element属性基本
+                属性
+                    element.attributes 返回一个元素的属性数组
+                    element.getAttribute() 返回指定元素的属性值
+                    element.getAttributeNode() 返回指定属性节点
+                3.属性判断
+                    element.hasAttribute() 如果元素中存在指定的属性返回 true，否则返回false。
+                    element.hasAttributes() 如果元素有任何属性返回true，否则返回false。
+                1.创建属性
+                    element.setAttribute() 设置或者改变指定属性并指定值。
+                    element.setIdAttribute()
+                    element.setIdAttributeNode()
+                    element.setAttributeNode() 设置或者改变指定属性节点。
+                2.删除属性
+                    element.removeAttribute() 从元素中删除指定的属性
+                    element.removeAttributeNode() 删除指定属性节点并返回移除后的节点。
+            element事件基本
+                获取事件
+                    Element.dispatchEvent()：触发事件
+                事件修改
+                    element.addEventListener() 向指定元素添加事件句柄
+                        ad方法功能
+                        ad方法属性
+                            一个元素添加多个事件句柄。
+                            向对象添加事件句柄
+                            事件传递属性
+                                冒泡
+                                捕获
+                                设置事件传递方式
+                        addEventListener事件绑定
+                        兼容的代码内容
+                    element.removeEventListener() 移除由 addEventListener() 方法添加的事件句柄
+                    IE
+                        attachEvent()
+                        detachEvent().
+            element焦点
+                element.hasFocus() 返回布尔值，检测文档或元素是否获取焦点
+                element.focus() 设置文档或元素获取焦点
+            element文本操作
+                获取
+                    data设置或获取 TextNode 对象的值。
+                    substringData(offset, count) 返回从offset起的count个字符
+                修改
+                    appendData(string)  添加字符串到文本节点末尾处。
+                    insertData(offset, string) 从offset指定位置插入string
+                    deleteData(offset, count) 从offset起删除count个字符
+                    replaceData(off,count,string) 从off起将count个字符用string替换
+                    splitText(offset) 从offset起将文本节点分割
+    3.element.Attr..属性节点对象
+        属性值获取
+            attr.name 返回属性名称
+            attr.value 设置或者返回属性值
+            nodemap.getNamedItem() 从节点列表中返回的指定属性节点。
+        属性判断
+            attr.specified 如果属性被指定返回 true ，否则返回 false
+            attr.isId 如果属性是 ID 类型，则 isId 属性返回 true，否则返回 false。
+        NamedNodeMap 对象
+            nodemap.item() 返回节点列表中处于指定索引号的节点。
+            nodemap.length 返回节点列表的节点数目。
+            nodemap.removeNamedItem() 删除指定属性节点
+            nodemap.setNamedItem() 设置指定属性节点(通过名称)
+    3.elemet.style.CSS对象
+        获取样式表属性
+            getPropertyValue() 返回指定的 CSS 属性值。
+            getPropertyPriority() 返回指定的 CSS 属性是否设置了 "important!" 属性。
+            item() 通过索引方式返回 CSS 声明中的 CSS 属性名。
+        获取行间css样式表
+            cssText 设置或返回样式声明文本
+            length 返回样式中包含多少条声明。
+            parentRule 返回包含当前规则的规则。
+        修改行间css
+            setProperty() 在 CSS 声明块中新建或者修改 CSS 属性。
+            removeProperty() 移除 CSS 声明中的 CSS 属性。
+    3.element.classNamel.类名对象 
+        判断类名
+        修改类名
+            Element.className += ' ' + newClassName  //新增一个类名
+            element.classList.add(className)  //新增
+            element.classList.remove(className)  //删除
+            element.classList.contains(className)  //是否包含
+            element.classList.toggle(className)  //toggle class
+    console对象
+        console.asset()判断输出
+        console.clear清空控制台输出
+        console.count调用计数 
+        分组
+            console.group信息分组
+            console collapsed信息折叠分组
+            consoleEnd 结束内联分组
+        常用调试命令
+            log 输出信息
+            info别名输出信息
+            warn输出警告信息
+            error输出错误
+            table输出JSON的复杂内容
+            table 复合类型数据转表格
+            debugger设置断点
+        监控执行时间
+            console.time 计时开始
+            console.timeEnd 计时结束
+        trace追踪函数的调用
+        console.custom定制样式
+    DOM的事件
+        事件的属性
+            DOM事件级别
+            事件的三个阶段
+                事件捕获阶段
+                处于目标阶段
+                事件冒泡阶段
+            事件的使用方式
+                内联模型
+                脚本模型
+            事件处理的原理
+                事件传播
+                事件流
+                事件流模式
+                触发范围
+            事件委托
+        事件处理程序=on+事件名
+            打印事件
+                onafterprint 该事件在页面已经开始打印，或者打印窗口已经关闭时触发
+                onbeforeprint 该事件在页面即将开始打印时触发
+            框架/对象(Frame/Object)事件
+                onload 一张页面或一幅图像完成加载
+                onabort 图像的加载被中断。 ( <object>)
+                onbeforeunload 该事件在即将离开页面（刷新或关闭）时触发 
+                onerror 在加载文档或图像时发生错误。 ( <object>, <body>和 <frameset>)
+                onhashchange 该事件在当前 URL 的锚部分发生修改时触发。
+                onpageshow 该事件在用户访问页面时触发
+                onpagehide 该事件在用户离开当前网页跳转到另外一个页面时触发
+                onresize 窗口或框架被重新调整大小
+                onscroll 当文档被滚动时发生的事件
+                onunload 用户退出页面。 ( <body> 和 <frameset>)
+            表单事件
+                onfocusin 元素即将获取焦点时触发
+                onfocus元素获取焦点时触发
+                onselect  用户选取文本时触发 ( <input> 和 <textarea>)
+                onfocusout  元素即将失去焦点时触发
+                onblur 元素失去焦点时触发
+                onsearch  用户向搜索域输入文本时触发 ( <input="search">)
+                onchange  该事件在表单元素的内容改变时触发
+                onsubmit  表单提交时触发
+                oninput元素获取用户输入时触发
+                onreset表单重置时触发
+            多媒体事件
+                onabort 事件在视频/音频（audio/video）终止加载时触发。
+                oncanplay 事件在用户可以开始播放视频/音频（audio/video）时触发。
+                oncanplaythrough 事件在视频/音频（audio/video）可以正常播放且无需停顿和缓冲时触发。
+                ondurationchange 事件在视频/音频（audio/video）的时长发生变化时触发。
+                onemptied 当期播放列表为空时触发
+                onended 事件在视频/音频（audio/video）播放结束时触发。
+                onerror 事件在视频/音频（audio/video）数据加载期间发生错误时触发。
+                onloadeddata 事件在浏览器加载视频/音频（audio/video）当前帧时触发触发。
+                onloadedmetadata 事件在指定视频/音频（audio/video）的元数据加载后触发。
+                onloadstart 事件在浏览器开始寻找指定视频/音频（audio/video）触发。
+                onpause 事件在视频/音频（audio/video）暂停时触发。
+                onplay 事件在视频/音频（audio/video）开始播放时触发。
+                onplaying 事件在视频/音频（audio/video）暂停或者在缓冲后准备重新开始播放时触发。
+                onprogress 事件在浏览器下载指定的视频/音频（audio/video）时触发。
+                onratechange 事件在视频/音频（audio/video）的播放速度发送改变时触发。
+                onseeked 事件在用户重新定位视频/音频（audio/video）的播放位置后触发。
+                onseeking 事件在用户开始重新定位视频/音频（audio/video）时触发。
+                onstalled 事件在浏览器获取媒体数据，但媒体数据不可用时触发。
+                onsuspend 事件在浏览器读取媒体数据中止时触发。
+                ontimeupdate 事件在当前的播放位置发送改变时触发。
+                onvolumechange 事件在音量发生改变时触发。
+                onwaiting 事件在视频由于要播放下一帧而需要缓冲时触发。
+            变化事件
+                动画事件
+                    animationstart 该事件在 CSS 动画开始播放时触发
+                    animationend 该事件在 CSS 动画结束播放时触发
+                    animationiteration 该事件在 CSS 动画重复播放时触发
+                过渡事件
+                    transitionend 该事件在 CSS 完成过渡后触发。
+                ontoggle 该事件在用户打开或关闭 <details> 元素时触发
+            操作事件
+                onwheel 该事件在鼠标滚轮在元素上下滚动时触发
+                拖动事件
+                    ondragstart 该事件在用户开始拖动元素时触发
+                    ondragleave 该事件在拖动元素离开放置目标时触发
+                    ondrag 该事件在元素正在拖动时触发
+                    ondrop 该事件在拖动元素放置在目标区域时触发
+                    ondragenter 该事件在拖动的元素进入放置目标时触发
+                    ondragover 该事件在拖动元素在放置目标上时触发
+                    ondragend 该事件在用户完成元素的拖动时触发
+                剪贴板事件
+                    oncopy 该事件在用户拷贝元素内容时触发
+                    oncut  该事件在用户剪切元素内容时触发
+                    onpaste该事件在用户粘贴元素内容时触发
+                鼠标事件
+                    onclick 当用户点击某个对象时调用的事件句柄。 
+                    oncontextmenu 在用户点击鼠标右键打开上下文菜单时触发
+                    ondblclick 当用户双击某个对象时调用的事件句柄。 
+                    onmousedown 鼠标按钮被按下
+                    onmouseleave 当鼠标指针移出元素时触发 
+                    onmousemove 鼠标被移动
+                    onmouseover 鼠标移到某元素之上
+                    onmouseenter 当鼠标指针移动到元素上时触发。
+                    onmouseout 鼠标从某元素移开
+                    onmouseup 鼠标按键被松开。
+                键盘事件
+                    onkeydown 某个键盘按键被按下
+                    onkeypress 某个键盘按键被按下并松开
+                    onkeyup 某个键盘按键被松开
+            其它事件
+                onmessage接受到消息 
+                ononline 该事件在浏览器开始在线工作时触发。
+                onoffline 该事件在浏览器开始离线工作时触发
+                onpopstate 该事件在窗口的浏览历史（history 对象）发生改变时触发。
+                onshow 该事件当 <menu> 元素在上下文菜单显示时触发
+                onstorage 该事件在 Web Storage(HTML 5 Web 存储)更新时触发
+        事件三要素
+        定义事件流模式方法
+        function事件处理程序
+            alert()
+            void (0)
+        如何让事件先冒泡后捕获

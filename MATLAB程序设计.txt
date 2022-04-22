@@ -1,0 +1,524 @@
+MATLAB程序设计
+    关键词
+        global    定义全局变量
+        eval    执行Matlab语句构成的字符串    
+        nargchk    函数输入输出参数个数检验
+        feval    执行字符串指定的文件   
+        函数
+            script    Matlab语句及文件信息
+            builtin    执行Matlab内建的函数    
+            function    Matlab函数定义关键词
+        面向对象编程
+            class    生成对象    
+            isa    判断对象是否属于某一类
+            double    转换成双精度型    
+            superiorto    建立类的层次关系
+            inferiorto    建立类的层次关系    
+            unit8    转换成8字节的无符号整数
+            inline    建立一个内嵌对象
+        调试
+            dbclear    清除调试断点   
+            dbstatus    列出所有断点情况
+            dbcont    调试继续执行    
+            dbstep    单步执行
+            dbdown    改变局部工作空间内存    
+            dbstop    设置调试断点
+            dbmex    启动对Mex文件的调试    
+            sbtype    列出带命令行标号的.M文件
+            dbquit    退出调试模式    
+            dbup    改变局部工作空间内容
+            dbstack    列出函数调用关系
+    matlab的变量
+        ****who、whos和永久变量****
+        变量显示格式****
+    矩阵
+        创建
+        引用矩阵中的元素
+            要引用第m列中的所有元素，可以使用A(:，m)
+            还可以选择第m至第n列中的元素
+            [1]通过下标来引用矩阵的元素
+            [2]通过序号来引用
+    数组
+    MATLAB的符号计算
+        符号变量和符号表达式
+             ...    续行标志
+            算数
+                +    加   
+                -    减   
+                *    矩阵乘   
+             ,    分行符(该行结果不显示)
+             ;    分行符(该行结果显示)
+            .*    向量乘    
+            %    注释标志
+            ^    矩阵乘方    
+            !    操作系统命令提示符
+            .^    向量乘方 矩阵转置
+            kron    矩阵kron积 向量转置
+            \    矩阵左除    
+            =    赋值运算
+            /    矩阵右除   
+            ==    关系运算之相等
+            .\    向量左除    
+            ~=    关系运算之不等
+            ./    向量右除    
+            <    关系运算之小于
+            <=    关系运算之小于等于
+            ()    下标运算或参数定义    
+            >    关系运算之大于
+            []    矩阵生成    
+            >=    关系运算之大于等于
+            {}        &    逻辑运算之与
+            .    结构字段获取符    |    逻辑运算之或
+            .    点乘运算,常与其他运算符联合使用(如.\)    ~    逻辑运算之非
+            xor    逻辑运算之异成
+        :    向量生成或子阵提取    
+        逻辑函数
+            all    测试向量中所用元素是否为真    
+            is*(一类函数)    检测向量状态.其中*表示一个确定的函数(isinf)
+            any    测试向量中是否有真元素    
+            *isa    检测对象是否为某一个类的对象
+            exist    检验变量或文件是否定义    
+            logical    将数字量转化为逻辑量
+            find    查找非零元素的下标
+        ****2.微积分运算****
+        ****3.解方程****
+        ****4.化简和代换****
+        ****5.MATLAB的符号表达式命令****
+    常用常数的值：
+        pi            3.1415926…….         
+        realmin       最小浮点数，2^-1022
+        i             虚数单位              
+        realmax       最大浮点数，（2－eps）2^1022
+        j             虚数单位           
+        Inf           无限值
+        eps           浮点相对经度＝2^-52           
+        NaN           空值
+    函数
+        二.MATLAB数值计算
+            函数及运算
+                指数函数
+                    exp( )   指数     
+                    log( )   对数   
+                    log10( ) 以10为底对数
+                    sqrt( )  开方       
+                复数函数
+                    abs( )   取绝对值   
+                    angle( ) 返回复数的相位角
+                    conj
+                        共轭复数函数
+                    real
+                        求实部函数
+                    imag
+                        求虚部函数
+                数值处理
+                    fix沿零方向取整
+                    round舍入取整
+                    floor沿-∞方向取整
+                    rem求除法的余数
+                    ceil沿+∞方向取整
+                    sign符号函数
+                坐标转换
+                    cart2pol笛卡儿坐标到极坐标转换
+                    pol2cart极坐标到笛卡儿坐标转换
+                    cart2sph笛卡儿坐标到球面坐标转换
+                    sph2cart球面坐标到笛卡儿坐标转换
+                sin( )   正弦（变量为弧度）   
+                Cot( )   余切（变量为弧度）
+                sind( )  正弦（变量为度数）  
+                Cotd( )  余切（变量为度数）
+                asin( )  反正弦（返回弧度）     
+                acot( )  反余切（返回弧度）    
+                Asind( ) 反正弦（返回度数）    
+                acotd( ) 反余切（返回度数）    
+                cos( )   余弦（变量为弧度）     
+                cosd( )  余弦（变量为度数）   
+                acos( )  余正弦（返回弧度）   
+                acosd( ) 余正弦（返回度数）     
+                tan( )   正切（变量为弧度）      
+                realsqrt( ) 返回非负根
+                tand( )  正切（变量为度数）        
+                atan( )  反正切（返回弧度）     
+                atand( ) 反正切（返回度数）        
+                mod(x,y) 返回x/y的余数   
+                sum(  )  向量元素求和
+            数组
+                1、构造数组的方法：增量发和linspace(first,last,num)first和last为起始和终止数，num为需要的数组元素个数。
+            基本矩阵
+                获取生成矩阵
+                    Matlab中提取矩阵几行几列
+                        标签： 文化	
+                        提取40-82行，列数是1-85
+                        x=A（40:82,1:85）
+                        提取1-10000行，第1列全部
+                        x=data(1:10000,1);
+                    eye产生单位阵
+                    rand产生随机分布矩阵
+                    linspace构造线性分布的向量
+                    randn产生正态分布矩阵
+                    logspace构造等对数分布的向量
+                    zeros产生零矩阵
+                    ones产生元素全部为1的矩阵
+                    :产生向量
+                    特殊矩阵
+                        compan    生成伴随矩阵   
+                        invhilb    生成逆hilbert矩阵
+                        gallery    生成一些小的测试矩阵   
+                        magic    生成magic矩阵
+                        hadamard    生成hadamard矩阵    
+                        pascal    生成pascal矩阵
+                        hankel    生成hankel矩阵    
+                        toeplitz    生成toeplitz矩阵
+                        hilb    生成hilbert矩阵    
+                        wilkinson    生成wilkinson特征值测试矩阵
+                矩阵分析
+                    cond求矩阵的条件数
+                    rcondLINPACK倒数条件估计
+                    det求矩阵的行列式
+                    rref矩阵的行阶梯型实现
+                    norm求矩阵的范数
+                    rrefmovie消元法解方程演示
+                    null右零空间
+                    subspace子空间
+                    orth正交空间
+                    trace矩阵的迹
+                    rank求矩阵的秩
+                矩阵处理
+                    cat    向量连接   
+                     reshape    改变矩阵行列个数
+                    diag    建立对角矩阵或获取对角向量    
+                    rot90    将矩阵旋转90度
+                    fliplr    按左右方向翻转矩阵元素    
+                    tril    取矩阵的下三角部分
+                    flipud    按上下方向翻转矩阵元素   
+                    triu    取矩阵的上三角部分
+                    repmat    复制并排列矩阵函数
+                矩阵
+                    2、构造矩阵的方法：可以直接用[ ]来输入数组，也可以用以下提供的函数来生成矩阵。
+                    ones( )   创建一个所有元素都为1的矩阵，其中可以制定维数，1，2….个变量
+                    zeros()   创建一个所有元素都为0的矩阵
+                    eye()     创建对角元素为1，其他元素为0的矩阵
+                    diag()    根据向量创建对角矩阵，即以向量的元素为对角元素
+                    magic()   创建魔方矩阵
+                    rand()    创建随机矩阵，服从均匀分布
+                    randn()   创建随机矩阵，服从正态分布
+                    randperm()         创建随机行向量
+                    horcat             C=[A,B]，水平聚合矩阵，还可以用cat(1,A,B)
+                    vercat             C=[A;B]，垂直聚合矩阵, 还可以用cat(2,A,B)
+                    repmat(M,v,h)      将矩阵M在垂直方向上聚合v次，在水平方向上聚合h次
+                    blkdiag（A，B）     以A，和B为块创建块对角矩阵
+                    length             返回矩阵最长维的的长度
+                    ndims              返回维数
+                    numel              返回矩阵元素个数
+                    size               返回每一维的长度，[rows,cols]=size(A)
+                    reshape            重塑矩阵，reshape(A,2,6),将A变为2×6的矩阵，按列排列。
+                    rot90              旋转矩阵90度，逆时针方向
+                    fliplr             沿垂轴翻转矩阵
+                    flipud             沿水平轴翻转矩阵
+                    transpose          沿主对角线翻转矩阵
+                    ctranspose         转置矩阵，也可用A’或A.’，这仅当矩阵为复数矩阵时才有区别
+                    inv                矩阵的逆
+                    det                矩阵的行列式值
+                    trace              矩阵对角元素的和
+                    norm               矩阵或矢量的范数，norm（a，1），norm（a，Inf）
+                    normest            估计矩阵的最大范数矢量
+                    chol               矩阵的cholesky分解
+                    cholinc            不完全cholesky分解
+                    lu                 LU分解
+                    luinc              不完全LU分解
+                    qr                 正交分解
+                    kron（A，B）      A为m×n，B为p×q，则生成mp×nq的矩阵，A的每一个元素都会乘上B，并占据p×q大小的空间
+                    rank               求出矩阵的刺
+                    pinv               求伪逆矩阵
+                    A^p               对A进行操作
+                    A.^P              对A中的每一个元素进行操作
+                2.矩阵的保存和获取
+                    Reshape命令
+                    Size：获取矩阵的行数和列数
+                    diag命令：
+                3.矩阵的运算和数组的运算
+            线性方程
+                /,\线性方程求解
+                nnls非零最小二乘
+                chol  Cholesky分解
+                pinv求伪逆矩阵
+                inv矩阵求逆
+                qr矩阵的QR分解
+                lscov最小二乘方差
+                qrdeleteQR分解中删除一行
+                lu矩阵的LU三角分解
+                qrinsertQR分解中插入一行
+            4.线性方程组
+            5.多项式
+                1. 多项式系数向量直接输入法
+                2. 利用指令：p=poly（AR）;AR为多项式的根或者特征多项式
+            6.数值积分
+            7.一般非线性方程组求解
+                1. 单变量非线性方程求解
+            8.微分方程的数值求解
+        时间与日期
+            calender    日历   
+             eomday    计算月末
+            clock    时钟    
+            etime    所用时间函数
+            cputime    所用的CPU时间    
+            now    当前日期与时间
+            date    日期   
+             tic    启动秒表计时器
+            datenum    日期(数字串格式)   
+             toc    读取秒表计时器
+            datestr    日期(字符串格式)    
+            weekday    星期函数
+            datevoc    日期(年月日分立格式)
+    命令
+        管理用命令
+            函数名    功能描述
+            addpath    增加一条搜索路径   
+             rmpath    删除一条搜索路径
+            demo    运行Matlab演示程序 
+             type    列出.M文件
+            doc    装入超文本文档    
+            version    显示Matlab的版本号
+            help    启动联机帮助    
+            what    列出当前目录下的有关文件
+            lasterr    显示最后一条信息    
+            whatsnew    显示Matlab的新特性
+            lookfor    搜索关键词的帮助    
+            which    造出函数与文件所在的目录
+            path    设置或查询Matlab路径
+        管理变量
+            clear    删除内存中的变量与函数    
+            save    将工作空间中的变量存盘
+            load    从文件中装入数据    
+            who,whos    列出工作空间中的变量名
+            属性
+                length    查询向量的维数    
+                size    查询矩阵的维数
+        管理工作空间
+            pack    整理工作空间内存
+            disp    显示矩阵与文本    
+        附录1.3 文件与操作系统处理命令  
+            函数名    功能描述    函数名    功能描述 
+            cd    改变当前工作目录    
+            edit    编辑.M文件
+            delete    删除文件   
+            matlabroot    获得Matlab的安装根目录
+            diary    将Matlab运行命令存盘    
+            tempdir    获得系统的缓存目录
+            dir    列出当前目录的内容    
+            tempname    获得一个缓存(temp)文件
+        页面
+            附录1.4 窗口控制命令  
+                函数名    功能描述    函数名    功能描述 
+                echo    显示文件中的Matlab中的命令 
+                more    控制命令窗口的输出页面
+                format    设置输出格式             
+            附录1.5 启动与退出命令  
+                函数名    功能描述    函数名    功能描述 
+                matlabrc    启动主程序    
+                quit    退出Matlab环境
+                startup    Matlab自启动程序            
+        交互输入
+            input    请求输入    
+            menu    菜单生成
+            keyboard    启动键盘管理   
+             pause    暂停执行
+    第三方工具箱
+          ADCPtools-声学多普勒电流剖面仪数据处理
+        AFDesign-设计模拟和数字滤波器
+        AIRES-自动集成可重复使用的嵌入式软件
+        海气-海洋学中海气通量的估计
+        动画 -开发科学动画
+        ARfit-估计多元自回归方法的参数和本征模
+        ARMASA-功率谱估计
+        AR-Toolkit-计算机视觉跟踪
+        听觉 -听觉模型
+        b4m-区间算术
+        Bayes Net-有向图模型的推理和学习
+        双耳建模 -计算声音的双耳互相关图
+        Bode Step-具有最大反馈的控制系统设计
+        Bootstrap-用于重采样，假设检验和置信区间估计
+        BrainStorm -MEG和EEG数据的可视化和处理
+        BSTEX-公式查看器
+        CALFEM-交互式程序，用于教授有限元方法
+        CALIBR -用于校准的CCD相机
+        相机校准
+        机长 -非平稳时间序列分析和预测
+        CHMMBOX-使用最大似然EM进行耦合隐马尔可夫建模
+        分类 -有监督和无监督分类算法
+        克洛西德
+        聚类 -用于数据集聚的高斯混合模型分析
+        聚类 -聚类分析
+        ClusterPack-聚类分析
+        COLEA-语音分析
+        CompEcon-解决经济和金融问题
+        复杂 -用于估计时间和空间信号的复杂度
+        计算统计
+        珊瑚 -地震波形分析
+        DACE-克里金法逼近计算机模型
+        DAIHM-水文和水动力模型中的数据同化
+        数据可视化
+        DBT-雷达阵列处理
+        DDE-BIFTOOL-时滞微分方程的分叉分析
+        去噪 -消除信号中的噪声
+        DiffMan-在流形上求解微分方程
+        尺寸分析 -
+        DIPimage-科学的图像处理
+        直销 -拉普拉斯通过直接积分法变换反转
+        DirectSD-具有面向过程的模型的计算机控制系统的分析和设计
+        DMsuite-微分矩阵套件
+        DMTTEQ-设计和测试时域均衡器设计方法
+        DrawFilt-绘制数字和模拟滤波器
+        DSFWAV-带有Dean波解的样条插值
+        DWT-离散小波变换
+        EasyKrig
+        计量经济学
+        脑电图
+        EigTool-非对称特征问题的图形工具
+        EMSC-通过扩展倍增信号校正分离光的散射和吸收
+        工程振动
+        FastICA-用于ICA和投影追踪的定点算法
+        FDC-飞行动力学与控制
+        FDtools-分数延迟滤波器设计
+        FlexICA-用于独立组件分析
+        FMBPC-基于模糊模型的预测控制
+        ForWaRD-傅立叶小波正则化反卷积
+        FracLab-分形分析，用于信号处理
+        FSBOX-使用线性回归逐步选择特征
+        GABLE-几何代数教程
+        GAOT-遗传算法优化
+        Garch-估计和诊断时间序列模型中的异方差
+        GCE数据 -管理，分析和显示使用GCE数据结构规范存储的数据和元数据
+        GCSV-不断增长的细胞结构可视化
+        GEMANOVA-拟合多线性ANOVA模型
+        遗传算法
+        大地测量 -大地测量
+        GHSOM-不断增长的分层自组织图
+        glmlab-通用线性模型
+        GPIB -National Instruments的GPIB库的包装器
+        GTM-生成地形图，用于密度建模和数据可视化的模型
+        GVF-用于查找3-D对象边界的梯度矢量流
+        HFRadarmap-将HF雷达数据从径向电流向量转换为总向量
+        HFRC-导入，处理和处理HF雷达数据
+        有理特征函数展开法的 Hilbert -Hilbert变换
+        HMM-隐藏的马尔可夫模型
+        HMMBOX-使用最大似然EM进行隐马尔可夫建模
+        HUTear-听觉建模
+        ICALAB-使用ICA和高阶统计量的信号和图像处理
+        归因 -不完整数据集的分析
+        IPEM -感知基于音乐分析
+        JMatLink - Matlab的Java类
+        卡尔曼 -卡尔曼贝叶斯滤波器
+        的卡尔曼滤波器 -滤波，平滑和参数估计（使用EM），用于线性动态系统
+        KALMTOOL -非线性系统的状态估计
+        Kautz酒店 Kautz酒店滤波器设计-
+        克里格
+        LDestimate -的估计缩放指数
+        LDPC-低密度奇偶校验码
+        LISQ-梅花形网格上的小波提升方案
+        LKER -Laguerre核估计工具
+        LMAM-OLMAM-具有自适应动量算法的Levenberg Marquardt用于训练前馈神经网络
+        低场NMR -为指数拟合，正交数据和切片的相位校正
+        LPSVM -牛顿法LP支持向量机用于机器学习问题
+        LSDPTOOL -鲁棒控制系统的设计使用回路成形设计过程
+        LS-SVMlab
+        LSVM -拉格朗日支持向量机对于机器学习问题
+        Lyngby的 -脑功能成像
+        MARBOX -用于多元autogressive建模和交叉谱估计
+        MatArray -微阵列数据的分析
+        矩阵运算 -构建矩阵测试，计算矩阵因式分解，可视化矩阵，及直接搜索优化
+        [URL = HTTP：// ewre-www.cv.ic.ac.uk/software/toolkit.htm ] MCAT [/ URL] -蒙特卡洛分析
+        MDP - Markov决策过程
+        MESHPART -图形和网状partioning方法
+        MILES -最大似然，使用普通最小二乘算法拟合
+        MIMO -多维码合成
+        缺失 -功能处理缺失数据值
+        M_Map -地理映射工具
+        MODCONS -多目标控制系统的设计
+        MOEA -多目标进化算法
+        MS -多尺度指数的估计
+        多嵌段-分析和回归几个数据块同时
+        多尺度形状分析
+        音乐分析 -从基于内容的音乐检索原始音频信号特征提取
+        MWM多重分形小波模型-
+        创建NetCDF
+        Netlab -神经网络算法
+        NIDAQ -使用NIDAQ库数据采集
+        NEDM -非线性经济动态模型
+        NMM -Matlab文本中的数值方法
+        NNCTRL-基于神经网络的控制系统设计与仿真
+        NNSYSID-基于神经网络的非线性动态系统
+        辨识NSVM-用于解决机器学习问题牛顿支持向量机
+        NURBS -非均匀有理B样条
+        N路 -与多线性模型的多路数据的分析
+        OpenFEM -有限元发展
+        PCNN -脉冲耦合神经网络
+        Peruna -信号处理和分析
+        PhiVis -概率分层交互式可视化，即用于多变量的连续数据的视觉分析功能
+        平面机械手 -正自由度平面操纵器的模拟
+        PRTools -模式识别
+        psignifit -约心理功能测试hyptheses
+        PSVM-邻近支持向量机解决机器学习问题，
+        心理物理学 -视觉研究
+        PyrTools -多尺度图像处理
+        RBF -径向基函数神经网络
+        RBN -同步和异步随机布尔网络的模拟
+        反叛西格玛点卡尔曼滤波器-
+        回归 -基本多元数据分析和回归
+        正则化工具
+        正则化工具XP
+        还原工具
+        机器人 -机器人功能，例如运动学，动力学和轨迹生成
+        稳健校准 -统计中的稳健校准
+        [url = http：// ewre-www.cv.ic.ac.uk/software/toolkit.htm ] RRMT [/ URL] -降雨径流建模
+        SAM -结构和运动
+        施瓦茨-克里斯托费尔 -共形的计算映射到多边形有界区域
+        SDH -平滑的数据直方图
+        SeaGrid -正交网格制造商
+        SEA-MAT -海洋分析
+        SLS -稀疏最小二乘
+        SolvOpt -求解局部优化问题
+        SOM -自组织映射
+        SOSTOOLS -解决平方和（SOS）优化问题
+        的空间和几何分析
+        空间回归
+        空间统计
+        谱方法
+        SPM -统计参数图
+        SSVM -光滑支持向量机解决机器学习问题
+        STATBAG -线性回归，特征选择，数据的生成，并显着性检验
+        StatBox -统计程序
+        统计模式识别 -模式识别方法
+        Stixbox -统计
+        SVM -工具支持向量机
+        SVM分类器
+        符号机器人动力学
+        TEMPLAR-基于小波的模板学习和模式分类
+        TextClust-基于模型的文档聚类
+        TextureSynth-分析和合成视觉纹理
+        TfMin -连续3 d最短时间转移轨道围绕地球
+        时频 -分析使用时频分布的非平稳信号
+        树木年轮 -在树木年轮分析任务
+        TSA -单向和多元，固定和非平稳时间序列分析
+        TSTOOL -非线性时间序列分析
+        T_Tide -潮汐的谐波分析
+        UTVtools -计算和修改秩揭示URV和UTV分解
+        Uvi_Wave -小波分析
+        方差最大 -正交函数的正交旋转
+        VBHMM -变异贝叶斯隐马尔可夫模型
+        VBMFA-因子的变分贝叶斯混合物分析器
+        VMT - VRML分子工具箱，对于动画从分子动力学实验结果
+        VoiceBox公司
+        VRMLplot -生成交互式VRML 2.0图表和动画
+        VSVtools -计算和修改对称秩揭示分解
+        WAFO -波分析fatique和海洋学
+        WarpTB -频率卷绕信号处理
+        WAVEKIT -小波分析
+        WaveLab -小波分析
+        周 -拉普拉斯经由周变换方法反转
+        WetCDF的NetCDF接口-
+        WHMT -小波域隐马尔可夫树模型
+        WInHD-通过反卷积
+        WSCT基于小波的逆半色调-加权序列聚类工具包
+        XMLTree -XML解析器
+        YAADA-分析单颗粒质谱数据
+        ZMAP-定量地震活动性分析

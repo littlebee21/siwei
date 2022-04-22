@@ -1,0 +1,176 @@
+pom
+    pom组成
+        pom常见元素
+            build：为构建行为提供支持
+                plugins：插件列表
+                    plugin
+        pom结构
+            基本信息 必要配置
+                modelVersion：当前pom版本
+                groupId：反写的公司网址+项目名
+                artifactId：项目名+模块名
+                version
+                    snapshot快照
+                    alpha内部测试
+                    beta公测
+                    Release稳定版本
+                    GA正式发布
+                packaging
+                    jar(默认)
+                    war
+                    zip
+                    pom
+            依赖配置
+                dependencies
+                parent：继承父模块
+                      <parent>...</parent>  
+                  <dependencyManagement>..</dependencyManagement>  
+                    dependencyManagement：依赖管理，定义在父模块供子模块继承
+                        dependencies
+                    .依赖管理
+                        dependencies
+                            dependency
+                                groupId
+                                artifactId
+                                version
+                                type
+                                scop
+                                optional：设置依赖是否可选
+                                    true
+                                    false(默认)
+                                exclusions：排除依赖传递列表
+                                    exclusion
+                modules：指定多个模块一起编译
+                properties
+            构建配置 build Environment
+                  <build>...</build>  
+                  <reporting>...</reporting>  
+            项目信息 Build Settings
+                name：项目描述名
+                      <name>...</name>  
+                description：项目描述
+                      <description>...</description>  
+                url：项目地址
+                      <url>...</url>  
+                inceptionYear
+                licsence许可证
+                      <licenses>...</licenses>  
+                organization
+                developers：开发人员列表
+                      <developers>...</developers>  
+                contributors
+            环境设置 General Project Information
+                  <issueManagement>...</issueManagement>  
+                    目的问题管理系统
+                  <ciManagement>...</ciManagement>  
+                    持续集成
+                    system：持续集成系统的名字
+                    url：持续集成系统的URL
+                    notifiers：构建完成时，需要通知的开发者/用户的配置项
+                    type：通知方式
+                    sendOnError：错误时是否通知
+                    sendOnFailure：失败时是否通知
+                    sendOnSuccess：成功时是否通知
+                    sendOnWarning：警告时是否通知
+                    address：通知发送到的地址
+                    configuration：扩展项
+                  <mailingLists>...</mailingLists>  
+                    邮件列表信息
+                  <scm>...</scm>  
+                    配置代码库
+                  <prerequisites>...</prerequisites>  
+                  <repositories>...</repositories> 仓库 
+                  <pluginRepositories>...</pluginRepositories>  插件
+                    依赖和扩展的远程仓库列表
+                  <distributionManagement>...</distributionManagement>  
+                  <profiles>...</profiles>  
+        坐标和依赖
+            坐标
+                groupId
+                    公司或组织
+                artifactId
+                    项目
+                version
+                    版本
+                packaging
+                    打包方式，默认jar
+                classifier: 分类
+            依赖
+                3种classpath
+                    编译
+                    测试
+                    运行
+                依赖范围
+                    compile
+                        默认依赖范围，对3种classpath都有效，例如spring-core
+                    test
+                        对测试有效，例如junit
+                    runtime
+                        对测试和运行有效，例如JDBC 驱动实现
+                    provided
+                        对编译和测试有效，例如servlet-api
+                    system
+                        与provided一样，必须依赖systemPath显式指定的路径，由于与本机系统绑定，可能造成构建的不可移植，慎用
+                    import
+                        在dependencyManagement标签中使用才有效，将目标pom中的dependencyManagement配置导入当前pom中
+                依赖传递
+                    分类
+                        以下的间接依赖指的是第二依赖
+                        间接依赖范围是compile，传递性依赖范围与直接依赖范围一致
+                        间接依赖范围是test，无法传递依赖
+                        间接依赖范围是provided，只有当直接依赖范围也是provided才可以传递依赖，传递性依赖范围是provided
+                        间接依赖范围是runtime，不管直接依赖范围是啥都可以传递依赖且依赖范围和直接依赖一致，但如果直接依赖范围是compile，传递性依赖为runtime
+                    原则
+                        路径近者优先
+                            依赖路径短的生效
+                        声明者优先
+                            同级依赖在pom.xml中的位置在前面的生效
+    pom关系
+        聚合
+            packaging是pom并定义modules
+            同时构建多个项目
+                modules
+                    放到一起运行
+        继承
+            规则
+                jar包的版本将保持与父工程中的一致
+                标签的值为test provide时将不会被子工程继承
+                可以继承的pom元素
+                    1) groupId：项目组ID，项目坐标的核心元素
+                    2) version：项目版本，项目坐标的核心元素
+                    3) description：项目的表述信息
+                    4) organization：项目的组织信息
+                    5) inception Year：项目的创始年份
+                    6) url：项目的URL地址
+                    7) developers：项目的开发者信息
+                    8) contributors：项目的贡献者信息
+                    9) distributionManagement：项目的部署管理
+                    10) issueManagement：项目的缺陷和跟踪系统信息
+                    11) ciManagement：项目的持续集成信息系统
+                    12) scm：项目的版本控制系统信息
+                    13) mailingLists：项目的邮件列表信息
+                    14) properties：自定义的Maven属性
+                    15) dependencies：项目的依赖属性
+                    16) dependencyManagement：项目的依赖管理配置
+                    17) repositories：项目的仓库配置
+                    18) build：包括项目的源码目录配置、输出目录配置、插件配置、插件管理配置等
+                    19) reporting：包括项目的报告输出目录配置、报告插件配置等
+        依赖
+            依赖冲突
+                短路优先
+                    C依赖B,B依赖A,A和B都包含同一个不同版本的Jar,则取B的依赖版本
+                声明优先
+                    C依赖A和B,A和B都包含同一个不同版本的Jar,谁先声明取谁的依赖版本
+            依赖范围scop
+                compile(默认)
+                    编译、测试、运行都有效
+                proveded
+                    编译、测试有效
+                runtime
+                    测试、运行有效
+                test
+                    测试有效
+                system(与本机环境关联，不方便移植)
+                    编译、测试有效
+                import导入的范围
+                    只使用在dependencyManagement中，表示从其它pom中导入dependency的配置

@@ -1,0 +1,48 @@
+windows文件的组成
+    绿色软件
+    appdata
+        Local
+        LocalLow
+        Roaming
+        清理appdata方法
+            appdata文件下可以删除的文件
+                1、C:\Users\用户名\AppData\Local\Temp里面是临时文件，可以删除;
+                2、C:\Users\用户名\AppData\Local\Microsoft\Windows\Temporary Internet Files里面是IE缓存文件(默认是隐藏的)，也可以删除;
+                3、C:\Users\用户名\AppData\Local\Microsoft\Windows\History里面是浏览器历史记录(默认是隐藏的)，也可以删除。
+            appdata文件下不能删除的文件
+                1、appdata里有各种程序里的自定义设置，一些事重要的系统文件夹，建议别删。
+                2、Quick Launch文件夹是用来存放快速启动栏的快捷方式的。
+                3、XXX\local setting\application data是访问网络时产生的一些数据.包括上网的一些个人习惯和一些客户端的个人设定等。具体删不删看您的个人习惯如何。
+            appdata文件被误删怎么办
+                1、找张ghost安装盘提取里面的appdata到原来位置就行了。
+                2、再新建一个管理员，重新安装软件就好;
+                3、重置系统。
+            删除帐户
+    注册表
+        注册表组成
+            1.)HKEY_CLASSES_ROOT
+                定义了系统中所有文件类型标志和基本操作标志.
+             2.)HKEY_CURRENT_USER
+                当前用户的配置信息，包括环境变量、桌面设置、网络连接，软件运行信息等
+                HKEY_CURRENT_USER \ SOFTWARE
+             3.)HKEY_LOCAL_MACHINE
+                本机相关的系统信息，包括硬件信息，驱动信息，内存数据，总线数据等等。
+                HKEY_LOCAL_MACHINE \ SOFTWARE
+            4.) HKEY_USER
+                这里记录了本机器上所有用户的设置
+            5.)KKEY_CURRENT_CONFIG
+                包括字体、BIOS、操作系统、打印机等四项的配置信息。该字段是HKEY_LOCAL_MACHINE\Config的副本
+        注册表功能
+            1、记录安装选项
+                注册表在Windows安装程序期间就开始运行。当用户指定安装那些Windows应用程序时，安装程序就把这些选择记录在注册表里。
+            2、设置硬件
+                Windows操作系统运行时必须分配给所有硬件设备运行所需要的资源，并对他们全部进行设置。这包括该设备用来请求计算机相应的终端、与计算机对话的内存区域、链接该设备与Windows的驱动程序等。Windows注册表可以在运行时自动配置这些硬件。
+            3、设置windows
+            4、运行启动程序
+                注册表保留有操作系统启动时要运行的程序清单，它独立于可手动修改的“开始”菜单。该清单通常暴扣操作系统每次启动时绝对、肯定要运行的程序。
+            5、纠正windows错误
+            6、恢复崩溃系统
+                当操作系统崩溃时也会损坏注册表，此时使用上次的注册表设置是最好的方法。当然可以通过注册表备份文件来恢复崩溃的系统，但这之前必须先对注册表进行备份。
+            7、提高操作系统运行速度和使用的便利性
+                提高操作系统运行速度和使用的便利性，都可通过修改注册表来实现。
+            8、提高操作系统的安全性

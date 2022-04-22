@@ -1,0 +1,1337 @@
+Windows平台
+    c#的功能
+    2.MFC开发
+    3.NET平台
+        net框架功能
+            Web 服务
+            异常处理
+        .net框架属性
+            编译原理
+                net兼容语言编写程序
+                使用IT编译为本机代码
+                CIL和JIT
+                CLR管理代码
+                c#的原理
+                    它可以在多种计算机平台上编译
+                    显示转换和隐式转换
+                        显示转换
+                            double my Double = 1.23
+                            int myInt =（int）my Double
+                        隐式转换
+                            byte my Byte =123:
+                            int myInt= mtByte
+                程序集.dll
+                    命名空间和程序集的无序
+            属性
+            net框架版本
+            多种编程语言
+                C#
+                F#
+                Visual Basic
+            事件处理机制
+                事件源（EventSource）
+                事件（ActionEvent）
+                事件处理
+            异步
+            并发编程模型
+            以及本机互操作性
+            可以支持跨多个平台的各种方案
+        c#开源项目
+            工具
+                SignalR
+                SparkleShare
+                mono跨平台net运行平台
+        .net框架
+            Web 应用程序
+                Asp.Net应用程序
+            开发运维
+            云应用
+            Windows 应用程序
+                桌面应用程序
+                Wp7 Wp8
+                Unity3D
+                WPF（更现代化的GUI应用程序
+                UWP（Win 10以上的GUI应用程序）
+                控制台应用程序
+        c#代码分层
+            winforms框架
+                框架属性
+                    C#有一个特性就是设计的时候界面与后台分离
+                properties
+                    Assemblylnfo.cs属性设置
+                    C# 有用的资源
+                winform静态类库
+                    命名空间
+                    类库
+                        构造函数
+                        类的属性
+                        事件委托类型
+                        类的方法
+                Form1.cs窗体程序
+                    winform实例内容
+                        窗体
+                            01-窗体技巧
+                                QQ窗体
+                                窗体的浮动及隐藏
+                                窗体换肤
+                                磁性窗体的设计
+                                仿XP系统的任务栏菜单
+                                滚动字幕
+                                获取文件类型
+                                获取文件目录
+                                焦点变色
+                                动改变自制窗体的大小
+                                鼠标穿透
+                                鼠标穿透窗体
+                                无边框窗体
+                                限制窗体大小
+                                向窗体中拖放图片并显示
+                                隐藏工具箱
+                                用树型列表动态显示菜单
+                                自定义窗体的最大化、最小化和关闭
+                                自定义屏保
+                            02-控件操作
+                                Clarity Control
+                                control阴影
+                                DataGridViewToTreeView
+                                Display Row Count
+                                Drop Down Form
+                                EnglishTextBox
+                                File Copy
+                                GetClipBoardPicture
+                                Plaintext
+                                Popup窗口提醒
+                                RestrictDigit
+                                Vista风格的日历
+                                带行数和标尺的 RichTextBox
+                                弹出模式窗口显示进度条
+                                根据文件大小显示文件复制进度条
+                                合并单元格
+                                美化 ComboBox
+                                美化 GroupBox
+                                美化单选按钮和复选按钮
+                                添加内容到Treeview
+                                像EXcel一样复制 Datagridview中的
+                                重绘ListBox控件
+                                自定义水晶按钮控件
+                                自制数值文本框组件
+                                组合
+                            03-图像操作
+                                listview数据添加去闪烁
+                                LoadfLASH
+                                Picture Box显示图片
+                                播放Fash
+                                播放F
+                                操作XML
+                                打开Ul
+                                仿QQ截图
+                                给图片加日期
+                                绘制鼠标Cur
+                                绘制文字
+                                绘制选中
+                                绘制噪点
+                                绘制直线
+                                获取当前时间
+                                获取鼠标坐标
+                                获取照片时间
+                                计时器例子
+                                批量添加水印
+                                批量图片格式转换
+                                屏幕抓图
+                                取色器
+                                石英时钟
+                                缩略图
+                                图片合成
+                                图片上绘制文字
+                                图片缩略图
+                                图片透明
+                                图片转换格式
+                                图片自动播放
+                                压缩图片
+                                颜色抬取器
+                                中文验证码
+                                抓取整站图片
+                                抓取桌面
+                                抓取左上角图片
+                        操作系统
+                            06-系统操作
+                                CPU内存使用率
+                                半角全角转换
+                                定时关机
+                                动态图标显示
+                                读写|N
+                                多功能键盘
+                                进程管理器
+                                屏蔽鼠标按键
+                                屏幕放大镜
+                                启动项管理器
+                                设置和屏蔽系统热键
+                                设置鼠标样式
+                                设置系统时间
+                                设置桌片壁纸
+                                身份证验证器
+                                鼠标设置器
+                                1数字大小写转换器
+                                系统挂机锁
+                                显示器控制
+                                虚拟键盘
+                                1音乐风最壁纸
+                                用键盘控制窗体的移动
+                                自定义动画鼠标
+                                左右键切换
+                            07-文件处理
+                                WordTohtml
+                                Wordtortf
+                                WordTotex
+                                操作|N文件
+                                操作XML文件
+                                创建PDF文档
+                                汉字转拼音
+                                获取本地磁盘目录
+                                获取目录中Word问文件列表
+                                批量更名器
+                                批量解压缩
+                                伪装文件夹
+                                文件分割与合并
+                            08-网络操作
+                                控制
+                                    局域网IP扫描
+                                    局域网端口扫描
+                                    自动更换IP
+                                    远程关闭重启计算机
+                                    网络电台
+                                下载
+                                    FTP下载
+                                    断点续传下载文件
+                                    普通下载
+                                发送
+                                    调用SMTP发送文本内容
+                                    调用SMTP发送有附件的邮件
+                                    调用 Outlook发送邮件
+                                    网络发送接收统计
+                            11-硬件读写
+                                1.串口助手
+                                C卡读写
+                                D卡识别
+                                读写加密狗
+                                短信猫
+                                摄像头大头贴
+                                视频采集卡读写
+                                数据采集器读写
+                                指纹识别器
+                            04-报表打印
+                                20Print
+                                30Print
+                                AllPrint
+                                Database
+                                DBCrystalReport
+                                DesignIn Goods Bill
+                                Design Receipt
+                                DesignReport
+                                DesignStuCertificate
+                                Desian stu Resume
+                                PRint
+                                PagesPrint
+                                PrintDirection
+                                Print Empty Certificate
+                                PrintEnvelop
+                                PrintGoodsIn Bill
+                                Printgoodsoutbill
+                                Printlmage
+                                PrintOneCertificate
+                                Printremitbill
+                                PrintstuCertificate
+                                Printstu resume
+                                PrintText
+                                PrintTopFive
+                                SetPrintRange
+                                ShowBarCod
+                                ShowCReport
+                                VRint
+                                打印条形码
+                        09-数据库操作
+                            Database
+                            Linq操作 Dataset
+                            Linq操作SQL
+                            Linq操作Xml
+                            Linq操作数组集合
+                            触发器SQL文件
+                            读取数据库表结构
+                            进制存取图片
+                            交叉表
+                            数据库管理
+                            通过存储过程管理信息
+                            通过视图修改信息
+                            通用数据库连接
+                        10-加密解密
+                            MD5加密
+                            根据CPU硬盘获取机器码
+                            加密数据报
+                            口令加密BAT
+                            口令加密Exe
+                            口令加密RAR
+                            使用强名称标识软件
+                            伪随机数加密
+                            文件加密
+                            异或加密数字
+                            注册码注册机制
+                        12-游戏设计
+                            俄罗斯方块
+                            华容道
+                            贪吃蛇
+                            五子棋
+                        自定义
+                            飞机维修工具管理
+                                图像数据无线传输的接收
+                                    打开串口
+                                    串口检测
+                                    清空接受区
+                                图像处理系统
+                                    图像还原程序
+                                        图形转换
+                                            图像还原算法
+                                                memory stream算法
+                                                ImageLock扫描算法
+                                            图像还原算法程序设计
+                                            停止检测
+                                        对还原图像处理
+                                            滤波
+                                            二值化
+                                        3.界面显示图像
+                                        4.将图像传递给图像识别和数据库建立子系统
+                                    图像识别
+                                        建立相应的上位机界面
+                                        图像识别部分
+                                数据库连接子系统
+                                    连接数据库
+                                数据库建立子系统
+                                    飞机维修工具管理系统的数据库
+                                        1.在系统工作前将所有的维修工具信息和对应的二维码信息录入数据库
+                                        2.并建立上位机数据库界面
+                                    2.图像识别和数据库连接子系统连接后
+                                        使用输入数据库的二维码信息能查询到对应的维修工具信息
+                                        对数据库中工具的借还信息进行操作和管理，
+                    Form1.Designer.cs设计器
+                        自带封装类
+                            控制台
+                                Console. WriteLine（“字符串“）
+                                Console. WriteLine（"{0}{1}{2}"，n_a， n_ b， n_c）;
+                                str=Console. ReadLine0:
+                            类型转换
+                                整形
+                                    ToDecima|将指定值转换为 Decimal数字。
+                                    nint= Convert. ToInt320强制转换成int
+                                    无符号
+                                        ToByte将指定的值转换为8位无符号整数
+                                        ToUInt16
+                                            将指定的值转换为16位无符号整数。
+                                        ToUInt32
+                                            将指定的值转换为32位无符号整数
+                                        ToUInt64
+                                            将指定的值转换为64位无符号整数。
+                                    有符号
+                                        将指定的值转换为8位有符号整数
+                                        ToInt16将指定的值转换为16位有符号整数
+                                        ToInt32将指定的值转换为32位有符号整数
+                                        ToInt64将指定的值转换为64位有符号整数
+                                浮点
+                                    ToDouble将指定的值转换为双精度浮点数字
+                                    将指定的值转换为单精度浮点数字
+                                字符类型
+                                    ToChar将指定的值转换为 Unicode字符
+                                    ToString将指定值转换为其等效的stng表示形式
+                                    ToBase64 String将8位无符号整数数组的值转换为它的等效stng表示形式（使用base64数字编码）。
+                                    ToBase64 Char Array将8位无符号整数数组的子集转换为用Base64数字编码的 Unicode字符数组的等价子集
+                                布尔类型
+                                    ToBoolean将指定的值转换为等效的布尔值
+                                日期类型
+                                    ToDateTime将指定的值转换为 Date Time
+                            异常处理
+                                try/catch
+                                异常类
+                                    派生自 Sytem.SystemException 类的预定义的异常类
+                                        System.IO.IOException 处理 I/O 错误。
+                                        System.IndexOutOfRangeException 
+                                        System.ArrayTypeMismatchException 数组类型不匹配。
+                                        System.NullReferenceException空对象错误 
+                                        System.DivideByZeroException 除以零错误
+                                        System.InvalidCastException转换错误 
+                                        System.OutOfMemoryException内存不足 
+                                        System.StackOverflowException栈溢出错误 
+                        Dispose方法
+                        InitializeComponent()窗体初始化
+                        控件类字段
+                    Form1.cs
+                        常用属性
+                            （1）Name属性
+                            位置
+                                （3）StartPosition窗口起始位置
+                                （7）Left属性：
+                                （8）Top属性：
+                                （29）Visible是否显示该窗体
+                            大小
+                                （2） WindowState显示方式
+                                （5）Width属性：
+                                （6）Height属性：
+                            背景
+                                （18）BackColor背景色
+                                （19）BackgroundImage背景图像
+                            文字
+                                （4）Text标题栏显示的文字
+                                （21）Font显示文本的字体
+                                （22）ForeColor字体颜色
+                            交互
+                                （17）AutoScroll 自动滚动
+                                （20）Enabled 交互响应
+                            事件
+                                （25）KeyPreview按键事件
+                                （30）Capture鼠标由此控件响应
+                            包含
+                                按钮
+                                    （10）MaximizeBox最大化按钮
+                                    （11）MinimizeBox 最小化按钮
+                                    （12）AcceptButton 触发按键
+                                    （13）CancelButton 取消按钮
+                                框
+                                    （9）ControlBox控制框
+                                    （14）Modal 模式显示窗体
+                                    （15）ActiveControl活动控件
+                                    （16）ActiveMdiChild活动子窗口
+                                    （23）IsMdiChild为文档界面子窗体
+                                    （24）IsMdiContainer
+                                    （26）MdiChildren多文档界面子窗体
+                                    （27）MdiParent多文档揭秘那父窗体
+                                    （28）ShowInTaskbar任务栏中显示窗体
+                        常用方法
+                            （1）Show窗体显示
+                            （2）Hide窗口隐藏
+                            （3）Refresh窗口刷新
+                            （4）Activate激活窗体焦点
+                            （5）Close关闭窗体
+                            （6）ShowDialog显示为模式对话框
+                        常用事件
+                            （1）Load加载到内存事件
+                            （2）Activated窗体激活事件
+                            （3）Deactivate失去焦点事件
+                            （4）Resize改变窗体大小事件
+                            （5）Paint重绘窗体事件
+                            （6）Click点击窗体事件
+                            （7）DoubleClick双击事件
+                            （8）Closed事件
+                        事件委托
+                        引用控件封装类
+                    Form1.res
+                Program.cs应用程序入口
+                windows动态引用类库
+                    写dll文件
+                    调用dll文件
+                    调用cs文件
+                    调用用户控件
+                        DS控件库
+                        添加工具窗选项卡
+                        选择项
+            调用上层类库
+                桌面应用
+                    8. Excel操作
+                        29. Chart图形
+                    10. 类型转换 ------------ Converter.cs
+                    11. 加密解密 ------------ EncryptHelper.cs
+                    18. 视频转换
+                    19. 图片操作
+                    30. H5-微信
+                    31. PDF
+                    23. 分页操作
+                        64. 分页
+                    28. CSV文件转换
+                    35. 弹出消息类
+                    51. 页面辅助类
+                    62. 处理多媒体的公共类
+                    工具
+                        13. 二维码
+                        20. 验证码生成
+                            52. 验证码
+                            63. 各种验证帮助类
+                        41. 条形码
+                        14. 汉字转拼音
+                        15. 计划任务 ------------ IntervalTask.cs
+                        16. 信息配置 ------------ Setting.cs
+                        17. 上传下载配置文件操作类
+                        43. 汉字转拼音
+                        46. 视频转换类
+                        47. 计划任务
+                        65. 计划任务
+                        67. 分词辅助类
+                web
+                    1. cookie操作 --------- CookieHelper.cs
+                    2. session操作 ------- SessionHelper.cs
+                    3. cache操作
+                    4. ftp操作
+                    5. http操作 ------------ HttpHelper.cs
+                    6. json操作 ------------ JsonHelper.cs
+                    7. xml操作 ------------- XmlHelper.cs
+                    12. 邮件发送 ------------ MailHelper.cs
+                    25. Url重写
+                    60. URL的操作类
+                    44. 网站安全
+                    45. 网络
+                    49. 阿里云
+                    68. IP辅助类
+                    69. Html操作类
+                数据库
+                    9. Sql操作 ------------- SqlHelper.cs
+                算法
+                    21. String拓展 ---------- StringExtension.cs
+                    22. 正则表达式 --------- RegexHelper.cs
+                    24. UBB编码
+                    26. Object拓展 --------- ObjectExtension.cs
+                    27. Stream的拓展 ------ StreamExtension.cs
+                    32. 分词辅助类
+                    33. 序列化
+                    42. 正则表达式
+                    50. 随机数类
+                    61. VerifyCode
+                操作系统
+                    34. 异步线程
+                    36. 文件操作类
+                    37. 日历
+                    38. 日志
+                    39. 时间操作类
+                    40. 时间戳
+                    48. 配置文件操作类
+                        66. 配置文件操作类
+                    53. Mime
+                    54. Net
+                    55. NPOI
+                    56. obj
+                    57. Path
+                    58. Properties
+                    59. ResourceManager
+            windows底层类库
+                常用事件
+                    鼠标事件
+                System.Windows窗体应用程序
+                    System.Windows.Forms 控件
+                        公共控件
+                            指针
+                            文本
+                                TextBox 文本框控件
+                                    主要属性
+                                        （1）Text属性：
+                                        （2）MaxLength 允许输入最大长度
+                                        （8）SelectionLength选中的字符数
+                                        （12）Modified控件的内容是否修改
+                                        获取
+                                            控制
+                                                显示
+                                                    （3）MultiLine 多行显示
+                                                    （4）HideSelection焦点离开文本框显示
+                                                    （7） ScrollBars滚动模式
+                                                    （14）WordWrap是否自动切换
+                                                （5）ReadOnly文本框读写特性
+                                                （9）SelectionStart文本起始点
+                                                （6）PasswordChar输入口令 
+                                            数据
+                                                （13）TextLength文本长度
+                                                （10）SelectedText 选定的文本
+                                                （11）Lines：获取文本行
+                                    常用方法
+                                        获取
+                                            （9）Select方法：
+                                            （10）SelectAll方法：
+                                        修改
+                                            （1）AppendText方法：
+                                            （2）Clear方法：
+                                            （3）Focus方法：
+                                            （4）Copy方法：
+                                            （5）Cut方法：
+                                            （6）Paste方法：
+                                            （7）Undo 方法：
+                                            （8）ClearUndo方法：
+                                    常用事件
+                                        （1）GotFocus接收焦点事件：
+                                        （2）LostFocus失去焦点事件：
+                                        （3）TextChanged文本改变事件
+                                RichTextBox格式RTF显示
+                                    常用属性
+                                        （1）RightMargin右侧空白
+                                        （2）Rtf格式文本显示
+                                        （3）SelectedRtf 文本选中
+                                        （4）SelectionColor文本颜色
+                                        （5）SelectionFont文本字体：
+                                    常用方法
+                                        获取
+                                            （2）Find查找
+                                        （1）Redo撤销
+                                        （3）SaveFile方法
+                                        （4）LoadFile方法
+                                MaskedTextBox约束输入格式
+                                LinkLabel链接文本
+                                tooltip标注
+                            表单
+                                单行
+                                    CheckBox 控件
+                                        常用属性
+                                            （1）TextAlign属性
+                                            （2）ThreeState属性
+                                            （3）Checked属性
+                                            （4）CheckState 属性
+                                        CheckedListBox 控件
+                                            常用属性
+                                                （1）CheckOnClick选定切换左侧的复选框
+                                                （2）CheckedItems 选中项
+                                                （3）CheckedIndices 选中项索引
+                                    NumericUpDown 控件
+                                        常用属性
+                                            （1）DecimalPlaces：获取或设置该控件中显示的小数位数。
+                                            （2）Hexadecimal：获取或设置一个值，该值指示该控件是否以十六进制格式显示所包含的值。
+                                            （3）Increment：获取或设置单击向上或向下按钮时，该控件递增或递减的值。
+                                            （4）Maximum：获取或设置该控件的最大值。
+                                            （5）Minimum：获取或设置该控件的最小值。
+                                            （6）Value：获取或设置该控件的当前值。
+                                        常用事件
+                                            ValueChanged、
+                                            GotFocus、
+                                            LostFocus等。
+                                    maskedtextbox带符号表单
+                                    datetimepicker日期选择
+                                    TrackBar控件
+                                多行
+                                    ListBox 控件
+                                        常用属性
+                                            （1） Items列表项集合
+                                            （2）MultiColumn 是否支持多列
+                                            （3）ColumnWidth 列的宽度
+                                            （4）SelectionMode属性：
+                                            （5）SelectedIndex选定的索引
+                                            （6）SelectedIndices集合
+                                            （7）SelectedItem当前选定项
+                                            （8）SelectedItems选定项集合
+                                            （10）Text 获取选定的文本
+                                            （11）ItemsCount列表项数目
+                                        常用方法
+                                    listview带图的列表
+                                    RadioButton勾选控件
+                                        常用属性：
+                                            （1）Checked属性：
+                                            （2）AutoCheck 属性：
+                                            （3）Appearance 外观
+                                            （4）Text显示的文本
+                                        常用事件
+                                            （1）Click事件：
+                                            （2）CheckedChanged事件：
+                                    ComboBox 下拉表单控件
+                                Label 文本控件
+                                    （1）Text显示文本信息
+                                    （2）AutoSize控件大小 
+                                    （3）Anchor 位置锚点
+                                    （4）BackColor背景颜色
+                                    （5）BorderStyle 边框效果
+                                    （6）TabIndex对象tab顺序
+                                    （7）Enabled 控件状态
+                                11.17 TreeView类
+                            图像
+                                notifyIcon显示图标
+                                Button按钮控件
+                                    常用属性
+                                        （1）DialogResult返回值
+                                        （2）Image按钮图像
+                                        （3）FlatStyle按钮外观
+                                    常用事件
+                                        （1）Click事件：
+                                        （2）MouseDown事件：
+                                        （3）MouseUp事件：
+                                PictureBox 控件
+                                    常用属性
+                                        （1）Image控件要显示的图像。
+                                        （2）SizeMode显示模式：
+                                ImageList图像存储
+                            多媒体
+                                SoundPlayer音频
+                                ProgressBar进度条
+                                WebBrowser窗体内导航网页
+                                StatusStrip程序当前状态
+                                日历
+                                    DateTimePicker选择日期
+                                    MonthCalendar图形日期范围
+                        容器
+                            GroupBox 控件
+                            TabControl 选项卡页面
+                            Panel滚动的框架 
+                            SplitContainer二栏式
+                            FlowLayoutPanel 浮动面板
+                        数据/表格
+                            chart图标
+                            BindingNavigator
+                            Binding Source数据筛选排序
+                            DataGridView自定义列表
+                                11.10 DataGridColumnStyle类
+                            DataFormats类
+                            DataSet
+                        菜单控件
+                            工具栏
+                                ToolStrip工具栏
+                                MenuStrip自定义菜单
+                                ContextMenuStrip右键菜单条
+                            状态栏
+                            用户帮助
+                                HelpProvider 组件
+                                ToolTip 简短说明
+                        对话框
+                            文件
+                                OpenFileDialog 控件
+                                SaveFileDialog 控件
+                                FolderBrowserDialog文件夹
+                            ColorDialog颜色
+                            FontDialog字体
+                            PrintDialog打印机
+                            PrintPreviewDialog打印机预览对话框
+                            DialogResult提示对话框
+                                （通常从标签为“中止”的按钮发送）。
+                                （通常从标签为“取消”的按钮发送）。
+                                （通常从标签为“忽略”的按钮发送）。
+                                （通常从标签为“否”的按钮发送）。
+                                （通常从标签为“确定”的按钮发送）。
+                                （通常从标签为“重试”的按钮发送）。
+                                （通常从标签为“是”的按钮发送）
+                        组件
+                            serialPort控件
+                                加载本机所有的com
+                                打开串口
+                                关闭串口
+                                发送数据
+                                    一般的数据
+                                    十六进制字符串
+                                接收数据
+                                接受流数据
+                            ImageList图像组控件
+                            Timer 定时器
+                                常用属性
+                                    （1）Enabled 正在运行：
+                                    （2）Interval时间间隔：
+                                常用方法
+                                    （1）Start方法：
+                                    （2）Stop方法：
+                                常用事件
+                            backgroundworker新线程
+                        隐式控件
+                    System.Windows.Forms 开发桌面应用类库
+                        11.1 Application类
+                        11.2 Control类
+                            invoke
+                        11.3 Form类
+                        11.4 TextBox类
+                        11.5 ComboBox类
+                        11.6 Clipboard类
+                        11.7 Cursor类
+                        11.11 DataObject类
+                        11.12 InputLanguage类
+                        11.13 Menu类
+                        11.14 Screen类
+                        11.15 ToolTip类
+                        11.16 TreeNode类
+                    System.Windows.Froms创建WinForm应用程序.
+                    System.Windows提供支持WPF属性系统和事件逻辑的一些基元素类以及其他类型.
+                    System.Windows.Controlls创建WPF控件元素，用户与应用程序进行交互.
+                    System.Windows.Shapes提供WPFXAML或代码的形状库访问.
+                桌面应用
+                    System.Design控件布局
+                    System.DirectoryServices , System.DirecotryServices.Protocols活动目录
+                    System.Configuration.Install , System.Deployment安装文件
+                    System.ServiceProcess创建windows服务程序
+                    软件功能
+                        图像识别
+                        二维码处理
+                            二维码处理分类
+                                编码：使用字符串生成图片
+                                解码：解析图片中的字符串
+                            Zint类用于产生二维码
+                            Zxing类用于读取二维码
+                web
+                    System.EnterpriseServices
+                    System.Configuration操作配置信息
+                    System.Web 网络相关的类库
+                    System.Web.UI创建web用户界面
+                    System.Web.UI.HtmlControls
+                    System.Web.UI.WebControls
+                    System.Web.Mobile移动应用程序
+                    System.Web.UI.MobileControls服务器自适控件
+                    System.Web.Services生成xml webservice类
+                    System.Web.Security包含的类用于在Web应用程序中实现ASP.NET安全性.
+                    System.ServiceModel包含生成WCF服务和客户端应用程序所需要的类型.
+                数据库
+                    System.Transactions数据库事务相关
+                    System.Data数据库ADO.NET
+                        属性
+                            其中类的分类
+                                基于连接的对象
+                                基于内容的对象
+                            不同的Data Provider
+                        System.Data.Common数据库访问共享
+                        System.Data.SqlTypes数据类型
+                        System.Data.Odbc包含了操作Odbc数据源的类型．
+                        System.Data.OleDb操作OLEDB数据源的类型．
+                        System.Data.Sql枚举本地网络的aqlserver实例
+                        System.Data.SqlClient操作msqsl数据库类型
+                        System.Data.OracleClient包含了操作Odbc数据库的类型．
+                        属性类
+                            状态
+                                DataRelation Collection
+                                    数据关系集合
+                                ConnectionState
+                                    连接状态
+                                Data Exception
+                                    数据异常
+                                DataRowStat
+                                    数据行统计
+                            控制
+                                约束
+                                    Constraint
+                                    ConstraintCollection约束集合
+                                    ConstraintException约束异常
+                                    AcceptRejectRule接受拒绝规则
+                                1.连接
+                                    SqlConnection 类数据库打开连接
+                                        构造函数
+                                            string
+                                                1、集成的Windows身份验证语法范例
+                                                2、Sql Server 2005中的Windows身份验证模式如下：
+                                                3、Sql Server 2005中的Sql Server身份验证模式如下：
+                                                4、Access数据库的连接字符串的形式如下：
+                                                5、Web.config 配置
+                                                Windows验证与Sql自身的验证的区别
+                                                    windows身份验证
+                                                    Sql验证
+                                            SqlConnectiono
+                                            SqlConnection（String）
+                                            SqlConnection（String， Sqlcredential）
+                                        方法
+                                            开关
+                                                Closed
+                                            CreateCommand方法
+                                            BeginTransactionO启动数据库事务
+                                            Change Database（String更改数据库
+                                            ChangePassword（String， String密码
+                                            Create Command分布式事务
+                                            Getschemao数据源模式信息
+                                            Resetstatisticso统计信息收集
+                                2.命令
+                                    SqlCommand 类
+                                        CommandText属性
+                                        ExecuteNonQuery目录操作
+                                        ExecuteReader
+                                    Command Behavior命令行为
+                                    Command Type命令类型
+                                冲突
+                                    ConflictOption冲突选择
+                                事件处理
+                                    Data Column Change EventArgs
+                                        数据列更改事件参数
+                                    DataRow Change Eventargs
+                                        数据行更改事件参数
+                                    Data Column Change EventHandler数据列更改事件处理程序
+                                    DataRow Change EventHandler数据行更改事件处理程序
+                            数据
+                                数据列
+                                    DataColumn
+                                    Data Column Collection数据列集合
+                                    Data RowBuilder数据行生成器
+                                数据表
+                                    DataTable内存数据表
+                                数据行
+                                    DataRow
+                                    DataRowCollection数据行集合
+                                数据关系
+                                    DataRelation
+                                处理
+                                    3.DataSet内存数据集类
+                                        DataTable数据处理
+                                            构造函数
+                                                1DataTable()
+                                                2DataTable(String)指定表名
+                                                3DataTable(SerializationInfo, StreamingContext)
+                                                4DataTable(String, String)表明+名称空间
+                                            属性：
+                                                Constraints约束
+                                                Dataset
+                                                Defaultview
+                                                Haserrors错误的值
+                                                Minimum Capacity表初始起始大小
+                                                Primarykey数据表列数组
+                                                Rows行集合
+                                                Columns表列集合
+                                                TableName名称
+                                        属性
+                                            HasErrors
+                                            DataSetName
+                                            Events事件
+                                            Relations关系
+                                            Tables表
+                                        事件
+                                            DiSposed处理
+                                            Initialized初始化
+                                            MergeFailed合并失败
+                                        方法
+                                            Clear
+                                            Clone
+                                            HasChanges()
+                                            GetType()
+                                            getxml()
+                                            createDataReader()
+                                    4.DataAdapter修改填充dataset的
+                                    5.SqlDataReader 查询结果读取数据类
+                                    Data RowAction数据行操作
+                        数据库操作
+                            2.将SQL Server数据库中的表填充到DataTable对象中
+                                1.使用fill方法填充DataTable
+                                2.使用使用DataReader方法：
+                            流程
+                                1.新建对象
+                                    创建DataTable对象
+                                        1.使用DataTable类的构造函数对象
+                                        2.调用DataSet的Tables对象的Add方法创建DataTable对象
+                                    创建connection对象
+                                    创建DataAdapyer对象
+                                    设置数据表表名
+                                1.创建与database的connection
+                                    远程ip连接
+                                    本地访问
+                                 sqlDataAdapter.Fill(this.CourseTable);  读取数据
+                                实例化数据列Datacolmn用于你存行编号
+                                    /设置数据列的名称
+                                    设置数据列的类型:类型需借助 typeof获
+                                    设置数据列为自增列
+                                    设置数据列的自增种子为1
+                                    设置数据列的自增步长为1;
+                                数据列加入本窗体的课程数据表的rowIDColumn列集合
+                                2.执行数据库命令
+                                数据库适配器中添加新的数据列
+                                关闭连接
+                框架服务
+                    System.Diagnostics事件日志性能计数器
+                    System.DirectoryServices托管代码中访问activedirrctory
+                    System.Management管理信息和事件
+                    System.Messaging网络消息队列
+                    System.ServiceProcess安装和运行服务
+                    System.Timers服务器计数器组件
+                        10.1 ElapsedEventArgs类
+                        10.2 Timer类
+                        10.3 TimersDescriptionAttribute类
+                操作系统
+                    安全
+                        System.Security提供公共语言运行库安全性系统的基础结构.
+                        System.Security根加密相关类库
+                        System.Net.Security提供用于主机间安全通信的网络流.
+                    文件
+                        System.Media包含用于播放声音文件和访问系统提供的声音的类.
+                        System.Drawing,图片
+                             System.Drawing.Design画图
+                                类
+                                    Bitmap处理像素数据图像
+                                    BitmapSuffixInSameAssemblyAttribute
+                                    Brush填充图形形状
+                                    Brushes标准颜色的画笔
+                                    BufferedGraphicsManager主缓存对象的访问
+                                    ColorTranslator颜色翻译GDI
+                                    BufferedGraphics图片缓冲区
+                                    BufferedGraphicsContext图形缓冲区
+                                    Font定义文本格式
+                                    FontFamily字样
+                                    Graphics会话图面GDI
+                                    Icon标识图标
+                                    Image
+                                    ImageAnimator动画
+                                    Pen直线曲线
+                                    Pens标准颜色线
+                                    Region矩形路径图形
+                                    StringFormat文本布局信息
+                                    TextureBrush图像填充
+                                    ToolboxBitmapAttribute图标容器控件
+                                    converter
+                                        ColorConverter颜色数据类型转换
+                                        FontConverter数据类型转换
+                                        IconConverter图标数据类型转换
+                                        FontConverter.FontNameConverter字体名称转换
+                                        FontConverter.FontUnitConverter字体单位转换
+                                        ImageConverter
+                                        ImageFormatConverter
+                                        PointConverter
+                                        SizeConverter
+                                        SizeFConverter
+                                        RectangleConverter
+                                    windows
+                                        SystemBrushes
+                                            SolidBrush单色画笔
+                                        SystemColors
+                                            方法
+                                                创建获取
+                                                    Equals(Object)测试color结构
+                                                    FromArgb(Int32, Int32, Int32, Int32)创建color结构
+                                                    FromArgb(Int32, Int32, Int32)创建color结构 
+                                                    FromArgb(Int32, Color)从指定的 Color 结构创建 Color 结构
+                                                    FromArgb(Int32)ARGB值创建color
+                                                    FromKnownColor(KnownColor)指定预定义颜色
+                                                    FromName(String)
+                                                    GetBrightness()获取color亮度值
+                                                    GetHashCode()获取哈希代码
+                                                    GetHue()获取色调值
+                                                    GetSaturation()获取饱和度
+                                                    ToArgb()获取ARGB
+                                                    ToKnownColor()获取
+                                                    ToString()转换为字符串
+                                                比价
+                                                    Equality(Color, Color)测试两个指定的 Color 结构是否等效。
+                                                    Inequality(Color, Color)测试两个指定的 Color 结构是否不同。
+                                        SystemFonts
+                                        SystemIcons
+                                        SystemPens
+                            System.Drawing2D高级矢量图像
+                            System.Drawing.Imaging图形图像操作
+                            System.Drawing.Text字体集合操作
+                            System.Drawing.Printing打印机绘制图像
+                        System.IO文件目录读写
+                            FileStream 类
+                                FileMode
+                                FileAccess
+                                FileShare
+                            I/O 类
+                                BinaryReader 从二进制流读取原始数据。
+                                BinaryWriter 以二进制格式写入原始数据。
+                                BufferedStream 字节流的临时存储。
+                                Directory 有助于操作目录结构。
+                                DirectoryInfo 用于对目录执行操作。
+                                DriveInfo 提供驱动器的信息。
+                                File 有助于处理文件。
+                                FileInfo 用于对文件执行操作。
+                                FileStream 用于文件中任何位置的读写。
+                                MemoryStream 用于随机访问存储在内存中的数据流。
+                                Path 对路径信息执行操作
+                                StreamReader 用于从字节流中读取字符
+                                StreamWriter 用于向一个流中写入字符
+                                StringReader 用于读取字符串缓冲区
+                                StringWriter 用于写入字符串缓冲区。
+                                System.IO.Ports控制串行端口的类.
+                                    子类
+                                        SerialDataReceivedEventArgs为 DataReceived 事件提供数据。
+                                        SerialPinChangedEventArgs为 PinChanged 事件提供数据。
+                                        SerialErrorReceivedEventArgs为 ErrorReceived 事件准备数据。
+                                        SerialPort表示串行端口资源。
+                                    属性
+                                        协议
+                                            Handshake指定在为 SerialPort 对象建立串行端口通信时使用的控制协议。
+                                        校验位
+                                            Parity指定 SerialPort 对象的奇偶校验位。
+                                        字符类型
+                                            SerialData指定在 SerialPort 对象的串行端口上收到的字符的类型。
+                                            SerialPinChange指定在 SerialPort 对象上发生的更改的类型。
+                                        停止位数目
+                                            StopBits指定在 SerialPort 对象上使用的停止位的数目。
+                                        错误
+                                            SerialError指定在 SerialPort 对象上发生的错误。
+                                    方法
+                                        SerialDataReceivedEventHandler表示将处理 SerialPort 对象的 DataReceived 事件的方法。
+                                        SerialErrorReceivedEventHandler表示将处理 SerialPort 对象的 ErrorReceived 事件的方法。
+                                        SerialPinChangedEventHandler表示将处理 SerialPort 对象的 PinChanged 事件的方法。
+                            System.IO.Comoression流压缩和解压缩
+                    日期
+                        System.GIobaIization
+                            17.1 Calendar类
+                            17.2 Comparelnfo类
+                            17.3 Culturelnfo类
+                            17.4 DateTimeFormatlnfo类
+                            17.5 GregorianCalendar类
+                            17.6 NumberFormatlnfo类
+                            17.7 Regionlnfo类
+                            17.8 SortKey类
+                            17.9 Stringlnfo类
+                            17.10 TextElementEnumerator类
+                            17.11 Textlnfo类：
+                    网络
+                        System.Net包含的类可为当前网络上的多种协议提供简单的编程接口.
+                            14.1 Dns类
+                            14.2 DnsPermission类
+                            14.3 HttpWebRequest类
+                            14.4 HttpWebResponse类
+                            14.5 IPAddress类
+                            14.6 IPEndPoint类
+                            14.7 IPHostEntry类
+                            14.8 SocketAddrCSS类
+                            14.9 WebClient类
+                            14.10 WebPermission类
+                            14.1 l WebProxy类
+                            14.12 WebRequest类
+                            14.13 WebResponse类
+                        System.Net.Cache为获取的资源定义缓存
+                        System.Net.Mime将电子邮件发送到SMTP服务器进行传送的类.
+                        System.Net.Networkinformation网络信息
+                        System.Net.Sockets提供Windows套接字接口的托管实现
+                            16.1 NetworkStream类
+                            16.2 Socket类
+                            16.3 TcpClient类
+                            16.4 TcpListener类
+                            16.5 UdpClient类
+                        System.Net.Configuration以编程方式访问和更新System.Net命名空间的配置设置的类.
+                    进程
+                        System.Management电脑内存操作等信息
+                        System.Messaging消息队列类库
+                        System.Threading多线程
+                            9.1 AutoResetEvent类
+                            9.2 Monitor类
+                            9.3 Mutex类
+                            9.4 ReaderWriterLoek类
+                            9.5 Thread类
+                                创建线程
+                                管理线程
+                                销毁线程
+                            9.6 ThreadPool类
+                            9 7 Timer娄
+                            9.8 WaitHandle类
+                        System.Runtime.InteropServices应用程序接口
+                            15.1 ActivatedClientTypeEntry类
+                            15.2 ActivatedServiceTypeEntry类
+                            15.3 ObjectHandle类
+                            15.4 ObjRef类
+                            15.5 RemotingServices类
+                            15.6 WellKnownClientTypeEntry类
+                        System.Workflow开发工作流应用程序.
+                    硬件驱动
+                        SerialPort
+                            构造函数
+                                SerialPort()
+                                SerialPort(IContainer)指定ICONtainer
+                                SerialPort(String)指定端口初始化
+                                SerialPort(String, Int32)端口名+波特率
+                                SerialPort(String, Int32, Parity)端口名+波特率+奇偶效验位
+                                SerialPort(String, Int32, Parity, Int32)端口名+波特率+奇偶效验位
+                                SerialPort(String, Int32, Parity, Int32, StopBits)端口名、波特率、奇偶校验位、数据位和停止位初始化
+                            字段
+                                InfiniteTimeout
+                                指示不应该发生超时。
+                            属性
+                                BaseStream
+                                BaudRate获取或设置串行波特率。
+                                BreakState获取或设置中断信号状态。
+                                BytesToRead获取接收缓冲区中数据的字节数。
+                                BytesToWrite获取发送缓冲区中数据的字节数。
+                                CanRaiseEvents获取一个指示组件是否可以引发事件的值。(继承自 Component)
+                                CDHolding端口的载波检测行的状态。
+                                Container
+                                CtsHolding可以发送行的状态
+                                DataBits
+                                DesignMode
+                                获取一个值，用以指示 Component 当前是否处于设计模式。(继承自 Component)
+                                DiscardNull
+                                获取或设置一个值，该值指示 null 字节在端口和接收缓冲区之间传输时是否被忽略。
+                                DsrHolding
+                                    获取数据设置就绪 (DSR) 信号的状态。
+                                DtrEnable
+                                获取或设置一个值，该值在串行通信过程中启用数据终端就绪 (DTR) 信号。
+                                Encoding
+                                获取或设置传输前后文本转换的字节编码。
+                                Events
+                                获取附加到此 Component 的事件处理程序的列表。(继承自 Component)
+                            方法
+                                数据
+                                    DiscardInBuffer()丢弃接收缓冲区
+                                    DiscardOutBuffer()丢弃传输缓存区
+                                    读取
+                                        Read(Byte[], Int32, Int32)读取字节
+                                        Read(Char[], Int32, Int32)读取字符串
+                                        ReadByte()读取一个字节
+                                        ReadChar()读取一个字符
+                                        ReadLine()读取到newline值
+                                        ReadExisting()读取所有可用字节
+                                        ReadTo(String)读取到输入指定value字符串
+                                    写入
+                                        Write(Byte[], Int32, Int32)写入字节
+                                            参数
+                                                bybte要写入端口的数据字节数组
+                                                buffer从零开始的字节偏移量
+                                                count写入字节数
+                                        Write(Char[], Int32, Int32)写入字符
+                                        Write(String)字符串写入串行端口
+                                        WriteLine(String)字符串和newline写入区
+                                控制
+                                    端口连接
+                                        Close()关闭端口连接
+                                        Open()端口连接
+                                    组件资源
+                                        Dispose()释放组件资源
+                                        Dispose(Boolean)
+                                    InitializeLifetimeService()生存期策略
+                                状态
+                                    ToString()组件名称
+                                    CreateObjRef(Type)远程对象通信全部信息
+                                    GetPortNames()端口名
+                                    实例种类
+                                        GetType()
+                                操作
+                                    Equals(Object)对象判断
+                                    GetHashCode()
+                                    GetLifetimeService()
+                                    MemberwiseClone()浅表副本
+                                    MemberwiseClone(Boolean)浅表副本
+                                    GetService(Type)组件提供的服务
+                            事件
+                                DataReceived数据接收
+                                Disposed释放组件产生
+                                ErrorReceived端口发生了错误
+                                PinChanged端口非数据信号事件
+                            c#串口的十六进制发送转换函数
+                语言
+                    类型
+                        System数据数学计算
+                            3.1 Activator类
+                            3.2 Array类
+                            3.3 Console类
+                            3.4 Convert类
+                            3.5 Delegate类
+                            3.6 Exception类
+                            3.7 MarshalByRefObject类
+                            3.8 Math类
+                            3.9 Object类
+                            3.10 OverflowException类
+                            3.11 Random类
+                            3.12 String类
+                                方法
+                                    ToCharArray0这个函数可以将 String编程cha数组
+                                    Length字符丰长度
+                                    ToLower字符串全部小写
+                                    ToUpper字符串全部大写
+                                    Trim字符串删除空格
+                                    PadLeft和 PadRight0字符串左边或者右边添加空格
+                                    IndexOf（，）;定位到，的下标
+                                    spit（“）;切片
+                            3.13 Type类
+                            3.14 Uri类
+                        类型转换
+                        System.Collections集合相关的类型
+                            4.1 ArrayList类
+                            4.2 BitArray类
+                            4.3 CollectionBase类
+                            4.4 DictionaryBase类
+                            4.5 Hashtable类
+                            4.6 Queue类
+                            4.7 So~edList类
+                            4.8 Stack类
+                        System.Collections.Generic泛型集合接口类
+                            类
+                                字典
+                                    Dictionary<TKey,TValue>.KeyCollection
+                                        表示 Dictionary<TKey,TValue> 中键的集合。 此类不能被继承。
+                                    Dictionary<TKey,TValue>.ValueCollection
+                                        表示 Dictionary<TKey,TValue> 中值的集合。 此类不能被继承。
+                                    Dictionary<TKey,TValue>键和值
+                                        表示键和值的集合。
+                                列表
+                                    List<T>
+                                    SortedList<TKey,TValue>
+                                        表示基于相关的 IComparer<T> 实现按键进行排序的键/值对的集合。
+                                    LinkedListNode<T>
+                                        表示 LinkedList<T> 中的节点。 此类不能被继承。
+                                对象
+                                    SortedSet<T>
+                                        表示按排序顺序保持的对象的集合。
+                                集合
+                                    KeyedByTypeCollection<TItem>
+                                        提供一个集合，该集合的项是用作键的类型。
+                                    KeyNotFoundException
+                                        指定用于访问集合中元素的键与集合中的任何键都不匹配时所引发的异常。
+                                接口
+                                    EqualityComparer<T>
+                                        为 IEqualityComparer<T> 泛型接口的实现提供基类。
+                                键值
+                                    SortedDictionary<TKey,TValue>.KeyCollection
+                                    SortedDictionary<TKey,TValue>.ValueCollection
+                                    SortedDictionary<TKey,TValue>
+                                数据结构
+                                    Comparer<T>
+                                    HashSet<T>
+                                        表示值的集。
+                                    LinkedList<T>表示双向链接列表。
+                                    Queue<T>表示对象的先进先出集合。
+                                    Stack<T>相同指定类型的实例可变大小的后进先出 (LIFO) 集合
+                                线程安全
+                                    SynchronizedCollection<T>
+                                        提供一个线程安全集合，其中包含泛型参数所指定类型的对象作为元素。
+                                    SynchronizedKeyedCollection<K,T>
+                                        提供一个线程安全集合，该集合所含对象的类型由一个泛型参数指定，并且集合根据键进行分组。
+                                    SynchronizedReadOnlyCollection<T>
+                                        提供一个线程安全的只读
+                            枚举结构
+                                Dictionary<TKey,TValue>.Enumerator枚举 Dictionary<TKey,TValue> 的元素。
+                                Dictionary<TKey,TValue>.KeyCollection.Enumerator
+                                Dictionary<TKey,TValue>.ValueCollection.Enumerator
+                                HashSet<T>.Enumerator
+                                KeyValuePair<TKey,TValue>
+                                LinkedList<T>.Enumerator
+                                List<T>.Enumerator
+                                Queue<T>.Enumerator
+                                SortedDictionary<TKey,TValue>.Enumerator
+                                SortedDictionary<TKey,TValue>.KeyCollection.Enumerator
+                                SortedDictionary<TKey,TValue>.ValueCollection.Enumerator
+                                SortedSet<T>.Enumerator
+                                Stack<T>.Enumerator
+                            接口
+                                ICollection<T>定义操作泛型集合的方法。
+                                IComparer<T>定义类型为比较两个对象而实现的方法。
+                                IDictionary<TKey,TValue>表示键/值对的泛型集合。
+                                IEnumerable<T>公开枚举数，该枚举数支持在指定类型的集合上进行简单迭代。
+                                IEnumerator<T>支持在泛型集合上进行简单迭代。
+                                IEqualityComparer<T>定义方法以支持对象的相等比较。
+                                IList<T>表示可按照索引单独访问的一组对象。
+                                IReadOnlyCollection<T>表示元素的强类型的只读集合。
+                                IReadOnlyDictionary<TKey,TValue>表示键/值对的泛型只读集合。
+                                IReadOnlyList<T>表示可按照索引访问的一组只读元素。
+                                ISet<T> 提供用于集的抽象化的基接口。
+                        System.Reflection加载类型
+                            6.1 Assembly类
+                            6.2 AssemblyName类
+                            6.3 Constructorlnfo类
+                            6.4 Fieldlnfo类
+                            6.5 Module类
+                            6.6 Propertylnfo类
+                        System.Text字符串操作
+                            7.1 Encoding类
+                            7.2 Decoder类
+                            7.3 StringBuilder类
+                            7.4 UnicodeEncoding类
+                            7.5 UTF8Encoding类
+                    System.Linq支持使用语言集成查询的查询.
+                    System.Xml   操作xml的类库
+                    System.Xml.Linq包含LINQtoXML的类.
+                    System.Data.Linq包含支持与LINQtoSQL应用程序中的关系数据库进行交互的类.
+                System mscorlib综合类库
+    winform的使用
+        窗体的设计流程
+            1、构思功能
+            2、设计布局
+                1）容器控件（Panel）
+                2）文本标签控件（Lable）
+                3）下拉组合框控件（ComboBox
+                4）按钮控件（Button）
+                5）文本框控件（TextBox）
+                6）串口组件（SerialPort）
+            窗体设计多
+                入口窗体
+                分支窗体
+                    （1）创建分支窗体【若干常用方法】:
+                    （2〕名称栏填【若干常用方法.cs】/添加。（如下组图）
+                      (3) 建立窗体问连接
+            3、搭建后台
+        C#的winform中怎么根据函数找到对应的控件
+        编写窗体csharp程序
+            1.新建界面，选中windows窗体应用程序
+            2.出现一个空白的窗体，点击如下图红框所示的工具箱
+            3.选择我们想要放置的控件，直接拖动到窗体即可
+            4.直接双击窗体上的控件，我们就可以在如下的页面输入代码
+            5.点击如下图红框处的启动按钮，程序就会执行。
+        类库的使用
+            1.大概知道
+        查看别人代码所在类库：
+        解决方案操作
+            从解决方案卸载项目
+            为解决方案添加项目
+            为解决方案设置启动项
+        控件的操作
+            对齐位置
+                微调

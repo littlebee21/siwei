@@ -1,0 +1,288 @@
+java面试
+    jdk
+        三、并发编程专题
+            多线程
+                线程安全
+                    对线程安全的理解
+                    ThreadLocal的原理的使用场景
+                    ThreadLocal内存泄露问题，如何避免
+                基础
+                    Thread和Runnable
+                    线程的生命周期及状态
+                    说说你对守护线程的理解
+                    sleep、wait、join、yield
+                    并发、并行、串行
+                并发三大特性
+                为什么使用线程池，参数解释
+                线程池处理流程
+                线程池中阻塞队列的作用？为什么是先添加列队而不是先创建最大线程
+                线程池线程复用的原理
+            1.Synchronized 用过吗 ， 其原理是什么 ？
+            2.获取对象的锁，这 个“ 锁“到底是什么 ？ 如何确定对象的锁 ？
+            3.什么是可重入性，为什么说 Synchronized 是可重入锁 ？
+            4.JVM 对 Java 的原生锁做了哪些优化 ？
+            5.为什么说 Synchronized 是非公平锁？
+            6.为什么说 Synchronized 是一个悲观锁？乐观锁的实现原理又是什么？什么是 CAS，它有什么特性？
+            7.跟 Synchronized 相 比，可重入锁 ReentrantLock 其实现原理有什么不同？
+            8.在 java 中 wait 和 sleep 方法的不同？
+            9.用 Java 编程一个会导致死锁的程序，你将怎么解决？
+            10.什么是原子操作，Java 中的原子操作是什么？
+            11.Java 中的 volatile 关键是什么作用？怎样使用它？在 Java 中它跟 synchronized 方法有什么不同？
+            12.为什么我们调用 start()方法时会执行 run()方法，为什么我们不能直接调用 run()方法？
+            13.Java 中你怎样唤醒一个阻塞的线程？
+            14.在 Java 中 CycliBarriar 和 CountdownLatch 有什么区别？
+            15.你在多线程环境中遇到的常见的问题是什么？你是怎么解决它的？
+        JAVA SE基础
+            数据类型和运算
+                数据类型分类以及在`JVM`所占的字节大小
+                运算符
+                    位运算符和短路运算符
+                        &amp;按位与操作
+                        |按位或操作
+                        &amp;和&amp;&amp;区别
+                        |和||的区别
+                        用最有效率的方法计算`2`乘以`8`
+                            `2`<<`3`
+                    异或运算
+                        实现两个变量交换
+                            加减实现
+                            异或运算实现
+                    算术运算符
+                        i++和++i
+                    关系运算符
+                        ==
+                        ==和equal方法的区别
+            面向对象的四大特性
+                抽象
+                封装
+                继承
+                多态
+                类和对象
+                    类
+                        值传递和引用传递
+                            形式参数
+                            实际参数
+                        递归
+                            找出某目录下的所有子目录以及子文件并打印到控制台上
+                        `Overload`和`Override`的区别
+                        接口
+                            接口是否可以继承接口？接口是否支持多继承？类是否支持多继承？接口里面是否可以有方法实现?
+                        抽象类
+                        关键字
+                            类的关键作用域
+                            default关键字
+                        serializable接口
+                            serialVersionUID用于控制序列化版本是否兼容
+                            JDK为什么设计为一定要实现serializable接口才能序列化
+                        内部类
+                    对象
+                        实例对象类型
+                        无状态对象
+                        有状态对象
+                    对象的`hashCode()`和`equals()`使用场景
+                    引用
+                        强引用，软引用，弱引用和虚引用
+            异常
+                异常处理
+                    try-catch-finally
+                        `try-catch-finally`中`return`执行顺序
+                        `try-with-resource`的使用
+                            从一个`txt`文本里面，拷贝里面的内容到另外一个`txt`文本里面
+                    Java中的检查型异常（checked exception）和非检查型异常（RuntimeException）有什么区别？
+                    2.Java异常处理中有哪些关键字？
+                        3.throw 和 throws这两个关键字在java中有什么不同?
+                        如果执行finally代码块之前方法返回了结果，或者JVM退出了，finally块中的代码还会执行吗？
+                        Java中final,finalize,finally关键字的区别？
+                            finalize
+                            final
+                        throws的使用是给谁处理？
+                        java如何编写自定义异常
+                        如何确定抛出异常的种类
+                        如可确定抛出异常的顺序
+                    trycatch的执行流程
+                    异常编写的原则
+                        异常处理于性能
+                        异常只能用于非正常情况
+                        需要对捕获的异常做处理
+                        不要将过大的代码块包围
+                        在catch中指定具体的异常类型
+                    .什么是“异常链”?
+                    什么时候使用断言
+            反射
+            注解
+                创建自定义注解
+            类库
+                字符串
+                    String
+                        `String str = new String("1");`创建了几个对象
+                        比较字符串是否相等
+                        字符串拼接比较
+                        HashCode
+                    String、StringBuffer、StringBuilder区别和使用场景
+                集合
+                    Collection
+                        List
+                            ArrayList
+                                如果需要保证线程安全，`ArrayList`应该怎么做，用有几种方式
+                            LinkedList
+                            Vector
+                            `Vector`和`ArrayList`、`LinkedList`联系和区别？分别的使用场景?
+                        Set
+                            HashSet
+                            LinkedHashSet
+                            TreeSet
+                            `HashSet`和`TreeSet`区别
+                    Map
+                        HashMap
+                        HashTable
+                        LinkedHashMap
+                        TreeMap
+                        WeakHashMap
+                        IdentityHashMap
+                        `HashMap`和`Hashtable`的区别
+                        `HashMap`和`TreeMap`应该怎么选择，使用场景
+                        常见`Map`的排序规则是怎样的
+                        如果需要线程安全，且效率高的`Map`，应该怎么做
+                        为什么`Collections.synchronizedMap`后是线程安全的
+                    `Set`和`Map`的关系
+            HTTP
+                http常用状态码
+                组成
+                GET 和 POST 有什么区别
+                缺点
+                TCP
+                    特点
+                    三次握手
+                        为什么TCP客户端最后还要发送一次确认呢
+                    四次挥手
+                        为什么客户端最后还要等待2MSL
+                    为什么建立连接是三次握手，关闭连接确是四次挥手呢
+                    如果TCP已经建立了连接，但是客户端突然出现故障了怎么办
+                UDP
+                    特点
+                    功能
+                TCP和UDP区别
+        JDK1.8特性
+            两个比较器的区别
+        集合
+            HashMap
+                1.7链表头插-1.8改为尾插
+                扩容机制
+                    扩容
+                        为什么1.8扩容的时候为啥一定必须是2的多少次幂
+                    `ReHash`重哈希
+                看过`HashMap`源码吗，介绍下你了解的`HashMap`
+                能否解释下什么是`Hash`碰撞？常见的解决办法有哪些，`hashmap`采用哪种方法
+                    sql类型的参数的转换
+                    jdbc的结果集
+                `HashMap`底层是 数组+链表+红黑树，为什么要用这几类结构呢
+                为啥选择红黑树而不用其他树，比如二叉查找树，为啥不一直开始就用红黑树，而是到`8`的长度后才变换
+                put核心流程
+                为什么采用 哈希码 与运算(&amp;) （数组长度-1） 计算数组下标
+                1.8HashMap为什么在计算数组下标前，需对哈希码进行二次处理：扰动处理
+                HashMap什么情况下出现链表环
+                为什么在JDK1.8中进行对HashMap优化的时候，把链表转化为红黑树的阈值是8,而不是7或者不是20呢
+                hashmap的key是否可以相同
+                如何判断链表有环
+                为什么HashMap默认设置为16
+            ConcurrentHashMap
+                了解`ConcurrentHashMap`吗？为什么性能比`hashtable`高，说下原理？
+                `jdk1.7`和`jdk1.8`里面`ConcurrentHashMap`实现的区别有没了解
+                说下`ConcurrentHashMap`的`put`的核心逻辑（`JDK8`以上版本）
+            LinkedList
+            LinkedHashMap
+                链表的排序选择
+                    插入顺序
+                    访问顺序
+                        LRU缓存
+            treeset
+                treeset排序原理
+                HashSet 依靠覆写equals和hashCode方法完成去重：
+            使用场景
+        String中HashCode方逻辑
+            String中hashcode方法为什么选择31这个质数而不选择更大的质数呢
+            hashcode值溢出
+    底层
+        java语言
+            语言特性
+                面向对象
+                    重载和重写的区别
+                    接口和抽象类
+                    谈谈你对面向对象的理解
+                        11.Java 面向对象编程三大特性: 封装 继承 多态。
+                        1.面向对象和面向过程的区别（优点和缺点分别是什么？）
+                        java多态了解吗
+                    9.构造器 Constructor 是否可被 override？
+                5.Java 和 C++的区别。
+                2.Java 语言有哪些特点？（8 个点）
+            java底层
+                ==和equals
+                8.字符型常量和字符串常量的区别。
+                hashcode和equals
+                13.自动装箱与拆箱
+            java中的异常体系
+            泛型
+                　1. Java中的泛型是什么 ? 使用泛型的好处是什么?
+                2. Java的泛型是如何工作的 ? 什么是类型擦除 ?
+                　3. 什么是泛型中的限定通配符和非限定通配符 ?
+                　4. List<? extends T>和List <? super T>之间有什么区别 ?
+                　5. 如何编写一个泛型方法，让它能接受泛型参数并返回泛型类型?
+                6. Java中如何使用泛型编写带有参数的类?
+                7. 编写一段泛型程序来实现LRU缓存?
+                8. 你可以把List<String>传递给一个接受List<Object>参数的方法吗？
+                 　9. Array中可以用泛型吗?
+                10. 如何阻止Java中的类型未检查的警告?
+            容器
+                String、StringBuffer、StringBuilder区别及使用场景
+                List和Set
+                ArrayList和LinkedList区别
+                HashMap和HashTable的区别及底层实现
+                ConcurrentHashMap原理简述，jdk7和jdk8的区别
+            6.什么是 Java 程序的主类应用程序和小程序的主类有何不同？
+        jvm原理
+            JDK、JRE、JVM区别和联系
+            JDK动态代理与cglib实现的区别
+            4.Oracle JDK 和 OpenJDK 的对比
+            3.关于 JVM JDK 和 JRE 最详细通俗的解答。
+            垃圾回收
+                4.GC 的两种判定方法，SafePoint 是什么？
+                5.GC 的三种收集方法：标记清除、标记整理、复制算法的原理与特点，分别用在什么地方，如果让你优化收集方法，有什么思路？
+                6.GC 收集器有哪些？CMS 收集器与 G1 收集器的特点。
+                7.Minor GC 与 Full GC 分别在什么时候发生？
+                10.如何判断一个对象是否存活?(或者 GC 对象的判定方法)
+                11.简述 java 垃圾回收机制? java 中垃圾收集的方法有哪些?
+            方法
+                2.堆里面的分区：Eden，survival（from+ to）老年代，各自的特点。
+                3.对象创建方法，对象的内存分配，对象的访问定位。
+            通用
+                类加载
+                    什么是字节码，作用是什么
+                    java类加载器有哪些
+                    双亲委派模型
+                JVM 图谱展示
+                8.几种常用的内存调试工具：jmap、jstack、jconsole、jhat
+                1.内存模型以及分区，需要详细到每个区放什么？
+        JVM
+            内存结构
+                堆
+                    堆内存中的数据是线程共享的吗
+                栈
+            如何排查内存泄漏
+                内存溢出现象
+                    堆/Perm 区不断增长
+                    每次FullGC后, 堆/Perm 区在慢慢的增长
+                    Minor GC(Yang GD)和Full GC
+                排查内存泄漏过程
+                    jmap命令
+                        命令：jmap -heap pid 展示pid的整体堆信息
+                        命令： jmap -histo pid 展示class的内存情况
+                        dump 将内存使用的详细情况输出到文件
+                            命令： jmap -dump:live,format=b,file=a.log pid
+                    分析 dump 文件和堆占用情况
+                    定位具体的类和相关代码的调用过程
+            调优
+                调优命令
+                调优工具
+            为什么会出现脏读？
+            你说`volatile`可以避免指令重排，能否解释下什么是指令重排
+            知道`happens-before`吗，能否简单解释下

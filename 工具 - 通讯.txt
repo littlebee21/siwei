@@ -1,0 +1,21 @@
+工具 - 通讯
+    通信
+        串口
+            10、山外多功能调试助手
+            友善串口调试助手_1@261875.exe
+            11、串口调试工具
+            USMART调试工具
+            HHD Software Device Monitoring Studio
+            串口监控
+            超级终端
+            PuTTY
+        ssh工具
+            12、Wireshark
+            13、Socket工具
+            14、SSHSecureShellClient
+            15、MQTT调试工具
+            使用：16、MobaXterm 
+            使用：xshell
+            finalshell
+    文件传输
+        tftp文件传输工具

@@ -1,0 +1,958 @@
+javascript - 对象
+    对象object
+        当对两个对象做比较的时候，只有当两个引用指向同一个对象时为true；否则都为false
+        对象位置
+            自定义对象
+                对象定义规则
+                    new声明字符串为对象
+                    必须放到引号之间
+                通过var obj={}字面量法
+                    对象字面量（object literal）法
+                通过var Person=createHero(){}构造函数创建对象
+                    构造器属性(constructor property)
+                    规则
+                        使用的时候通过new操作符得到对象
+                            var person1=new Person()
+                        用构造器创建对象的时候可以接收参数
+                        构造器函数的首字母最好大写，区别其他的一般函数
+                通过var obj=new Object()  构造函数创建
+                通过Object.create创建对象
+            对象的调用
+                object.function()
+                mogu.hua访问属性
+                mogu.gan=xiaogan添加属性
+                mogu.hua=xiaohua修改属性
+                delete mogu.hua删除属性
+                    delete 对象名.属性名
+                    delete 对象名[属性名]
+                    删除原理
+                        只删自身，不删继承
+                        删原型 影响自身
+                        delete只是断开属性和宿主对象的联系，而不会去操作属性的属性
+                        delete不能删除哪些可配制性为false的属性
+                遍历属性
+                    for in  mogu遍历属性
+        es6：对象词法扩展
+            允许声明在对象字面量时使用简写语法
+            对象属性中进行计算操作
+        es6：对象超类super方法
+    javascript对象
+        算法
+            JS Number
+            JS Boolean
+            JS String
+            array对象
+                识别数组
+                    Array.isArray()
+                数组排序
+                    Array.sort()以字母顺序对数组进行排序
+                        描述
+                            数组排序函数
+                        参数
+                            如果不带参数调用sort，数组以字母顺序进行排序，升序
+                        返回值
+                            返回排序之后的数组
+                        注意
+                            如果数组中包含undefined元素，它们会被排到数组的尾部
+                    Array.reverse()反转数组中的元素
+                        描述
+                            数组倒置
+                        返回值
+                            返回倒置之后的数组
+                添加/删除
+                    .length数组的长度
+                    length添加数组元素
+                    Array.push(value,...)向数组添加一个新的元素
+                        描述
+                            像数组末尾添加一个或者多个元素
+                        参数
+                            添加的值
+                        返回值
+                            返回数组的长度
+                    Array.pop()删除最后一个元素
+                    Array.shift()删除首个数组元素
+                        描述
+                            弹出数组开始的元素
+                        返回值
+                            返回弹出之后的值
+                    Array.unshift(value,...)向开头添加新元素
+                        描述
+                            向数组开始添加一个或者多个元素
+                        参数
+                            添加的值
+                        返回值
+                            返回数组的长度
+                    delete 删除某个元素
+                    splice 参数删除
+                    [0]改变数组元素
+                拼接/裁剪
+                    Array.splice(index , howMany[, element1[, ...[, elementN]]])
+                        描述
+                            添加或删除数组中的一个或多个元素
+                        参数
+                        返回值
+                        注意
+                    Array.slice(start[,end])剪裁数组
+                        描述
+                            返回数组中的部分
+                        参数
+                            start起始点
+                            end结束位置
+                        返回值
+                            返回数组中的部分
+                    Array.concat(value,...)合并新数组
+                        描述
+                            创建并返回一个新数组，数组中包含调用concat的原始数组的元素和concat的每个参数。
+                        返回值
+                            返回连接之后的新数组
+                        注意
+                            如果这些参数中的任何一个自身是数组，则连接的是数组的元素，而非数组本身
+                位置方法
+                    Array.indexOf()
+                    Array.lastIndexOf()
+                迭代方法
+                    forEach()每个数组元素调用一次函数
+                    arr.filter(callback)创建一个包含通过测试的数组元素的新数组
+                        原理
+                    Array.reduceRight()方向相反
+                        描述
+                            与reduce()方法的执行方向相反
+                    arr.reduce(callback,[initialValue])数组缩减为一值
+                        参数
+                            callback
+                                previousValue，上一次调用返回的值或者是提供的初始值(initialValue)
+                                currentValue,数组中当前被处理的元素
+                                index,当前元素在数组中得索引
+                                array，调用reduce的数组
+                            initialValue
+                                作为第一次调用callback的第一个参数
+                        注意
+                    Array.map(callback)每个元素执行函数来创建新数组
+                        参数
+                        原理
+                    arr.some(callback)寻一个元素通过测试
+                        原理
+                    Array.every(callback)每一项都返回true则为true
+                        原理
+                数组array
+                    数组是对象
+                    数组可以存放数组/对象/函数
+                    避免使用new array内建数组构造器
+                    数组属性
+                        es6：支持对象和数组的解构
+            RegExp对象
+                2.如何使用JavaScript中的正则表达式
+                    语法
+                        var patt=new RegExp(pattern,modifiers)
+                            动态创建正则表达式
+                        var patt=/pattern/modifiers;
+                    参数
+                        pattern(模式)描述了表达式的模式
+                        modifiers(修饰符)用于指定全局匹配、区分大小写的匹配和多行匹配
+                    常用修饰符
+                        修饰符用于执行区分大小写和全局匹配
+                    方括号
+                        方括号用于查找某个范围内的字符
+                    元字符
+                        元字符（Metacharacter）是拥有特殊含义的字符
+                    量词
+                对象属性
+                    regexpobject。lastindex
+                    全局标识g
+                3.RegExp对象方法
+                    RegExpObject.compile(regexp,modifier)编译改变正则
+                        参数
+                            regexp正则表达式
+                            modifier模式修饰符
+                    RegExpObjec.exec(string)匹配
+                        参数
+                            string指定的字符串
+                        描述
+                            在目标字符串中执行一次正则匹配操作，并将结果以数组的形式返回
+                        使用
+                            每次执行exec()函数都只查找最多一个匹配并返回
+                            再次调用该对象的exec()函数就可以查找并返回下一个匹配
+                    regExpObject.test(str)匹配
+                        参数
+                            string指定的字符串
+                        描述
+                            检测字符串中是否存在正则表达式模式对应的匹配,返回值布尔类型
+                        使用
+                            每次执行test函数都只查找最多一个匹配，找到返回true，否则false
+                            如果为正则表达式设置了全局标识g
+                支持正则表达式的String对象的方法
+                    search
+                        语法
+                            str.search(regexp)
+                        参数
+                            regexp一个正则表达式对象。如果传入一个非正则表达式对象，则会使用new RexExp(obj)隐式地将其转换为正则表达式
+                        描述
+                            如果匹配成功，则 search() 返回正则表达式在字符串中首次匹配项的索引。否则，返回 -1
+                        注意
+                            当你想要知道字符串中是否存在某个模式（pattern）时可使用 search，类似于正则表达式的 test 方法
+                            当要了解更多匹配信息时，可使用 match（会更慢），该方法类似于正则表达式的 exec 方法。
+                    match
+                        语法
+                            str.match(regexp)
+                        参数
+                            regexp一个正则表达式对象。如果传入一个非正则表达式对象，则会隐式地使用 new RegExp(obj) 将其转换为正则表达式对象
+                        描述
+                            当字符串匹配到正则表达式（regular expression）时，match() 方法会提取匹配项，如果找到返回匹配结果的数组，如果没有匹配项，则返回null
+                        注意
+                            如果正则表达式没有 g 标志，返回和 RegExp.exec(str) 相同的结果
+                            而且返回的数组拥有一个额外的 input 属性，该属性包含原始字符串
+                            还拥有一个 index 属性，该属性表示匹配结果在原字符串中的索引（以0开始）
+                            如果正则表达式包含 g 标志，则该方法返回一个包含所有匹配结果的数组。如果没有匹配到，则返回 null。
+                    replace
+                        语法
+                            str.replace(regexp|substr, newSubStr|function)
+                        参数
+                            regexp，一个RegExp对象。该正则所匹配的内容会被第二个参数的返回值替换掉
+                            substr,一个要被 newSubStr 替换的字符串
+                            newSubStr,替换掉第一个参数在原字符串中的匹配部分。该字符串中可以内插一些特殊的变量名。
+                            function,一个用来创建新子字符串的函数，该函数的返回值将替换掉第一个参数匹配到的结果。
+                        描述
+                            replace() 方法使用一个替换值（replacement）替换掉一个匹配模式（pattern）在原字符串中某些或所有的匹配项，并返回替换后的字符串。这个替换模式可以是字符串或者 RegExp（正则表达式），替换值可以是一个字符串或者一个函数
+                        注意
+                            该方法并不改变调用它的字符串本身，而只是返回替换后的字符串
+                            在进行全局的搜索替换时，第一个参数要么是包含g标志的正则表达式，要么是包含g标志的字符串。
+                    split
+                        语法
+                            str.split([separator][, limit])
+                        参数
+                            separator,指定用来分割字符串的字符（串）。separator 可以是一个字符串或正则表达式。 如果忽略 separator，则返回的数组包含一个由原字符串组成的元素。如果 separator 是一个空字符串，则 str 将会转换成一个由原字符串中字符组成的数组。
+                            limit,一个整数，限定返回的分割片段数量。split 方法仍然分割每一个匹配的 separator，但是返回的数组只会截取最多 limit 个元素。
+                        描述
+                            split() 方法通过把字符串分割成子字符串来把一个 String 对象分割成一个字符串数组。
+                        注意
+                            当找到一个 seperator 时，separator 会从字符串中被移除，返回存进一个数组当中的子字符串。如果忽略 separator 参数，则返回的数组包含一个元素，该元素是原字符串。如果 separator 是一个空字符串，则 str 将被转换为由字符串中字符组成的一个数组。
+                            如果 separator 是一个正则表达式，且包含捕获括号（capturing parentheses），则每次匹配到 separator 时，捕获括号匹配的结果将会插入到返回的数组中
+        操作系统
+            Date对象
+                构造函数
+                    new Date()
+                    new Date(value)
+                        value代表自世界协调时1970年1月1日00:00:00 经过的毫秒数。
+                    new Date(dateString)
+                        dateString表示日期的字符串值。该字符串应该能被 Date.parse() 方法识别
+                    new Date(year,month,day,hour,minute,second,millisecond)
+                方法
+                    Date.now()
+                        返回自 1970-1-1 00:00:00 UTC 至今所经过的毫秒数。
+                    Date.parse()
+                        解析一个表示日期的字符串，并返回从 1970-1-1 00:00:00 所经过的毫秒数。
+                    Date.UTC()
+                        接受和构造函数最长形式的参数相同的参数（从2到7），并返回从 1970-01-01 00:00:00 UTC 开始所经过的毫秒数。
+                    dateObj.getDate()
+                        根据本地时间，返回一个指定的日期对象为一个月中的第几天，返回一个1 到 31的整数值
+                    dateObj.getDay()
+                        根据本地时间返回指定日期对象的星期中的第几天（0-6
+                    dateObj.getFullYear()
+                        根据本地时间返回指定日期对象的年份（四位数年份时返回四位数字）。
+                    dateObj.getHours()
+                        根据本地时间返回指定日期对象的小时（0-23）
+                    dateObj.getMilliseconds()
+                        根据本地时间返回指定日期对象的微秒（0-999）
+                    dateObj.getMinutes()
+                        根据本地时间返回指定日期对象的分钟（0-59）
+                    dateObj.getMonth()
+                        根据本地时间返回指定日期对象的月份（0-11）
+                    dateObj.getSeconds()
+                        根据本地时间返回指定日期对象的秒数（0-59）
+                    dateObj.getTime()
+                        返回从1970-1-1 00:00:00 UTC（协调世界时）到该日期经过的毫秒数，对于1970-1-1 00:00:00 UTC之前的时间返回负值。
+                    dateObj.getTimezoneOffset()
+                        返回当前时区的时区偏移
+                    dateObj.setDate()
+                        根据本地时间为指定的日期对象设置月份中的第几天。
+                    dateObj.setFullYear()
+                        根据本地时间为指定日期对象设置完整年份（四位数年份是四个数字）
+                    dateObj.setHours()
+                        根据本地时间为指定日期对象设置小时数
+                    dateObj.setMilliseconds()
+                        根据本地时间为指定日期对象设置毫秒数
+                    dateObj.setMinutes()
+                        根据本地时间为指定日期对象设置分钟数
+                    dateObj.setMonth()
+                        根据本地时间为指定日期对象设置月份
+                    dateObj.setSeconds()
+                        根据本地时间为指定日期对象设置秒数
+                    dateObj.setTime()
+                        通过指定从 1970-1-1 00:00:00 UTC 开始经过的毫秒数来设置日期对象的时间，对于早于 1970-1-1 00:00:00 UTC的时间可使用负值。
+                    dateUTCDate()
+                        根据世界时设置 Date 对象中月份的一天 (1 ~ 31)
+                    dateObj.valueOf()
+                        valueOf() 方法返回一个日期对象的原始值。
+                        valueOf 方法返回以数值格式表示的一个 Date 对象的原始值，从1970年1月1日0时0分0秒（UTC，即协调世界时）到该日期对象所代表时间的毫秒数
+            Math对象
+                属性
+                math构造函数
+                Math.round()接近
+                Math.pow()次幂
+                Math.sqrt()平方根
+                Math.abs()绝对值
+                Math.ceil()上接近
+                Math.floor()下接近
+                Math.sin()
+                Math.cos(x) 
+                Math.acos(x)反余弦
+                Math.asin(x)反正弦
+                Math.atan(x)反正切
+                Math.atan2(x, y)反正切y/x
+                Math.min()  Math.max()
+                Math.random()随机数
+                Math.log(x)返回对数
+                Math.exp(x)返回e的x次幂
+                Math属性
+        事件
+            JS Events
+            函数  function
+                函数属性
+                    参数传值
+                        函数参数规则
+                            JavaScript 定义显式参数时没有指定数据类型。
+                            JavaScript 函数对隐式参数没有进行类型检测。
+                            JavaScript 函数对隐式参数的个数没有进行检测。
+                        参数传递种类
+                            通过对象传递函数
+                            通过值传递函数
+                        es6：准许函数参数默认值
+                    函数名
+                    es6：箭头函数
+                        只有一个参数
+                        没有参数
+                        箭头函数的this
+                        箭头函数不能提升
+                        函数表达式始终是常量
+                    es6：*Generators{yield}返回迭代对象
+                函数的定位
+                    函数声明
+                        new操作符新建
+                        函数声明规则
+                            变量和函数联合声明
+                            函数声明发的格式
+                            声明函数用function关键字不用Function
+                            函数声明 函数表达式区别
+                        function xxx(){}静态方法函数声明
+                        var myFunction=new Function('a','b','return a+b');构造函数
+                        var myFunction=function(a,b){return a+b;};关键字+表达式=匿名函数
+                    函数的调用
+                        构造函数
+                            构造函数功能
+                            构造函数的问题
+                            构造函数属性prototype
+                                占用内存问题的解决
+                            内置javascript构数
+                        作为函数调用
+                        作为方法调用
+                        作为函数方法调用
+                            传入函数参数
+                Function对象
+                    返回值
+                        Function()的返回值是Function类型，返回一个函数对象
+                    属性
+                        arguments实参集合
+                            功能
+                        caller调用当前函数的函数
+                        constructor函数的构造函数
+                        length
+                            返回函数定义的参数形参个数。
+                    方法
+                        call()参数列表传递
+                            改变this引用  函数参数一个个分别传入。
+                        apply()参数数组传递
+                            函数参数以数组或arguments对象的形式传入。
+                        bing(thisarg，arg，arg) 绑定参数
+                            创建一个绑定函数
+                            原理
+                                传递参数方法
+                                传递参数的确定
+                        toString()
+                            返回定义该Function对象的字符串。
+                        valueOf()
+                            返回Function对象本身。
+                        bind和call apply的区别
+            Error对象
+                语法
+                    new Error([message[, fileName[,lineNumber]]])
+                参数
+                    message可阅读的错误描述信息
+                    filename创建Error对象的fileName属性的值。默认是包含异常代码的文件名
+                    lineNumber创建Error对象的lineNumber属性的值。默认是构造Error对象的行数
+                Error类型
+                    EvalError
+                        与 eval() 有关
+                    InternalError
+                        创建一个代表Javascript引擎内部错误的异常抛出的实例. 如: "递归太多".
+                    RangeError
+                        数值变量或参数超出其有效范围。
+                    ReferenceError
+                        无效引用
+                    SyntaxError
+                        eval()在解析代码的过程中发生的语法错误
+                    TypeError
+                        变量或参数不属于有效类型
+                    URIError
+                        给 encodeURI()或  decodeURl()传递的参数无效
+        复杂数据类型
+            ES6 map
+            ES6 WeakMap 弱引用对象
+                delete(key)
+                has(key)
+                get(key)
+                set(key, val)
+            ES6  Set不重复值对象
+                delete()
+                clear()
+            ES6  WeakSet 弱引用对象
+            ES6：Promises异步执行的对象
+                .then 方法
+    Web  API库
+        HTML BOM对象
+            Navigitior对象
+                navigition对象的属性
+                    appCodeName 返回浏览器的代码名
+                    appName 返回浏览器的名称
+                    appVersion 返回浏览器的平台和版本信息
+                    cookieEnabled 返回指明浏览器中是否启用 cookie 的布尔值
+                    platform 返回运行浏览器的操作系统平台
+                    userAgent 返回由客户机发送服务器的user-agent 头部的值
+                navgition对象的方法
+                    javaEnabled() 指定是否在浏览器中启用Java
+                    taintEnabled() 规定浏览器是否启用数据污点(data tainting)
+            windows对象
+                windows对象属性
+                    窗口位置
+                        IE
+                            screenLeft 返回相对于屏幕窗口的x坐标
+                            screenTop 返回相对于屏幕窗口的y坐标
+                        ！IE
+                            screenX 返回相对于屏幕窗口的x坐标
+                            screenY 返回相对于屏幕窗口的y坐标
+                            pageXOffset 设置或返回当前页面相对于窗口显示区左上角的 X 位置。
+                            pageYOffset 设置或返回当前页面相对于窗口显示区左上角的 Y 位置。
+                        FF
+                            innerHeight 返回窗口的文档显示区的高度。
+                            innerWidth 返回窗口的文档显示区的宽度。
+                            outerHeight 返回窗口的外部高度，包含工具条与滚动条。
+                            outerWidth 返回窗口的外部宽度，包含工具条与滚动条。
+                    窗口状态
+                        name 设置或返回窗口的名称。
+                        closed 返回窗口是否已被关闭。
+                        self 返回对当前窗口的引用。等价于 Window 属性。
+                    窗口亲戚
+                        parent 返回父窗口。
+                        top 返回最顶层的父窗口。
+                        opener 返回对创建此窗口的窗口的引用。
+                    状态栏属性
+                        status 设置窗口状态栏的文本。
+                        defaultStatus 设置或返回窗口状态栏中的默认文本。
+                    窗口中框架
+                        length 设置或返回窗口中的框架数量。
+                        frames 返回窗口中所有命名的框架。该集合是 Window 对象的数组，每个 Window 对象在窗口中含有一个框架。
+                    只读引用
+                        document 对 Document 对象的只读引用。(请参阅对象)
+                        history 对 History 对象的只读引用。请参数 History 对象。
+                        location 用于窗口或框架的 Location 对象。请参阅 Location 对象。
+                        navigator 对 Navigator 对象的只读引用。请参数 Navigator 对象。
+                        screen 对 Screen 对象的只读引用。请参数 Screen 对象。
+                windows对象方法
+                    窗口打开关闭
+                        open() 打开一个新的浏览器窗口或查找一个已命名的窗口。
+                        close() 关闭浏览器窗口。
+                        stop() 停止页面载入。
+                        createPopup() 创建一个 pop-up 窗口。
+                    对话框输出
+                        alert() 显示带有一段消息和一个确认按钮的警告框。
+                        prompt() 显示可提示用户输入的对话框。
+                        confirm() 显示带有一段消息以及确认按钮和取消按钮的对话框。
+                    窗口控制
+                        moveBy() 可相对窗口的当前坐标把它移动指定的像素。
+                        resizeBy() 按照指定的像素调整窗口的大小。
+                        scrollBy() 按照指定的像素值来滚动内容。
+                        moveTo() 把窗口的左上角移动到一个指定的坐标。
+                        resizeTo() 把窗口的大小调整到指定的宽度和高度。
+                        scrollTo() 把内容滚动到指定的坐标。
+                    焦点控制
+                        focus() 把键盘焦点给予一个窗口。
+                        blur() 把键盘焦点从顶层窗口移开。
+                        getSelection() 返回一个 Selection 对象，表示用户选择的文本范围或光标的当前位置。
+                    定时器功能
+                        setInterval() 按照指定的周期（以毫秒计）来调用函数或计算表达式。
+                        setTimeout() 在指定的毫秒数后调用函数或计算表达式。
+                        clearInterval() 取消由 setInterval() 设置的 timeout。
+                        clearTimeout() 取消由 setTimeout() 方法设置的 timeout。
+                    atob() 解码一个 base-64 编码的字符串。
+                    btoa() 创建一个 base-64 编码的字符串。
+                    getComputedStyle() 获取指定元素的 CSS 样式。
+                    matchMedia() 该方法用来检查 media query 语句，它返回一个 MediaQueryList对象。
+                    print() 打印当前窗口的内容。
+            History对象
+                length 返回历史列表中的网址数
+                go() 加载 history 列表中的某个具体页面
+                back() 加载 history 列表中的前一个 URL
+                forward() 加载 history 列表中的下一个 URL
+            Location位置对象
+                location对象的属性
+                    protocol 返回一个URL协议
+                    hash 返回一个URL的锚部分
+                    host 返回一个URL的主机名和端口
+                    hostname 返回URL的主机名
+                    href 返回完整的URL
+                    pathname 返回的URL路径名。
+                    port 返回一个URL服务器使用的端口号
+                    search 返回一个URL的查询部分
+                location对象的方法
+                    reload() 重新载入当前文档
+                    assign() 载入一个新的文档
+                    replace() 用新的文档替换当前文档
+            screen对象
+                sreen对象的属性
+                    availHeight 屏幕可用的高度
+                    availWidth  屏幕的可用宽度
+                    height 屏幕的像素高度
+                    width  屏幕的像素宽度
+                    colorDepth  屏幕颜色的位数
+            5.Web Storsge本地存储
+                sessionStorage临时保存
+                    sessionStorage.setItem("key", "value");保存数据
+                    var lastname = sessionStorage.getItem("key");读取
+                    sessionStorage.removeItem("key");删除指定键
+                    sessionStorage.clear();删除所有数据
+                localStorage永久保存
+                    保存数据：localStorage.setItem(key,value);
+                    读取数据：localStorage.getItem(key);
+                    删除单个数据：localStorage.removeItem(key);
+                    得到某个索引的key：localStorage.key(index);
+                    删除所有数据：localStorage.clear();
+                2、实战简单的访客留言板
+                sessionStorage 在浏览器中存储 key/value 对。 在关闭窗口或标签页之后将会删除这些数据。
+                localStorage 在浏览器中存储 key/value 对。没有过期时间。
+        HTML5拖放API
+            拖放事件
+                dragstart：事件主体是被拖放元素，在开始拖放被拖放元素时触发，。
+                darg：事件主体是被拖放元素，在正在拖放被拖放元素时触发。
+                dragend：事件主体是被拖放元素，在整个拖放操作结束时触发
+                dragenter：事件主体是目标元素，在被拖放元素进入某元素时触发。
+                dragleave：事件主体是目标元素，在被拖放元素移出目标元素是触发。
+                dragover：事件主体是目标元素，在被拖放在某元素内移动时触发。
+                drop：事件主体是目标元素，在目标元素完全接受被拖放元素时触发。
+            DataTransfer对象的属性与方法
+                拖放的时的效果属性值
+    HTML DOM模型
+        HTML DOM属性
+            htmlcollection和nodelist区别
+            对象DOM的联系逻辑
+            约束DOM属性
+            XML DOM
+        鼠标键盘对象
+            属性获取
+                relatedTarget 返回与事件的目标节点相关的节点。
+                鼠标属性
+                    button 返回当事件被触发时，哪个鼠标按钮被点击。
+                    clientX返回当事件被触发时，鼠标指针的水平坐标。
+                    clientY返回当事件被触发时，鼠标指针的垂直坐标。
+                    Location  返回按键在设备上的位置
+                    screenX返回当某个事件被触发时，鼠标指针的水平坐标。
+                    screenY返回当某个事件被触发时，鼠标指针的垂直坐标。
+                键盘属性
+                    altKey 返回当事件被触发时，"ALT" 是否被按下。
+                    ctrlKey返回当事件被触发时，"CTRL" 键是否被按下。
+                    shiftKey  返回当事件被触发时，"SHIFT" 键是否被按下
+                    charCode  返回onkeypress事件触发键值的字母代码。
+                    key  在按下按键时返回按键的标识符。
+                    keyCode返回onkeypress事件触发的键的值的字符代码，或者 onkeydown 或 onkeyup 事件的键的代码。
+                    which  返回onkeypress事件触发的键的值的字符代码，或者 onkeydown 或 onkeyup 事件的键的代码。
+                    metaKey返回当事件被触发时，"meta" 键是否被按下。
+            方法
+                initMouseEvent() 初始化鼠标事件对象的值
+                initKeyboardEvent()初始化键盘事件对象的值
+        event事件对象
+            target 返回触发此事件的元素（事件的目标节点）
+            获取事件属性
+                type 返回当前 Event 对象表示的事件的名称
+                currentTarget 返回其事件监听器触发该事件的元素
+                eventPhase  返回事件传播的当前阶段
+                timeStamp 返回事件生成的日期和时间
+                bubbles返回布尔值，指示事件是否是起泡事件类型
+                cancelable  返回布尔值，指示事件是否可拥可取消的默认动作
+            事件的修改
+                initEvent() 初始化新创建的 Event 对象的属性。
+                preventDefault() 通知浏览器不要执行与事件关联的默认动作。
+                stopPropagation()  不再派发事件
+                阻止冒泡:e.stopPropagation与window.event.cancelBubble
+                阻止默认:e.preventDefault与window.event.returnValue
+            事件监听对象
+                handleEvent() 把任意对象注册为事件处理程序
+            文档事件对象
+        1.documnt对象
+            查找元素
+                document.getElementsByTagName() 返回带有指定标签名的对象集合。
+                document.getElementById() 返回对拥有指定 id 的第一个对象的引用。
+                document.getElementsByClassName() 返回文档中所有指定类名的元素集合，作为 NodeList 对象。
+                document.getElementsByName() 返回带有指定名称的对象集合。
+                document.activeElement 返回当前获取焦点元素
+                特定元素
+                    document.title 返回当前文档的标题。
+                    document.body 返回文档的body元素
+                    document.scripts 返回页面中所有脚本的集合。
+                    document.documentElement 返回文档的根节点
+                    document.embeds 返回文档中所有嵌入的内容（embed）集合
+                特定元素集合
+                    document.anchors 返回对文档中所有 Anchor 对象的引用。
+                    document.images 返回对文档中所有 Image 对象引用。
+                    document.links 返回对文档中所有 Area 和 Link 对象引用。
+                    document.forms 返回对文档中所有 Form 对象引用。
+                HTMLCollection对象
+                    功能
+                    tem() 返回 HTMLCollection 中指定索引的元素。
+                    length 返回 HTMLCollection 中元素的数量。
+                    namedItem() 返回 HTMLCollection 中指定 ID 或 name 属性的元素。
+            检查文本
+                document.strictErrorChecking 设置或返回是否强制进行错误检查。
+            创建对象
+                属性
+                    document.createAttribute() 创建一个属性节点
+                元素
+                    document.createElement() 创建元素节点。
+                文本
+                    document.createTextNode() 创建文本节点。
+                注释节点
+                    document.createComment() 可创建注释节点。
+                导入节点
+                    document.adoptNode(node) 从另外一个文档返回 adapded 节点到当前文档。
+                    document.importNode() 把一个节点从另一个文档复制到该文档以便应用。
+                打开文档流
+                    document.close() 关闭用 document.open() 方法打开的输出流，并显示选定的数据。
+                    document.open() 打开一个流，以收集来自任何 document.write() 或 document.writeln() 方法的输出。
+                    document.write()   //用于向当前文档写入内容
+                    document.writeIn()  //用于向当前文档写入内容，尾部添加换行符。
+                document.createDocumentFragment() 创建空的 DocumentFragment 对象，并返回此对象。
+            删改节点
+                document.renameNode() 重命名元素或者属性节点。
+                document.normalizeDocument() 删除空文本节点，并连接相邻节点的
+                document.normalize() 删除空文本节点，并连接相邻节点
+            document属性
+                windows BOM相关
+                    location
+                        document.referrer 返回载入当前文档的文档的 URL。
+                        document.URL 返回文档完整的URL
+                        document.baseURI 返回文档的绝对基础 URI
+                        document.documentURI 设置或返回文档的位置
+                        document.domain 返回当前文档的域名。
+                    navigitior
+                        document.documentMode 返回用于通过浏览器渲染文档的模式
+                    history
+                        document.lastModified 返回文档被最后修改的日期和时间。
+                        document.cookie 设置或返回与当前文档有关的所有 cookie。
+                            创建cookie
+                            读取cookie
+                            修改cookie
+                            删除coolie
+                    处理文档implementation对象
+                        document.implementation 返回处理该文档的 DOMImplementation 对象。
+                文档属性
+                    status
+                        document.readyState 返回文档状态 (载入中……)
+                    css
+                        document.querySelector() 返回文档中匹配指定的CSS选择器的第一元素
+                        document.querySelectorAll()  返回文档中匹配的CSS选择器的所有元素节点列表
+                    encoding
+                        document.inputEncoding 返回用于文档的编码方式（在解析时）。
+                    声明类型
+                        document.doctype 返回与文档相关的文档类型声明 (DTD)。
+        2.element基础元素
+            获取节点
+                element.getElementsByTagName() 返回指定标签名的所有子元素集合。
+                element.querySelector() 返回匹配指定 CSS 选择器元素的第一个子元素
+                element.querySelectorAll() 返回匹配指定 CSS 选择器元素的所有子元素节点列表
+                关系节点
+                    element.childNodes 返回元素的一个子节点的数组
+                    element.firstChild 返回元素的第一个子节点
+                    element.lastChild 返回的最后一个子节点
+                    element.previousSibling 返回某个元素紧接之前元素
+                    element.nextSibling 返回该元素紧跟的一个节点
+                    element.parentNode 返回元素的父节点
+                    element.children 返回元素的子元素的集合
+                    element.ownerDocument 返回元素的根元素（文档对象）
+                NodeList 节点列表
+                    nodelist.item() 返回某个元素基于文档树的索引
+                    nodelist.length 返回节点列表的节点数目。
+            节点检查
+                element.isEqualNode() 检查两个元素是否相等
+                element.isContentEditable 如果元素内容可编辑返回 true，否则返回false
+                element.isDefaultNamespace() 如果指定了namespaceURI 返回 true，否则返回 false。
+                element.isSameNode() 检查两个元素所有有相同节点。
+                element.isSupported() 如果在元素中支持指定特征返回 true。
+                element.compareDocumentPosition() 比较两个元素的文档位置。
+                element.hasChildNodes() 返回一个元素是否具有任何子元素
+                element验证操作
+                    checkValidity()验证合法性
+                    setCustomValidity()设置提示信息
+            创建节点
+                element.appendChild() 为元素添加一个新的子元素
+                element.insertBefore() 现有的子元素之前插入一个新的子元素
+                element.accessKey 设置或返回accesskey一个元素
+            删改节点
+                element.removeChild() 删除一个子元素
+                element.cloneNode() 克隆某个元素
+                element.replaceChild() 替换一个子元素
+                element.toString() 一个元素转换成字符串
+                element.normalize() 只有结构
+            element属性
+                element其它属性
+                    1.名称
+                        element.title 设置或返回元素的title属性
+                        element.id 设置或者返回元素的 id。
+                        element.tagName 作为一个字符串返回某个元素的标记名（大写）
+                        element.classList 返回元素的类名，作为 DOMTokenList 对象。
+                        element.style 设置或返回元素的样式属性
+                        element.nodeName 返回元素的标记名（大写）
+                        element.nodeValue 返回元素的节点值
+                        element.nodeType 返回元素的节点类型
+                    2.内容
+                        element.innerHTML 设置或者返回元素的内容。
+                        element.textContent 设置或返回一个节点和它的文本内容
+                        element.dir 设置或返回一个元素中的文本方向
+                        element.contentEditable 设置或返回元素的内容是否可编辑
+                    其它属性
+                        element.namespaceURI 返回命名空间的 URI。
+                        element.lang 设置或者返回一个元素的语言。
+                    盒子宽高
+                        offsetParennt偏移操作
+                            element.offsetParent 返回元素的偏移容器
+                            element.offsetHeight 返回任何一个元素的高度包括边框和填充，但不是边距
+                            element.offsetTop 返回当前元素的相对垂直偏移位置的偏移容器
+                            element.offsetLeft 返回当前元素的相对水平偏移位置的偏移容器
+                            element.offsetWidth 返回元素的宽度，包括边框和填充，但不是边距
+                        滚动偏移
+                            element.scrollWidth 返回元素的整个宽度（包括带滚动条的隐蔽的地方）
+                            element.scrollTop 返回当前视图中的实际元素的顶部边缘和顶部边缘之间的距离
+                            element.scrollLeft 返回当前视图中的实际元素的左边缘和左边缘之间的距离
+                            element.scrollHeight 返回整个元素的高度（包括带滚动条的隐蔽的地方）
+                        盒子属性操作
+                            element.clientWidth 在页面上返回内容的可视宽度（不包括边框，边距或滚动条）
+                            element.clientHeight 在页面上返回内容的可视高度（不包括边框，边距或滚动条）
+                    标签顺序
+                        element.tabIndex 设置或返回元素的标签顺序。
+                    键值对
+                        element.getFeature() 返回指定特征的执行APIs对象。
+                        element.setUserData() 在元素中为指定键值关联对象。
+                        element.getUserData() 返回一个元素中关联键值的对象。
+                element属性基本
+                    属性
+                        element.attributes 返回一个元素的属性数组
+                        element.getAttribute() 返回指定元素的属性值
+                        element.getAttributeNode() 返回指定属性节点
+                    3.属性判断
+                        element.hasAttribute() 如果元素中存在指定的属性返回 true，否则返回false。
+                        element.hasAttributes() 如果元素有任何属性返回true，否则返回false。
+                    1.创建属性
+                        element.setAttribute() 设置或者改变指定属性并指定值。
+                        element.setIdAttribute()
+                        element.setIdAttributeNode()
+                        element.setAttributeNode() 设置或者改变指定属性节点。
+                    2.删除属性
+                        element.removeAttribute() 从元素中删除指定的属性
+                        element.removeAttributeNode() 删除指定属性节点并返回移除后的节点。
+                element事件基本
+                    获取事件
+                        Element.dispatchEvent()：触发事件
+                    事件修改
+                        element.addEventListener() 向指定元素添加事件句柄
+                            ad方法功能
+                            ad方法属性
+                                一个元素添加多个事件句柄。
+                                向对象添加事件句柄
+                                事件传递属性
+                                    冒泡
+                                    捕获
+                                    设置事件传递方式
+                            addEventListener事件绑定
+                            兼容的代码内容
+                        element.removeEventListener() 移除由 addEventListener() 方法添加的事件句柄
+                        IE
+                            attachEvent()
+                            detachEvent().
+                element焦点
+                    element.hasFocus() 返回布尔值，检测文档或元素是否获取焦点
+                    element.focus() 设置文档或元素获取焦点
+                element文本操作
+                    获取
+                        data设置或获取 TextNode 对象的值。
+                        substringData(offset, count) 返回从offset起的count个字符
+                    修改
+                        appendData(string)  添加字符串到文本节点末尾处。
+                        insertData(offset, string) 从offset指定位置插入string
+                        deleteData(offset, count) 从offset起删除count个字符
+                        replaceData(off,count,string) 从off起将count个字符用string替换
+                        splitText(offset) 从offset起将文本节点分割
+        3.element.Attr..属性节点对象
+            属性值获取
+                attr.name 返回属性名称
+                attr.value 设置或者返回属性值
+                nodemap.getNamedItem() 从节点列表中返回的指定属性节点。
+            属性判断
+                attr.specified 如果属性被指定返回 true ，否则返回 false
+                attr.isId 如果属性是 ID 类型，则 isId 属性返回 true，否则返回 false。
+            NamedNodeMap 对象
+                nodemap.item() 返回节点列表中处于指定索引号的节点。
+                nodemap.length 返回节点列表的节点数目。
+                nodemap.removeNamedItem() 删除指定属性节点
+                nodemap.setNamedItem() 设置指定属性节点(通过名称)
+        3.elemet.style.CSS对象
+            获取样式表属性
+                getPropertyValue() 返回指定的 CSS 属性值。
+                getPropertyPriority() 返回指定的 CSS 属性是否设置了 "important!" 属性。
+                item() 通过索引方式返回 CSS 声明中的 CSS 属性名。
+            获取行间css样式表
+                cssText 设置或返回样式声明文本
+                length 返回样式中包含多少条声明。
+                parentRule 返回包含当前规则的规则。
+            修改行间css
+                setProperty() 在 CSS 声明块中新建或者修改 CSS 属性。
+                removeProperty() 移除 CSS 声明中的 CSS 属性。
+        3.element.classNamel.类名对象 
+            判断类名
+            修改类名
+                Element.className += ' ' + newClassName  //新增一个类名
+                element.classList.add(className)  //新增
+                element.classList.remove(className)  //删除
+                element.classList.contains(className)  //是否包含
+                element.classList.toggle(className)  //toggle class
+        console对象
+            console.asset()判断输出
+            console.clear清空控制台输出
+            console.count调用计数 
+            分组
+                console.group信息分组
+                console collapsed信息折叠分组
+                consoleEnd 结束内联分组
+            常用调试命令
+                log 输出信息
+                info别名输出信息
+                warn输出警告信息
+                error输出错误
+                table输出JSON的复杂内容
+                table 复合类型数据转表格
+                debugger设置断点
+            监控执行时间
+                console.time 计时开始
+                console.timeEnd 计时结束
+            trace追踪函数的调用
+            console.custom定制样式
+        DOM的事件
+            事件的属性
+                DOM事件级别
+                事件的三个阶段
+                    事件捕获阶段
+                    处于目标阶段
+                    事件冒泡阶段
+                事件的使用方式
+                    内联模型
+                    脚本模型
+                事件处理的原理
+                    事件传播
+                    事件流
+                    事件流模式
+                    触发范围
+                事件委托
+            事件处理程序=on+事件名
+                打印事件
+                    onafterprint 该事件在页面已经开始打印，或者打印窗口已经关闭时触发
+                    onbeforeprint 该事件在页面即将开始打印时触发
+                框架/对象(Frame/Object)事件
+                    onload 一张页面或一幅图像完成加载
+                    onabort 图像的加载被中断。 ( <object>)
+                    onbeforeunload 该事件在即将离开页面（刷新或关闭）时触发 
+                    onerror 在加载文档或图像时发生错误。 ( <object>, <body>和 <frameset>)
+                    onhashchange 该事件在当前 URL 的锚部分发生修改时触发。
+                    onpageshow 该事件在用户访问页面时触发
+                    onpagehide 该事件在用户离开当前网页跳转到另外一个页面时触发
+                    onresize 窗口或框架被重新调整大小
+                    onscroll 当文档被滚动时发生的事件
+                    onunload 用户退出页面。 ( <body> 和 <frameset>)
+                表单事件
+                    onfocusin 元素即将获取焦点时触发
+                    onfocus元素获取焦点时触发
+                    onselect  用户选取文本时触发 ( <input> 和 <textarea>)
+                    onfocusout  元素即将失去焦点时触发
+                    onblur 元素失去焦点时触发
+                    onsearch  用户向搜索域输入文本时触发 ( <input="search">)
+                    onchange  该事件在表单元素的内容改变时触发
+                    onsubmit  表单提交时触发
+                    oninput元素获取用户输入时触发
+                    onreset表单重置时触发
+                多媒体事件
+                    onabort 事件在视频/音频（audio/video）终止加载时触发。
+                    oncanplay 事件在用户可以开始播放视频/音频（audio/video）时触发。
+                    oncanplaythrough 事件在视频/音频（audio/video）可以正常播放且无需停顿和缓冲时触发。
+                    ondurationchange 事件在视频/音频（audio/video）的时长发生变化时触发。
+                    onemptied 当期播放列表为空时触发
+                    onended 事件在视频/音频（audio/video）播放结束时触发。
+                    onerror 事件在视频/音频（audio/video）数据加载期间发生错误时触发。
+                    onloadeddata 事件在浏览器加载视频/音频（audio/video）当前帧时触发触发。
+                    onloadedmetadata 事件在指定视频/音频（audio/video）的元数据加载后触发。
+                    onloadstart 事件在浏览器开始寻找指定视频/音频（audio/video）触发。
+                    onpause 事件在视频/音频（audio/video）暂停时触发。
+                    onplay 事件在视频/音频（audio/video）开始播放时触发。
+                    onplaying 事件在视频/音频（audio/video）暂停或者在缓冲后准备重新开始播放时触发。
+                    onprogress 事件在浏览器下载指定的视频/音频（audio/video）时触发。
+                    onratechange 事件在视频/音频（audio/video）的播放速度发送改变时触发。
+                    onseeked 事件在用户重新定位视频/音频（audio/video）的播放位置后触发。
+                    onseeking 事件在用户开始重新定位视频/音频（audio/video）时触发。
+                    onstalled 事件在浏览器获取媒体数据，但媒体数据不可用时触发。
+                    onsuspend 事件在浏览器读取媒体数据中止时触发。
+                    ontimeupdate 事件在当前的播放位置发送改变时触发。
+                    onvolumechange 事件在音量发生改变时触发。
+                    onwaiting 事件在视频由于要播放下一帧而需要缓冲时触发。
+                变化事件
+                    动画事件
+                        animationstart 该事件在 CSS 动画开始播放时触发
+                        animationend 该事件在 CSS 动画结束播放时触发
+                        animationiteration 该事件在 CSS 动画重复播放时触发
+                    过渡事件
+                        transitionend 该事件在 CSS 完成过渡后触发。
+                    ontoggle 该事件在用户打开或关闭 <details> 元素时触发
+                操作事件
+                    onwheel 该事件在鼠标滚轮在元素上下滚动时触发
+                    拖动事件
+                        ondragstart 该事件在用户开始拖动元素时触发
+                        ondragleave 该事件在拖动元素离开放置目标时触发
+                        ondrag 该事件在元素正在拖动时触发
+                        ondrop 该事件在拖动元素放置在目标区域时触发
+                        ondragenter 该事件在拖动的元素进入放置目标时触发
+                        ondragover 该事件在拖动元素在放置目标上时触发
+                        ondragend 该事件在用户完成元素的拖动时触发
+                    剪贴板事件
+                        oncopy 该事件在用户拷贝元素内容时触发
+                        oncut  该事件在用户剪切元素内容时触发
+                        onpaste该事件在用户粘贴元素内容时触发
+                    鼠标事件
+                        onclick 当用户点击某个对象时调用的事件句柄。 
+                        oncontextmenu 在用户点击鼠标右键打开上下文菜单时触发
+                        ondblclick 当用户双击某个对象时调用的事件句柄。 
+                        onmousedown 鼠标按钮被按下
+                        onmouseleave 当鼠标指针移出元素时触发 
+                        onmousemove 鼠标被移动
+                        onmouseover 鼠标移到某元素之上
+                        onmouseenter 当鼠标指针移动到元素上时触发。
+                        onmouseout 鼠标从某元素移开
+                        onmouseup 鼠标按键被松开。
+                    键盘事件
+                        onkeydown 某个键盘按键被按下
+                        onkeypress 某个键盘按键被按下并松开
+                        onkeyup 某个键盘按键被松开
+                其它事件
+                    onmessage接受到消息 
+                    ononline 该事件在浏览器开始在线工作时触发。
+                    onoffline 该事件在浏览器开始离线工作时触发
+                    onpopstate 该事件在窗口的浏览历史（history 对象）发生改变时触发。
+                    onshow 该事件当 <menu> 元素在上下文菜单显示时触发
+                    onstorage 该事件在 Web Storage(HTML 5 Web 存储)更新时触发
+            事件三要素
+            定义事件流模式方法
+            function事件处理程序
+                alert()
+                void (0)
+            如何让事件先冒泡后捕获

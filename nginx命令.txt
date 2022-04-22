@@ -1,0 +1,33 @@
+nginx 命令
+    常用命令
+        nginx -s reload
+        nginx -s stop
+        nginx
+        nginx -t
+         nginx -s quit         优雅停止nginx，有连接时会等连接请求完成再杀死worker进程  
+        nginx -v            查看版本 
+        nginx  -c filename  指定配置文件
+    nginx安装与命令
+        常用服务器介绍
+            Nginx教程(7) 正向代理与反向代理【总结】
+        nginx安装及常见问题
+            无法访问nginx,要关闭防火墙
+        常用命令
+            nginx开启关闭和状态
+                 linux nginx启动重启关闭命令
+                ps aux|grep nginx 和ps -ef|grep nginx一样
+                关闭nginx (./sbin/nginx -s stop)
+            启动停止命令
+                ./nginx -c nginx.conf
+                    如果不指定，默认为NGINX_HOME/conf/nginx.conf
+                ./nginx -s stop
+                    停止
+                ./nginx -s quit
+                    退出
+                ./nginx -s reload
+                    重新加载nginx.conf
+            发送信号的方式
+                kill -QUIT  进程号
+                    安全停止
+                kill -TERM 进程号
+                    立即停止

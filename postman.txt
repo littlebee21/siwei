@@ -1,0 +1,23 @@
+postman
+    postman安装
+        下载安装打开之后就是下图的界面了，点击图中的 + 就可以开始我们的接口测试了。
+        使用postman发起一个HTTP请求
+            从网页上获取一个HTTP请求（po主比较喜欢用chrome的Devtools）：使用chrome打开博客园并登录，F12打开Devtools，然后点击我们的博客园主页，我们就可以在Network中看到点击博客园主页之后页面上的的request信息和response信息了。
+            使用postman发送请求并查看结果：打开postman将上面获取的接口数据粘到postman中（不要忘了粘上Request Header中的cookie哦），然后点击send，返回结果如图Response，响应信息跟我们使用F12获取的Response相同，说明我们的HTTP请求发送成功了。
+        快速复制一个HTTP请求到postman
+            看了上边的步骤，大家一定觉得这也太麻烦了，如果我的请求参数太多，要一个个复制粘贴岂不是很累，那么我们就来看一下如何快速的将一个HTTP请求复制到postman中吧。
+            右键单击要copy的请求，选择copy - copy as cURL，然后打开Postman，Import-Paste Row Text - ctrl+v - Import导入成功。
+    postman基础功能简单介绍
+        请求参数：
+            1.Params：是通过URL提交的参数
+                ，也就是Query String Parameters里边的参数要放到Params中。
+            2.Authorization：Authorization处理各种请求身份的认证，
+                不同的系统使用请求认证协议不同，这里可以根据不同的系统设置认证方式，例如待测系统使用Basic Auth，如图中输入账号密码，点击Preview Request，它的认证信息就会出现在Headers里边了。
+            3.Headers：这里设置请求的头信息，
+                例如Content-Type、Cookie、Referer等等。
+            4.Body：这里就是请求的内容了，
+                根据请求内容的类型选择对应的数据格式，比较常见的就是json和text了，例如。
+            5.Pre-request Script：这里是请求发送之前需要执行的代码片段，
+                例如我们需要一个随机数或者时间戳，都可以在这里使用js代码生成，然后在请求中使用 {{变量名}} 获取 如图我们用之前接口中的cookie举例。 6.tests：在这里呢我们可以用js代码来判断请求的返回信息是否是我们想要的，例如验证Status Code的值。
+                tests["Status code is 200"] = responseCode.code === 200; pm.test("Status code is 200", function () { pm.response.to.have.status(200); });
+                除了验证Status Code我们还可以验证Response time，response body等等。

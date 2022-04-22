@@ -1,0 +1,61 @@
+springmvc
+    web.xml加载过程
+        读取web.xml配置文件中的两个节点
+            <listener> </listener>
+            <context-param>
+        紧接着，容器创建一个ServletContext（Application）
+        容器以<context-param></context-param>的name作为键，value作为值，将其转化为键值对，存入ServletContext。
+        容器会读取<filter></filter>，根据指定的类路径来实例化过滤器
+    组成标签
+        1. XML文档有效性检查
+        2. <web-app></web-app>
+        3. <display-name></display-name>
+            web应用的名称
+        4. <distributable/>
+            是否适合分布式环境
+        5. <context-param></context-param>
+            5.1<context-param>解释：
+                5.2 什么情况下使用，为什么使用<context-param>：
+            5.3 Spring配置文件：
+            5.4 多个配置文件引用处理：
+            5.5 在不同环境下如何获取，
+            使用场景
+        6. <session-config></session-config>
+            <session-timeout>
+        7. <listener></listener>
+            ServletContextListener：用于监听Web Application的启动和关闭；
+            ServletContextAttributeListener：用于监听ServletContext范围（Application）内属性的改变；
+            ServletRequestListener：用于监听用户的请求；
+            ServletRequestAttributeListener：用于监听ServletRequest范围（Request）内属性的改变；
+            HttpSessionListener：用于监听用户session的开始和结束；
+            HttpSessionAttributeListener：用于监听HttpSession范围（Session）内属性的改变。
+        8. <filter></filter>
+            8.1 Filter介绍：
+            8.2 Filter配置：
+            8.21 字符集过滤器
+            8.22 缓存控制
+            8.23 登录认证
+            8.24 单点登出
+            8.25 封装request
+            8.26 存放Assertion到ThreadLocal中
+            8.27 禁用浏览器缓存
+            8.28 CAS Client向CAS Server进行ticket验证
+        9. <servlet></servlet>
+            9.1 Servlet介绍：
+                HttpServlet
+            9.2 Servlet配置：
+                9.2.1 <description>、<display-name>和<icon>
+                9.2.2 <servlet-name>、<servlet-class>和<jsp-file>元素
+                <servlet-name>：
+                <servlet-class>：
+                <jsp-file>：用来指定应用中JSP文件的完整路径。
+                9.2.3 <load-on-startup>
+                9.2.4 <servlet-mapping>
+                    <servlet-name>和
+                    <url-pattern>
+                9.2.5 加载Servlet的过程 
+            9.3 DispatcherServlet在web.xml中的配置：
+                classpath和classpath*区别：
+            9.4 ContextLoaderListener和DispatcherServlet初始化上下文关系和区别：
+        10. <welcome-file-list></welcome-file-list>
+        11. 参考文献：

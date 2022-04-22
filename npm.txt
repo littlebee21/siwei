@@ -1,0 +1,23 @@
+npm包管理工具
+    npm功能
+    npm安装包的位置
+    npm命令
+        测试是否成功安装
+        npm install npm -g升级
+        npm list grunt查看版本号
+        npm选择版本
+        npm list -g查看安装信息
+        npm uninstall卸载模块
+        npm  update 模块
+        npm search 搜索模块
+        npm init创建模块
+        npm publish发布模块
+        npm root -g查看全局安装目录
+        npm安装node模块
+        安装的分类
+            8087错误解决
+            安装node web框架模块表达
+            npm install  --save-dev本地安装
+            npm install 全局安装
+            本地安装和全局安装的区别
+    npm的淘宝镜像

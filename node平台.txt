@@ -1,0 +1,182 @@
+node平台
+    node的功能
+        创建服务器
+        接受请求响应请求
+        node的应用
+            前后靖编程语言环境统一:雅虎开放了 Cocktail框架
+            Node带来的高性能的用于实时应用: Voxer和腾讯
+            并行使得使用者可以更高效地利用分布式环境:阿里巴巴和eBay
+            并行I/O，有效利用稳定接囗提升Web染能力:雪球财经和 LinkedIn
+            云计算平台提供Node支持
+            游戏开发领域:网易的 pomelo实时框架
+            工具类应用
+    node的使用
+        Node.js 进阶
+            Memory 内存管理
+            V8 虚拟机
+            I/O 模型
+            EventLoop 事件轮询
+            Threads&Process 线程和进程
+            Testing 测试
+            Schedule 定时任务
+            Template 模版引擎
+            Cache 缓存
+            性能调优
+        node常用命令
+            打开应用
+                - notepad 打开记事本
+                - mspaint 打开画图
+                - calc 打开计算机
+                - write 写字板
+                - sysdm.cpl 打开环境变量设置窗口
+            常用命令
+                - md 创建目录
+                - rmdir(rd) 删除目录，目录内没有文档。
+                - echo on a.txt 创建空文件
+                - del 删除文件
+                - rm 文件名 删除文件
+                - cat 文件名 查看文件内容
+                - cat > 文件名 向文件中写上内容。
+            nvm常用的命令
+                - nvm list 查看当前安装的Node.js所有版本
+                - nvm install 版本号 安装指定版本的Node.js
+                - nvm uninstall 版本号 卸载指定版本的Node.js
+                - nvm use 版本号 选择指定版本的Node.js
+            REPL(交互式解释器)
+                使用下划线(_)获取上一个表达式的运算结果
+                ctrl + c - 退出当前终端。
+                ctrl + c 按下两次 - 退出 Node REPL。
+                ctrl + d - 退出 Node REPL.
+                向上/向下 键 - 查看输入的历史命令
+                tab 键 - 列出当前命令
+                .help - 列出使用命令
+                .break - 退出多行表达式
+                .clear - 退出多行表达式
+                .save filename - 保存当前的 Node REPL 会话到指定文件
+                .load filename - 载入当前 Node REPL 会话的文件内容
+        node编程
+            异步编程
+                Node.js 回调函数
+                阻塞代码实例
+                非阻塞代码实例
+        切换到工作目录
+        javascript的执行
+        sublime和js的调试使用
+    node的工作原理
+        node模式
+            命令行模式
+            REPL(交互式解释器
+                执行以下任务
+                启动 Node 的终端
+        node的程序执行
+            执行异步操作的函数将回调函数作为最后一个参数
+            回调函数接收错误对象作为第一个参数
+        Node.js 框架
+            Express.js
+                Express 框架核心特性：
+            Koa.js
+            Egg.js
+            Nest.js
+            Midway.js
+            Meteor.js
+    node模块系统
+        模块的功能
+        模块的工作原理
+            全局变量
+            Node.js 函数
+                匿名函数
+            node的对象
+                global全局对象
+                process对象
+                    process.nextTick()
+            代码结构
+                'use strict';
+                引入 events 模块
+                创建 eventEmitter 对象
+                绑定事件及事件的处理程序
+                触发事件
+            如果只写模块名：var greet = require('hello');
+            在一个模块中输出变量
+                方法一：对module.exports赋值：
+                方法二：直接使用exports：
+        node核心模块
+            require 方法来加载
+                require原理
+            模块系统编写
+            exports 接口对象提供模块接口
+            判断JavaScript执行环境
+        - fs 文件操作模块
+            异步和同步
+        - http 网络服务构建模块
+            HTTP / HTTPS / HTTP2
+            querystring 模块
+            url模块
+                parse获取GET请求内容
+                获取 URL 的参数
+                获取 POST 请求内容
+        Event事件
+            EventEmitter对象事件触发监听
+                属性
+                    on 和 emit
+                方法
+                    addListener(event, listener)为指定事件添加一个监听器到监听器数组的尾部。
+                    on(event, listener)为指定事件注册一个监听器，接受一个字符串 event 和一个回调函数。
+                    3 once(event, listener)为指定事件注册一个单次监听器，即 监听器最多只会触发一次，触发后立刻解除该监听器。
+                    4 removeListener(event, listener)移除指定事件的某个监听器，监听器必须是该事件已经注册过的监听器。
+                    5 removeAllListeners([event])移除所有事件的所有监听器， 如果指定事件，则移除指定事件的所有监听器。
+                    6 setMaxListeners(n)  EventEmitters 如果你添加的监听器超过 10 个就会输出警告信息。 setMaxListeners 函数用于提高监听器的默认限制的数量。
+                    7 listeners(event)返回指定事件的监听器数组。
+                    8 emit(event, [arg1], [arg2], [...])按监听器的顺序执行执行每个监听器，如果事件有注册监听返回 true，否则返回 false。
+                类方法
+                    listenerCount(emitter, event)返回指定事件的监听器数量。
+                事件
+                    newListener该事件在添加新监听器时被触发。
+                    removeListener删除一个监听器
+                    error 事件
+                使用
+                    继承 EventEmitter
+        Stream流
+            四种流类型：
+                Readable - 可读操作。
+                Writable - 可写操作。
+                Duplex - 可读可写操作.
+                Transform - 操作被写入数据，然后读出结果。
+            常用的事件
+                data - 当有数据可读时触发。
+                end - 没有更多的数据可读时触发。
+                error - 在接收和写入过程中发生错误时触发。
+                finish - 所有数据已被写入到底层系统时触发。
+            从流中读取数据
+            写入流
+        Buffer缓冲区
+            Buffer对象
+                创建 Buffer 类
+                写入缓冲区buf.write(string[, offset[, length]][, encoding])
+                从缓冲区读取数据buf.toString([encoding[, start[, end]]])
+                将 Buffer 转换为 JSON 对象buf.toJSON()
+                缓冲区合并Buffer.concat(list[, totalLength])
+                缓冲区比较buf.compare(otherBuffer);
+                拷贝缓冲区buf.copy(targetBuffer[, targetStart[, sourceStart[, sourceEnd]]])
+                缓冲区裁剪buf.slice([start[, end]])
+                缓冲区长度buf.length
+            node.js 目前支持的字符编码
+        Crypto加密
+        util常用函数的集合
+            util.inherits对象间原型继承的函数
+            util.inspect将任意对象转换 为字符串的
+            util.isArray(object)如果给定的参数 "object" 是一个数组返回true，否则返回false
+            util.isRegExp(object)如果给定的参数 "object" 是一个正则表达式返回true，否则返回false
+            util.isDate(object)
+            util.isError(object)
+        Web 模块
+        child_process 多进程模块
+            child_process.exec 使用子进程执行命令，缓存子进程的输出
+            child_process.spawn 使用指定的命令行参数创建新进程
+            child_process.fork 是 spawn() 方法的特殊形式，用于创建进程
+        工具模块
+            - os 操作系统信息模块
+            - path 路径处理模块
+            Domain 模块简化异步代码的异常处理，可以捕捉处理try catch无法捕捉的。
+            DNS 模块用于解析域名。
+            Net网络
+            Timer定时器

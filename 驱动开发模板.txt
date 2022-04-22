@@ -1,0 +1,77 @@
+驱动开发模板
+
+
+
+
+理解：
+    就是内核：
+    的中间部分的执行任务交给我们进行编写：
+
+    内核提供：
+    提供处理函数：读文件
+    提供出口数据：user
+
+    设置暂存空间：buf
+    设置处理数据的格式：cdev
+    设置处理数据的格式：file_operation
+    实现并注册：然后就可以提供给内核使用
+
+
+
+具体函数内容：
+mychardev_init: 
+                ### MKDEV 创建空间号
+                ###register_chrdev_region 注册空间
+                ###cdev_init 
+                ###cdev_add
+
+mychardev_open
+                ### contain_of
+                ### pdev操作
+mychardev_close
+                ### pdev操作
+
+mychardev_exit
+                ### MKDEV
+                ### unregister_chrdev_region 删除空间
+                ### cdev_del 删除空间号 
+                    ##现有号才能通过号去创建和卸载空间
+
+操作结构体：
+struct file_operations {
+	struct module *owner;  拥有结构体模块的指针
+	loff_t (*llseek) (struct file *, loff_t, int); 改变文件当前读写位置
+	ssize_t (*read) (struct file *, char __user *, size_t, loff_t *); 从设备读取数据 
+	ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);  发送数据给设备
+	ssize_t (*aio_read) (struct kiocb *, const struct iovec *, unsigned long, loff_t); 异步读取数据
+	ssize_t (*aio_write) (struct kiocb *, const struct iovec *, unsigned long, loff_t); 异步写入数据
+	int (*readdir) (struct file *, void *, filldir_t);  读取目录
+
+	unsigned int (*poll) (struct file *, struct poll_table_struct *); 判断是否阻塞
+	int (*ioctl) (struct inode *, struct file *, unsigned int, unsigned long); 向设备发出特定指令
+	long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long); 非阻塞发出特定指令
+	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);  
+	int (*mmap) (struct file *, struct vm_area_struct *);  设备内存映射到进程的地址空间
+	int (*open) (struct inode *, struct file *);    打开设备
+	int (*flush) (struct file *, fl_owner_t id);    设备关闭 文件描述符拷贝
+	int (*release) (struct inode *, struct file *);  
+
+	int (*fsync) (struct file *, struct dentry *, int datasync); 文件数据-》存储设备
+	int (*aio_fsync) (struct kiocb *, int datasync);  fsync方法的异步板
+	int (*fasync) (int, struct file *, int);    通知设备FASYNC标志的改变
+    int (*lock) (struct file *, int, struct file_lock *);   实现文件加锁
+
+	ssize_t (*sendfile) (struct file *, loff_t *, size_t, read_actor_t, void *);   发送文件到web
+	ssize_t (*sendpage) (struct file *, struct page *, int, size_t, loff_t *, int); 发送数据 一次一页
+	
+    unsigned long (*get_unmapped_area)(struct file *, unsigned long, unsigned long, unsigned long, unsigned long); 找位置映射设备内存段
+	int (*check_flags)(int);   模块检查传递给fcntl的
+	int (*dir_notify)(struct file *filp, unsigned long arg); 
+	int (*flock) (struct file *, int, struct file_lock *);
+	ssize_t (*splice_write)(struct pipe_inode_info *, struct file *, loff_t *, size_t, unsigned int);
+	ssize_t (*splice_read)(struct file *, loff_t *, struct pipe_inode_info *, size_t, unsigned int);
+
+    1，open close read write等功能
+        本质是对pdev，即user和file内存空间进行操作
+    2，init和exit
+        类似malloc和free通过设备号去申请对应的设备空间

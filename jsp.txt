@@ -1,0 +1,85 @@
+jsp
+    JSP动作
+        include动作
+        forward动作
+        param动作
+        useBean动作
+        setProperty和getProperty动作
+    JSP内置对象
+        JSP 内置对象只能在脚本和表达式中使用，在声明中不能使用。
+        JSP 内置对象又称为隐式对象，它们由容器实现和管理。在 JSP 页面中，这些内置对象不需要预先声明，也不需要进行实例化，我们可以直接在脚本和表达式中使用。
+        由 JSP 规范提供，不用编写者实例化；通过 Web 容器实现和管理；所有 JSP 页面均可使用；只有在脚本元素的表达式或代码段中才能使用。
+        概要
+    cookie
+    JSTL
+    javabean
+        规范
+            提供一个默认的无参构造函数。 ？
+            需要被序列化并且实现了 Serializable 接口。 ？
+                ，JVM 将类实例转化为字节序列，当类实例被发送到另一台计算机后，会被重新组装，不用担心因操作系统不同而有所改变，序列化机制可以弥补网络传输中不同操作系统的差异问题。
+            可能有一系列可读写属性。
+            可能有一系列的 getter 或 setter 方法。
+        属性
+            getPropertyName()
+            setPropertyName()
+        与import导入区别
+            导入并未实例化  需手动创建对象
+            javabean实例化 对象名为id
+        实例化javabean
+        设置属性:读取属性:
+    js组成
+        生命周期
+            编译
+                解析
+                翻译jsp--Servlet
+                编译Servlet
+            初始化
+                jspinit()
+            执行
+                jspService()
+                    request
+                        get
+                        post
+                    response
+            销毁
+                jspDestroy()
+                JSP page 指令用来定义当前页面的相关属性。page 指令可以在 JSP 页面的任意位置编写，通常放在 JSP 页面的顶部。
+                用于在 JSP 页面引入其它内容，可以是 JSP 文件、html 文件和文本文件等，相当于把文件的内容复制到 JSP 页面。引入的文件和 JSP 页面同时编译运行。
+                可以使用 taglib 指令声明并引入标签库。Java API 允许在页面中自定义标签，标签库就是自定义标签的集合。
+                    转发 带参数转发
+                    web地址不变化
+        九大内置对象
+            四大域对象
+                pageContext
+                request
+                session
+                application
+                四大域方法
+                    setAttribute
+                    getAttribute
+                    removeAttribute
+            response
+                response.sendRedirect("success.jsp");
+                重定向 web地址发生变化
+                request参数不传递
+            out
+            config
+            page
+            exception
+        EL表达式
+            获取参数
+                ${param.a}等同于request.getParameter("a");
+            子主题
+    js使用
+        jsp指令
+            java server pages
+            jsp脚本
+                JSP 脚本可以包含任意数量的 Java 语句，变量、方法和表达式。JSP 脚本会把包含的内容插入到 Servlet 的 service() 方法中。  脚本不可以写方法 方法不能套方法
+                不能声明方法 只能生命变量（局部变量）
+                脚本写入到servlet中的service方法里
+            jsp声明
+                JSP 声明语句用于声明一个或多个变量、方法，以供后面的 Java 代码使用。您必须先对变量和方法进行声明，才能使用它们
+                可能声明方法 变量（成员方法 成员变量）
+                声明内容添加到servlet类中 方法常量
+            jsp表达式
+                JSP 表达式可以把变量或者表达式输出到网页上，不需要 out.print() 就能输出数据。通常用于打印变量和方法的值。

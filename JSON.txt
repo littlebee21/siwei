@@ -1,0 +1,46 @@
+JSON对象表示法
+    json的功能
+        承载相互传递的数据
+        在网页中使用
+    json的属性
+        json与 XML 对比
+        json的优点
+            JSON 仍然独立于语言和平台
+            支持许多不同的编程语言
+            对于 AJAX 应用程序来说，JSON 比 XML 更快更易使用
+            python和json的数据结构
+            json与JavaScript
+                由于 JSON 语法是 JavaScript 语法的子集
+        JSON 文件的文件类型是 ".json"
+        JSON 文本的 MIME 类型是 "application/json"
+        数组在JSON和JS中的要求
+    json的位置
+    JSON 语法
+        JSON的值
+            数字（整数或浮点数）
+            字符串（在双引号中）
+            逻辑值（true 或 false）
+            数组（在中括号中）
+            对象（在大括号中）
+            null
+        JSON 对象
+            嵌套 JSON 对象
+                访问嵌套的 JSON 对象
+                myObj.sites.site1 = "www.google.com"修改值
+            JSON对象
+                循环访问对象属性
+                delete 删除对象属性
+                myObj["name"]访问对象值myObj.name
+        JSON 数组
+            嵌套 JSON 对象中的数组
+                访问嵌套的JSON对象中的数组
+            JSON 数组
+                循环访问数组
+                x = myObj.sites[0]访问数组
+                myObj.sites[1] = "Github"修改值
+                删除数组元素
+        JSON 不能存储 Date 对象
+        JSON 不允许包含函数
+    JSON的使用
+        JSON - 转换为 JavaScript 对象：eval() 
+        JSON 解析器

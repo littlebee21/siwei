@@ -1,0 +1,141 @@
+python
+    高级
+        并发编程
+            并发编程组成
+                进程 线城 协程区别
+                进程
+                线程
+            方法
+                多线程
+                    thread模块
+                        特性
+                            主线程会等待所有子进程结束
+                            线程执行代码的封装
+                            顺序是不确定的
+                        共享全局变量
+                            同步
+                            互斥锁
+                                代码
+                            死锁现象
+                                解决
+                            资源竞争问题
+                        多线程执行
+                多进程
+                    multiprocessing模块
+                        获得pid
+                            os.getpid
+                        proccess类
+                        Queue进程间通信
+                            代码
+                        查看进程数量
+                        传递给进程中函数参数
+                        pool管理进程
+                    python的os模块
+                多协成
+                    异步编程（异步I/O）
+                    asyncio模块
+                        以及await和async关键字
+                创建新线程
+                concurrent.futures
+        文件的读写
+            文件读写原理
+                文件读写函数
+                文件名
+                编码信息
+                文件操作参数
+            健壮的读写方法
+                文件读写流程
+                读取JSON文档
+                读取二进制文件
+                通用读取
+                    读写方式
+                        f=open()
+                        with open() as f
+                        for in
+                    操作方式
+                        f.read
+                            读参数
+                        f.write
+                            写参数
+                        追加
+                            追加参数
+                    文件其它操作
+                        改写
+                        光标
+                        截取操作
+                        判断是否可读或可写
+        网络编程
+            网络编程组成
+                网络协议
+                    udp
+                    tcp
+                        注意
+                    TCP UDP区别
+                端口
+                    端口号
+                    端口组成
+                        知名端口
+                        动态端口
+                    端口绑定方法方法
+                        端口绑定
+                    查看被使用的端口
+                网络助手
+            网络编程方法
+                socket
+                    创建套接字
+                    Socket的起源
+                    创建UDP套接字流程
+                    创建TCP套接字流程
+                    创建套接字代码
+                    粘包现象的解决
+                文件下载
+                编码 解码
+                服务器编程
+                    ftp服务器
+                    ssh服务器
+                客户端编程
+    应用领域
+        0、WEB开发
+            Django
+                django常识
+                    生命周期
+                    中间件
+                    Cookie/Session
+                    CSRF
+                    信号
+                    5种缓存
+                django model
+                    性能相关
+                        select_related
+                        prefetch_related
+                    查询语句
+                        F()和Q()
+                DRF
+                    drf常用方法
+                        认证
+                        权限
+                        序列化
+                        分页
+                        限流
+                    DRF面试
+                        RESTful API
+                        django有drf后生命周期
+                部署
+                    django+nginx+uwsgi（docker）
+            Tornado
+                异步非阻塞实现原理
+                源码分析
+        5. 人工智能
+            PyTorch
+        8. 科学运算
+            NumPy、SciPy、Matplotlib、Enthought librarys
+        4. 云计算开发
+            Python是从事云计算工作需要掌握的一门编程语言，目前很火的云计算框架OpenStack就是由Python开发的，如果想要深入学习并进行二次开发，就需要具备Python的技能。
+        6. 自动化运维
+        7. 金融分析
+            Numpy\Pandas\Scipy数据分析模块
+        冷门
+            1. 桌面软件
+            9. 游戏开发
+                飞机大战代码流程
+  

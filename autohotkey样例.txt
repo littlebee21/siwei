@@ -1,0 +1,1544 @@
+autohotkey样例
+
+;Notes: #==win !==Alt ^==Ctrl  +==shift ::分隔 run AHK命令
+;=========================================================================
+^+r:: ;reload
+reload
+sleep 1000
+msgbox, 4,, The script could not be reloaded. Would you like to open it for editing?
+ifmsgbox, yes, edit
+return
+
+^Esc::Pause ; 按一次 ^+Esc 会暂停脚本. 再按一次则取消暂停.
+
+#=:: ;窗口透明化增加或者减弱
+    WinGet, ow, id, A
+    WinTransplus(ow)
+    return
+
+#-:: ;窗口透明化增加或者减弱
+        WinGet, ow, id, A
+        WinTransMinus(ow)
+        return
+    WinTransplus(w){
+    
+        WinGet, transparent, Transparent, ahk_id %w%
+        if transparent < 255
+            transparent := transparent+10
+        else
+            transparent =
+        if transparent
+            WinSet, Transparent, %transparent%, ahk_id %w%
+        else
+            WinSet, Transparent, off, ahk_id %w%
+        return
+    }
+    WinTransMinus(w){
+    
+        WinGet, transparent, Transparent, ahk_id %w%
+        if transparent
+            transparent := transparent-10
+        else
+            transparent := 240
+        WinSet, Transparent, %transparent%, ahk_id %w%
+        return
+    }
+
+$CapsLock::Enter ;将少用的caps Lock键映射为Enter键（这样可以用左手回车）replace CapsLock to LeftEnter; CapsLock = Alt CapsLock
+LAlt & Capslock::SetCapsLockState, % GetKeyState("CapsLock", "T") ? "Off" : "On"
+
+;$insert::home ;将少用的insert键映射为home键 腹灵FL980是98配键盘，没有home键，做剪辑怎么能没有home键呢？
+:*:[[[::] ;腹灵FL980配套映射,]映射给END
+;=========================================================================
+#enter:: ;最大化窗口
+    WinGet,S,MinMax,A
+    if S=0
+        WinMaximize,A
+    else if S=1
+        WinRestore,A
+    else if S=-1
+        WinRestore,A
+    return
+
+    !enter:: ;最爱代码之窗口置顶
+        WinGet ow, id, A
+        WinTopToggle(ow)
+        return
+    WinTopToggle(w) {
+    
+        WinGetTitle, oTitle, ahk_id %w%
+        Winset, AlwaysOnTop, Toggle, ahk_id %w%
+        WinGet, ExStyle, ExStyle, ahk_id %w%
+        if (ExStyle & 0x8)  ; 0x8 为 WS_EX_TOPMOST.在WinGet的帮助中
+            oTop = 置顶
+        else
+            oTop = 取消置顶
+        tooltip %oTitle% %oTop%
+        SetTimer, RemoveToolTip, 5000
+        return
+    
+        RemoveToolTip:
+        SetTimer, RemoveToolTip, Off
+        ToolTip
+        return
+    }
+
+!x:: ;关闭窗口
+    send ^w
+    return
+
+#c:: ;cosea版以管理员身份打开cmd命令行
+    Run *RunAs cmd ,,max
+    return
+
+WinMinimize, A
+return
+#m:: ;窗口最小化
+
+#space::
+    tooltip, 以前向往更加辽阔的天空，走了一小圈，发现`n`n无论是平平淡淡，还是轰轰烈烈，都隐藏不住自己内心的那份虚无缥缈！！！
+    run https://www.google.com/ncr
+    sleep 2000
+    tooltip,
+    return
+
+!space:: ;cosea典藏级原创代码之谷歌搜索终极版
+    run https://www.google.com/search?q=%clipboard% ;用google搜索剪切板的内容
+    clipboard1=%clipboard%&tbs=qdr:1,sbd:1
+    run https://www.google.com/search?q=%clipboard1% ;按时间排序
+    run https://www.google.com/search?q=%clipboard%&tbs=qdr:m ;只显示最近一个月信息
+    run https://www.google.com/search?q=%clipboard%&tbs=qdr:y ;只显示最近一年信息
+    run https://www.google.com/search?q=%clipboard%&as_filetype=pdf ;指定PDF文件
+    run https://www.google.com/search?q=%clipboard%&tbs=li:1 ;精确匹配
+    run https://www.google.com/search?&as_epq=%clipboard% ;完全匹配
+    run https://www.google.com/search?q=%clipboard% inurl:gov ;url包括gov的网站信息
+    run https://www.google.com/search?q=intitle:%clipboard% ;文章标题中包含关键词的结果
+    run https://www.google.com/search?q=%clipboard%&source=lnt&lr=lang_zh-CN|lang_zh-TW ;&source=lnt&lr=lang_zh-CN|lang_zh-TW，指定中文网页
+    run https://www.google.com/search?q=%clipboard%&tbm=isch&tbs=imgo:1 ;&tbm=isch指定搜索谷歌图片
+    run https://www.google.com/search?q=%clipboard%&tbm=isch&tbs=isz:l ;将URL更改为大尺寸图片&tbs=isz:l
+    run https://image.baidu.com/search/index?z=3&tn=baiduimage&word=%clipboard% ;z=3是大尺寸，z=9是特大尺寸
+    run https://www.behance.net/search?content=projects&sort=appreciations&time=week&featured_on_behance=true&search=%clipboard%
+    run https://www.zcool.com.cn/search/content?&word=%clipboard%
+    clipboard2=%clipboard%&tbm=isch&tbs=qdr:m,isz:l,imgo:1
+    run https://www.google.com/search?q=%clipboard2% ;为URL添加&tbs=qdr:m，只显示新近一个月内的图片，&tbs=imgo:1，显示图片大小
+    tooltip, 那晚，风也美，人也美。。。
+    sleep 1500
+    tooltip,
+    return
+
++space::
+    run http://fanyi.youdao.com/
+    tooltip,世界是你们的，也是我们的，但归根结底是你们的！！！
+    sleep, 3000
+    tooltip,
+    return
+
+#n:: ;cosea强行修改版，最常用功能之打开记事本
+    IfWinNotExist ahk_class Notepad
+    {
+        run notepad,,max
+        WinActivate
+    }
+    Else IfWinNotActive ahk_class Notepad
+    {
+        WinActivate
+        sleep,500
+        WinMaximize,A
+    }
+    Else
+    {
+        WinMinimize
+    }
+    Return
+
+#i::  ;首先显示当前剪切板内容，然后在获取光标坐标并发送到剪切板
+    msgbox 当前剪切板的内容为：%clipboard%
+    MouseGetPos, xpos, ypos
+    clipboard = %xpos%,%ypos%
+    msgbox, 小海已为你发送光标位置 (X,Y)=%xpos%,%ypos% 到剪切板
+    return
+
++k::run,control
+
++r::run C:\Windows\system32\Taskmgr.exe
+
+^delete::FileRecycleEmpty ;ctrl+del，清空回收站
+
+F1:: ;窗口切换 ALT+TAB
+    send,!{tab}
+    return
+
+;F6::
+    IfWinNotExist ahk_class Calculator
+    {
+    Run calc
+    WinActivate
+    }
+    Else IfWinNotActive ahk_class Calculator
+    {
+    WinActivate
+    }
+    Else
+    {
+    WinMinimize
+    }
+    return
+
+F7::
+    Shutdown, 1 ;关机
+    ;Shutdown, 2 ;重启
+    return
+
+F12:: ;user-defined 小海版自动整理剪映语音转文字文稿::
+    Loop,30
+    {
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    Send,{down}{delete}
+    }
+    return
+
+;cosea原创神级代码之清除所有标点符号================================
+F2:: ;清除所有标点符号，并换行
+    clipboard := clipboard ;将富文本转为纯文本
+    run notepad,,max
+    Loop
+    {
+    ;StringReplace, clipboard, clipboard, %A_SPACE%%A_SPACE% , %A_SPACE% , UseErrorLevel ;双空格转单空格
+    ;StringReplace, clipboard, clipboard, %A_SPACE% , `r`n , UseErrorLevel ;空格转行，看具体情况开启关闭
+    StringReplace, clipboard, clipboard, `, , `r`n, UseErrorLevel ;清除英文逗号
+    StringReplace, clipboard, clipboard, ， , `r`n, UseErrorLevel ;清除中文逗号
+    StringReplace, clipboard, clipboard, `; , `r`n, UseErrorLevel ;清除英文分号
+    StringReplace, clipboard, clipboard, ； , `r`n, UseErrorLevel ;清除英文分号
+    ;StringReplace, clipboard, clipboard, . , `r`n, UseErrorLevel ;清除英文句号，因为f1.8等小数点原因，不一定要转行
+    StringReplace, clipboard, clipboard, 。 , `r`n, UseErrorLevel ;清除中文句号
+    StringReplace, clipboard, clipboard, : , `r`n, UseErrorLevel ;清除英文冒号
+    StringReplace, clipboard, clipboard, ： , `r`n, UseErrorLevel ;清除中文冒号
+    StringReplace, clipboard, clipboard, ‘’ , `r`n, UseErrorLevel ;清除中文双引号1
+    StringReplace, clipboard, clipboard, “ , `r`n, UseErrorLevel ;清除中文双引号2
+    StringReplace, clipboard, clipboard, ” , `r`n, UseErrorLevel ;清除中文双引号3
+    StringReplace, clipboard, clipboard, ' , `r`n, UseErrorLevel ;清除英文双引号
+    StringReplace, clipboard, clipboard, 、 , `r`n, UseErrorLevel ;清除中文顿号
+    StringReplace, clipboard, clipboard, / , `r`n, UseErrorLevel ;清除右斜杠
+    StringReplace, clipboard, clipboard, \ , `r`n, UseErrorLevel ;清除左斜杠
+    StringReplace, clipboard, clipboard, - , `r`n, UseErrorLevel ;清除短横线
+    StringReplace, clipboard, clipboard, —— , `r`n, UseErrorLevel ;清除长横线
+    StringReplace, clipboard, clipboard, = , `r`n, UseErrorLevel ;清除等号
+    StringReplace, clipboard, clipboard, + , `r`n, UseErrorLevel ;清除加号
+    StringReplace, clipboard, clipboard, （ , `r`n, UseErrorLevel ;清除中文左括号
+    StringReplace, clipboard, clipboard, ） , `r`n, UseErrorLevel ;清除中文右括号
+    StringReplace, clipboard, clipboard, ( , `r`n, UseErrorLevel ;清除英文左括号
+    StringReplace, clipboard, clipboard, ) , `r`n, UseErrorLevel ;清除英文右括号
+    StringReplace, clipboard, clipboard, 【 , `r`n, UseErrorLevel ;清除中文【
+    StringReplace, clipboard, clipboard, 】 , `r`n, UseErrorLevel ;清除中文】
+    StringReplace, clipboard, clipboard, [ , `r`n, UseErrorLevel ;清除[
+    StringReplace, clipboard, clipboard, ] , `r`n, UseErrorLevel ;清除]
+    StringReplace, clipboard, clipboard, ! , `r`n, UseErrorLevel ;清除英文感叹号
+    StringReplace, clipboard, clipboard, ！ , `r`n, UseErrorLevel ;清除中文感叹号
+    StringReplace, clipboard, clipboard, ？ , `r`n, UseErrorLevel ;清除中文问号
+    StringReplace, clipboard, clipboard, ? , `r`n, UseErrorLevel ;清除英文问号
+    StringReplace, clipboard, clipboard, < , `r`n, UseErrorLevel ;清除英文<
+    StringReplace, clipboard, clipboard, > , `r`n, UseErrorLevel ;清除英文>
+    StringReplace, clipboard, clipboard, 《 , `r`n, UseErrorLevel ;清除中文《
+    StringReplace, clipboard, clipboard, 》 , `r`n, UseErrorLevel ;清除英文》
+    StringReplace, clipboard, clipboard, @ , `r`n, UseErrorLevel ;清除@
+    StringReplace, clipboard, clipboard, # , `r`n, UseErrorLevel ;清除#
+    StringReplace, clipboard, clipboard, $ , `r`n, UseErrorLevel ;清除$
+    StringReplace, clipboard, clipboard, `% , `r`n, UseErrorLevel ;清除%
+    StringReplace, clipboard, clipboard, ^ , `r`n, UseErrorLevel ;清除^
+    StringReplace, clipboard, clipboard, & , `r`n, UseErrorLevel ;清除&
+    StringReplace, clipboard, clipboard, * , `r`n, UseErrorLevel ;清除*
+    StringReplace, clipboard, clipboard, `` , `r`n, UseErrorLevel ;清除`
+    StringReplace, clipboard, clipboard, `:: , `r`n, UseErrorLevel ;清除::
+    StringReplace, clipboard, clipboard, " , `r`n, UseErrorLevel ;清除"
+    StringReplace, clipboard, clipboard, { , `r`n, UseErrorLevel ;清除{
+    StringReplace, clipboard, clipboard, }, `r`n, UseErrorLevel ;清除}
+    StringReplace, clipboard, clipboard, |, `r`n, UseErrorLevel ;清除|
+    StringReplace, clipboard, clipboard, ·, `r`n, UseErrorLevel ;清除中文···
+    StringReplace, clipboard, clipboard, ~, `r`n, UseErrorLevel ;清除~
+    StringReplace, clipboard, clipboard, _ , `r`n, UseErrorLevel ;清除_
+        if ErrorLevel = 0  ; 不需要再进行替换.
+            break
+    }
+    Loop
+    {
+    StringReplace, clipboard, clipboard, %A_SPACE% , , UseErrorLevel ;清除空格
+    StringReplace, clipboard, clipboard, `t ,  , UseErrorLevel ;清除Tab键
+        if ErrorLevel = 0  ; 不需要再进行替换.
+            break
+    }
+    Loop
+    {
+    StringReplace, clipboard, clipboard, `r`n`r`n , , UseErrorLevel ;清除多余的换行符
+        if ErrorLevel = 0  ; 不需要再进行替换.
+            break
+    }
+    sleep,200
+    send,^v
+    return
+
+    F8:: ;cosea原创代码之清除Windows中文件名不能包含下列任何字符： \ / : * ? " < > | 
+    Loop
+    {
+    StringReplace, clipboard, clipboard, ? , , UseErrorLevel ;清除英文问号
+    StringReplace, clipboard, clipboard, * , , UseErrorLevel ;清除*
+    StringReplace, clipboard, clipboard, : , , UseErrorLevel ;清除英文冒号
+    StringReplace, clipboard, clipboard, " , , UseErrorLevel ;清除"
+    StringReplace, clipboard, clipboard, < , , UseErrorLevel ;清除英文<
+    StringReplace, clipboard, clipboard, > , , UseErrorLevel ;清除英文>
+    StringReplace, clipboard, clipboard, / , , UseErrorLevel ;清除右斜杠
+    StringReplace, clipboard, clipboard, \ , , UseErrorLevel ;清除左斜杠
+    StringReplace, clipboard, clipboard, |, , UseErrorLevel ;清除|
+        if ErrorLevel = 0  ; 不需要再进行替换.
+            break
+    }
+    return
+
+F9:: ;使用说明：选中后，按下F9。注：中英互译s
+        Send, ^c
+        ClipWait,2
+        If ErrorLevel                          ;如果粘贴板里面没有内容，则判断是否有窗口定义
+            Return
+    
+        Youdao_keyword=%Clipboard%
+        Youdao_译文:=YouDaoApi(Youdao_keyword)
+        Youdao_音标:= json(Youdao_译文, "basic.phonetic")
+        Youdao_基本释义:= json(Youdao_译文, "basic.explains")
+        Youdao_网络释义:= json(Youdao_译文, "web.value")
+        If Youdao_基本释义<>
+        {
+            Gui Gui_youdao_danci:add,Edit,x10 y10  w300 h100,%Youdao_音标%
+            Gui Gui_youdao_danci:add,Edit,x10 y120 w300 h100,%Youdao_基本释义%
+            Gui Gui_youdao_danci:add,Edit,x10 y230 w300 h100,%Youdao_网络释义%
+        }
+        Else
+        {
+            Youdao_音标:=RegExReplace(Youdao_译文,"m)({""translation""\:\["")|(""\],""query""\:.*)")
+            Gui Gui_youdao_danci:add,Edit,x10 y10  w300 h300,%Youdao_音标%
+        }
+    
+        Gui Gui_youdao_danci:show,,有道网络翻译
+        Return
+    Gui_youdao_danciGuiClose:
+    Gui_youdao_danciGuiEscape:
+        Gui Gui_youdao_danci:destroy
+        Return
+    
+    
+    
+    
+    YouDaoApi(KeyWord)
+    {
+        KeyWord:=Sub_UrlEncode(KeyWord,"utf-8")
+        url:="http://fanyi.youdao.com/fanyiapi.do?keyfrom=xxxxxxxx&key=1360116736&type=data&doctype=json&version=1.1&q=" . KeyWord
+        WebRequest := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+        WebRequest.Open("GET", url)
+        WebRequest.Send()
+        result := WebRequest.ResponseText
+        Return result
+    }
+    
+    
+    json(ByRef js, s, v = "")
+    {
+        j = %js%
+        Loop, Parse, s, .
+        {
+            p = 2
+            RegExMatch(A_LoopField, "([+\-]?)([^[]+)((?:\[\d+\])*)", q)
+            Loop {
+                If (!p := RegExMatch(j, "(?<!\\)(""|')([^\1]+?)(?<!\\)(?-1)\s*:\s*((\{(?:[^{}]++|(?-1))*\})|(\[(?:[^[\]]++|(?-1))*\])|"
+                    . "(?<!\\)(""|')[^\7]*?(?<!\\)(?-1)|[+\-]?\d+(?:\.\d*)?|true|false|null?)\s*(?:,|$|\})", x, p))
+                    Return
+                Else If (x2 == q2 or q2 == "*") {
+                    j = %x3%
+                    z += p + StrLen(x2) - 2
+                    If (q3 != "" and InStr(j, "[") == 1) {
+                        StringTrimRight, q3, q3, 1
+                        Loop, Parse, q3, ], [
+                        {
+                            z += 1 + RegExMatch(SubStr(j, 2, -1), "^(?:\s*((\[(?:[^[\]]++|(?-1))*\])|(\{(?:[^{\}]++|(?-1))*\})|[^,]*?)\s*(?:,|$)){" . SubStr(A_LoopField, 1) + 1 . "}", x)
+                            j = %x1%
+                        }
+                    }
+                    Break
+                }
+                Else p += StrLen(x)
+            }
+        }
+        If v !=
+        {
+            vs = "
+            If (RegExMatch(v, "^\s*(?:""|')*\s*([+\-]?\d+(?:\.\d*)?|true|false|null?)\s*(?:""|')*\s*$", vx)
+                and (vx1 + 0 or vx1 == 0 or vx1 == "true" or vx1 == "false" or vx1 == "null" or vx1 == "nul"))
+                vs := "", v := vx1
+            StringReplace, v, v, ", \", All
+            js := SubStr(js, 1, z := RegExMatch(js, ":\s*", zx, z) + StrLen(zx) - 1) . vs . v . vs . SubStr(js, z + StrLen(x3) + 1)
+        }
+        Return, j == "false" ? 0 : j == "true" ? 1 : j == "null" or j == "nul"
+            ? "" : SubStr(j, 1, 1) == """" ? SubStr(j, 2, -1) : j
+    }
+    
+    
+    Sub_UrlEncode(str, enc="UTF-8")
+    {
+    hex := "00", func := "msvcrt\" . (A_IsUnicode ? "swprintf" : "sprintf")
+    VarSetCapacity(buff, size:=StrPut(str, enc)), StrPut(str, &buff, enc)
+    While (code := NumGet(buff, A_Index - 1, "UChar")) && DllCall(func, "Str", hex, "Str", "%%%02X", "UChar", code, "Cdecl")
+    encoded .= hex
+    Return encoded
+    }
+
+;神级代码之锁定中英文=============================================
+;功能：输入法状态提示 ;f3强制中文 f4强制英文小写 F6强制英文大写
+;环境：win10+搜狗输入法，输入法状态切换用默认的shift键。
+;作者：kazhafeizhale 知乎@oahgnat11
+#NoEnv ; Recommended for performance and compatibility with future AutoHotkey releases.
+SendMode Input ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir% ; Ensures a consistent starting directory.
+#SingleInstance force
+
+XButton1::^c
+XButton2::^v
+
+F3::
+        SetCapsLockState,off
+        switchime(0)
+        switchime()
+    return
+
+F4::
+        SetCapsLockState,off
+        switchime(0)
+    return
+
+;F6:: ;强制英文大写
+        SetCapsLockState,on
+    return
+
+    switchime(ime := "A")
+    {
+        if (ime = 1){
+            DllCall("SendMessage", UInt, WinActive("A"), UInt, 80, UInt, 1, UInt, DllCall("LoadKeyboardLayout", Str,"00000804", UInt, 1))
+        }else if (ime = 0)
+        {
+            DllCall("SendMessage", UInt, WinActive("A"), UInt, 80, UInt, 1, UInt, DllCall("LoadKeyboardLayout", Str,, UInt, 1))
+        }else if (ime = "A")
+        {
+            ;ime_status:=DllCall("GetKeyboardLayout","int",0,UInt)
+            Send, #{Space}
+        }
+    }
+;最钟爱代码之音量随心所欲
+;=========================================================
+~lbutton & enter:: ;鼠标放在任务栏，滚动滚轮实现音量的加减
+    exitapp  
+    ~WheelUp::  
+    if (existclass("ahk_class Shell_TrayWnd")=1)  
+    Send,{Volume_Up}  
+    Return  
+    ~WheelDown::  
+    if (existclass("ahk_class Shell_TrayWnd")=1)  
+    Send,{Volume_Down}  
+    Return  
+    ~MButton::  
+    if (existclass("ahk_class Shell_TrayWnd")=1)  
+    Send,{Volume_Mute}  
+    Return  
+
+    Existclass(class)  
+    {  
+    MouseGetPos,,,win  
+    WinGet,winid,id,%class%  
+    if win = %winid%  
+    Return,1  
+    Else  
+    Return,0  
+    }
+;=========================================================
+#h:: ;cosea原创代码之隐藏windows系统的桌面图标
+    send,{AppsKey}
+    send,v
+    send,d
+    return
+;=========================================================
+#+r:: ;获取RGB色
+    MouseGetPos, mouseX, mouseY
+    PixelGetColor, color, %mouseX%, %mouseY%, RGB
+    StringRight color,color,6
+    clipboard = %color%
+    msgbox 当前坐标RGB颜色值的十六进制值为#%color%.
+    return
+;=========================================================
+#+c:: ;用快捷键得到当前选中文件的路径
+    send ^c
+    sleep,200
+    clipboard=%clipboard% ;windows 复制的时候，剪贴板保存的是“路径”。只是路径不是字符串，只要转换成字符串就可以粘贴出来了
+    tooltip,%clipboard% ;提示文本
+    sleep,500
+    tooltip,
+    return
+;=========================================================
+#+t:: ;小海原创-无敌工作神器之终极计时器
+    var := 0
+    InputBox, time, 小海御用计时器, 请输入一个时间（单位是分）
+    time := time*60000
+    Sleep,%time%
+    loop,16
+    {
+    var += 180
+    SoundBeep, var, 500
+    }
+    msgbox 时间到，啊啊啊！！！红红火火！！！恍恍惚惚！！！
+    return
+;=========================================================
+#PrintScreen:: ;关闭显示器
+    Sleep 1000  ; 让用户有机会释放按键 (以防释放它们时再次唤醒显视器).
+    SendMessage, 0x112, 0xF170, 2,, Program Manager  ; 0x112 为 WM_SYSCOMMAND, 0xF170 为 SC_MONITORPOWER.
+    return
+;=========================================================
+;~LButton:: ;左键拖选文字: 复制
+    cos_mousedrag_treshold := 20 ; pixels
+    MouseGetPos, cos_mousedrag_x, cos_mousedrag_y
+    win1 := WinActive("A")
+    KeyWait LButton
+    MouseGetPos, cos_mousedrag_x2, cos_mousedrag_y2
+    win2 := WinActive("A")
+    WinGetClass cos_class, A
+    if(((abs(cos_mousedrag_x2 - cos_mousedrag_x) > cos_mousedrag_treshold
+    or abs(cos_mousedrag_y2 - cos_mousedrag_y) > cos_mousedrag_treshold)) and win1 = win2 
+    and cos_class != "ConsoleWindowClass")
+    {
+        SendInput ^c
+    }
+    return
+
+;自动快捷输入高频常用词，小海御用(规则：高频要快不加.）注：优化已完成
+    ;=========================================================
+    :*:ffmpeg::
+    clipboard = ffmpeg -i input.mkv output.mp4
+    send,^v
+    return
+
+    :*:movff::
+    clipboard = ffmpeg -i input.mov output.mp4
+    send,^v
+    return
+
+    :*:copyff::
+    clipboard = ffmpeg -i input.mkv -c copy -strict -2 output.mp4 ;如果视频编码为H264
+    send,^v
+    return
+
+    :*:copyflv::
+    clipboard = ffmpeg -i input.flv -c copy output.mp4 ;如果视频编码为H264
+    send,^v
+    return
+
+    :*:cutff:: ;注：指定开始时间（start）=01:54:48，持续时间（duration）=30s
+    clipboard = ffmpeg -ss 01:54:48 -i input.mkv -t 30 -c:v libx264 output.mp4
+    send,^v
+    return
+
+    :*:iffmp::
+    clipboard = ffmpeg -i input.flv output.mp4
+    send,^v
+    return
+
+    :*:iiffmp::
+    clipboard = ffmpeg -i input.mp4 -c:v libx264 -crf 24 output.mp4
+    send,^v
+    return
+
+    :*:sf1080::
+    clipboard = ffmpeg -i input.mp4 -c:v libx264 -crf 20 -s 1920:1080 output.mp4
+    send,^v
+    return
+
+    :*:sffmp::
+    clipboard = ffmpeg -i input.mp4 -c:v libx264 -crf 29 -s 1280:720 output.mp4
+    send,^v
+    return
+
+    :*:isffmp::
+    clipboard = ffmpeg -i input.mp4 -c:v libx264 -crf 30 -s 854:480 output.mp4
+    send,^v
+    return
+
+    :*:iisffmp::
+    clipboard = ffmpeg -i input.mp4 -c:v libx264 -crf 32 -s 640:360 output.mp4
+    send,^v
+    return
+
+    :*:ytffmp:: ;YouTube视频VP9编码转H264
+    clipboard = ffmpeg -i input.mp4 -c:v libx264 output.mp4
+    send,^v
+    return
+
+    :*:ytmkv:: ;YouTube视频MKV VP9编码转H264
+    clipboard = ffmpeg -i input.mkv -c:v libx264 output.mp4
+    send,^v
+    return
+
+    :*:affmp::
+    clipboard = ffmpeg -i input.mp4 -vn -acodec copy output.aac
+    send,^v
+    return
+
+    :*:iaffmp::
+    clipboard = ffmpeg -i input.m4a -vn -acodec copy output.aac
+    send,^v
+    return
+
+    :*:ggg::
+    ;clipboard = Dan Ebberts ;可任意更改剪切板内容
+    clipboard = @Zhangyun123 ;NVIDIA密码
+    send,^v
+    return
+
+    :*:gfff::
+    ;clipboard = 工作总结： ;可任意更改剪切板内容
+    clipboard = 小海实战项目预览版
+    send,^v
+    return
+
+    :*:ddv:: ;c语言编程通用代码段
+    clipboard=#include <stdio.h>`n`nint main()`n{`n	return 0;`n}
+    send,^v
+    send,{up}{enter}{up}
+    send,`t
+    send,{F4} ;切换到英文
+    return
+
+    :*:ddd:: ;小海不离键盘秘技之剪切当前行
+    send,{home}{shiftdown}{end}{shiftup}
+    send,^x
+    clipboard = %clipboard%   ; 把任何复制的文件, HTML 或其他格式的文本转换为纯文本
+    return
+
+    :*:eee::^v ;小海不离键盘秘技
+
+    :*:deee::
+    clipboard = `;
+    send,^v
+    return
+
+    :*:idate::  ; 此热字串通过后面命令将热字串替换成当前日期和时间.
+    FormatTime, CurrentDateTime,, yyyyMMdd-HHmm ; 形式：成都_20211020-1127_小海调色Version
+    clipboard = _%CurrentDateTime%_Version
+    send,^v
+    SendInput {left}{left}{left}{left}{left}{left}{left}
+    return
+
+    :*:iid::  ; 此热字串通过后面命令将热字串替换成当前日期和时间.
+    FormatTime, CurrentDateTime,, yyyyMMdd ; 形式：成都_20211020_小海调色Version
+    clipboard = _%CurrentDateTime%_Version
+    send,^v
+    SendInput {left}{left}{left}{left}{left}{left}{left}
+    return
+    ;=========================================================
+    :*:autoh:: ;自动输入AutoHotkey
+    clipboard = AutoHotkey
+    send,^v
+    return
+
+    ;DaVinci调色专区=========================================================================
+    :*:exp::
+    clipboard = 曝光Exposure
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:lut0::
+    clipboard = 校正Luts Correction
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:cont::
+    clipboard = 对比度Contrast Contorl
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:track::
+    clipboard = 跟踪Tracking
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:win::
+    clipboard = Windows
+    send,^v
+    return
+
+    :*:hsl::
+    clipboard = 限定器HSL Qualifier
+    send,^v
+    send,{enter}
+    return
+
+    :*:skin::
+    clipboard = 肤色Color Of Skin
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:mopi::
+    clipboard = 磨皮Skin
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:col::
+    clipboard = Color WarPer
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:sty::
+    clipboard = 风格Look
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:ranse::
+    clipboard = 染色Look
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:layer::
+    clipboard = 图层节点Layer Node
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:out::
+    clipboard = 外部节点 Outside Node
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:bal::
+    clipboard = 白平衡Balance
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:match::
+    clipboard = 颜色匹配Match
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:hue::
+    clipboard = 色相饱和度Hue/Saturation
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:temp::
+    clipboard = 色温
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:clean::
+    clipboard = 去除杂色Clean
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:film::
+    clipboard = 胶片颗粒Film Grain或Film Luts
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:ligv::
+    clipboard = 突出主体Key Light
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:vig::
+    clipboard = 暗角Vignette
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:mag::
+    clipboard = 品红Magenta洋红
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:ora::
+    clipboard = Orange&Teal青橙色
+    send,^v
+    return
+
+    :*:noise::
+    clipboard = 降噪noise reduce
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:flick::
+    clipboard = 频闪flicker reduce
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+    ;=========================================================================
+    :*:lookae::
+    clipboard = LookAE 更新时间：
+    FormatTime, CurrentDateTime,, MM月dd日
+    send,^v
+    SendInput %CurrentDateTime%
+    sleep,50
+    send,{enter}
+    return
+
+    :*:(:: ;自动填满()回中等待打字
+    clipboard = ()
+    send,^v{left}
+    return
+
+    :*:bili::
+    clipboard = BiliBili
+    send,^v
+    return
+
+    :*:davi::
+    clipboard = DaVinci
+    send,^v
+    return
+
+    :*:disk::
+    clipboard = DiskGenius
+    send,^v
+    return
+
+    :*:yout::
+    clipboard = YouTube
+    send,^v
+    return
+
+    :*:prev::
+    clipboard = Previews
+    send,^v
+    return
+
+    :*:nvd::
+    clipboard = NVDIA
+    send,^v
+    return
+
+    :*:prem::
+    clipboard = Premiere
+    send,^v
+    return
+
+    :*:midia::
+    clipboard = Media Encoder
+    send,^v
+    return
+
+    :*:ctr::
+    clipboard = Ctrl+
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    return
+
+    :*:shift::
+    clipboard = Shift+
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    return
+
+    :*:cre::
+    clipboard = Creativity
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    send,{enter}
+    return
+
+    :*:mavic::
+    clipboard = 大疆 Mavic 2 Pro
+    send,^v
+    sleep,50
+    send,{f3} ;切换到中文
+    return
+
+    :*:bandi::
+    clipboard = Bandicam
+    send,^v
+    return
+
+    :*:lum::
+    clipboard = Lumetri 颜色
+    send,^v
+    sleep,50
+    send,{f4} ;切换到英文
+    return
+
+    :*:c4d::
+    clipboard = Cinema 4D
+    send,^v
+    sleep,50
+    send,{f3} ;切换到中文
+    return
+
+    :*:pot::
+    clipboard = PotPlayer
+    send,^v
+    return
+
+    :*:gaf::
+    clipboard = Gaffer 灯光师
+    send,^v
+    return
+
+    :*:pho::
+    clipboard = PhotoShop
+    send,^v
+    return
+
+    :*:swoo::
+    clipboard = whoosh
+    send,^v
+    return
+
+    :*:pic::
+    clipboard = Picture
+    send,^v
+    return
+
+    :*:res::
+    clipboard = Resolution
+    send,^v
+    return
+
+    :*:lrt::
+    clipboard = LRTimelapse
+    send,^v
+    return
+
+    :*:ae::
+    clipboard = After Effects
+    send,^v
+    return
+
+    :*:sta::
+    clipboard = stardust
+    send,^v
+    return
+
+    :*:reg::
+    clipboard = regedit
+    send,^v
+    return
+
+    :*:macb::
+    clipboard = MacBook Pro
+    send,^v
+    return
+
+    :*:alf::
+    clipboard = Alfred
+    send,^v
+    return
+
+    :*:final::
+    clipboard = Final Cut Pro X
+    send,^v
+    return
+
+    :*:work::
+    clipboard = WorkFlow
+    send,^v
+    return
+
+    :*:mind::
+    clipboard = MindManager
+    send,^v
+    return
+
+    :*:clip::
+    send,{f4} ;切换到英文
+    send,clipboard
+    return
+
+    :*:prores::
+    clipboard = Apple ProRes RAW
+    send,^v
+    return
+
+    :*:chr::
+    clipboard = Chrome
+    send,^v
+    return
+
+    :*:logic::
+    clipboard = Logic Pro X
+    send,^v
+    return
+
+    :*:midi::
+    clipboard = Native Instruments KOMPLETE KONTROL A61
+    send,^v
+    return
+
+    :*:pingip::
+    pingvar = %clipboard%
+    clipboard = ping %clipboard%
+    send,+{Insert}
+    sleep,50
+    send,{enter}
+    clipboard = %pingvar% ; 恢复数据
+    return
+
+    :*:url::
+    clipboard = v2ray url
+    send,+{Insert}
+    return
+
+    :*:ivv::
+    clipboard = v2ray
+    send,+{Insert}
+    return
+
+    :*:ssh::
+    clipboard = ssh root@IP
+    send,+{Insert}
+    send,{enter}
+    sleep,1500
+    clipboard = VPS PASSWORD
+    send,+{Insert}
+    send,{enter}
+    return
+
+    :*:vj::
+    clipboard = VJ师
+    send,^v
+    return
+
+    ;小海自动化进阶版，注：待优化
+;=========================================================
+:*:+110:: ;将多次复制的内容叠加到剪切板
+    msgbox,请在此条提术语之前确定你已经结束了上一次复制
+    clipboard = %clipboard%
+    var = %clipboard% ;新的叠加赋值
+    clipboard =  ; 让剪贴板初始为空, 这样可以使用 ClipWait 检测文本什么时候被复制到剪贴板中.
+    send ^c
+    ClipWait  ; 等待剪贴板中出现新的文本
+    clipboard = %clipboard%
+    myvar = %var%`r%clipboard%
+    clipboard := myvar
+    return
+
+^i:: ;cosea原创神级代码：复制并清除HTML或其他乱七八糟的格式
+    clipboard =   ; 清空剪贴板
+    send,^c
+    clipboard = %clipboard%   ; 把任何复制的文件, HTML 或其他格式的文本转换为纯文本
+    IfWinNotExist ahk_class Notepad
+    {
+        run notepad,,max
+        WinActivate
+    }
+    Else IfWinNotActive ahk_class Notepad
+    {
+        WinActivate
+        sleep,500
+        WinMaximize,A
+    }
+    Else
+    {
+        WinMinimize
+    }
+    sleep,100
+    send,^v
+    sleep,100
+    send,^a
+    send,^x
+    Loop
+    {
+    StringReplace, clipboard, clipboard, %A_SPACE% , , UseErrorLevel ;清除空格
+    StringReplace, clipboard, clipboard, `t ,  , UseErrorLevel ;清除Tab键
+        if ErrorLevel = 0  ; 不需要再进行替换.
+            break
+    }
+    Loop
+    {
+    StringReplace, clipboard, clipboard, `r`n`r`n , , UseErrorLevel ;清除多余的换行符
+        if ErrorLevel = 0  ; 不需要再进行替换.
+            break
+    }
+    sleep,100
+    send,!{f4}
+    return
+
+:*:111:: ;无损删除当前行
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    return
+
+:*:222:: ;无损删除当前向下2行
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    return
+
+:*:333:: ;无损删除当前向下3行
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    return
+
+:*:444:: ;无损删除当前向下4行
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    return
+
+:*:555:: ;无损删除当前向下5行
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    send,{end}{shiftdown}{home}{shiftup}{delete}{delete}
+    return
+
+:*:777:: ;打开小海脚本
+    send,{f4}
+    edit ;进入小海脚本并进行编辑
+    sleep,500
+    WinMaximize,A ;调用最大化窗口命令
+    sleep,500
+    send,^f
+    return
+
+:*:888:: ;复制当前行到剪切板
+    send,{home}{shiftdown}{end}{shiftup}
+    ;send,^c
+    send,^x{delete}
+    clipboard = %clipboard%   ; 把任何复制的文件, HTML 或其他格式的文本转换为纯文本
+    send, {end}
+    return
+
+:*:999:: ;粘贴剪切板内容到当前行
+    clipboard = %clipboard%   ; 把任何复制的文件, HTML 或其他格式的文本转换为纯文本
+    send,{home}{shiftdown}{end}{shiftup}
+    send,^v
+    send, {end}
+    return
+
+;=========================================================
++!d:: ;同时按下Shift+Alt+d键，自动删除temp tencent wechat cloudmusic等缓存文件
+    send,#e
+    sleep,500
+    WinMaximize,A
+    sleep,500
+    FileRemoveDir, C:\Users\hocto\AppData\Local\Temp , 1
+    FileRemoveDir, C:\Users\hocto\AppData\Local\Netease\CloudMusic\Cache , 1
+    FileRemoveDir, C:\Users\hocto\AppData\Roaming\Tencent , 1
+    tooltip,接下来，小海将为你删除temp tencent wechat cloudmusic等缓存文件，请注意查看容量变化
+    sleep, 1000
+    tooltip,
+    return
+
+^+1::  ;选中并复制当前光标位置到行首
+    send,+{home} 
+    send,^c
+    clipboard = %clipboard%   ; 把任何复制的文件, HTML 或其他格式的文本转换为纯文本
+    send, {end}
+    return
+
+^+2:: ;选中并复制当前光标位置到行末
+    send,+{end} ;选中并复制当前光标位置到行末
+    send,^c
+    clipboard = %clipboard%   ; 把任何复制的文件, HTML 或其他格式的文本转换为纯文本
+    send, {end}
+    return
+
+^+3::  ;选中并粘贴当前光标位置到行首
+    clipboard = %clipboard%   ; 把任何复制的文件, HTML 或其他格式的文本转换为纯文本
+    send,+{home} ;选中并粘贴当前光标位置到行首
+    send,^v
+    return
+
+^+4::   ;选中并粘贴当前光标位置到行末
+    clipboard = %clipboard%   ; 把任何复制的文件, HTML 或其他格式的文本转换为纯文本
+    send,+{end} ;选中并粘贴当前光标位置到行末
+    send,^v
+    send, {end}
+    return
+
+^+5:: ;删除光标到行首的内容
+    send,+{home}{delete}
+    return
+
+^+6:: ;删除光标到行末的内容
+    send,+{end}{delete}
+    return
+
+!r:: ;直接打开剪切板的网址链接，无需粘贴到chrome浏览器进入
+    run %clipboard%
+    tooltip,小海已为你打开剪切板的网址链接！
+    sleep, 3000
+    tooltip,
+    return
+
+;google搜索
+;=========================================================
+#9:: ;用google搜索剪切板的内容
+    run https://www.google.com/search?q=%clipboard%
+    tooltip, 那晚，风也美，人也美。。。
+    sleep 2000
+    tooltip,
+    return
+
+#2:: ;YouTube自动搜索
+    run https://www.youtube.com/results?search_query=%clipboard%
+    tooltip, 那晚，风也美，人也美。。。
+    sleep 1500
+    tooltip,
+    return
+
+:*:kkk:: ;谷歌搜索进阶版
+    clipboard =   ; 清空剪贴板
+    send,{home}{shiftdown}{end}{shiftup} ;复制当前行到剪切板
+    send,^c
+    send, {end}
+    run https://www.google.com/search?q=%clipboard% ;用google搜索剪切板的内容
+    tooltip, 那晚，风也美，人也美。。。
+    sleep 1500
+    tooltip,
+    return
+
+:*:kll:: ;谷歌搜索进阶版
+    send,^a
+    send,^x
+    run https://www.google.com/search?q=%clipboard% ;用google搜索剪切板的内容
+    tooltip, 那晚，风也美，人也美。。。
+    sleep 1500
+    tooltip,
+    return
+
+:*:kkl:: ;使用谷歌一键自动逐行搜索Notepad中的内容
+    loop,20
+    {
+    clipboard =   ; 清空剪贴板
+    send,{home}{shiftdown}{end}{shiftup} ;复制当前行到剪切板
+    send,^x
+    send, {delete}
+    run https://www.google.com/search?q=%clipboard% ;用google搜索剪切板的内容
+    sleep,100
+    WinMinimize, A
+    sleep,100
+    }
+    tooltip, 小海已为你一键搜索完所有内容
+    sleep 1500
+    tooltip,
+    return
+
+;=============小海经典高频常用快捷打开网站或文件=============
+#g:: ;github
+    run https://github.com/search?q=%clipboard% ,,max
+    tooltip,星星之火，可以燎原！！！
+    sleep, 1500
+    tooltip,
+    return
+
+#y::  ;youtube
+    run https://www.youtube.com
+    tooltip,1个亿算什么，我们的目标是星辰大海！！！
+    sleep, 1500
+    tooltip,
+    return
+
+#b:: ;bili
+    run https://search.bilibili.com/all?keyword=%clipboard%
+    run https://search.bilibili.com/all?keyword=%clipboard%&order=stow
+    run https://www.baidu.com/s?wd=%clipboard%
+    tooltip,与其悲叹自己的命运，不如相信自己的力量！！！
+    sleep, 1500
+    tooltip,
+    return
+
+#t:: ;淘宝搜索
+    run https://s.taobao.com/search?q=%clipboard%
+    return
+
+#j:: ;京东搜索
+    run https://search.jd.com/Search?keyword=%clipboard%
+    return
+
+#k::
+    run http://search.chongbuluo.com/
+    tooltip,在我的字典里，没有“不可能”！！！
+    sleep, 1500
+    tooltip,
+    return
+
+#z:: ;知乎
+    run https://www.zhihu.com/search?type=content&q=%clipboard%
+    tooltip,希望我的文章对你我都能有所助益，有所启迪，感谢你的关注与支持。
+    sleep, 1500
+    tooltip,
+    return
+
+#x::
+    run https://www.xinpianchang.com/index.php?app=search&kw=%clipboard%
+    run https://www.xinpianchang.com/user/stars/sort-recommend?from=tabUser
+    run https://www.xinpianchang.com/channel/index/sort-like
+    return
+
+;小海专用ctrl+shift集
+;=========================================================
+^+[:: ;复制当前鼠标所在文件文件名，ctrl+shift子集
+    ;请将你的鼠标放在目标文件位置，即将为你复制其文件名
+    mouseclick, right
+    send,m
+    send,^c
+    send, {enter}
+    tooltip,已将鼠标所在文件名复制到剪切板
+    sleep, 1500
+    tooltip,
+    return
+
+^+]:: ;复制当前鼠标所在文件文件名并替换为ffmpeg到剪切板，ctrl+shift子集
+    ;请将你的鼠标放在目标文件位置，即将为你复制其文件名
+    mouseclick, right
+    send,m
+    sleep,100
+    send,^c
+    sleep,50
+    send, {enter}
+    Loop
+    {
+    StringReplace, clipboard, clipboard, %A_SPACE% , , UseErrorLevel ;清除空格
+    StringReplace, clipboard, clipboard, `, , , UseErrorLevel ;清除英文逗号
+    StringReplace, clipboard, clipboard, ， , , UseErrorLevel ;清除中文逗号
+    StringReplace, clipboard, clipboard, `; , , UseErrorLevel ;清除英文分号
+    StringReplace, clipboard, clipboard, ； , , UseErrorLevel ;清除英文分号
+    StringReplace, clipboard, clipboard, . , , UseErrorLevel ;清除英文句号
+    StringReplace, clipboard, clipboard, 。 , , UseErrorLevel ;清除中文句号
+    StringReplace, clipboard, clipboard, : , , UseErrorLevel ;清除英文冒号
+    StringReplace, clipboard, clipboard, ： , , UseErrorLevel ;清除中文冒号
+    StringReplace, clipboard, clipboard, ‘’ , , UseErrorLevel ;清除中文双引号1
+    StringReplace, clipboard, clipboard, “ , , UseErrorLevel ;清除中文双引号2
+    StringReplace, clipboard, clipboard, ” , , UseErrorLevel ;清除中文双引号3
+    StringReplace, clipboard, clipboard, ' , , UseErrorLevel ;清除英文双引号
+    StringReplace, clipboard, clipboard, 、 , , UseErrorLevel ;清除中文顿号
+    StringReplace, clipboard, clipboard, / , , UseErrorLevel ;清除右斜杠
+    StringReplace, clipboard, clipboard, \ , , UseErrorLevel ;清除左斜杠
+    StringReplace, clipboard, clipboard, - , , UseErrorLevel ;清除短横线
+    StringReplace, clipboard, clipboard, —— , , UseErrorLevel ;清除长横线
+    StringReplace, clipboard, clipboard, = , , UseErrorLevel ;清除等号
+    StringReplace, clipboard, clipboard, + , , UseErrorLevel ;清除加号
+    StringReplace, clipboard, clipboard, （ , , UseErrorLevel ;清除中文左括号
+    StringReplace, clipboard, clipboard, ） , , UseErrorLevel ;清除中文右括号
+    StringReplace, clipboard, clipboard, ( , , UseErrorLevel ;清除英文左括号
+    StringReplace, clipboard, clipboard, ) , , UseErrorLevel ;清除英文右括号
+    StringReplace, clipboard, clipboard, 【 , , UseErrorLevel ;清除中文【
+    StringReplace, clipboard, clipboard, 】 , , UseErrorLevel ;清除中文】
+    StringReplace, clipboard, clipboard, [ , , UseErrorLevel ;清除[
+    StringReplace, clipboard, clipboard, ] , , UseErrorLevel ;清除]
+    StringReplace, clipboard, clipboard, ! , , UseErrorLevel ;清除英文感叹号
+    StringReplace, clipboard, clipboard, ！ , , UseErrorLevel ;清除中文感叹号
+    StringReplace, clipboard, clipboard, ？ , , UseErrorLevel ;清除中文问号
+    StringReplace, clipboard, clipboard, ? , , UseErrorLevel ;清除英文问号
+    StringReplace, clipboard, clipboard, < , , UseErrorLevel ;清除英文<
+    StringReplace, clipboard, clipboard, > , , UseErrorLevel ;清除英文>
+    StringReplace, clipboard, clipboard, 《 , , UseErrorLevel ;清除中文《
+    StringReplace, clipboard, clipboard, 》 , , UseErrorLevel ;清除英文》
+    StringReplace, clipboard, clipboard, @ , , UseErrorLevel ;清除@
+    StringReplace, clipboard, clipboard, # , , UseErrorLevel ;清除#
+    StringReplace, clipboard, clipboard, $ , , UseErrorLevel ;清除$
+    StringReplace, clipboard, clipboard, `% , , UseErrorLevel ;清除%
+    StringReplace, clipboard, clipboard, ^ , , UseErrorLevel ;清除^
+    StringReplace, clipboard, clipboard, & , , UseErrorLevel ;清除&
+    StringReplace, clipboard, clipboard, * , , UseErrorLevel ;清除*
+    StringReplace, clipboard, clipboard, `` , , UseErrorLevel ;清除`
+    StringReplace, clipboard, clipboard, `:: , , UseErrorLevel ;清除::
+    StringReplace, clipboard, clipboard, " , , UseErrorLevel ;清除"
+    StringReplace, clipboard, clipboard, { , , UseErrorLevel ;清除{
+    StringReplace, clipboard, clipboard, }, , UseErrorLevel ;清除}
+    StringReplace, clipboard, clipboard, |, , UseErrorLevel ;清除|
+    StringReplace, clipboard, clipboard, ·, , UseErrorLevel ;清除中文···
+    StringReplace, clipboard, clipboard, ~, , UseErrorLevel ;清除~
+    StringReplace, clipboard, clipboard, _ , , UseErrorLevel ;清除_
+        if ErrorLevel = 0  ; 不需要再进行替换.
+            break
+    }
+    sleep,50
+    mouseclick, right
+    sleep,100
+    send,m
+    sleep,100
+    send,^v
+    sleep,50
+    send, {enter}
+    ;clipboard = ffmpeg -i %clipboard%.mp4 -c:v libx264 -crf 24 -preset slower %clipboard%output.mp4 ;mp4版压制
+    clipboard = ffmpeg -i %clipboard%.mkv %clipboard%output.mp4 ;mkv转mp4
+    return
+
+^+\:: ;为ffmpeg赋值input，ctrl+shift子集
+    ;请将你的鼠标放在目标文件位置，即将为你复制其文件名
+    mouseclick, right
+    send,m
+    clipboard = input
+    send,^v
+    send, {enter}
+    tooltip,已为ffmpeg赋值input
+    sleep, 500
+    tooltip,
+    return
+
+^+m:: ;将鼠标所在文件重命名为剪切板内容，ctrl+shift搭配子集
+    clipboard = %clipboard%   ; 把任何复制的文件, HTML 或其他格式的文本转换为纯文本
+    send,{F8}
+    sleep,100
+    mouseclick, right
+    send,m
+    send,^v
+    send, {enter}
+    tooltip,已为你将鼠标所在文件重命名为剪切板内容
+    sleep, 1500
+    tooltip,
+    return
+
+!m:: ;cosea鼠标累加数字算法，我一般用来批量重命名，看需求更改吧
+    FormatTime, CurrentDateTime,yyyyMMddHHms,yyyyMMddHHms
+    clipboard := CurrentDateTime
+    var += 1
+    EnvAdd, clipboard, var
+    sleep,300 ;会有滞后现象
+    send,{AppsKey}
+    send,m
+    send,^v
+    send, {enter}
+    sleep,300
+    send,{down}
+    Exit
+
+~Alt:: ;比如你可以用上面的方法，用AutoHotkey驱动蜂鸣器发出声音
+    if (A_ThisHotkey = A_PriorHotkey && A_TimeSincePriorHotkey < 200)
+    /*
+    检测按键或按钮的双击
+    */
+    loop,1500
+    {
+    var += 1
+    SoundBeep, var, 500
+    }
+    return
+
+^+,:: ;将当前复制的内容存储到小海临时剪切板的库存中，等待下一条命令的临时调用，ctrl+shift子集
+    send,^c
+    clipsaved := clipboardall   ; 把剪贴板的所有内容保存到您选择的变量中
+    ; ... 这里临时使用剪贴板, 例如使用 Transform Unicode 粘贴 Unicode 文本
+    lstime := clipsaved
+    return
+
+^+.:: ;将小海临时剪切板的库存中的内容全部粘贴到当前文档，ctrl+shift子集
+    clipboard := lstime   ; 恢复剪贴板为原来的内容. 注意这里使用 Clipboard (不是 ClipboardAll)
+    send,^v
+    return
+
+;创意添加区域
+;=========================================================
+:*:+++:: ;为辅助小海脚本编辑，此命令将自动为剪切板内容添加run和空格并换行，等待下一句
+    clipboard = run %clipboard% ,,max
+    send, ^v
+    return
+
+:*:.sbts:: ;为小海脚本添加鼠标提示语命令
+    (
+    tooltip,小海已为你打开
+    sleep, 1500
+    tooltip,
+    return
+    )
+    return
+
+:*:.fzml:: ;为小海脚本添加分支命令
+    (
+    msgbox,4,,是，继续，否，停止
+    ifmsgbox, no
+        return
+    )
+    return
+
+:*:.max:: ;为小海脚本添加窗口最大化命令
+    clipboard = sleep,500`nWinMaximize,A
+    send,^v
+    return
+
+;快捷打开PC应用软件，台式电脑唯一不变区域
+;=========================================================
+    !c::
+    IfWinNotExist ahk_class Chrome_WidgetWin_1
+    {
+        Run "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+        WinActivate
+    }
+    Else IfWinNotActive ahk_class Chrome_WidgetWin_1
+    {
+        WinActivate
+    }
+    Else
+    {
+        WinMinimize
+    }
+    Return
+;=========================================================
+;**结束语：**`从`此，`让`我`们`将`生`活`过`得`五`彩`斑`斓。

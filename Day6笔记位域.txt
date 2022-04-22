@@ -1,0 +1,745 @@
+1. 复习
+	[1] 结构体变量的使用 
+		(1) 引用结构体变量成员
+			结构体变量的成员用以下一般形式表示：
+				结构体变量名.成员名		 //“ . ”是分量运算符(成员运算符),优先级最高。
+				
+			注意：
+				①　	不能将一个结构体类型变量作为一个整体加以引用，而只能对结构体类型变量中的各个成员分别引用。
+				②　	如果成员本身又属一个结构体类型，则要用若干个成员运算符，一级一级地找到最低的一级成员。
+					只能对最低级的成员进行赋值或存取以及运算。
+				③　	成员变量可以像普通变量一样进行各种运算（根据其类型决定可以进行的运算）
+				④　	在C语言中，数组是不能彼此赋值的，而同一结构体类型的结构体变量之间允许相互赋值
+					而不同结构体类型的结构体变量之间不允许相互赋值，即使两者包含有同样的成员。
+		(2) 结构体变量的初始化 
+			①　	定义结构体变量时初始化
+				struct 结构体名 变量名 = {初始数据表};
+				struct worker stuff = {
+					"张三", "南京市", 30, 'M', 35000, {1992,2,18}
+				};
+			②　	定义结构体类型时进行结构体变量的初始化
+				struct 结构体名{
+					数据类1 成员名1；
+					数据类2 成员名2；
+					……
+				}变量名 = {初始化数据表};
+			③　	定义结构体变量时给指定成员初始化	
+				C99支持结构体的指定初始化项目，其语法与数组的指定初始化近似。只是，结构体的指定初始化项目使用点运算符和成员名
+			来标识具体的元素。
+				struct 结构体名 变量名 = {
+					.成员名 = 初始值,
+					.成员名 = 初始值,
+						......
+					.成员名 = 初始值
+				};
+
+	[2] 结构体的大小 
+		对齐原则：
+		（1）结构体每个成员的起始地址为其所占内存大小的整数倍，如有需要编译器会在成员之间填充若干无效字节来强制让数据对齐。
+		（2）结构体总大小: 对齐后结构体的长度必须是成员中最大的对齐参数的整数倍(32 bit linux中,如果最大类型超过4个按4个对齐).
+			如有需要，编译器会在最末一个成员之后加上末尾填充字。
+			
+		练习：求以下结构体占内存的大小：
+			①struct stu1 {
+				char c1;
+				int i;
+				char c2;
+			};	12bytes
+			②struct stu2 {
+				float f;
+				char c;
+				float d;
+			};	12bytes
+			③struct stu3 {
+				short i;
+				char c1;
+				char c2;
+			}; 4bytes
+			④struct stu4 {
+				short a;
+				short b;
+				short c;
+			}; 6bytes
+
+		#include <stdio.h>
+
+		struct example3 {
+			char c1;
+			char c[8];		//每个数组成员看成一个独立的个体。
+			short s1;
+		};
+		
+		struct example {
+			char c1;
+			struct new1 {	//先计算结构体整体的对齐长度，结构体成员按照对齐长度存储
+				char c2;
+				short s1;
+			} w1;
+			char c3;
+		};
+		
+		struct example {
+			char c1;
+			struct new1 {
+				char c2;
+				char c3;
+				short s1;
+				int s2;
+			} w1;
+			char c4;
+		};	//16 或 24
+
+		int main(int argc, const char *argv[])
+		{
+			struct example3 val;
+
+			printf("example3.c1 = %p\nexample3.c = %p\nexample3.s1 = %p\n", &val.c1, &val.c, &val.s1);
+			printf("sizeof(struct example3) = %d\n", sizeof(struct example3));
+			
+			struct example val1;
+
+			printf("val1.c1 = %p, val1.w1.c2 = %p, val1.w1.s1 = %p, val1.c3 = %p\n", &val1.c1, &val1.w1.c2,
+					&val1.w1.s1, &val1.c3);
+			printf("sizeof(struct example) = %d\n", sizeof(struct example));
+			
+			return 0;
+		}
+=======================================================================================================================	
+1. 结构体  
+	[1] 结构体数组
+		(1) 什么是结构体数组
+			具有相同结构体类型的结构体变量也可以组成数组，称它们为结构体数组。结构体数组的每一个数组元素都是结构体类型的数据，
+		它们都分别包括各个成员（分量）项。
+		
+		(2) 结构体数组的定义  
+			①　	先定义结构体类型，再用它定义结构体数组。
+				struct 结构体名 {
+					成员表列；
+				};
+				struct 结构体名 数组名[元素个数];
+				---------------
+					数据类型 
+			eg: 
+				struct worker {
+					 char name[32];
+					 char address[32];
+					 int  age;
+					 char sex;
+					 float salary;  
+					 struct date birthday;
+				};
+				
+				struct worker array[N];
+			
+			②　	在定义结构体类型同时定义结构体数组
+				struct 结构体名 {
+					成员表列；
+				} 数组名[元素个数]; 
+				
+				struct worker {
+					 char name[32];
+					 char address[32];
+					 int  age;
+					 char sex;
+					 float salary;  
+					 struct date birthday;
+				} array[N];
+			
+			③　	直接定义结构体数组
+				struct {          //没有结构体名
+					成员表列；
+				} 数组名[元素个数]；
+
+				struct {
+					 char name[32];
+					 char address[32];
+					 int  age;
+					 char sex;
+					 float salary;  
+					 struct date birthday;
+				} array[N];
+		(3) 结构体数组的初始化
+			1) 一般形式
+				struct 结构体名 数组名[元素个数] = {
+					初始化数据表
+				};
+				struct worker array[N] = {
+					....
+				};
+			2) 指定元素初始化  
+				struct worker array[N] = {
+					[0] = {
+						"张三",
+						...
+					},
+					[1] = {
+						.name = "小明",
+						.salary = 10000,
+					}
+					
+					
+				};
+			注意: 没有初始的元素将会被自动初始化为0.
+		(4) 结构体数组的使用
+			一个结构体数组的元素相当于一个结构体变量，因此前面介绍的有关结构体变量的规则也适应于结构体数组元素。
+			
+			数组[下标].成员名;
+			eg: 
+				struct worker array[N]; 
+				array[0].name 
+				...
+				
+		#include <stdio.h>
+		struct worker {
+			char name[32];
+			int id;
+			char gender;
+			float salary;
+		};
+		int main(int argc, const char *argv[])
+		{
+		#if 0
+			struct worker stuffs[3] = {
+				{"xiaoming", 1, 'm', 10000},
+				{"xiaofang", 2, 'f', 20000},
+				{"xiaoqi", 3, 'm', 15000},
+			};
+		#else
+			struct worker stuffs[3] = {
+				[0] = {
+					.name = "xiaoqing",
+					.id = 100,
+				},
+				[2] = {
+					.name = "dabai",
+					.salary = 5000,
+				},
+			};
+		#endif
+			int i;
+			for (i = 0; i < 3; i++) {
+				printf("Name = %s\n", stuffs[i].name);
+				printf("ID = %d\n", stuffs[i].id);
+				printf("Gender = %c\n", stuffs[i].gender);
+				printf("salary = %f\n", stuffs[i].salary);
+			}
+
+			
+			return 0;
+		}
+		练习 : 有3个候选人，有10个选民要进行投票，每个选民只能投票1人，要求编一个统计选票的程序，
+			先后输入被选人的名字，最后输出个人选票的结果。(使用结构体数组完成)
+			
+			#include <stdio.h>
+			#include <string.h>
+
+			struct person {
+				char name[32];
+				int count;
+			};
+
+			int main(int argc, const char *argv[])
+			{
+				int i;
+				char name[32] = "\0";
+				struct person candidate[3] = {
+					{"xiaozhang", 0},
+					{"xiaowang", 0},
+					{"xiaoli", 0},
+				};
+
+				for (i = 0; i < 10; i++) {
+					printf("请输入候选人的名字 : \n"
+							"1-xiaozhang\t""2-xiaowang\t""3-xiaoli\n");
+
+					scanf("%s", name);
+
+					if (!strcmp(name, candidate[0].name)) {
+						candidate[0].count++;
+					} else if (!strcmp(name, candidate[1].name)) {
+						candidate[1].count++;
+					} else if (!strcmp(name, candidate[2].name)) {
+						candidate[2].count++;
+					} else {
+						printf("姓名输入有误，请重新输入\n");
+						i--;
+					}
+				}
+
+				for (i = 0; i < 3; i++)
+					printf("%s : %d\n", candidate[i].name, candidate[i].count); 
+
+				return 0;
+			}
+
+		作业：有5个学生的信息如下：
+			学号		姓名		成绩
+			10101		Sun			96
+			10103		Wang		98.5
+			10110		Li			100
+			10108		Ling		83.5
+			10106		Zhang		88
+		编写程序，分别按照学号顺序、成绩顺序、姓名 输出学生的信息。(冒泡、选择)
+	
+	[2] 结构体指针 
+		所谓结构体指针就是指向结构体类型的指针。
+		(1) 结构体指针在程序中的一般定义形式为：
+			struct 结构体名 *指针变量名;
+			eg: 
+				struct worker {
+					 char name[32];
+					 char address[32];
+					 int  age;
+					 char sex;
+					 float salary;  
+					 struct date birthday;
+				};
+				struct worker stuff; 
+				struct worker *p = &stuff;
+		(2) 结构体指针的使用
+			方法一: 
+				(*指针变量名).成员名 
+			示例:	
+				(*p).name 
+			方法二: 	推荐
+				结构体指针名->成员名 // “->”为指向运算符
+			示例:	
+				p->name 
+			
+				
+		(3) 使用结构体指针来访问结构体数组。
+			struct Student {
+				int num;
+				char name[64];
+				char sex;
+				float score;
+			};
+			struct Student stu[3]={{10101,"Li",'M',95},{10103,"Liu",'M',88},{10107,"Zhang",'F',99}};//定义结构体数组包含三个
+			struct Student *p = stu;
+			
+
+			for (i = 0; i < 3; i++) {
+				//printf("%d\t%s\t%c\t%f\n", (*(p+i)).num, (*(p+i)).name, (*(p+i)).sex, (*(p+i)).score);
+				printf("%d\t%s\t%c\t%f\n", (p+i)->num, (p+i)->name, (p+i)->sex, (p+i)->score);
+			}
+			
+2. 位域
+	[1] 为什么引入位域 
+		有些信息在存储时，并不需要占用一个完整的字节， 而只需占几个或一个二进制位。例如在存放一个开关量时，只有0和1 两种状态， 
+		用一位二进位即可。为了节省存储空间，并使处理简便，Ｃ语言又提供了一种数据结构，称为“位域”或“位段”。
+	
+	[2] 什么是位域 
+		所谓“位域”是把一个字节中的二进位划分为几个不同的区域，并说明每个区域的位数。每个域有一个域名，允许在程序中按域名进行操作。
+		
+	[3] 定义位域  
+		位域的定义和位域变量的说明位域定义与结构定义相仿，其形式为：
+		struct 位域结构名 { 
+			位域列表
+		};  
+		
+		其中位域列表的形式为： 数据类型 位域名 ：位域长度 
+
+		例如：
+			struct bs {     
+				int a : 8;     
+				int b : 2;     
+				int c : 6;     
+			}; 
+		
+		注意: 
+			1) 位域变量的说明与结构体变量说明的方式相同。
+			2) 位段成员必须声明为int、unsigned int或signed int类型（short char long）（C99和C11新增_Bool类型的位字段）。
+			3) 如果一个字节所剩空间不够存放另一位域时，应从下一单元起存放该位域。也可以有意使某位域从下一单元
+				struct bs {
+					char a : 4;
+					char b : 3;
+					char c : 4;		//一个字节的空间无法存放c,所以c存在下一个字节中
+				};
+			4) 位域的长度不能大于数据类型本身的长度，比如int类型就能超过32位二进位。
+				struct bs {
+					char a : 4;
+					char b : 9;		//这里会报错，b位域的长度，超过自身数据类型的长度
+					char c : 4;
+				};
+			5) 位域可以无位域名，这时它只用来作填充或调整位置。无名的位域是不能使用的。	
+				struct bs {
+					char a : 1;
+					char : 2;	//无名位域、占位不能使用 
+					char b : 2;
+					char c : 3;
+				};
+			6) 使用一个宽度为0的未命名字段迫使下一个字段与下一个整数对齐，空域
+				struct bs {
+					char a : 1;
+					char : 0;	//空域
+					char b : 2;
+					char c : 3;
+				};
+
+	[4] 位域的使用
+		位域变量名.位域名
+		位域指针->位域名
+		
+		struct bs {
+			unsigned a : 1;
+			unsigned b : 3;
+			unsigned c : 4;
+		};
+
+		int main(int argc, const char *argv[])
+		{
+			struct bs bit;
+			struct bs *pbit = &bit;
+
+			bit.a = 1;
+			bit.b = 7;
+			bit.c = 15;
+
+			printf("a = %d\n", bit.a);
+			printf("b = %d\n", bit.b);
+			printf("c = %d\n", bit.c);
+
+			pbit->a = 0;
+			pbit->b &= 3;
+			pbit->c = 1;
+			
+			printf("a = %d\n", bit.a);
+			printf("b = %d\n", bit.b);
+			printf("c = %d\n", bit.c);
+			return 0;
+		}
+		
+	[5] 位域的存储
+		(1) 当相邻成员的类型相同时，
+		如果它们的位宽之和小于类型的 sizeof 大小，
+		那么后面的成员紧邻前一个成员存储，直到不能容纳为止；
+		
+		如果它们的位宽之和大于类型的 sizeof 大小，
+		那么后面的成员将从新的存储单元开始，其偏移量为类型大小的整数倍。
+		
+		(2) 当相邻成员的类型不同时,GCC 会压缩存储，而 VC/VS 不会
+			struct bs {
+				unsigned a : 12;
+				unsigned char b : 4;
+				unsigned c : 4;
+			};
+
+		(3) 如果成员之间穿插着非位域成员，那么不会进行压缩。例如对于下面的 bs：
+			struct bs {
+				unsigned a : 12;
+				unsigned b;
+				unsigned c : 4;
+			};
+		
+		TCP协议包头：
+			struct tcphdr
+		  {
+			u_int16_t source;
+			u_int16_t dest;
+			u_int32_t seq;
+			u_int32_t ack_seq;
+		#  if __BYTE_ORDER == __LITTLE_ENDIAN
+			u_int16_t res1:4;
+			u_int16_t doff:4;
+			u_int16_t fin:1;
+			u_int16_t syn:1;
+			u_int16_t rst:1;
+			u_int16_t psh:1;
+			u_int16_t ack:1;
+			u_int16_t urg:1;
+			u_int16_t res2:2;
+		#  elif __BYTE_ORDER == __BIG_ENDIAN
+			u_int16_t doff:4;
+			u_int16_t res1:4;
+			u_int16_t res2:2;
+			u_int16_t urg:1;
+			u_int16_t ack:1;
+			u_int16_t psh:1;
+			u_int16_t rst:1;
+			u_int16_t syn:1;
+			u_int16_t fin:1;
+		#  else
+		#   error "Adjust your <bits/endian.h> defines"
+		#  endif
+			u_int16_t window;
+			u_int16_t check;
+			u_int16_t urg_ptr;
+		};
+	
+3.共用体/联合体 union
+	[1] 什么是共用体  
+		在C语言中，还有另外一种和结构体非常类似的语法，叫做共用体（Union），简称共用，又称联合体。
+		与结构体不同的是，共用体的每个成员都使用共同的存储区域，后面的成员的数据会覆盖掉前面的成员的数据。
+		
+	[2] 共用体类型声明/定义
+		定义形式: 
+			union 共用体名 {
+				成员表列;
+			};
+		例如：
+			union gy {
+				int i;
+				char c;
+				float f;
+			};
+				
+	[3] 共用体的大小
+		而由于共用体中各成员的数据长度往往不同，所以共用体变量在存储时总是按其成员中数据长度最大的成员占用内存空间。
+
+	[4] 共用体的使用
+		共用体在定义、说明和使用形式上与结构体相似，这块就不详述了。
+		union 共用体名 变量名;
+		union 共用体名	数组名[元素个数];
+		union 共用体名 *指针变量名;
+		
+		#include <stdio.h>
+
+		union data {
+			int n;
+			char ch;
+			short m;
+		};
+
+		int main(int argc, const char *argv[])
+		{
+			union data a;
+
+			a.n = 0x40;
+			printf("%#x, %c, %#hx\n", a.n, a.ch, a.m);
+			a.ch = '9';
+			printf("%#x, %c, %#hx\n", a.n, a.ch, a.m);
+			a.m = 0x2059;
+			printf("%#x, %c, %#hx\n", a.n, a.ch, a.m);
+			a.n = 0x3E25AD54;
+			printf("%#x, %c, %#hx\n", a.n, a.ch, a.m);
+			
+			return 0;
+		}
+		
+		实例： 
+			struct ifreq {
+               char ifr_name[IFNAMSIZ]; /* Interface name */
+               union {
+                   struct sockaddr ifr_addr;
+                   struct sockaddr ifr_dstaddr;
+                   struct sockaddr ifr_broadaddr;
+                   struct sockaddr ifr_netmask;
+                   struct sockaddr ifr_hwaddr;
+                   short           ifr_flags;
+                   int             ifr_ifindex;
+                   int             ifr_metric;
+                   int             ifr_mtu;
+                   struct ifmap    ifr_map;
+                   char            ifr_slave[IFNAMSIZ];
+                   char            ifr_newname[IFNAMSIZ];
+                   char           *ifr_data;
+               };
+           };
+		
+		作业:
+			现有一张关于学生信息和教师信息的表格。学生信息包括姓名、编号、性别、职业、分数，
+			教师的信息包括姓名、编号、性别、职业、教学科目。如下表格：
+			Name			Num		Sex		Profession	Score / Course
+			HanXiaoXiao		501		f		s			89.5
+			YanWeiMin		1011	m		t			math
+			LiuZhenTao		109		f		t			English
+			ZhaoFeiYan		982		m		s			95.0
+			f 和 m 分别表示女性和男性，s 表示学生，t 表示教师。可以看出，学生和教师所包含的数据是不同的。
+			现在要求把这些信息放在同一个表格中，并设计程序输入人员信息然后输出。
+
+4.枚举型
+	[1] 什么是枚举类型  
+			在实际编程中，有些数据的取值往往是有限的，只有几种可能的值。比如一个星期只有七天，一年只有十二个月，
+		一个班每周有六门课程等。C语言提供了一种构造类型枚举（Enum），在枚举定义中，能够列出所有可能的取值，
+		并给它们取一个名字。
+	[2] 枚举类型的定义
+		enum枚举名 { valueName1, valueName2, valueName3, ...... };
+		说明：
+		①　	enum是一个新的关键字，专门用来定义枚举类型
+		②　	valueName1, valueName2, valueName3, ......是每个值对应的枚举成员的列表，列出所有可能性的值。
+		③　	最后的;不能少。
+		
+		示例：对于一周来说，只有7天（星期一~星期日）。则我们可以定义星期为枚举类型。
+			enum week{ Mon, Tues, Wed, Thurs, Fri, Sat, Sun };
+			可以看到，我们仅仅给出了名字，却没有给出名字对应的值，这是因为枚举值默认从 0 开始，往后逐个加 1（递增）；
+		也就是说，week 中的 Mon、Tues ...... Sun 对应的值分别为 0、1 ...... 6
+			enum week{ Mon, Tues, Wed, Thurs, Fri, Sat, Sun };
+			
+			#define Mon 0 
+			#define Tues 1 
+			... 
+			#define Sun 6
+			
+			可自定义枚举成员对应的值.
+			enum week{ Mon = 1, Tues = 2, Wed = 3, Thurs = 4, Fri = 5, Sat = 6, Sun = 7 };
+			enum week{ Mon = 1, Tues, Wed, Thurs, Fri, Sat, Sun };
+			这样枚举值就从 1 开始递增，跟上面的写法是等效的。
+
+		注意: 
+			①　	枚举列表中的 Mon、Tues、Wed 这些标识符的作用范围是全局的（严格来说是 main() 函数内部），
+			不能再定义与它们名字相同的变量。
+			②　	Mon、Tues、Wed 等枚举成员都是整型常量，恶意定义成其他类型否则编译时会出错。例如：
+				Enum Timeofday{
+					Morning = 22.2, //必须是整型常量
+					Afternoon = “hello”, //必须是整型常量
+					evening
+				};
+			③　	枚举成员都是整型常量，一旦定义了枚举类型在程序中就不能再用赋值语句对它赋值，只能将它们的值赋给其他的变量。
+			④　	允许多个枚举成员有相同的值，没有显示赋值的枚举成员的值，总是前一个成员的值+1.
+			
+			enum week {
+				Mon = 1 , Tues, Weds, Thurs = 1, Fri, Sat, Sun
+			};
+			int main(int argc, const char *argv[])
+			{
+				printf("%d\n", Mon);
+				printf("%d\n", Tues);
+				printf("%d\n", Weds);
+				printf("%d\n", Thurs);
+				printf("%d\n", Fri);
+				printf("%d\n", Sat);
+				printf("%d\n", Sun);
+				
+				return 0;
+			}
+			
+	[3] 枚举型变量的定义 
+		①　	先定义枚举类型，再定义枚举变量
+			enum 枚举类型名 变量名;
+			实例: 
+			enum DAY{
+				  MON=1, TUE, WED, THU, FRI, SAT, SUN
+			};
+			
+			enum DAY day;
+		②　	定义枚举类型的同时定义枚举变量
+			enum DAY{
+				  MON=1, TUE, WED, THU, FRI, SAT, SUN
+			} day;
+		③　	省略枚举名称，直接定义枚举变量
+			enum {
+				  MON=1, TUE, WED, THU, FRI, SAT, SUN
+			} day;
+
+
+	[4] 枚举变量的使用
+		有了枚举变量，就可以把枚举成员列表中的值赋给它：	 
+		通过程序可以看出，可以把枚举成员的值赋予枚举变量，也可以把整数值直接赋予枚举变量。实际上，在C 语言中，
+		
+		#include <stdio.h>
+
+		enum color {
+			red, yellow, blue, black, white, green
+		};
+
+		int main(int argc, const char *argv[])
+		{
+			enum color i = red, j = white;
+			enum color x = 50;
+
+			printf("i = %d, j = %d\n", i, j);
+			printf("x = %d\n", x);
+
+			printf("sizeof(enum color) = %d\n", sizeof(enum color));
+			
+			return 0;
+		}
+
+
+		练习：定义枚举类型，用户输入数字，判断用户输入的是星期几。
+			enum Week{
+				  MON=1, TUE, WED, THU, FRI, SAT, SUN
+			} day;
+
+5.类型重定义  typedef  
+	[1] 基本类型
+		类型重定义（定义别名）
+		typedef   <已有数据类型>   <新数据类型>;
+		eg: 
+			typedef  signed char     int8_t  
+			typedef  unsigned  short    uint16_t  
+			typedef  int  int32_t; 
+	
+	[2] 结构体  
+		typedef  struct  info{
+			uint16_t  max_numb;
+			uint16_t  numb;
+			char  *title;
+		} Menu, *Menup;
+		
+		Menu menu1;
+		Menu *p;
+		Menup q;		//定义结构体指针类型
+		
+	[3] 数组  
+		typedef  int NUM[100];
+		NUM   array;	 //int  array[100]; 
+		
+	[4] 指针 
+		typedef  char * STRING; //STRING 为字符串指针类型；
+
+
+		STRING p, s[10]； // char *p指针变量,  char *s[10] 指针数组。
+
+	[5] 函数指针   
+		typedef  int (* POINTER)(int, int);
+		
+		POINTER p;
+		
+
+
+					
+6.预处理指令  
+	(1) 条件编译
+		a.
+			#if condtion_expression
+				code;
+			#else 
+				code;
+			#endif
+		b.
+			#ifdef Macro
+				code;
+			#else 
+				code;
+			#endef
+		c.
+			#ifndef Macro
+				code;
+			#else 
+				code;
+			#endef
+	(2) 宏定义  
+		#undef 宏名		取消宏定义
+		
+3.
+				
+			
+
+				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		

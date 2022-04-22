@@ -1,0 +1,36 @@
+工具 - web开发
+        浏览器
+                chrome
+                Firefox
+                opera
+        网络工具：
+            switchhost
+        网络资源解析：
+            wireshark
+            fiddler 手机拆包工具
+            postman http工具
+            HHD Software Device Monitoring Studio
+        网页设计工具
+            fireworks
+            Html5大纲分析工具
+            宝塔面板
+            workpress
+        socket工具
+            IPoP
+            TCPUDPDbg
+
+        MOTT调试工具
+            mosquitto
+            paho
+服务器工具：
+    maven
+    tomcat
+    nginx
+
+数据库工具
+            mysqlworkbench
+            DBeaver 开源免费‘
+
+            another redismanager
+            
+           

@@ -1,0 +1,61 @@
+效率 -终端
+    1，moba软件：使用右键的方式进行复制并且粘贴到命令行
+        命令行快速输入：
+        通配符
+    2，设置成vim的终端输入方式 set -o vi
+
+
+通过输入的方式获取输出：
+    1，通过搜索的方式获取新的文本，然后进行新的搜索
+        这要求我们能够丰富的使用文本和字符串工具：
+
+多窗口切换：
+	1，cmder执行对应的虚拟机；
+	2，wsl执行对应的windows程序:
+
+设定固定的工作方式：
+	1, 始终保持在根目录下进行工作
+		cdf的切换目录方式
+		cdn的切换siwei目录
+		vff的使用在根目录下的工作方式
+	1，使用vscode的方向按键提高中文的输入顺序，保持在insert的状态内不变
+		
+
+工具
+    oh my zsh和他们的插件
+    cmder.exe就是 cmd的二级扩充，支持wsl不好
+    放弃： wsltty 中文乱码  choco安装  Mintty 
+    wsl-terminal
+    https://github.com/mskyaxl/wsl-terminal
+
+
+    放弃： terminus/Tabby 基于web的，速度慢
+    放弃： window terminus 系统等级不够
+    mobaXItem 花里胡哨
+    xshell 功能受限
+
+
+    wsl 是windows下的虚拟机
+    vagrant 就是
+
+
+    支持的命令
+    Cygwin：
+    gitbash ming
+    powershell
+    cmd.exe
+
+    主题配置：
+
+
+命令行工具：
+    1，使用grep 进行新的文本查找 ：放到临时文件中，并查看该文件
+    2，使用fzf 进行文件名查找
+
+1，设计shell脚本进行linux的环境搭建，正确在每个我使用的linux环境中都有相应的软件
+2，windows作为基础软件
+3，放弃curl wget下载
+
+
+执行历史命令：
+    fc

@@ -1,0 +1,457 @@
+spring.datasource.type是告诉程序使用druid连接池
+模板
+    横向切割
+        security
+            使用注解保护方法
+                SpringSecurity自带的@Secured注解
+                JSR_250的@RolesAllowed注解
+                表达式驱动的注解
+            使用表达式实现方法级别的安全性
+                @PreAuthorize
+在方法调用之前，基于表达式的计算结果来限制对方法的访问
+                @PostAuthorize
+允许方法调用，但是如果表达式计算结果为false，将抛出一个安
+全性异常
+                @PreFilter
+允许方法调用，但必须按照表达式来过滤方法的结果
+                @PostFilter
+允许方法调用，但必须在进入方法之前过滤输入值
+            SpringSecurity
+                模块
+                    ACL、Aspects、cas client、configuration、core、cryptog
+raphy，LDAP,OpenID,Remoting,TagLibray,Web
+                    应用程序类路径至少要包含Core和Configuration两个模块
+                过滤Web请求
+                    ServletFilter
+                编写简单的安全性配置
+                    @EnableWebSecurity
+                    extends WebSecurityConfigureAdapter
+                选择用户认证服务
+                    基于内存存储
+                        重载configure()，传入AuthenticationManagerBuilder
+                    基于数据库进行认证
+                        jdbcAuthentication()
+                        PasswordEncoder接口 密码转码器
+(注意是传入密码再加密与数据库比较)
+                            BcryptPasswordEncoder
+                            NoOpPasswordEncoder
+                            StandardPasswordEncoder
+                    LDAP
+                        ldapAuthentication() 轻量目录访问协议
+                            userSearchFilter()
+                            groupSearchFilter()
+                    配置自定义的用户服务
+                        非关系型
+                            1.自定义的UserDetailsService
+                            2.实现loadUserByUsername()方法
+                            3.返回UserDetails
+                拦截请求
+                    HttpSecurity对象在多个方面配置HTTP的安全性
+                    authorizeRequests() 
+调用该方法返回的对象的方法来配置请求界别的安全性写解析
+                        antMatchers()指定路径,请求方式认证
+                        anyRequests()所有请求都是允许的
+                        hasRole()配置角色
+                        等等(P324)
+                    reduiresChannel()
+为选定的URL强制使用HTTPS
+                    防止跨域
+                        1.同步token的方式来实现CSRF防护
+                        2.不处理 csrf().disable() 禁用
+                认证用户
+                    configure方法中 fromLogin()
+                    启用HTTP Basic认证
+                    启用Remember-me
+        19.使用Spring发送Email
+            配置Spring发送邮件
+                MailSender接口
+            构建功夫内容的Email的消息
+            使用模板生成Email
+                Velocity
+Apache提供的通用模板引擎
+                Thymeleaf
+与JSP与Velocity不同，不包含任何特殊的标签库和特有的标签
+        运行状态监控actuator
+    spring4快速使用
+        数据交互
+            配置数据源
+                数据源连接池
+                    SpringBoot整合Druid
+                        Druid
+                        代码实现
+                            添加依赖
+                            编写配置文件
+                                spring.datasource.type是告诉程序使用druid连接池
+                    使用嵌入式的数据源
+                使用JNDI数据源
+                基于JDBC驱动的数据源
+            非关系型数据库支持
+                mongodb文档存储数据库
+                    通过注解实现队形-文档映射
+                    使用MongoTemplate实现基于模板的数据库访问
+                    自动化的运行时Repository生成功能
+                        @EnableMongoRepositories
+                        MongoFacoryBean
+                        MongoOperations
+                neo4j图形存储数据库
+                redis键值对存储数据库
+                    RedisTemplate
+                    StringRedisTemplate
+            缓存数据
+                注解驱动的缓存
+                    @EnableCaching 启用缓存
+                        @Cacheable
+表明Spring在调用方法之前，首先应该在缓存中查找方法的返回值。
+如果这个值能够找到，就会返回缓存的值。否则的话，这个方法就
+会被调用，返回值会放到缓存之中
+                        @CachePut
+表明Spring应该将方法的返回值放到缓存中。在方法的调用前并不会
+检查缓存，方法始终都会被调用
+                        @CacheEvict
+表明Spring应该在缓存中清除一个或多个条目
+                        @Caching
+这是一个分组的注解，能够同时应用多个其他的缓存注解
+                XML声明的缓存
+                springcache缓存管理器
+                    Spring框架自带
+                        SimpleCacheManager
+                        NoOpCacheManager
+                        ConcurrentMapCacheManager
+                        CompositeCacheManager
+                        EhCacheCacheManager
+                    SpringData
+                        RedisCacheManager
+                        GemfireCacheManager
+                    优点
+                        读多写少，一致性要求不高可以使用
+            链接方式
+                ORM 对象映射关系
+                    JPA框架
+                        @Query自定义查询
+                    Mybatis
+                    Hibernate
+                OXM 对象xml映射
+                JMS 消息服务
+                    RabbitMQ
+                    SpringAMQP
+                        message broker消息代理
+                        destination目的地
+                            队列 queue
+                                点对点消息模型
+                            主题 topic
+                                发布-订阅消息模型
+                        优点
+                            无需等待
+                            面向消息和解耦
+                            位置独立
+                                点对点中 多个服务重一个队列中接收消息，服务压力不足时增加新的服务实例即可
+                            确保投递
+                        Exchange 间接机制
+                            角色说明
+                                第一步 消息的生产者将信息发布到一个Exchange
+                                第二步 Exchange绑定到一个或多个队列上
+                                第三步 信息的消费者会从队列中提取数据并进行处理
+                            类型
+                                Direct:如果消息的routing key与binding的routing key直接匹配的话，消息将会路由到该队列上
+                                Topic:如果消息的routing key与bingding的routing key符合通配符匹配的话，消息将会路由到该队列上
+                                Headers:如果消息参数表中的头信息和值都与bingding参数表中相匹配，消息将会路由到该队列上
+                                Fanout:不管消息的routing key和参数表的头信息/值是什么，消息将会路由到所有队列上
+                Transaction 事务管理
+                    JDBC事物
+                    Hibernate事务
+                    Java持久化API事务
+                    JTA(Java Transaction API)事务
+        Web
+            SpringBoot整合拦截器
+            Spring支持的RPC模型
+                RMI 远程方法调用
+                    弊端1 难以穿透防火墙，其使用任意端口
+                    弊端2 基于Java且使用Java序列化，通信的客户卡端对象必须完全相同
+                Hessian或Burlap
+                    弊端1 如果数据模型非常复查，这两种的序列化模型可能就无法胜任 这个时候建议使用 HTTP invoker
+                HTTP invoker(调用)
+                    弊端1 只是一个Spring框架提供的远程调用解决方案，客户端和服务端都把西部基于java且版本需要一致
+                JAX-RPC 和 JAX-WS
+            SpringWebFlow
+                创建会话式的Web应用程序
+                定义流程状态和行为
+                    状态 
+                        流程中事件发生的地点
+                    转移
+                        连接这些地点的公路
+                    流程数据
+                        流程当前的状态
+                保护Web流程
+                    <secured>元素实现安全性，该元素会作为这些元素的子元素。
+例如：<secured attributes="ROLE_ADMIN" match="all">
+            SpringMVC
+                7.SpringMvc的高级技术
+                    SpringMVC配置的替代方案
+                        自定义DispatcherServlet配置
+                        添加其他的Servlet和Fliter
+                        在web.xml中声明DispatcherServlet
+                    处理multipart形式的数据
+                        配置multipart解析器
+                            CommonsMultipartResolver：使用Jakarta Commons
+FileUpload解析multipart请求；
+                            StandardServletMultipartResolver：依赖于Servlet 3.0
+对multipart请求的支持（始于Spring 3.1）。
+                        处理multipart请求
+                            <form>标签将enctype属性设置为multipart/form-data,告诉浏览器以multipart数据的形式提交表单。在multipart中，每一个输入域都会对应一个part
+                            添加@RequestPart注解
+例如：
+@RequestPart("profilePicture" byte[] profilePicture)
+@RequestPart("profilePicture" Part  profilePicture)
+@RequestPart("profilePicture" MultipartFile profilePicture)
+                    处理异常
+                        特定的Spring异常将会自动映射为指定的HTTP状态码；(P264)
+                        异常上可以添加@ResponseStatus注解，从而将其映射为某一个HTTP状态码；
+                        在方法上可以添加@ExceptionHandler注解，使其用来处理
+异常。
+                    为控制器添加通知
+                        @ControllerAdvice
+                            @ExceptionHandler
+                            @InitBinder
+                            @ModelAttribute
+                    跨重定向请求传递数据
+                        意义：防止用户点击浏览器的刷新按钮或后退箭头时，客户端重新执行危险的POST请求
+                        通过URL模板进行重定向
+                        使用flash属性
+                DispactcherServlet将请求发送给SpringMVC控制器（Controller）
+                5.构建SpringWeb应用
+                    编写基本控制器
+                        控制器 controller
+                            @Controller 和 @Component其实实现效果是一样的，只是第一个表义更好
+                            @RequestMapping
+                    接受请求的输入
+                        查询参数 Query Parameter
+                            @RequestParams
+                                defaultValue
+                        表单参数 Form Parameter
+                            使用对象接收参数
+                            校验表单
+                                @Valid 指向对象
+                                    @NoNull
+                                    @Size
+                                    等等
+                        路径变量 Path Variable
+                            @PathVariable("XXX")
+                REST行为
+                    Create:POST
+                    Read:GET
+                    Update:PUT||PATCH
+                    Delete:DELETE
+                http请求方法
+                    @PathVariable处理参数化的URL
+                        借助Spring的视图和视图解析器可以将数据模型渲染为XML,JSON,Atom以及RSS的View
+                        可以使用ContentNegotiatingViewResolver来选择最适合客户端的表述；
+                    @RequestBody注解以及HttpMethodConverter实现可以将传入的HTTP数据转化为传入控制器处理方法的Java对象；
+                        借助@ResponseBody注解和各种HttpMethodConverter实现，能够替换基于视图的渲染方式；
+                        借助RestTemplate，Spring应用能够方便地使用REST资源
+                Spring将资源的Java表达形式转换发给客户端的表达形式
+                    内容协商：选择一个视图，它能够将模型渲染为呈现给客户端的表达形式
+                    消息转换器：通过一个消息转换器将控制器锁返回的对象转为为呈现给客户端的表达形式
+                HTTP信息转换器
+                    @ResponseBody 将控制器返回的Java对象转换为发送到客户端的资源表述
+                    @RequestMapping 使用produces="application/json"表面只会接收URL匹配路径和 "aplication/json"的数据
+                    @RestController Spring4.0引入 会为这个类中所有方法添加@ResponseBody
+                @ResponseStatus指定状态码
+                    Spring提供自定义相应体，以应对一下特殊情况
+                    控制器方法可以返回ResponseEntity对象，该对象能够包含更多相应相关的元数据
+                    异常处理器能够应对错误场景，这样处理器方法就能关注与正常的状况
+            Servlet
+                HttpServlet
+                    DispatcherServlet
+                SpringBoot整合jsp
+                    添加依赖
+                    在 yml配置文件中配置视图解析器参数
+                    在控制类中声明单元方法请求转发jsp资源
+                SpringBoot整合Thymeleaf
+                    配置视图解析器
+                        ThymeleafViewResolver：将逻辑视图名称解析为Thymeleaf模板视图；
+                        SpringTemplateEngine：处理模板并渲染结果；
+                        TemplateResolver：加载Thymeleaf模板
+            WebSocket
+                实现消息服务
+                STOMP
+                    SEND
+                    destination:/app/marco
+                    content-length:120
+                    {\"message":\"Marco!"\}
+                SockJS
+            Portlet
+            JSON数据转化
+        简化
+            AOP面向切面
+                Aspects面向切面框架
+                    AspectJ框架
+                spring-instrument：提供一些类级的工具支持和ClassLoader级的实现，用于服务器
+                spring-instrument-tomcat：针对tomcat的instrument实现
+                Instrumentation 服务器代理接口
+                AOP术语
+                    通知 active
+                        定义是什么？何时？
+                            前置通知 方法调用前通知
+                            后置通知 完成后输出 不关心返回结果
+                            返回通知 成功执行后调用通知
+                            异常通知 抛出异常通知
+                            环绕通知 通知包裹了被通知的方法，在被通知的方法调用之前和调用之后执行自定义的行为
+                    切点 pointcut
+                        定义何处？
+                    连接点 join point
+                        连接点是在应用执行过程中能够插入切面的一个点
+                        可以是在调用方法时、抛出异常时、修改一个字段时等等
+                    切面 aspect
+                        通知和切点的结合-它是什么，在何时和何处完成其功能
+                    引入 introduction
+                        允许我们向现有的类添加新方法或属性
+                    织入 weaving
+                        把切面应用到目标对象并创建新的代理对象的过程
+            Message
+                base
+                converter
+                core
+                handler
+                simp
+                support
+                tcp
+            Core Container核心容器
+                context
+                    ApplicationContext
+                beans创建对象
+                    装配
+                        自动化装配bean
+                            组件扫描：Spring会自动发现应用上下文中所创建的bean
+                                @Component 表明该类会作为组件类，并告知Spring要为这个类创建bean
+                                @Named 不太友好，少用
+                                @ComponentScan设置组件扫描的基础包，自动装配：Spring自动满足bean之间的依赖
+                                @Autowired 
+                        通过java代码装配bean
+                            为JavaConfig类添加 @Configuration注解
+                        通过XML装配bean
+                            略
+                        导入和混合配置
+                            @Import 导入JavaConfig
+                            @ImportResource 导入XML
+                        高级装配
+                            环境与profile
+                                @Profile
+                            条件化的bean
+                                @Conditional 放在@Bean下面 只有当其中的判断条件为true的时候才执行，例如：@Conditional(MagicExistCondition.class) 
+                            处理自动装配的歧义性
+                                标示首选的bean
+                                    @Primary
+                                限定自动装配的bean
+                                    @Qualifier
+                            bean的作用域
+                                单例（Singleton）:在整个应用中，只创建bean的一个实例
+                                原型（Prototype）:每次注入或者通过Spring应用上下文获取的时候，都会创建一个新的bean实例
+                                会话（Session）:在web应用中，为每个会话创建一个bean实例
+                                请求（Request）:在web应用中，为每个请求创建一个bean实例
+                            运行时注入
+                    BeanDefinition
+                    BeanFactoty
+                    使用JMX管理SpringBean
+                        将Spring bean导出为MBean
+                        远程MBean
+                        处理通知
+                core 
+                    IOC控制反转容器
+                    DI 依赖注入
+                SpEl特有的表达式语言支持
+                基于POJO的轻量级和最小入侵性编程
+            annotation注解
+                常用注解
+                    Spring常用注解汇总
+                    使用注解之前要开启自动扫描功能，其中base-package为需要扫描的包(含子包)。
+                        <context:component-scan base-package="cn.test"/> 
+                    @Configuration把一个类作为一个IoC容器，它的某个方法头上如果注册了@Bean，就会作为这个Spring容器中的Bean。
+                    @Scope注解 作用域
+                    @Lazy(true) 表示延迟初始化
+                    @Service用于标注业务层组件、
+                    @Controller用于标注控制层组件（如struts中的action）
+                    @Repository用于标注数据访问组件，即DAO组件。
+                    @Component泛指组件，当组件不好归类的时候，我们可以使用这个注解进行标注。
+                    @Scope用于指定scope作用域的（用在类上）
+                    @PostConstruct用于指定初始化方法（用在方法上）
+                    @PreDestory用于指定销毁方法（用在方法上）
+                    @DependsOn：定义Bean初始化及销毁时的顺序
+                    @Primary：自动装配时当出现多个Bean候选者时，被注解为@Primary的Bean将作为首选者，否则将抛出异常
+                    @Autowired 默认按类型装配，如果我们想使用按名称装配，可以结合@Qualifier注解一起使用。如下：
+                    @Autowired @Qualifier("personDaoBean") 存在多个实例配合使用
+                    @Resource默认按名称装配，当找不到与名称匹配的bean才会按类型装配。
+                    @PostConstruct 初始化注解
+                    @PreDestroy 摧毁注解 默认 单例 启动就加载
+                    @Async异步方法调用
+        Test
+            原理
+                Spring Boot Test测试框架/库
+                    - JUnit：java测试事实上的标准，默认依赖版本是4.12（JUnit5和JUnit4差别比较大，集成方式有不同）。
+                    - Spring Test & Spring Boot Test：Spring的测试支持。
+                    - AssertJ：提供了流式的断言方式。
+                    - Hamcrest：提供了丰富的matcher。
+                    - Mockito：mock框架，可以按类型创建mock对象，可以根据方法参数指定特定的响应，也支持对于mock调用过程的断言。
+                    - JSONassert：为JSON提供了断言功能。
+                    - JsonPath：为JSON提供了XPATH功能。
+                各库的支撑API使用
+                    - 测试运行环境：通过@RunWith 和 @SpringBootTest启动spring容器。
+                    - mock能力：Mockito提供了强大mock功能。
+                    - 断言能力：AssertJ、Hamcrest、JsonPath提供了强大的断言能力。
+            预定义
+                分类
+                    单元测试
+                        单元测试的回滚@Transactional
+                    集成测试
+                        @Test
+                    切片测试
+                        @RunWith @WebMvcTest
+                    功能测试
+                        @RunWith
+                        @SpringBootTest
+                代码项目本质--注释的使用
+            springboottest代码内容
+                相互之间的搭配组合/注释的分类
+                    类外部
+                        启动测试类型的注释
+                        配置类型的注释
+                        自动配置类型的注释
+                    类内部
+                        初始化
+                            mock类型的注释
+                        生命周期
+                            @Before
+                            @Test
+            单元测试
+                Junit
+                    常用注解
+                        @Test
+                        @Ignore
+                        @Before
+                        @After
+                        @BeforeClass
+                        @AfterClass
+                    常用断言
+                        @Test(timeout = 5000 )
+                        @Test(expected = XXXXException. class)
+                        Assert.assertEquals("提示语", 5, result);
+                        assertTrue(String message, boolean condition) 
+                        assertFalse(String message, boolean condition)
+                        assertEquals(String message, XXX expected,XXX actual) 
+                        assertArrayEquals(String message, XXX[] expecteds,XXX [] actuals)
+                        assertNotNull(String message, Object object)
+                        assertNull(String message, Object object)
+                        assertSame(String message, Object expected, Object actual)
+                        assertNotSame(String message, Object unexpected,Object actual)
+                        assertThat(String reason, T actual, Matcher matcher)
+                    SSM框架上使用
+                        创建一个测试基类
+                            @RunWith(SpringRunner.class)/@RunWith(SpringJUnit4ClassRunner.class) 
+                                让测试在Spring容器环境下执行
+                            ContextConfiguration 加载所需的配置文件（可以以字符数组的形式加载）
+                            @Transactional 开启事务：已经配置了注解式事务
+                            @Rollback 设置测试后回滚，默认属性为true，即回滚
+                        创建DaoTest测试类继承测试基类
+                        创建ServiceTest测试类继承测试基类
+                        创建ControllerTest测试类继承测试基类
+        其他
+            Spring的异常体系

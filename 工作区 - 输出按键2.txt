@@ -1,0 +1,46 @@
+工作区 - 输出按键2
+
+    大小写：shift长时间按下
+
+61按键键盘指法
+    解决方案 - 按键修改
+        keyTweak对于按键位置的重映射
+        AutoHotkey对于自定义组合按键
+        留有的键盘自定义组合按键空间
+            caplocal定位到右侧ctrl
+                caplocal组合键
+                    caplock+空格实现句号输入
+                    caploca+wasd方向按键
+                    caplock+qe home和end按键
+            caplock按键定位到 小键盘 7
+                右侧ctrl按键为caplock按键
+            shift功能到caplock位置
+            shifft功能到 、位置
+            逗号功能shift+space
+            左右功能 alt和右键
+
+参考autohotkey的配置文件
+
+
+
+为了提高通用性：
+    1，只是更改caplock为shift按键
+    2，不对shift见进行修改： 
+        确保别人能够使用你的键盘
+
+    3，原有的ctrl按键进行优化：
+        ctrl+qwe进行优化
+        ctrl+w 映射为ctrl+w
+
+
+
+
+统一解决方案
+        方向按键
+            在文本编辑器中只按下一次按键
+            在windows中可以使用alt+wasd映射进行解决
+            在linux中使用hjkl + 
+        按键修改
+            修改右侧shift按键和分割按键
+            修改左侧shift为ctrl
+                作为笔记本时期的ctrl使用

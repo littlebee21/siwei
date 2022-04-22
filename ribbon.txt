@@ -1,0 +1,40 @@
+ribbon
+    什么是ribbon
+        什么是客户端负载均衡？
+            ribbon
+        什么是服务器端的负载均衡？
+            ng和h5
+    如何使用
+        @LoadBalanced+RestTemplate
+            原理
+                LoadBalancerInterceptor拦截器
+                LoadBalancerClient  负载均衡客户端
+                ILoadBalancer 负责均衡器
+                负载均衡算法 IRule
+    有哪些负载均衡算法
+        RandomRule
+            随机算法
+        RoundRobinRule
+            轮训算法
+        RetryRule
+            重新算法
+                在轮询的算法上+重试
+        BestAvailableRule
+            选择一个最小的并发请求的Server，逐个考察Server，如果Server被tripped了，则跳过。
+        ZoneAvoidanceRule
+            区域感知轮询负载均衡
+                考虑所在区域
+        AvailabilityFilteringRule
+            过滤掉一直连接失败的被标记为circuit tripped的后端Server，并过滤掉那些高并发的后端Server或者使用一个AvailabilityPredicate来包含过滤server的逻辑，其实就就是检查status里记录的各个Server的运行状态
+        WeightedResponseTimeRule
+            加权响应时间负载均衡
+    如何修改的负载均衡算法
+        全局配置
+              @Bean
+            public IRule rule(){
+            return new RandomRule();
+            }
+        局部配置
+    如何自定义负载均衡算法
+        集成AbstractLoadBalancerRule
+        重新choose方法

@@ -1,0 +1,129 @@
+man手册
+man
+    猜测的高级用法
+        通过man手册来grep出对应的内容
+            似乎不够用
+        在man手册查找,严格查找
+        我觉的man手册不是很好查找
+    基本用法
+        man [-num]  command
+            num
+                man 2 <tab>  列出2分册的所有命令
+        查看地址
+            匹配命令
+                man -f fullname
+                    = whatis
+            匹配关键词
+                man -k keyword
+                    = apropos
+                        -k进行模糊查询
+            # mandb 生成数据库
+        进入手册中
+            /
+                搜索关键字
+            q
+                退出
+            h
+                帮助
+    主题
+        man手册的分类
+            1 - commands（普通的命令）
+                可执行程序或者shell命令
+            2 - system calls（系统调用）
+                内核提供的函数
+            3 - library calls（库函数）
+            4 - special files（特殊文件：/dev下设备文件）
+            5 - file formats and convertions（文件格式）
+            6 - games for
+                （游戏和娱乐）
+            7 - macro packages and conventions（杂项）
+                惯例与协定
+            8 - system management commands（管理员命令）
+                只能由管理员使用的命令
+            9 - 其他（Linux特定， 用来存放内核例行程序的文档）
+                与kernel有关的文件
+            1237
+            不同的显示代表不同
+                write(1)
+                    说明在manpages的第1节中有write命令
+                write(2)
+                    说明mapages的第2节中有write命令
+                这两个命令的作用不同，具体可查看其手册页
+        man手册的结构
+            name
+                命令名称和用途
+            synopsis
+                命令语法
+            description
+                命令的作用
+                    选项
+                        参数
+            options
+                选项和参数
+            author
+                作者
+            copyright
+                版权
+            seealso
+                其他参考
+            bugs
+                bug
+            miscellaneous
+                多方面复杂的
+        man手册页存放位置
+            路径
+                /usr/share/man
+                ...
+                有多个路径
+譬如: /bin 目录中的命令对应的手册页有其存放路径
+      /sbin 目录中的命令对应的手册页有其存放路径
+      /opt 目录中的命令对应的手册页有其存放路径
+            路径配置文件
+                /etc/manpath.config(deepin Linux)
+其他Linux可查看 man 1 man 的输出
+中关于manpath的部分
+    如何寻求在线帮助
+        Linux命令的 --help/-h 选项
+            比如 $ ls -h 可以显示ls命令的命令行参数细节
+        info
+            info命令用于查看
+                info格式的在线文档
+                    支持
+                        节点
+                        超链接
+                        info命令中的跳转命令
+                            n
+                                下一个节点
+                            p
+                                上一个节点
+                            u
+                                上一层节点
+                man pages格式的在线文档，与man命令类似
+            存放
+                路径 
+                    /usr/share/info
+        how-to 文档
+            存放
+                路径
+                    /usr/share/doc
+                格式
+                    README
+                        文本格式
+                    html格式
+                    pdf格式
+        联机帮助 清屏历史  记录命令
+            man info的区别
+            命令行历史记录
+# mandb 生成数据库
+info命令中的跳转命令
+    n
+        下一个节点
+    p
+        上一个节点
+    u
+        上一层节点
+这两个命令的作用不同，具体可查看其手册页
+有多个路径
+譬如: /bin 目录中的命令对应的手册页有其存放路径
+      /sbin 目录中的命令对应的手册页有其存放路径
+      /opt 目录中的命令对应的手册页有其存放路径

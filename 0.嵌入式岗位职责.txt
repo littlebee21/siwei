@@ -1,0 +1,179 @@
+嵌入式岗位职责：嵌入式技术
+  嵌入式开发工具 emmx
+    通用能力
+        语言
+            C emmx
+            C++ emmx
+            英语
+            脚本语言
+                python
+                windows的bat
+                linux的 shell emmx
+                python perl
+        优化
+            硬件设备选型 emmx
+    嵌入式架构技能树
+        云端
+        轻便的物联网开发套件
+            树莓派
+        应用层 emmx
+            android emmx
+            嵌入式数据库 emmx
+                sqlite emmx
+            物联网图形设计
+                ENWIM图形设计
+            平台软件开发
+                内存管理:
+                    内存分配 
+                    内存管理
+                多任务编程
+                    进程    
+                        进程控制
+                        守护进程
+                        进程间通信
+                    线程
+                        线程控制和编程
+                            属性 创建 等待 退出 清除 同步 优先级
+                文件I/O编程
+                    文件/文件描述符
+                    文件指针/文件流
+                    缓冲
+                    流操作:开/闭/读/写/内容定位
+                    标准I/O流
+                    标准I/O操作
+                    非阻塞 I/o
+                    异步I/O
+                    多路复用
+                网络编程
+                    TCP/IP 协议家族
+                    Socket 通信和应用
+                    TCP 编程
+                    UDP 编程
+                图形化界面编程
+                    QT emmx
+
+        嵌入式操作系统 emmx
+            non-OS
+                LwIP
+            0.linux emmx
+            QNX
+                黑莓
+            Windows
+                Windows CE
+                Windows 10 IoT Core
+            android
+                google公司
+            实时操作系统 emmx
+        
+        嵌入式底层开发
+            可运行系统 
+                BootLoader 
+                    工作流程
+                    常用命令
+                    Bootloader启动流程和原理
+                Linux内核
+                    内核原码
+                    内核配置/编译/调试/剪裁/移植
+                    内核启动流程分析和理解
+                根文件系统
+                    根文件系统移植
+                    文件系统移植
+            linux内核编程 emmx
+            linux驱动开发 emmxmmmmmmmmmmx
+                IO - 驱动 emmmmmx
+                多线程 - 驱动 emmmmmmx
+                板内通信 -驱动 emmxmmx
+                板间通信 - 驱动 emmmx
+                
+        芯片设计架构 
+            Arm
+            risc
+            51架构
+        电路
+            硬件核心(Hardware Core)
+                Sensor(传感器) emmx
+                Controller(控制器) emmxmmmmmmmmmmmmmmmmmmx
+                    控制器外设 emmmmmmmmxmmmmmmmmmmx
+                Actuator(执行器) emmx
+                    电机 emmx
+            元器件.emmx
+                模块
+                集成电路 emmx
+                    存储
+                基本元器件 emmx
+            基础
+                焊电路
+                模拟电路
+                数字电路
+            PCB设计 emmx
+            电路仿真
+                原理仿真软件
+                    Multisim
+                    Proteus
+                    Pspice
+                信号仿真软件
+                    ADS
+                    HFSS
+                    HyperLynx
+                    Sigrity
+                    MATLAB
+嵌入式岗位职责
+    调试
+        高通MTK平台调试经验
+    优化
+        手机系统平台功耗调优
+    问题定位
+        手机app工号异常的发现
+    调试仪器
+        安捷伦仪器
+        power monitor
+    嵌入式产业和需求
+        安防监控
+            音视频开发
+            网络编程
+        嵌入式产品
+            android
+            硬件基础知识
+            操作系统
+            网络编程
+            
+    嵌入式岗位细分X
+        ③ 软件工程师：
+            负责上层应用软件，主要要用：
+            CPU：51/MSP430/ARM7/ARM9
+            外设：AD/DA、UART、USBduot、LCD
+            总线和通讯接口：I2C、SPI、RS232、RS484、CAN、USB、以太网、BACnet、 MODBUS(或有实时性要求)
+            环境：Linux/QNX+ARM汇编
+            GUI：VC++/VC#/LABVIEW
+        ② 驱动开发工程师：
+            负责底层和上层的通讯，主要要用：
+            系统：Linux非实时系统/VXworks实时系统+架构/文件系统
+            技术栈
+                内核与BOOT：
+                    内核裁剪与移植、
+                    boot loader和驱动编写，
+                    驱动程序开发
+            上层接口：USB，网口
+            底层接口：SPI、UART、IIC、I2S，CAN、IDE
+            驱动修改和添加
+                配合硬件工程师进行系统调试
+        ④ 系统开发工程师：
+            负责系统架构设计
+        ① 硬件工程师：
+            负责底层的硬件设计，主要要用到：
+            处理器：ARM9；DSP；Niosoll；FPGA(用于高速特殊场合)
+            PCB：EMC设计与仿真
+            通讯：IIC，IIS，SPI，UART，CAN总线；RS232、PSTN Modem、网络、GPRS通信
+        ⑤ DSP软件工程师：
+            负责数字信号处理部分，主要要用：
+            CPU：固定为一个小系列(如TI DM642/648/6467、TI C6000、TMS320C5000、Freescale StarCore)
+            算法：熟悉图像、音频、视频相关处理算法很重要，要会修改和优化
+            接口与驱动：网络协议(MAC、IP、UDP、TCP)等
+            操作系统：架构设计和操作系统配置
+        ⑥ FPGA设计工程师：
+            负责高速信号处理和部分数字信号处理，主要要用：
+            语言：VHDL/Verilog
+            环境：modlesim、Synplify、Quartus、ISE、ispleverEDA
+            调试：设计、仿真、调试能力
+            算法：数字信号处理、滤波设计等算法
+            接口：E1 Framer/Deframer、HDLC控制器、以太网MAC控制器、SDH Framer/Deframer、SDH Mapper/Demapper、SPI4.2、HiGig、DDR、PCI、PCI-E、DDR-II、HD-SDI

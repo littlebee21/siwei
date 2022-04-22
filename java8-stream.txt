@@ -1,0 +1,173 @@
+stream
+    stream
+        中间操作与终端操作
+            终端操作会从流的流水线生成结果。其结果是任何不是流的值，比如List、Integer，甚至void。
+            limit短路性
+                limit具有短路性，即找到满足需要的数据后不会迭代剩余的数据
+            中间操作不会执行实际的计算，需要终端操作来触发。
+            中间操作可以链接起来，将一个流转换为另一个流。这些操作不会消耗流，其目的是建立一个流水线。
+            与此相反，终端操作会消耗流，以产生一个最终结果，例如返回流中的最大元素。
+    Stream API流的操作类型
+        构建流
+            由值创建流
+                Stream stream=Stream.of("Java8","Lambdas","In","Action");
+                Stream emptyStream=Stream.empty();
+                ofNullable
+            由集合创建
+                stream
+            由数组创建流
+            由文件生成流
+            由函数生成流：创建无限流
+                iterate
+                    iterate方法接受一个初始值（在这里是0），还有一个依次应用在每个产生的新值上的Lambda（UnaryOperator类型）。
+                    Stream.iterate(0,n->n+2).limit(10).forEach(System.out::println);
+                    打印前20个斐波拉契数列：        Stream.iterate(new int[]{0, 1}, a -> new int[]{a[1], a[0] + a[1]}).limit(20).map(t->t[0]).forEach(System.out::println); 
+                    单词意思:重复
+                generate
+                    与iterate方法类似，generate方法也可让你按需生成一个无限流。但generate不是依次对每个新生成的值应用函数的。它接受一个Supplier类型的Lambda提供新的值。
+                    Stream.generate(Math::random).limit(5).forEach(System.out::println);
+                使用limit限制大小，避免无限流
+            bulider构建
+            特化
+                range
+                rangeclosed
+        中间操作
+            filter筛选
+                 List integerList = Arrays.asList(1, 1, 2, 3, 4, 5); Stream stream = integerList.stream().filter(i -> i > 3);通过使用filter方法进行条件筛选，filter的方法参数为一个条件
+                skip跳过流中的元素
+                     List integerList = Arrays.asList(1, 1, 2, 3, 4, 5);
+            map流映射
+                .map(w -> w.split(" "))
+                flatMap流转换
+                    .flatMap(Arrays::stream)
+                相当于将当前元素给 i 元素 然后对i元素进行操作
+            sort排序
+            limit返回指定流个数
+                 List integerList = Arrays.asList(1, 1, 2, 3, 4, 5); Stream stream = integerList.stream().limit(3);通过limit方法指定返回流的个数，limit的参数值必须>=0，否则将会抛出异常
+            distinct去除重复元素
+                List integerList = Arrays.asList(1, 1, 2, 3, 4, 5);Stream stream = integerList.stream().distinct();通过distinct方法快速去除重复的元素
+            boxed包装
+        终端操作：一次性操作
+            foreach进行元素遍历
+                List integerList = Arrays.asList(1, 2, 3, 4, 5);
+            find查找和match匹配
+                findFirst和findAny
+                    findFirst查找第一个
+                    findAny随机查找一个
+                allMatch、anyMatch、noneMatch、findFirst和findAny方法
+            collect()方法
+                它遍历流中的每个元素，并让Collector进行处理。
+                Collectors.toList()
+                Collectors.toMap()
+                Collectors.toSet()
+                Collectors.toCollection()：用自定义的实现Collection的数据结构收集
+                Collectors.toCollection(LinkedList::new)
+                Collectors.toCollection(CopyOnWriteArrayList::new)
+                Collectors.toCollection(TreeSet::new)
+                joining拼接流中的元素
+                    String result = menu.stream().map(Dish::getName).collect(Collectors.joining(", "));默认如果不通过map方法进行映射处理拼接的toString方法返回的字符串，joining的方法参数为元素的分界符，如果不指定生成的字符串将是一串的，可读性不强
+                Collectors.partitioningBy分区
+                Collectors.groupingBy分组
+                    Map> result = dishList.stream().collect(groupingBy(Dish::getType));在collect方法中传入groupingBy进行分组，其中groupingBy的方法参数为分类函数。还可以通过嵌套使用groupingBy进行多级分类
+                    Map> dishesByType=menu.stream().collect(groupingBy(Dish::getType));
+                    我们把这个Function叫作分类函数，因为它用来把流中的元素分成不同的组。分组操作的结果是一个Map，把分组函数返回的值作为映射的键，把流中所有具有这个分类值的项目的列表作为对应的映射值。
+                    多级分组
+                        要实现多级分组，我们可以使用一个由双参数版本的Collectors.groupingBy工厂方法创建的收集器，它除了普通的分类函数之外，还可以接受collector类型的第二个参数。那么要进行二级分组的话，我们可以把一个内层groupingBy传递给外层groupingBy，并定义一个为流中项目分类的二级标准
+                        Map>>dishesByTypeCaloricLevel=menu.stream().collect(groupingBy(Dish::getType,groupingBy(dish->{if(dish.getCalories()<=400)returnCaloricLevel.DIET;elseif(dish.getCalories()<=700)returnCaloricLevel.NORMAL;elsereturnCaloricLevel.FAT;})));
+                        这里的外层Map的键就是第一级分类函数生成的值：“fish,meat,other”，而这个Map的值又是一个Map，键是二级分类函数生成的值：“normal,diet,fat”。最后，第二级map的值是流中元素构成的List，是分别应用第一级和第二级分类函数所得到的对应第一级和第二级键的值：“salmon、pizza…”这种多级分组操作可以扩展至任意层级，n级分组就会得到一个代表n级树形结构的n级Map。
+                    按子组收集数据
+                        传递给第一个groupingBy的第二个收集器可以是任何类型，而不一定是另一个groupingBy。例如，要数一数菜单中每类菜有多少个，可以传递counting收集器作为groupingBy收集器的第二个参数
+                        Map typesCount=menu.stream().collect(groupingBy(Dish::getType,counting())); 
+                        把收集器的结果转换为另一种类型
+                            把收集器返回的结果转换为另一种类型，你可以使用Collectors.collectingAndThen工厂方法返回的收集器
+            统计
+                count统计流中元素个数
+                    通过countList integerList = Arrays.asList(1, 2, 3, 4, 5);Long result = integerList.stream().count();通过使用count方法统计出流中元素个数
+                min/max获取流中最小最大值
+                    通过min/max获取最小最大值
+                    通过minBy/maxBy获取最小最大值
+                    通过reduce获取最小最大值
+                求和
+                    通过summingInt
+                        int sum = menu.stream().collect(summingInt(Dish::getCalories));如果数据类型为double、long，则通过summingDouble、summingLong方法进行求和
+                    通过reduce
+                        int sum = menu.stream().map(Dish::getCalories).reduce(0, Integer::sum);
+                    通过sum
+                        int sum = menu.stream().mapToInt(Dish::getCalories).sum();
+                summarizingInt同时求总和、平均值、最大值、最小值
+                    IntSummaryStatistics intSummaryStatistics = menu.stream().collect(summarizingInt(Dish::getCalories));
+                averagingInt求平均值
+                    double average = menu.stream().collect(averagingInt(Dish::getCalories));
+                reduce计算返回唯一值
+                    int sum = integerList.stream().reduce(0, Integer::sum);
+            用流收集数据
+                汇总：归约的特殊情况
+                收集器Collector接口
+                    Supplier supplier();
+                        一个创建并返回新的可变结果容器的函数。
+                    BiConsumer accumulator();
+                        将值折叠到可变结果容器中的函数。
+                    BinaryOperator combiner();
+                        一个接受两个部分结果并合并它们的函数。 组合器函数可以将状态从一个参数折叠到另一个参数并返回该参数，或者可以返回新的结果容器。
+                    Function finisher();
+                        在遍历完流后，finisher方法必须返回在累积过程的最后要调用的一个函数，以便将累加器对象转换为整个集合操作的最终结果。通常，就像ToListCollector的情况一样，累加器对象恰好符合预期的最终结果，因此无需进行转换。所以finisher方法只需返回identity函数
+                    Set characteristics();
+                        最后一个方法——characteristics会返回一个不可变的Characteristics集合，它定义了收集器的行为——尤其是关于流是否可以并行归约，以及可以使用哪些优化的提示。Characteristics是一个包含三个项目的枚举。
+                开发自己的自定义收集器
+    stream原理
+        流的分类
+            普通流
+            特化流
+                IntStream、
+                DoubleStream
+                LongStream
+            数值流
+                原始流转化为数值流
+                    将流转换为特化版本的常用方法是
+                    mapToInt、mapToDouble和mapToLong。
+                数值流转化为原始流
+                    要把原始流转换成一般流
+                    （每个int都会装箱成一个Integer），可以使用boxed方法
+                数值范围
+                找出1到1000以内所有的勾股值
+        底层线程数量固定
+        并行数据处理与性能
+            并行流
+                将顺序流转换为并行流
+                    调用流的parallel()方法
+                        LongStream.rangeClosed(1, n).reduce(0, Long::sum)
+                        LongStream.rangeClosed(1, n).parallel().reduce(0, Long::sum)
+                实现原理
+                    内部分块处理，然后将各块的结果合并
+                将并行流转换为顺序流
+                    调用流的sequential()方法
+                        如果一个流程里面调用了sequential和parallel方法，以最后调用的方法为准
+                配置并行流使用的线程池
+                    看看流的parallel方法，你可能会想，并行流用的线程是从哪儿来的？有多少个？怎么自定义这个过程呢？并行流内部使用了默认的ForkJoinPool（7.2节会进一步讲到分支/合并框架），它默认的线程数量就是你的处理器数量，这个值是由Runtime.getRuntime().availableProcessors()得到的。但是你可以通过系统属性java.util.concurrent.ForkJoinPool.common.parallelism来改变线程池大小，如下所示：System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism","12");
+                iterate生成的流本质上是顺序的，因为每次计算都会依赖上一次计算的结果
+                什么时候利用并行流来提高性能
+                    并行流并不总比顺序流快，涉及到装箱拆箱操作
+                    留意装箱
+                    有些操作本身在并行流上的性能就比顺序流差。特别是limit和findFirst等依赖于元素顺序的操作，它们在并行流上执行的代价非常大。例如，findAny会比findFirst性能好，因为它不一定要按顺序来执行。你总是可以调用unordered方法来把有序流变成无序流。那么，如果你需要流中的n个元素而不是专门要前n个的话，对无序并行流调用limit可能会比单个有序流（比如数据源是一个List）更高效。
+                    还要考虑终端操作中合并步骤的代价是大是小（例如Collector中的combiner方法）。如果这一步代价很大，那么组合每个子流产生的部分结果所付出的代价就可能会超出通过并行流得到的性能提升。
+                    要考虑流背后的数据结构是否易于分解。例如，ArrayList的拆分效率比LinkedList高得多，因为前者用不着遍历就可以平均拆分，而后者则必须遍历。另外，用range工厂方法创建的原始类型流也可以快速分解。最后，你将在7.3节中学到，你可以自己实现Spliterator来完全掌控分解过程。
+                避免共享可变状态
+                常见数据源的可分解性，可分解性影响是否适合并行
+                    ArrayList  极好
+                    LinkedList 差
+                    IntStream.range 极好
+                    Stream.iterate 差
+                    HashSet 好
+                    TreeSet 好
+            分支/合并框架
+                分支/合并框架的目的是以递归方式将可以并行的任务拆分成更小的任务，然后将每个子任务的结果合并起来生成整体结果。它是ExecutorService接口的一个实现，它把子任务分配给线程池（称为ForkJoinPool）中的工作线程。
+            Spliterator
+                Spliterator是Java8中加入的另一个新接口；这个名字代表“可分迭代器”（splitableiterator）。和Iterator一样，Spliterator也用于遍历数据源中的元素，但它是为了并行执行而设计的。
+                内部方法
+                     boolean tryAdvance(Consumer action);
+                        tryAdvance方法的行为类似于普通的Iterator，因为它会按顺序一个一个使用Spliterator中的元素，并且如果还有其他元素要遍历就返回true,否则返回false。
+                    Spliterator trySplit();
+        stream的自动迭代
+    stream和collection的区别
+        迭代的方式
+            stream使用内部迭代：内部迭代与外部迭代

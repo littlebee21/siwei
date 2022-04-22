@@ -1,0 +1,332 @@
+elasticsearch命令
+    索引操作（indeces）
+        GET _cat/indices 查看全部索引
+            GET /atguigu/doc/1
+                  "_index" :   "megacorp",
+                    相当与database
+                  "_type" :    "employee",
+                    相当于table
+                  "_id" :      "1",
+                  "_version" : 1,
+                  "found" :    true,
+                  "_source" :  {
+                  "first_name" :  "John",
+                  "last_name" :   "Smith",
+                  "age" :         25,
+                  "about" :       "I love to go rock climbing",
+                  "interests":  [ "sports", "music" ]
+                  }
+                }
+        PUT / 增加索引
+        DELETE / 删除索引
+        GET / 获取索引信息
+        HEAD / 索引是否存在
+        修改索引
+        写入索引
+    type类型操作
+        mapping
+             types 字段类型
+                通用类型
+                    keyword 字符串类型，不分词
+                        keyword
+                            不需要用来分词, 比如电子邮箱, 姓名, 编码, 标签
+                            可以用于过滤, 排序, 聚合
+                        constant_keyword
+                        wildcard
+                    binary
+                        base64 编码后的字符串, 默认不存储和不可搜索
+                    boolean
+                        true, "true"
+                        false. "false", ""(空字符串)
+                    numbers
+                        整数
+                            long, integer, short, byte
+                        浮点
+                            double, float, half_float, scaled_float
+                    date 时间类型
+                        date
+                            支持自定义格式, 同时支持多种格式
+                            支持毫秒级long/秒级int 时间戳, 非负
+                        date nanos
+                    alias
+                        就是给字段取别名, 但是不能给别名取别名
+                对象和关联类型
+                    object 对象类型
+                        json
+                    flattened拉平查询
+                        把一个json对象拉平来查询
+                    nested  嵌套对象类型
+                         index arrays of objects
+                    join
+                结构化数据类型
+                    range范围类型
+                        integer_range
+                        float_range 浮点数范围
+                        long_range 整数范围
+                        double_range
+                        date_range 时间范围
+                        ip_range ip范围
+                    ip ip地址类型
+                        支持ipv4, v6
+                    murmur3
+                 聚合数据类型
+                    histogram
+                文本搜索类型
+                    annotated-text
+                    text  字符串类型，分词
+                        用于全文索引搜索, 会分词
+                    completion
+                    search_as_you_type
+                    token_count 计数类型，如统计分词数
+                Document ranking types
+                    dense_vector
+                    rank_feature
+                    rank_features
+                空间数据类型
+                    geo_shape
+                    geo_point 地理位置类型
+                        支持对象, 数组, 字符串, geohash, well-known text
+                    point
+                    shape
+                arrays数组类型
+                    数组里面的类型要一致
+                    需要注意对象数组, 必要时使用nested代替
+                    空数组当作missing field处理
+                    多值字段和倒排索引
+                relation 父子对象类型
+                precolator 监听变化
+                    percolator  反向查询
+                multi-fields
+                    这个吊, 用于不同的目的用不同的方式索引同一个字段, 使用fields参数来实现
+                type的默认
+                    没有mapping系统会自动
+            analyzer 指定分词器
+            boost  字段权重，默认1
+            copy_to 自定义字段，用其他字段拼接
+            doc_values 加快排序、聚合操作，默认 true
+            enabled 是否被索引，只用于object字段类型，默认 true
+                enabled 用于对象, 是否被索引
+            index 是否被索引、查询，默认 true
+            format 时间字段格式化
+            ignore_above 指定字段索引的长度，超过部分会被截断， 默认 100
+            ignore_malformed 忽略错误格式数据
+            fields 定义字段的衍生子字段，如 keyword、texy
+            nested 定义object对象的父子关系
+            dynamic 动态字段, 用于对象
+                动态映射
+            null_value null,[],[null] 都是null, null不会存储到索引中, 为missing
+            properties 用于对象和nested
+        默认映射
+        tips
+            database, type, document, fields. type这个概念被移除
+        映射mapping
+            显式映射
+            运行时字段
+            字段数据类型
+            元数据字段
+            映射参数
+            映射限制设置
+            删除映射类型
+    文档基本操作
+        1.4.   新增文档（document）
+            批量写入
+            单个文档
+            第三方导入
+                logstash
+                flume
+                kafla
+        查询
+            各种查询
+                常用查询
+                    term 精准查询
+                    terms 多值查询
+                    range 范围查询
+                    exists 字段是否存在
+                    prefix 前缀查询
+                    regexp 正则查询
+                    wildcard 通配符查询
+                        ?  *
+                    fuzzy  模糊查询
+                        fuzziness 本次查询允许的最大编辑距离
+                        prefix_length 最小相同前缀长度
+                        max_expansions 衍生的查询词数 (影响返回结果)
+                全文查询
+                    match 分词搜索
+                        operator 定义多个分词的逻辑关系，默认 or
+                        minimum_should_match 控制分词最少匹配个数， 默认1
+                    match_phrase 短语搜索
+                        分词后的词必须都匹配到
+                        slop 控制分词允许的匹配距离
+                    match_phrase_prefix 短语前缀搜索
+                        最后一个词会只匹配前缀
+                    multi_match 多字段查询
+                        type  类型
+                            best_fields 分值选择最高字段分值
+                            most_fields 分值为各个字段相加
+                            cross_fields 跨多个字段匹配，每个字段至少需要匹配一个分词
+                        tie_breaker 控制每个字段分值的权重
+                    query_string
+                        基本格式  字段:查询内容
+                        OR  AND
+                复合查询
+                    bool 组合查询
+                        must 必须匹配
+                        must_not 必须不匹配
+                        should 可能匹配
+                        filter 过滤匹配，不参与评分，可以缓存，速度快
+                        minimum_should_match 定义should至少匹配个数，默认0
+                    改变分值查询
+                        boosting 评分查询
+                            positive 正分查询
+                            negative 负分查询
+                        constant_score 固定分值查询
+                            通常用于包装filter查询
+                            boost 分值
+                        dis_max 最高分值查询
+                            同一个文档匹配多个查询的话，分值取最高值
+                            tie_breaker 分值权重
+                特殊查询
+                    nested 嵌套查询
+                        path 路径，子字段名
+                        query 嵌套查询主体
+                    more_like_this  类似查询
+                        fields  要查询的字段，默认所有
+                        like  要查询的文本
+                        控制搜索分词
+                            stop_words 需要忽略的分词
+                            min_term_freq  搜索内容中分词至少出现频率，默认2
+                            max_query_terms 最大查询分词数，默认 25
+                            min_word_length 最小分词长度，默认 0
+                            max_word_length 最大分词长度，默认 无
+                        min_doc_freq  分词在多少文档中出现，小于这个值会被忽略，默认 5
+                        max_doc_freq  分词再多少文档中出现，大于这个值会被忽略， 默认 无
+                    父子查询
+                        parent_id 通过父id查询子文档
+                        has_child 通过子文档条件查询父文档
+                        has_parent 通过父文档查询子文档
+                    脚本查询 script
+                    异步查询 _async_search
+            查询DSL  特定领域语言 
+                查询和过滤上下文
+                复合查询
+                全文查询
+                地理查询
+                形状查询
+                加入查询
+                匹配所有
+                跨度查询
+                专业查询
+                术语级查询
+                minimum_should_match 范围
+                rewrite 范围
+                正则表达式语法
+            EQL事件查询语言
+        search的json模板
+            query
+                brief
+                    高代价搜索, 尽量少用
+                        script queries
+                            会导致行扫描
+                        fuzzy queries
+                        regexp queries
+                        prefix queries
+                        wildcard queries
+                        text, keyword上的range查询
+                        joining queries
+                        老式的geo shapes
+                        script score queriespercolate queries
+                    query context
+                        解决匹配度的问题
+                    filter context
+                        解决是不是的问题
+                            会缓存结果, 性能更好
+                        bool.filter bool.must_not
+                        constant_score
+                        filter聚合
+                    具名查询
+                        在结果中会有matched_queries来标识
+                bool
+                    must
+                        必须匹配, 取交
+                    should
+                        可能匹配, 取并
+                    filter
+                        评分为0, 但是加上match_all可以拉升分数
+                    must_not
+                        同filter
+                    minimum_should_match 
+                full-text
+                    match
+                    match_phrase
+                    match_phrase_prefix
+                    multi_match
+                    query_string
+                Boosting
+                constant_score
+                match_all/match_none
+                    match_all为所有文档一个基础分, match_none就是全为假
+                term-level
+                    exists
+                    ids
+                    range
+                    term/terms
+                    term set
+                        minimum_should_match使用文档中的field来指定
+                geo
+                shape
+                Disjunction max query
+                term/terms
+                join 暂时云里雾里
+                多索引同时搜索
+            sort
+            pagination
+                from + size
+                    2.8.   分页（from/size）
+                scroll
+            highlighting 高亮
+                highlighting 高亮显示
+            查询结果处理
+            _source
+                结果过滤（_source）
+                _source 控制返回的字段
+            Collapse
+                没看的太懂, 就是把字段放到顶级的fields里面?
+                collapse 折叠相同的结果集
+            rescore 调整查询结果评分
+            post_filter 后置过滤，只影响结果不影响聚合统计
+    聚合统计
+        3. 聚合（aggregations）
+            3.1 基本概念
+            3.2 聚合为桶
+            3.3 桶内度量
+            3.4 桶内嵌套桶
+        metric 度量聚合
+            Avg 均值聚合
+            Max 最大值聚合
+            Min 最小值聚合
+            Sum 汇总聚合
+            weighted_avg 加权均值聚合
+            cardinality 去重计数聚合
+            stats 多种统计聚合
+            string_stats 字符串长度统计聚合
+            percentiles 百分比聚合
+            percentile_ranks 百分比聚合, 计算某几个值的百分比
+            top_hits 常配合桶聚合，获取该分类下的前几个文档
+        bucket 桶聚合
+            terms 多值分类聚合
+            composite 复合聚合，
+                多个聚合子项会被拼接起来，类似group by A,B
+                提供类似search_after的功能
+                track_total_hits  设置为false则匹配到足够结果程序会提前终止，建议设置
+            date_histogram 日期聚合
+                calendar_interval 定义单位内的日期间隔
+                    1m  1h  1d  1w  1M  1q  1y
+                fixed_interval 可以定义多个单位内的日期间隔
+                    ms  s   m  h  d
+            auto_date_histogram 根据日期自动聚合，日期间隔取决于设置的桶数
+                buckets 桶数
+                format 日期格式化
+        聚合
+            桶聚合
+            指标聚合
+            管道聚合

@@ -1,0 +1,32 @@
+idea 配置
+    环境配置
+        配置maven路径和maven设置
+        配置JDK版本
+        如果需要idea配置tomcat
+        maven
+            配置maven的镜像仓库为阿里云
+            Maven自动下载源码包，告别反编译，直接上源码注释
+            自动导包和智能移除
+        linxu
+            idea配置搜狗输入法bug
+            ubuntu配置jdk为oracle jdk
+    功能
+        需要配置git
+        配置插件
+    File–>Settings–>Editor–>General 
+        性能
+            设置jvm的内存空间
+        选择性配置
+            配置方法之间的分割线
+    快捷键配置
+        带啊吗提示不区分大小写
+            需要
+        滑轮调整窗口显示大小
+            需要
+        自动导包功能及相关优化功能
+        tab多行显示
+        idea配置自动显示参数的类型
+        完全展开树节点
+            alt+2	有必要
+    配置方法
+        导入setting文件进行配置

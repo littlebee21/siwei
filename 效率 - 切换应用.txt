@@ -1,0 +1,41 @@
+效率 - 切换应用
+            使用 autohotkey进行命令方式的应用切换
+            使用 everthing的方式进行打开对应名字的应用
+            使用 使用win+tab的方式打开应用的所有菜单，然后使用方向按键进行选择
+            废弃 everthing+ autohot的脚本补充的方式
+                画图等文档等东西都是一次性用品，随用随关
+            废弃 hunt and pen
+            废弃 fastWindowSwitcher
+                win+y激活之后在页面上面会显示字母按键
+            废弃 7+ Taskbar Numberer
+                在任务栏上标记数字进行切换打开
+            废弃 easy windows switcher
+                ctrl+·在同一个应用的不同窗口之间切换
+            windows原生的方法
+                alt+tab
+                alt+esc
+                win+tab
+            应用内部多窗口
+                使用方向按键进行切换
+            关闭应用
+                ctrl+w
+            缩小应用
+                win 方向下
+        减少触控版的使用
+            不要使用按键去点按钮
+            大拇指进行拖拽的方式
+            使用食指进行鼠标位置的移动
+            使用双指进行鼠标右键的模拟
+思维：
+    经常回头的应用使用，autohotkey设置快捷键
+    不经常回头的应用使用，everthing打开替代切换
+    必要的时候使用触控板
+
+理解：
+    所有的应用抽象的看为文本编辑器：功能：输入和输出：查看复制剪切粘贴
+
+打开应用
+            使用everthing检索打开，使用autohotkey打开
+            废弃：使用hunt and pen +everthing打开应用
+            使用utools
+            使用win搜索

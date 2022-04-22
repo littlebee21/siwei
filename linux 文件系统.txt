@@ -1,0 +1,124 @@
+linux 文件系统
+    根目录 /，与开机系统有关
+        /usr 用户的文件由用户自己进行定义Windows
+            /usr/bin：用户和管理员的标准命令；
+            /usr/sbin：给超级用户使用的一些管理程序就放在这.
+            /usr/lib：应用程序和程序包的连接库；
+                jdk1.8
+                子主题
+                子主题
+                子主题
+            /usr/include：Linux下开发和编译应用程序需要的头文件在这里找.
+            /usr/libexec
+            /usr/doc：这就是Linux文档的大本营.
+            /usr/src：Linux开放的源代码；
+                /usr/src/linux
+            FHS规定可以存在的目录
+            /usr/games：存放着XteamLinux自带的小游戏；
+            /usr/man：帮助文档所在的目录；
+            /usr/X11R6：存放X-Windows的目录；
+            /usr/share共享数据
+                /usr/share/man
+                /usr/share/doc
+                /usr/share/zoneinfo
+            /usr/local手动安装的软件Software
+                mysqldata/mysql5.7/conf   数据库持久化文件
+                /usr/local/mysqlData/mysql5.7/data
+                /usr/local/mysqlData/mysql5.7/logs
+                nginx
+                ideaUI
+                /usr/local/bin
+                /usr/local/sbin
+                /usr/local/etc
+                /usr/local/games
+                /usr/local/man
+                /usr/local/share
+                /usr/local/src
+        #########################
+        home每个用户的都有自己的文件
+            molv
+                desktop
+                document
+                downloads
+                logs
+                music
+                picture
+                public
+                snap
+                temp
+                templates
+                vides
+                soft软件安装
+            fs
+        /sbin 存放管理员可执行文件
+        /bin 存放系统可执行文件
+        /lib 共享类库
+        /etc  配置文件
+            /etc/modprobe.d
+            /etc/issue
+            /etc/opt
+            /etc/rc
+            /etc/passwd
+            /etc/fdprm
+            /etc/fstab
+            /etc/group
+            /etc/inittab
+            /etc/issue
+            /etc/magic
+            /etc/motd
+            /etc/mtab
+            /etc/shadow
+            /etc/login.defs
+            /etc/printcap
+            /etc/profile 、/ e t c / c s h . l o g i n、/etc/csh.cshrc
+            /etc/securetty
+            /etc/shells
+            /etc/termcap
+        /tmp 临时文件
+        /root root用户目录
+        /lost found找回文件 
+        /mnt 挂载目录
+        /proc 虚拟文件系统VFS
+        /dev 设备文件
+            /dev/null
+            /dev/zero
+            /dev/tty
+            /dev/loop*
+            /dev/sd*
+        /boot 启动文件
+            放置
+                Linux核心文件
+                开机菜单
+                开机配置文件
+        /var与系统运行过程有关
+            /var/cache：应用程序缓存目录；
+            /var/crash：系统错误信息；
+            /var/games：游戏数据；
+            /var/lib
+            /var/lock
+            /var/log：日志文件；
+            /var/mail：电子邮件；
+            /var/tmp：临时文件目录；
+            /var/run
+                vmblock-fuse
+                    虚拟机拖过来的东西
+            /var/spool
+        mydata相关软件的挂载路径
+        snap安装的软件
+        opt可选的大型软件例如游戏
+    ###############################
+    类比
+        /
+            bin
+                Program Files
+            sbin
+                Program Files
+            usr
+                相当 C:\Windows\
+            etc
+                相当于 注册列表功能
+            home
+                相当于:C:\User\molv
+            root
+                相当 C:\User\Administor
+FHS规定可以存在的目录

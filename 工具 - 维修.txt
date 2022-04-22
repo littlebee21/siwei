@@ -1,0 +1,13 @@
+修电脑工具
+系统工具：
+        ┃  ┣━windows7激活工具.zip
+        激活工具 HEU_KMS_Activator_v19.6.4(旧版).exe
+        npp.7.5.8.Installer.exe
+        小马激活工具.rar
+        微PE系统安装盘
+    
+    驱动工具：
+        ┣━驱动精灵网卡版.exe
+        ┃  ┣━PL2303_Prolific_GPS_1013_20090319
+        ┃  ┣━win10 USB转串口驱动 PL2303 完整版_96@368503.exe
+        

@@ -1,0 +1,165 @@
+Vagrantfile 文件代码化配置
+    Configuration Version
+    Minimum Vagrant Version
+    Tips & Tricks
+    样例
+        config.vm.provider "virtualbox" do |vb|
+          # Display the VirtualBox GUI when booting the machine
+          vb.gui = true
+          # Customize the amount of memory on the VM:
+          vb.memory = "1024"
+            1G内存
+          vb.cpus = 2
+            2个CPU
+          vb.customize ["modifyvm", :id, "--vram", "128"]
+            128M显存
+          vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+          vb.name = "RHEL7"
+            虚拟机的名称为RHEL7
+        end
+    创建VagrantFile
+        先创建一个目录用于存放VagrantFile
+        vagrant init
+            运行
+            初始化Vagrant box。
+            该命令会初始化所在目录用于存放Vagrant相关信息(.vagrant目录)，并在其中中创建一个
+            VagrantFile
+            文件，并且在其中指明使用的box为
+            centos/7
+    配置VagrangFile
+        config.vm
+            config.vm.box
+                下载的cloud地址
+                中搜索并下载指定的box
+                    使用哪个box作为虚拟镜像
+                config.vm.box = "hashicorp/precise64"
+                config.vm.box_version = "1.1.0"
+                配置box
+                    像这样：
+                    或者是这样：
+                    注意，
+                    并没有关于
+                    provider
+                    的配置，因为它是由
+                    config.vm.provider
+                    决定的
+            config.vm.hostname
+                定义了虚拟机的主机名
+            config.vm.boot_timeout
+                指明了系统启动的超时时间
+            config.vm.communicator
+                指明了Vagrant与虚拟机通讯的方式，
+                    可以选择"ssh"或者"winrm",一般box为linux类操作系统则使用"ssh"，为windows操作系统则选择"winrm"
+            config.vm.provider
+                用于对虚拟机引擎进行配置
+                    比如这段配置指明了虚拟机引擎为 "virtualbox"，启动虚拟机时会现实VirtualBox GUI。同时它还定义了该虚拟机拥有:
+                    使用哪个虚拟引擎进行虚拟化(virtualbox,vmware,hyper-v,docker等)
+            Vagrant provision自动安装软件
+                三种情况触发provision
+                    第一次使用vagrant up创建虚拟环境,且没有指定 --no-provision 时
+                    运行命令 vagrant provision 时
+                    运行命令 vagrant reload --provision 时
+                Vagrant支持两种provision provider:
+                    shell provider
+                        config.vm.provision "shell", inline: <<-SHELL
+                            "shell"
+                                表示使用的是shell provider,
+                            inline:
+                                表示要执行的内容嵌入在后面，
+                            <<-SHELL
+                                表示执行脚本到
+                                    SHELL
+                                        这一行结束。除了
+                        config.vm.provision :shell, path: "shell/main.cmd"
+                            path:
+                                ,还可以是
+                            表示要执行的内容存放在后面指定的文件中。
+                          apt-get update
+                          apt-get install -y apache2
+                        SHELL
+                    file provider
+                        config.vm.provision "file",
+                        source: "shell/RunBoxStarterGist.bat",
+                        destination: "desktop\\RunBoxStarterGist.bat"
+                        分别指明了源文件路径和目的文件路径
+                多个config.vm.provision
+                    此外，值得说明的是，一个VagrantFile中支持多个
+                    模块，Vagrant会从上到下一次执行。
+            config.vm.synced_folder ${主机目录}, ${虚拟机目录}
+                关于同步目录(Synced Folders)
+                    默认情况下Vagrant会将你的项目目录(即包含Vagrangfile的那个目录)挂载到虚拟机的
+                    /vargrant
+                        目录。
+                    可以在Vagrantfile中通过
+                    config.vm.synced_folder
+                    来添加Synced Folder
+                    其中主机目录若为相对路径，则是以Vagrant项目目录为基准
+            config.vm.network
+                 "forwarded_port", guest: 80, host: 8080端口转发
+                    config.vm.network
+                        Vagrnat中的所有关于网络的配置都是通过
+                    "forwarded_port"
+                        就表示用来指明配置的是网络转发
+                            这个方法的其他参数则根据第一个参数的不同而不同。
+                            在一个VagrantFile中，可以通过多次调用
+                            方法来多次配置网络参数。
+                    host
+                        . 即发送到主机
+                    guest
+                        虚拟机端口
+                    guest_ip
+                        指定转发到虚拟机的哪个IP上，默认会转发到虚拟机的每个IP接口上
+                    host_ip
+                        指定只有访问主机哪个IP上的端口才进行转发，默认也是主机的每个IP
+                    protocol
+                        指定转发的协议是 "tcp" 还是 "udp",默认是 "tcp"
+                "private_network", ip: "192.168.50.4"虚拟机之间的
+                    虚拟机与虚拟机之间、虚拟机与主机之间可以组成一个私有网络，这个网络只允许网络内的虚拟机或本地主机访问，而不允许主机外的机器进行访问。
+                    私有网络
+                        配置IP
+                            配置IP有两种方式，一种是DHCP，一种是配置静态IP。最方便的方法莫过于直接通过DHCP动态分配IP了:
+                            配置静态IP其实也挺简单的:
+                            同时，静态IP还支持IPV6
+                "public_network"
+                    公有网络
+                        Vagrant也支持创建共有网络，主机外的机器允许访问共有网络。 公有网络的意义根据虚拟机引擎的不同有所不同，一般来说它意味着 "桥接网卡".
+                        私有网络的标识符为
+                        DHCP
+                            若公网上启用了DHCP，则共有网络无需任何配置
+                        设置静态IP
+                            与私有网络类似，你可以通过
+                            ip
+                            参数来设置静态IP
+                        指定桥接的网卡
+                            可以通过
+                            bridge
+                            参数来指定桥接的网卡
+                            有些provider甚至支持桥接多个网卡
+                其他网络设置
+                    我们实际上可以通过 provision 的能力来让虚拟机每次启动自动设置网络
+        config.ssh
+        config.winrm
+        config.vagrant
+        vagrant-proxyconf
+            为虚拟机设置代理
+                为虚拟机设置代理需要借助
+                插件
+                    vagrant plugin install vagrant-proxyconf
+                安装
+                VagrantFile
+                    Vagrant.configure("2") do |config|
+                      if Vagrant.has_plugin?("vagrant-proxyconf")
+                        # 若安装了plugin，则设置代理信息
+                    config.proxy.http     = "http://192.168.0.2:3128/"
+                    config.proxy.https    = "http://192.168.0.2:3128/"
+                    config.proxy.no_proxy = "localhost,127.0.0.1,.example.com"
+                      else
+                    # 若没有安装plugin，则调用系统命令安装插件，并提示重运行命令
+                    system('vagrant plugin install vagrant-proxyconf')
+                    raise("vagrant-proxyconf installed. Run command again.");
+                      end
+                      # ... rest of the configurations
+                    end
+                中添加下面配置
+        虚拟机的网络配置信息
+        其他虚拟机初始化脚本(shell,puppet,chef等)

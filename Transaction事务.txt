@@ -1,0 +1,83 @@
+模板
+    原理
+        事务的目的
+            数据资源所承载的系统状态始终处于'正确'的状态
+        事务特性(ACID)
+            原子性(Atomicity)
+            一致性(Consistency)
+            隔离性(Isolation)
+                4种隔离级别
+                    Read Uncommitted（读取未提交内容）
+                    Read Committed（读取提交内容）
+                    Repeatable Read（可重读）
+                    Serializable（可串行化）
+                几个问题
+                    脏读
+                    不可重复读
+                    幻读
+            持久性(Durability)
+        Spring事务
+            常见问题事务不生效
+                Bean是否是代理对象
+                入口函数是否是public的
+                数据库是否支持事务(Mysql的MyIsam不支持事务)
+                切点是否配置正确
+                如果使用了SpringMVC,SpringMVC容器有没有重复扫描
+                业务代码是否吞掉异常
+        事务的失效，不回滚场景
+            抛出检查异常导致事务不能正确回滚
+                解决：使用rollbackfor exception
+            自己把异常吃掉了
+                解决：异常原样抛出
+                解决：手动调用rollback
+            数据库引擎不支持事务
+            数据源没有配置事务管理器
+            没有被spring管理
+            方法不是public
+    使用
+        事务配置
+            propagation事务的传播
+                Propagation.REQUIRED/NESTED
+                Propagation.SUPPORTS
+                Propagation.MANDATORY
+                Propagation.REQUIRES_NEW
+                Propagation.NOT_SUPPORTED
+                Propagation.NEVER
+            isolation事务的隔离戒备
+                Isolation.DEFAULT
+                Isolation.READ_UNCOMMITTED
+                Isolation.READ_COMMITTED
+                Isolation.REPEATABLE_READ
+                Isolation.SERIALIZABLE
+            value/transactionManager事务管理器
+                JDBC事物
+                Hibernate事务
+                Java持久化API事务
+                JTA(Java Transaction API)事务
+            timeout事务的超时时间
+            readOnly读写提醒
+            rollbackFor
+            noRollbackFor
+        编程式事务
+            1，直接使用PlatformTransactionManager来进行编程式事务管理
+            2，使用框架底层API(JJDBC,Session)来进行事务控制
+            直接使用TransactionTemplate来进行编程式事务管理
+            创建基于SavePoint的嵌套事务
+            编程式事务管理
+                对基于 POJO 的应用来说是唯一选择
+                需要在代码中调用beginTransaction()、commit()、rollback()等事务管理相关的方法
+        声明式事务
+            配置方式
+                @Transactional()注解驱动 
+                XML元数据驱动的声明式事务
+                    基于TransactionProxyFactoryBean的配置
+                    基于命名空间的配置
+                    基于BeanNameAutoProxyCreator的配置
+            实现原理
+                AOP
+                    基于Aspectj AOP配置事务
+                基于 TransactionProxyFactoryBean的声明式事务管理
+                PlatformTransactionManager
+    事务和try的使用
+        try抛出异常，但是其中的内容还是执行了
+        try不抛出异常，会执行异常之前的内容

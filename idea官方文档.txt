@@ -1,0 +1,94 @@
+idea官方文档
+    认识IntelliJ IDEA
+        IntelliJ IDEA 安装和设置
+        IntelliJ IDEA如何使用
+        IntelliJ IDEA中快捷键
+            idea代码片段快捷键
+            idea查找快捷键
+            idea面板切换快捷键
+            idea调试
+        IntelliJ IDEA专业的使用技巧
+            IntelliJ IDEA 编码帮助
+                使用 Type Info
+                代码完成区分大小写
+                禁止在插入符号处突出显示元素的用法
+                CamelHumps
+                Hippie completion
+            重构
+                撤消重构
+                提取字符串片段
+                类型迁移
+                反转布尔值
+            代码分析
+                依赖结构矩阵
+                结构搜索和替换
+            用户界面
+                禁用面包屑和标签树突出显示
+                禁用不必要的沟槽图标（gutter icons）
+                禁用烦人的意图灯泡
+                使用 Search Everywhere
+                隐藏编辑标签
+                在新窗口中打开文件
+                使用路径完成
+                添加停止和恢复按钮到工具栏
+            编辑
+                与剪贴板比较
+                从历史粘贴
+                多项选择
+                Emmet
+                正则表达式
+                查找并替换为正则表达式组
+                字节码查看器
+            版本控制
+                修改变更
+                Shelves 和补丁
+            调试
+                操作或方法断点
+                字段断点或字段观察点
+                对象标记
+                自定义数据渲染器
+                落架
+                强制返回
+            DCEVM 热插拔插件
+            更新应用程序
+    idea中文文档
+        IntelliJ IDEA使用准备
+              使用IntelliJ IDEA的用户界面进行导览
+              设置IntelliJ IDEA项目和工作环境
+              IntelliJ IDEA编辑器
+                IntelliJ IDEA如何使用TODO
+        IntelliJ IDEA项目
+            创建
+                idea 创建普通java项目
+                idea 创建分布式
+                idea 创建maven子项目
+                    idea添加mode
+                        idea创建包和类
+                idea没有工作空间
+                idea和eclipse对比
+            代码分析
+            代码编写
+                idea的代码模板
+                    idea template
+                    代码格式工具
+                idea的使用alt+enter的代码生成
+                idea的使用todo列表进行标记任务
+            运行调试
+            测试
+            部署
+                idea使用git
+            扩展
+        idea的各种面板的使用
+    idea的底层功能
+        alt+enter
+            导入依赖
+        快速切换
+            如何快速切换面板
+            快速切换工作页
+        搜索方面
+            代码搜索
+                全局搜索
+                文本搜索
+            功能搜索
+        跳转
+            点击类的名字跳转到类图

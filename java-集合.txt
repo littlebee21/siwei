@@ -1,0 +1,327 @@
+ 集合
+    map
+        HashMap
+            hashmap源码
+                键值
+                    基本类型不能作为HashMap的键值
+                        Java中使用泛型来约束HashMap中的key和value的类型，HashMap
+                        泛型在Java的规定中必须是对象Object类型的，基本数据类型不是Object类型，不能作为键值
+                        map.put(0,"123")中编译器已将key值0进行了自动装箱，变成了Integer类型
+                    String Interger适合作为key键
+                1.7和1.8区别
+                    链表头插-改为尾插
+                        如何判断链表有环
+                        拉链法由头插法改为了尾插法
+                        HashMap什么情况下出现链表环
+                    链表 变 红黑树
+                        为啥不一直开始就用红黑树，而是到`8`的长度后才变换
+                        `HashMap`底层是 数组+链表+红黑树，为什么要用这几类结构呢
+                    线程安全具体实现
+                        JDK1.7（上面有示意图）	58
+                        JDK1.8 （上面有示意图）	58
+                    扩容机制不同
+                        JDK1.8是扩容前的原始位置+扩容的大小值=JDK1.8的计算方式
+                        在JDK1.7的时候是直接用hash值和需要扩容的二进制数进行&运算
+                    hash的计算规则不同
+                        JDK1.7用了9次扰动处理=4次位运算+5次异或
+                        JDK1.8只用了2次扰动处理=1次位运算+1次异或
+            源码分析
+                put()
+                    1.判断key是否为null，如果为null，调用putlForNullKey，将key插入到数组下标为0的位置
+                    2.扰动处理
+                        解决哈希冲突问题
+                    2.调用hash()方法计算key的hashcode，得到hash值
+                    3.调用indexFor()方法进行取模运算，得到元素的下标位置
+                        1.indexFor方法为：h&(length - 1)  
+                        2.使用与运算，计算速度更快，
+                        3.length之所以要设定为2次幂，就是为了这个indexFor方法服务
+                        4.可以让散列更加均匀，
+                            length-1的最后一位为1，因此进行与运算时，可以散列到奇数和偶数的下标位置，
+                            如果对length直接取模，由于length为2次幂，所以最后一位一定为0，所以与运算的结果一定是偶数，这也就导致奇数下标的位置不能被散列到。
+                    4.依次和该下标位置上的链表中的node节点比较key是否相等
+                        e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))
+                        不等
+                        如果相等，再通过==和equals比较是否相等，之所以要先判断hash值是否相等，是因为equal()很耗性能，因此先判断hash值能够提高效率
+                        重写了hashcode()方法就必须重写equals方法
+                    5.如果相等，更新value值，如果不相等，使用头插法(1.7)/尾插法(1.8)将entry(1.7)/Node(1.8)插入到链表中
+                get()
+                    和put()方法类似，获取到桶的下标，再在链表上查找key值，再获取key对应的value值
+                resize()
+                    当hashmap中的元素个数超过数组大小*loadFactor时，就会进行数组扩容
+                    扩容时，令 capacity 为原来的两倍。
+                    1.7时，需要new 一个新数组，并对旧数组上的所有元素进行indexFor()操作确定下标地址,这一步很费时，
+                    1.8时只需判断hash值的左边新增的那一位是否为1，即可判断此节点是留在原地lo还是移动去高位hi,如果为1，则移动去高位，否则不变
+                    1.7时，扩容的时候可能出现死循环，1.8没有这个问题
+                构造方法
+                    在第一次put()的时候，数组才初始化
+                    数组的长度为大于指定值的最小二次幂
+                        数组默认大小为16
+            多线程可能出现的问题
+                1.扩容时可能出现死循环
+                2.put的时候可能被失效/覆盖
+                    线程A,B同时调用addEntry方法，同时获取到了相同的头节点，然后A写入新的头结点之后，B也写入新的头结点，那B的写入操作就会覆盖A的写入操作造成A的写入操作丢失。
+                3.修改的时候可能被覆盖
+                    线程A,B先后修改同一key值的value，会导致覆盖
+                4.put非null元素后get出来的却是null
+                    扩容时调用的transfer方法，在获取数组的每个头节点的时候，在将e=头节点之后，都会将头节点置空，此时get可能导致获取到的值为0
+            hashmap初始化大小
+        ConcurrentHashMap
+            底层实现
+                1.7 segment数组+HashEntry数组(数组+链表)
+                    chm由一个segment数组组成
+                    segment
+                        每个segment元素包含一个HashEntry数组，每个HashEntry包含一个链表
+                            HashEntry大部分成员变量都为final
+                                final k key
+                                volatile V value
+                                final  int hash
+                                final HashEntry next
+                1.8 数组+链表+红黑树
+            源码分析
+                put()
+                    基本流程
+                        1.7 通过两次hash确定
+                            第一次Hash定位到Segment
+                                通过segmentFor()函数进行,计算方式也和indexFor()相同
+                                    SegmentMask
+                                        ssize-1
+                                    SegmentShift
+                                        32-sshift
+                                    ssize
+                                        是大于ConcurrentLevel的最小二次幂
+                            第二次Hash定位到元素所在的链表的头部
+                                定位方法和HashMap中的indexFor()相同
+                            通过segment.lock加锁
+                        1.8通过两次hash确定
+                            通过CAS+synchronized加锁
+                            1.如果没有hash冲突就直接通过CAS插入
+                            2.如果有hash冲突或者CAS操作失败，说明存在并发情况，使用synchronized加锁
+                            3.如果插入成功就调用addCount（）方法统计size，并且检查是否需要扩容
+                    源码分析
+                        1.ensureSegment
+                        2.segment.put()
+                get()
+                    get不需要加锁，因为HashEntry的value值设定为了volatile
+                    如果get()到的是null值，则可能这个key，value对正在put的过程中，如果出现这种情况，那么就通过lock加锁来保证取出的value是完整的
+                resize()
+                构造函数
+                    先根据ConcurrentLevel构造出Segment数组
+                    Segment数组大小是不大于concurrentLevel的最大的2的指数
+                    每个Segment中的HashEntry数组的大小都是大于指定大小的最小二次幂
+                        每个hashEntry的大小为大于initialCapacity/concurrentLevel的最小二次幂
+                    初始参数
+                        initialCapacity(每个HashEntry的长度)
+                        loadFactor：扩容因子
+                        concurrencyLevel：并发度，指Segment数组的长度
+                remove
+                    复制 删除 粘贴
+                    因为HashEntry中的next是final，所以只能先把待删除之前的元素复制了再删除
+                size
+                    size操作就是遍历了两次Segment，每次记录Segment的modCount值，然后将两次的modCount进行比较，如果相同，则表示期间没有发生过写入操作，就将原先遍历的结果返回，如果不相同，就需要将所有的Segment都锁住，然后一个一个遍历了，
+        HashTable
+              HashTable是线程安全的，因为所有方法上都加了synchronized关键字。
+            HashTable的key和value都不可以为null。 
+            扩容时，capacity=2*capacity+1
+            数组默认大小为11
+            查找下标时，没有使用hash&amp;length-1，而是直接进行计算的
+        TreeMap
+            底层实现为红黑树
+                能够保证树总是平衡的，如果插入删除导致树不平衡，会自动进行调整
+                    变色
+                    左旋
+                    右旋
+                查找的平均时间复杂度为O(logN)
+                主要规则
+                    1.每个节点或者是黑色，或者是红色。
+                    2.根节点是黑色
+                    3.叶子节点为黑色
+                    4.如果一个节点是红色的，则它的子节点必须是黑色的
+                    5.从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点。
+            接口实现
+                NavigableMap
+                     是SortedMap接口的子接口，在其基础上扩展了一些方法，例如floorEntry，lowEntry,ceilingEntry等
+                        为了防止外部修改Entry，使用了ExportEntry修饰floorEntry等方法
+                SortedMap
+                    定义按照key排序的Map结构，能够令Map按照key的自然顺序或者构造器顺序进行排序。
+            Entry
+                包含了left，right，parent节点
+        LinkedHashMap
+            维护链表顺序和访问顺序
+                Node节点额外增加了before和after指针，用于维护链表的访问顺序
+                next指针用来维护链表顺序
+            LinkedHashMap 可以通过构造参数 accessOrder 来指定双向链表是否在元素被访问后改变其在双向链表中的位置。
+            当accessOrder为true时，get方法和put方法都会调用recordAccess方法使得最近使用的Entry移到双向链表的末尾；当accessOrder为默认值false时，recordAccess方法什么也不会做。
+            LRU实现
+                插入数据后对调用afterNodeInsertion，afterNodeInsertion()方法中会调用removeEldestEntry，如果removeEldestEntry(first)返回true，按照LRU策略，那么会删除头节点(注意这里删除的是头节点！！！所以每次访问元素或者插入元素之后都要将该元素放到链表末尾)。这个也是实现LRU的关键点！！！！！
+        LinkedHashMap
+            链表的排序选择
+                插入顺序
+                访问顺序
+                    LRU缓存
+    list
+        ArrayList
+            ArrayList 的扩容机制
+            底层实现
+                动态数组
+            能够实现随机存取
+                实现了RandomAccess接口
+            fail-fast机制
+                在使用迭代器遍历list时，如果modCount和expectedCount不匹配，就会直接抛出异常
+                    modCount在AbstractList中定义
+                使用迭代器自带的remove()函数的时候，如果删除了list中元素，不会出现fail-fast,因为迭代器会调整modCount和expectedCount值
+            自定义了序列化方法
+                因为arrayList的底层数组中，可能存在值为null的元素，序列化这些元素是没有意义的，因此自定义了序列化方法，只序列化数组中非null的元素
+                通过readObject()和writeObject()方法实现
+            源码实现
+                扩容：capacity=1.5*capacity
+                    通过Arrays.copyOf()
+                        System.copyOf()
+                    每次扩容的时候，都会传入一个minCapacity,即扩容之后的数组长度，对于add方法，是原size+1,对于addAll方法，是size+newSize,如果原数组长度*1.5仍不能存放所需的元素，那么就会直接令数组长度为minCapacity
+                    ArrayList是插入前扩容,扩容逻辑为 ensureCapacityInternal()--->ensureExplicitCapacity()---->grow()
+        CopyOnWriteArrayList
+            和ArrayList基本一模一样，但它是线程安全的
+            任何对array在结构上有所改变的操作（add、remove、clear等），CopyOnWriterArrayList都会copy现有的数据，再在copy的数据上修改，这样就不会影响COWIterator中的数据了，不会抛ConcurrentModificationException异常(对set,add没有作用，因为set,add本来就要加锁)，修改完成之后改变原有数据的引用即可。
+            读操作不加锁，写操作加锁，在进行add,set等操作时，会通过ReentrantLock进行加锁
+            适合多读少写的场景
+            缺点
+                1.复制的数组会消耗内存
+                2.不能读取实时性的数据
+                3.会产生大量的对象
+        LinkedList
+            底层实现
+                双向链表
+            常用api
+                add
+                offer
+                remove
+            适合插入删除多的场合
+    Set
+        HashSet
+            基于HashMap实现
+            底层是数组+链表+红黑树
+                所有元素的value值都是一个static final Object
+            hashSet的存储是无序的
+                因为HashSet是根据对象的hashCode，进行计算后存储的
+            最后一个构造函数，为包访问权限是不对外公开，主要是为了支持LinkedHashSet
+                  HashSet(int initialCapacity, float loadFactor, boolean dummy)
+                多了一个dummy变量
+            2.2.7 HashSet如何检查重复
+        TreeSet
+            基于TreeMap实现
+            add()时，value值都是一个static final Object对象,因此当key相等时就会覆盖，也实现了没有重复元素的问题
+        LinkedHashSet
+            基于LinkHashMap实现
+    面试题之集合
+        如何实现数组和List之间的转换
+            数组转list，使用JDK中java.util.Arrays工具类的asList方法
+            list转数组，使用List的toArray方法。无参toArray方法返回Object数组，传入初始化长度的数组对象，返回该对象数组
+        迭代器Iterator是什么
+            首先说一下迭代器模式，它是 Java 中常用的设计模式之一。用于顺序访问集合对象的元素，无需知道集合对象的底层实现。
+            Iterator 是可以遍历集合的对象，为各种容器提供了公共的操作接口，隔离对容器的遍历操作和底层实现，从而解耦。
+            缺点是增加新的集合类需要对应增加新的迭代器类，迭代器类与集合类成对增加。
+        怎么确保一个集合不能被修改
+    原理系列
+        HashMap的底层原理
+        ArrayList的底层原理
+        ConcurrentHashMap原理
+            1.7
+                数据结构：ReentrantLock+Segment+HashEntry，一个Segment中包含一个HashEntry数组，每个HashEntry又是一个链表结构
+                元素查询：二次hash，第一次Hash定位到Segment，第二次Hash定位到元素所在的链表的头部锁：Segment分段锁 Segment继承了ReentrantLock，锁定操作的Segment，其他的Segment不受影响，并发度为segment个数，可以通过构造函数指定，数组扩容不会影响其他的segmentget方法无需加锁，volatile保证
+            1.8
+                数据结构：synchronized+CAS+Node+红黑树，Node的val和next都用volatile修饰，保证可见性查找，替换，赋值操作都使用CAS
+                锁：锁链表的head节点，不影响其他元素的读写，锁粒度更细，效率更高，扩容时，阻塞所有的读写操作、并发扩容读操作无锁：Node的val和next使用volatile修饰，读写线程对该变量互相可见数组用volatile修饰，保证扩容时被读线程感知
+        TreeMap的实现原理，如何保证其有序性
+    集合比较系列
+        2.2.15 如何选用集合?	62
+        Collection和Collections有什么区别
+            Collection是接口，Collections是包装类
+            Collection是JDK中集合层次结构中的最根本的接口，定义了集合类的基本方法。
+            Collections是一个包装类，包含有各种有关集合操作的静态多态方法，不能实例化，是Collection集合框架的工具类。
+        List，Set，Map之间的区别是什么
+            List：有序集合，元素可重复
+            Set：不重复集合，LinkedHashSet按照插入排序，SortedSet可排序，HashSet无序
+            Map：键值对集合，存储键、值和之间的映射；key无序，唯一；value不要求有序，允许重复
+        ArrayList和LinkedList的区别是什么
+            ArrayList基于动态数组实现的非线程安全的集合；LinkedList基于双向链表实现的非线程安全的集合
+            扩容问题：ArrayList使用个数组实现，无参构造函数默认初始化长度为10，数组扩容是会将原数组中的元素重新拷贝到新数组中，长度是原来的1.5倍；LinkedList不存在扩容问题，新增元素放到集合尾部，修改相应的指针节点即可
+            访问
+                对于随机index访问的get和set方法，一般ArrayList的速度要优于LinkedList。因为ArrayList直接通过数组小标直接找到元素；LinkedList要移动指针遍历每个元素直到找到为止。
+                新增和删除元素，一般LinkedList的速度要优于ArrayList（尾部节点插入）。因为ArrayList在新增和删除元素时，可能扩容和复制数组；LinkedListt在新增和删除元素时修改节点指针即可
+                LinkedList集合不支持高效的随机访问（RandomAccess）
+            LInkedList比ArrayList更占内存，因为LinkedList为每个节点存储了前后两个元素的引用
+            ArrayList的空间浪费主要体现在在List列表的结尾预留一定的容量空间；LinkedList的空间花费则体现在它的每个元素都需要消耗存储指针节点对象的空间。
+        Array和ArrayList有何区别
+            Array即数组，定义一个Array时，必须指定数组的数据类型及数组长度，即数组中存放的元素个数固定并且类型相同
+            ArrayList是动态数组，长度动态可变，会自动扩容。不使用泛型时，可以添加不同类型元素。
+        ArrayList与Vector的联系和区别
+            相同点
+                底层都是使用数组实现的
+                功能相同，实现增删改查等操作的方法相似
+                长度可变的数组结构
+            不同点
+                Vector的方法都是同步的，线程安全的；ArrayList的方法都是非线程安全的，但性能比Vector好
+                默认初始化容量都是10，但是扩容倍数不同，Vector扩容默认是翻倍，可以指定扩容的大小；ArrayList只增加50%
+        HashMap与HashTable的区别
+            线程安全性不同：HashMap线程不安全，HashTable线程安全，方法中都是synchronized修饰的
+            Key、Value是否允许为null：HashMap的key和value都可以是null，可以只允许一个null；HashTable的key和value都不允许为null。
+            迭代器不同：HashMap的Iterator是fail-fast迭代器；HashTable还使用了Enumerator迭代器
+            初始容量大小和每次扩容的大小不同：
+                HashMap的初始容量为16，HashTable初始容量为11，两者的填充因子默认都是0.75
+                HashMap扩容时是当前容量翻倍及：capacity * 2 ；HashTable扩容时是容量翻倍+1 ，即：capacity * 2 + 1
+            底层实现不同：HashMap在1.8后使用数组加链表+红黑树的数据结构存储；HashTable使用的是数组加链表存储
+            父类不同：HashMap继承自AbstractMap；HashTable继承自Dictionary
+        如何决定使用HashMap还是TreeMap
+            HashMap基于散列桶（数组和链表）实现；TreeMap基于红黑树实现
+            HashMap不支持排序；TreeMap默认按照key值升序排序，可指定排序的比较器，主要用于存入元素时对元素进行自动排序。
+            HashMap大多数情况下有更多的性能，尤其是读数据。在没要求排序的情况下，使用HashMap。
+            HashMap与TreeMap都是非线程安全的。
+    java集合容器
+        Iteratior
+            collection根集合
+                2.Set不重复集合元素
+                    2.1 SotedSet
+                    2.2 abstractSet
+                        Hashset 使用hash存储的集合
+                            LinkHashSet
+                        TreeSet 使用红黑树的存储集合
+                3.List有序链表集合
+                    3.2 abstractList
+                        ArrayList数组列表
+                        LinkList链表列表
+                        Vector向量
+                4.Queue先进先出有效表
+                    PriorityQueue 优先队列
+                    Deque 双端队列
+        1.map 键值对集合
+            1.1 SotedMap
+                1.TreeMap
+            1.2 abstractMap
+                hashmap
+                    LinkedHashMap
+                HashTable(哈希表)
+                    class：MyHash
+                    method：constructor
+                    method：hashCode
+                    method：calcHashOne
+                    method：calcHashTwo
+                    class：MyHashTableBySystem
+                    method：constructor
+                    method：hash
+                    method：getSize
+                    method：add
+                    method：remove
+                    method：set
+                    method：contains
+                    method：get
+                    class：MyHashTableByAVLTree
+                    method：constructor
+                    method：hash
+                    method：getSize
+                    method：add
+                    method：remove
+                    method：set
+                    method：contains
+                    method：get
+                    method：resize
+                TreeMap
+            hashtable散列表

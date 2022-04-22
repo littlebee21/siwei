@@ -1,0 +1,311 @@
+C#语言
+    C#的属性
+        C#的功能
+            布尔条件（Boolean Conditions）
+            自动垃圾回收（Automatic Garbage Collection）
+            标准库（Standard Library）
+            组件版本（Assembly Versioning）
+            属性（Properties）和事件（Events）
+            委托（Delegates）和事件管理（Events Management）
+            易于使用的泛型（Generics）
+            索引器（Indexers）
+            条件编译（Conditional Compilation）
+            简单的多线程（Multithreading）
+            LINQ 和 Lambda 表达式
+            集成 Windows
+        C#产生
+        语言执行特点
+            面向组件
+            人机交互的处理方式
+                查询处理方式
+                事件处理机制
+        C#项目目录
+            文件后缀
+                .aspx 是网页文件
+                .cs 源代码
+                .resx 资源文件
+                .sln 解决方案文件
+            项目文件夹
+                Bin 编译结果
+                    debug调试版本
+                    release发行版本
+                obj中间临时文件
+                    debug调试版本
+                    release发行版本
+                Properties文件夹
+                form.Designer.cs 窗体初始化
+                form.cs窗体控件功能
+                form.res窗体资源
+                program.cs主程序入口
+                项目.csproj.user配置文件
+                项目.csproj 项目文件
+            项目.sln解决方案项的引用
+        框架
+            using System命名空间
+                命名空间（namespace）
+            Namespace declaration
+            特性Attribute
+                AttributeUsage
+                Conditional条件编译
+                Obsolete丢弃目标
+             class类
+                事件
+                    定义事件
+                class的声明
+                class成员
+                    Class 属性 成员变量
+                        get和set关键字
+                        getset自动属性
+                    Class 方法成员函数
+                        定义方法
+                            Access Specifier：
+                            Return type：
+                            Method name：
+                            Parameter list：
+                                值参数
+                                ref引用参数
+                                out输出参数
+                            Method body：
+                        调用方法
+                    class嵌套类
+             Main 方法
+                对象实例化
+    c#程序结构
+        关键字
+            方法函数
+                static静态方法
+                out返回参数
+                    out只出不进传至可以不初始化
+                ref引用参数
+                    ref有进有出传值必须要初始化
+                params可变参数
+            event
+            class类
+                封装访问权限
+                    public：所有对象都可以访问；
+                    private：对象本身在对象内部可以访问；
+                    internal：同一个程序集的对象可以访问；
+                    继承：protected：只有该类对象及其子类对象可以访问
+                    多态：protected internal访问限于当前程序集或派生自包含类的类型
+                    派生类的可访问性不能高于基类
+                继承：sealed不能继承
+                实例：abstract抽象不能实例
+                    abstract 抽象类
+                partial分割而编译为一个类
+                interface接口参数
+                    接口没访问修饰符
+                    继承：隐藏基类成员加关键字new
+                成员属性方法
+                    readonly表示字段只能在执行构造函数的过程中赋值，
+                    unsafe不安全上下文
+                    volatile不优化
+                    statIc静态变量
+                    const也是静态的
+                    extern方法定义在其他地方
+                    重写：sealed不能由派生类重写
+                    重写：new隐藏父类同名方法
+                    重写：virtua方法可以重写
+                    重写：override方法重写
+                    重写：abstract坊方法必须在非抽象的派生类中重写
+        标点符号
+            运算符
+            注释
+            ；结束一条C#语句
+            逗号 将多个命合放在同一行
+            圆括号
+                函数
+                改变运算优先级
+            《》泛型
+            { }表示一段代码块
+            转义字符
+        数据结构
+            值类型
+                简单类型
+                    整型
+                        int有符号的32位
+                        long有符号的64位
+                        byte无符号的8位
+                        ushort无符号的16位
+                        uint无符号的32位
+                        uong无符号的64位
+                    浮点型
+                        foat有符号的32位
+                        double有符号的64位
+                        decimal
+                    布尔类型
+                        bool my Bool=false，
+                    字符型char
+                    可空类型（Nullable）
+                        单问号 ?
+                        合并运算符?? 
+                枚举
+                结构体
+            引用类型
+                字符串（String）类型
+                    char
+                    string
+                    char mychar ="a"
+                    string mystring ="a"
+                数组
+                    参数数组
+            指针类型
+            算法
+                类型转换
+                    自动类型转换(隐士类型转换)
+                        小的转大的(int--->double)
+                        子类转化为父类
+                    显示类型转换(强制类型转换)
+                        大的转小的(double--->int)
+                            语法：(待转换的类型)要转换的值
+                    强制转换
+                字符串技巧
+                    .ToCharArray()这个函数可以将String编程char[]数组
+                    .Length字符串长度
+                    .ToLower字符串全部小写
+                    .ToUpper字符串全部大写
+                    .Trim字符串删除空格
+                    .PadLeft()和.PadRight()字符串左边或者右边添加空格
+                    .IndexOf(',');定位到，的下标
+                    .Split(' ');切片
+                集合（Collection）类
+                    栈（stack）
+                    队列（queue）
+                    列表（list）
+                    哈希表（hash table）
+                    集合比较转换
+                        集合：可以使用集合来维护对象组
+                            集合大多是通过System.Collections名称空间中的接口而获得的，集合的语法已经标准化了
+        逻辑结构
+            表达式（Expressions）
+            跳转
+                goto <labelName>
+            选择
+                if else
+                goto
+                switch
+                三元
+            循环
+                do while
+                while
+                for
+                for each
+                跳出
+            处理异常
+        类的程序结构
+            delegate事件委托
+                功能
+                声明
+                定义事件
+                订阅事件
+                调用
+            类
+                类的定义
+                    把类的定义放在不同的文件中partial
+                构造函数
+                    无参构造函数
+                        会调用两次构造函数
+                        先调用父美关中无参的构适语数，然后是己的无参构造话款O无参构造数
+                        形式:e
+                            public class Derivedclass（
+                            public Derivedclass0base{ do something}/base（可以省略不与
+                    构造函数和析构函数，和C++一样
+                    静态构造函数
+                    默认构造函数
+                析构函数
+                继承和多态
+                    接口
+                        接口的功能
+                        接口属性
+                            0.接口定义
+                            1.接口继承
+                            实现接口成员多态
+                                接口实现多态
+                        接口成员
+                            接口成员没有实现
+                                如果一个接口继承其他接口，那么实现类或结构就需要实现所有接口的成员
+                            接口没有字段成员但是接口可以定义自动属性
+            类成员
+                隐藏
+                    要对派生类的用户隐藏继承的公共成员，但仍能访问其功能
+                    要给继承的虚拟成员添加实现代码，而不是简单地用重写的新实现代码替换它
+                    可以使用base关键字：base.DoSomething()
+                                        this最常用的功能是将当前对象实例的引用传递给一个方法，该方法有一个参数是指向基类的
+                    this关键字的另一个常用方法是限定局部类型成员
+                嵌套类型成员
+                    定义类成员
+                    实例化
+            属性
+                属性的定义
+                    右击refactor(重构)-Encapsulate Field可以快熟添加属性
+                    自动属性：
+                属性与字段
+                    字段
+                    属性
+                    区别
+                        访问性不同
+                        包含不同
+                        安全性不同
+            方法
+                参数
+                    方法的重载
+                控制台
+                    Console.WriteLine("字符串");
+Console.WriteLine("{0}{1}{2}",n_a,n_b,n_c);
+                    str=Console.ReadLine();
+                调试
+                    打断点
+                    跟踪点，有点类似于Debug.WriteLine()
+                    异常
+            对象
+                对象之间关系
+                    包含关系
+                    集合关系
+    C#的使用
+        变量使用
+            全局变量：Program.全局变量，在声明变量前要进行初始化
+            先声明后使用
+            数组的使用
+                数组的声明
+                个数与声明数需要一致
+        方法的使用
+            参数的传递
+            函数的重载调用
+                特征标不一样就行
+引用和非引用也属于重载
+            泛型（Generic）
+                功能
+                泛型委托、泛型接口，泛型的方法重载
+                泛型约束
+            在同一类中名称的使用
+        面向对象编程
+            类的使用
+                类还可以指定接口，同时必须实现该接口的所有成员，如果不想使用给定的接口成员，就可以提供一个空的实现方法，
+先继承类（只能有一个）再继承接口，接口可以有多个
+                静态类不能实例化对象，只能包含静态成员，
+                类的命名
+                1.继承
+                    基类
+                        纯虚基类
+                        抽象基类
+                    派生类
+                    接口
+                2.多态
+                    静态多态性
+                        函数重载
+                        运算符重载
+                    动态多态性
+                    多态测试，使用virtual和override多态测试成功
+                事件
+                    事件必须订阅，可以由多个订阅
+                    定义事件
+                    多用途的事件处理程序
+                        Timer.Elapsed事件的委托包含了事件处理程序中常见的两类参数
+                        object source:引发事件对象的引用
+                        ElapsdEventArgs:由时间传送的参数
+                        由不同对象引发的几个相同事件使用相同事件处理程序
+                    lambda表达式
+                        1，定义一个事件处理方法，其返回类型和参数匹配要订阅的事件需要委托返回类型和参数
+                        2，声明一个委托类型的变量
+                        3，把委托变量初始化为委托类型的实例，实例指向事件处理方法
+                        4，把委托变量添加到时间的订阅者列表中
+                            正常的事件

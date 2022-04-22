@@ -1,0 +1,103 @@
+401.git使用 - 在idea中使用git - 
+    github准备
+        1.在github中创建一个账号：
+        2.下载并安装git：
+        3.安装成功后打开Git Bash，输入下列命令，设置git全局用户名和邮箱
+        4.在IDEA中设置Git，
+            在File-->Setting->Version Control-->Git-->Path to Git executable选择你的git安装后的git.exe文件，然后点击Test，测试是否设置成功
+        5.在IDEA中设置GitHub，
+            File-->Setting->Version Control-->GibHub
+            Host：github.com
+            Token：点击Create API Token，输入在github中注册的用户名和密码生成token
+            点击Test，测试是否连接成功
+        github上创建项目
+    创建仓库
+        6.创建本地仓库，
+        7.上传项目到本地仓库，
+        使用idea打开项目
+        添加注释并递交代码
+        8.上传项目到GitHub中，
+        9.提交修改文件到GitHub
+    远程到本地
+        复制代码
+            2.1 在Gitlab中创建一个项目并添加README文件
+            2.2、git clone
+                克隆仓库
+                VCS->Git->Clone
+                输入你的远程仓库地址,点击测试一下地址是否正确
+            2.2 git clone项目到本地
+                打开从Git检出项目的界面：
+                输入Git地址进行检出：
+                暂时不生成IDEA项目，因为项目还没初始化：
+            2.3、git checkout
+                勾选分支
+                在IntelliJ IDEA右下角有一个git的分支管理，点击。选择自己需要的分支，checkout出来。
+                checkout出来，会在底端显示当前的分支。其中1显示的为本地仓库中的版本，2为远程仓库中的版本。
+                点击IDE的右上角的向下箭头的VCS，将分支的变更同步到本地
+        编辑代码
+            2.4、在IDEA中创建工程并将工程添加至Git
+                git init
+                将项目添加至Git管理后，可以从IDEA的工具栏上看到Git操作的按钮
+        拉取代码
+            git pull 从远程仓库拉取代码
+                在远程仓库添加一个README-TEST.md文件：
+                从远程仓库拉取代码：
+                确认拉取分支信息：
+     - 本地到远程
+        准备工作
+            1，添加github的账号
+            2，在github上创建仓库 clone
+                注意：
+                最好让idea 自动生成clone到的文件夹
+                然后把要修改的文件放进去，
+                对应的文件关系如图
+                git本地->远程
+        在本地操作
+            步骤1、在IDEA中创建工程并将工程添加至Git
+                git init
+                将项目添加至Git管理后，可以从IDEA的工具栏上看到Git操作的按钮
+            步骤2、将文件添加到暂存区 add
+            步骤3、git commit
+                递交到本地仓库
+                默认导入的工程已经git add加入库跟踪区了。
+                随便修改一下pom.xml文件，其修改的文件会显示在Version Control中的local changes下。
+                点击IDE右上角的向上箭头的VCS， git commit, 写上日志提交到本地代码库中。
+            步骤4，git push将代码推送到远程仓库
+                点击push按钮推送代码：
+                确认推送内容：
+                查看远程仓库发现已经提交完成：
+            2.1 上传分支 dev 从本地创建分支并推送到远程
+                在本地创建dev分支，点击右下角的Git:master按钮：
+                使用push将本地dev分支推送到远程：
+                确认推送内容：
+                查看远程仓库发现已经创建了dev分支：
+        踩坑
+            1，push到远程失败
+                使用git push的时候出错了。
+                输入git fetch origin master：
+                解决方法：强制覆盖
+                    :git push origin master -f
+    本地操作
+        Git文件冲突问题解决
+            修改远程仓库代码：
+            修改本地仓库代码：
+            提交本地仓库代码并拉取，发现代码产生冲突，点击Merge进行合并：
+            点击箭头将左右两侧代码合并到中间区域：
+            冲突合并完成后，点击Apply生效：
+            提交代码并推送到远程。
+        git diff
+            在local changes 中选中要比对的文件，右键选择show diff 便可以查看文件的变动。或者选择Revert放弃文件的改动。
+        版本管理
+            2.5、git log 查看Git仓库提交历史记录
+            2.5、git log
+                递交历史
+                在Version Control下选择Log，可以查看提交历史
+            步骤7、版本对比 compare with
+            步骤8、创建分支 new branch
+            步骤9、切换分支 branch
+            步骤10、分支合并 merge branch
+            从dev分支合并代码到master
+                在远程仓库修改dev分支代码：
+                在本地仓库拉取代码，选择从dev分支拉取并进行合并：
+                发现产生冲突，解决后提交并推送到远程仓库即可。
+                ###

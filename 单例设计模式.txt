@@ -1,0 +1,53 @@
+单例设计模式
+面向对象的内存表达形式：
+    将内存的数据形式: 
+
+C++
+    class Singleton{
+    public:
+        static Singleton *getInstance(){
+            if(!m_pInstance){
+                m_pInstance = new Singleton;
+            }
+            return m_pInstance;
+        }
+    private:
+        Singleton(){
+            cout << "Singleton constructor called " << endl;
+        }
+    private:
+        static Singleton *m_pInstance;
+    };
+
+    Singleton *Singleton::m_pInstance = nullptr; 
+
+    int main(){
+        Singleton *pInstance1 = Singleton::getInstance();
+        Singleton *pInstance2 = Singleton::getInstance();
+        return 0;
+    }
+
+1，构造函数可以构造多个对象，对象构建一次
+解决(1)：不可以使用构造进行创建，而是使用getInstance的公有函数进行获取：
+解决(2)：在方法内部封装构造函数，进行判断构造;
+
+2, 那没有构造怎么实现方法的调用呢： 
+解决(1)：通过静态的方式，进行对象的创建
+解决(2)：静态成员变量（对象的指针）需要在类外进行初始化
+
+java:
+class Singleton{
+    {
+        Singleton one =  new Singleton(); //懒加载的方式
+    }
+    private Singleton(){
+        "no outer"
+    }
+
+    static Singleton getInstance(){
+        if(one != null){
+            Singleton one = new Singleton();
+        }
+        return one;
+    }
+}

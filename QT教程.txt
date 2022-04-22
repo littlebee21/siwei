@@ -1,0 +1,2 @@
+qt教程资源
+    http://c.biancheng.net/qt/

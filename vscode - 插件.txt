@@ -1,0 +1,40 @@
+vscode - 插件
+    主题：
+        Monokai Dima 作为主题插件
+    文字图形化
+        没必要：Color Highlight
+        没必要：快速注释 Document This
+        没必要：文件图标 vscode-icons
+        API Reference
+    开发工具
+        Bracket Pair Colorize
+        代码检查工具 ESLint
+        万能语言运行环境 Code Runner
+        写注释工具
+            autoDocstring
+            better Comments
+            vscode-fileheader添加文件头
+        代码补全工具
+            kite
+        Markdown All in One & Markdown Preview Enhanced文本工具
+    语言支持
+        中文语言包
+        vue语言支持
+        freemarker
+
+    没必要：
+        翻译
+        code translate
+        没必要：a super translate 翻译并替换选择内容
+        没必要：traslator；中文翻译成英文
+        没必要：驼峰翻译助手
+
+    没必要：
+        vscode的C环境配置插件
+        c/C++ 插件
+        c++ Intelisense
+        mingw-64插件
+        code Runner
+
+
+

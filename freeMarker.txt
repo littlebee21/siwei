@@ -1,0 +1,142 @@
+freeMarker
+    使用
+        项目创建流程
+            第一步：创建一个maven项目导入 FreeMarker jar 包
+            第二步：创建目录templates，并创建一个 FreeMarker模版文件 hello.ftl
+            第三步：创建一个运行FreeMarker模版引擎的 FreeMarkerDemo.java 文件
+            第四步：运行main方法后刷新项目
+    2 FreeMarker 程序
+        总体结构
+        指令
+        表达式
+        插值
+    3 FreeMarker 语法
+        数据类型
+            标量：
+                字符串
+                    request.setAttribute("msg1","Hello ");
+                    request.setAttribute("msg2","freemarker");
+                    字符串空值情况处理
+                数字型
+                    request.setAttribute("age",18); // 数值型
+                    request.setAttribute("salary",10000); // 数值型
+                    request.setAttribute("avg",0.545); // 浮点型
+                    获取数据
+                        <#-- 直接输出数值型 -->
+                            ${age} <br>
+                            ${salary} <br>
+                        <#-- 将数值转换成字符串输出 -->
+                            ${salary?c} <br>
+                        <#-- 将数值转换成货币类型的字符串输出 -->
+                            ${salary?string.currency} <br>
+                        <#-- 将数值转换成百分比类型的字符串输出 -->
+                            ${avg?string.percent} <br>
+                        <#-- 将浮点型数值保留指定小数位输出 （##表示保留两位小数） -->
+                            ${avg?string["0.##"]} <br>
+                布尔值
+                日期/时间 (日期，时间或日期时间)
+                    <#--
+                        数据类型：日期类型
+                            在freemarker中日期类型不能直接输出；如果输出要先转成日期型或字符串
+                            1. 年月日 ?date
+                            2. 时分秒 ?time
+                            3. 年月日时分秒 ?datetime
+                            4. 指定格式 ?string("自定义格式")
+                                y：年 M：月 d：日
+                                H：时 m：分 s：秒
+                    -->
+                    <#-- 输出日期格式 -->
+                        ${createDate?date} <br>
+                    <#-- 输出时间格式 -->
+                        ${createDate?time} <br>
+                    <#-- 输出日期时间格式 -->
+                        ${createDate?datetime} <br>
+                    <#-- 输出格式化日期格式 -->
+                        ${createDate?string("yyyy年MM月dd日 HH:mm:ss")} <br>
+            容器：
+                hash哈希表
+                    等价于 java 中的 Map 类型
+                sequence序列
+                    sequence 类型：等价于 java 中的数组，list，set 等集合类型
+                集合
+            子程序：
+                方法和函数
+                用户自定义指令
+            其它/很少使用：
+                结点
+        标签
+            #的符号是注释
+            @标识的是自定义
+            $的是标识指令
+                标识替换的内容
+            <>标识ftl标签
+        4.FreeMarker 常见指令###
+            4.1.assign 自定义变量指令
+                assign
+            4.2.if elseif else 逻辑判断指令
+                if, else, elseif
+            4.3.list 遍历指令
+                list, else, items, sep, break
+            4.4.macro 自定义指令宏
+            4.5. nested 占位指令
+                macro, nested, return
+            4.6. import 导入指令
+                import
+            4.7. include 包含指令
+                include
+            Alphabetical index
+            attempt, recover
+            compress
+            escape, noescape
+            flush
+            function, return
+            global
+            local
+            noparse
+            setting
+            stop
+            switch, case, default, break
+            t, lt, rt
+            User-defined directive (<@...>)
+            visit, recurse, fallback
+            ftl
+            nt
+        6.FreeMarker 运算符
+            6.1. 算术运算符
+            6.2. 逻辑运算符
+            6.3. 比较运算符
+            6.4. 空值运算符
+        内建函数
+            字母顺序索引
+            字符串内建函数
+            数字内建函数
+            日期内建函数
+            布尔值内建函数
+            序列内建函数
+            哈希表内建函数
+            结点(对于XML)内建函数
+            循环变量内建函数
+            独立类型内建函数
+            很少使用的和专家级的内建函数
+        变量空判断
+        其他
+            自定义指令
+            在模板中定义变量
+            命名空间
+            空白处理
+            替换(方括号)语法
+        特殊变量参考
+        保留名称：不能在非方括号语法中被用作顶层变量
+            true：布尔值"true"
+            false：布尔值"false"
+            gt：比较运算符"大于"
+            gte：比较运算符"大于或等于"
+            lt：比较运算符"小于"
+            lte：比较运算符"小于或等于"
+            as：由少数指令使用
+            in：由少数指令使用
+            using：由少数指令使用
+        5.FreeMarker 页面静态化
+            5.1. 定义模板
+            5.2. 加载模板
+            5.3. 生成对应的html文件

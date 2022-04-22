@@ -1,0 +1,188 @@
+OOP
+     对象
+        继承
+            实现继承的方式
+                原型链
+                借用构造函数
+                组合继承
+                原型试继承
+                寄生试继承
+                寄生组合式继承
+            Babel 如何编译 ES6 Class 的
+            从设计思想上谈谈继承
+                继承存在的问题
+                如何解决继承的问题
+        创建对象的方式
+            工厂模式
+            构造函数模式
+            原型模式
+            组合使用构造函数模式和原型模式
+            动态原型模式
+            寄生构造函数模式
+            稳妥构造函数模式
+        对象组成
+            文本和属性
+                计算属性
+                    方括号
+                属性值简写
+                属性名称限制
+                属性存在性测试，“in” 操作符
+        对象使用
+            “for…in” 循环
+            像对象一样排序
+    组成
+        Object.prototype
+            属性
+                Object.prototype.constructor:返回一个指向创建了该对象原型的函数引用
+            方法
+                Object.prototype.hasOwnProperty():检测某个对象是否含有指定的自身属性
+                    语法
+                        obj.hasOwnProperty(prop)
+                    参数
+                        要检测的属性名称
+                Object.prototype.isPrototypeOf():检测一个对象是否存在于另一个对象的原型链上
+                    语法
+                        prototype.isPrototypeOf(object)
+                    参数
+                        prototype:检测该对象是否在参数object的原型链上
+                        object:在该对象的原型链上搜寻
+                    描述
+                        isPrototypeOf方法允许你检测一个对象是否存在于另一个对象的原型链上
+                Object.prototype.propertyIsEnumerable():检测指定的属性名是否是当前对象可枚举的自身属性
+                    语法
+                        obj.propertyIsEnumerable(prop)
+                    参数
+                        prop:需要检测的属性名
+                Object.prototype.toString():返回一个代表该对象的字符串
+                    语法
+                        object.toString()
+                Object.prototype.valueOf():返回的诗this值，即对象本身
+                    语法
+                        object.valueOf()
+                    返回值
+                        在其他类型的对象中，valueOf有可能返回一个不同的值
+                prototype 原型对象使用
+                    添加属性
+                    添加方法
+        this问题
+            this指向
+                全局上下文
+                直接调用函数(默认绑定)
+                对象.方法的形式调用(隐式绑定)
+                使用call，apply，bind绑定this(显示绑定)
+                DOM事件绑定
+                new+构造函数(new绑定)
+                箭头函数
+                优先级
+            this关键字
+                1.构造函数中this 关键字
+                全局对象windows
+                    HTML文档中, this指向HTML元素
+                    浏览器中 this指代windows
+                严格模式this指向全局对象window
+                3.对象方法中，this 表示该方法所属的对象
+                4.this 表示全局对象window
+    全局对象
+        原型链
+            原型和原型链
+                理解原型，构造函数，实例之间的关系
+                原型链
+        Object对象
+            语法
+                new Object([value])
+                {name:value,name:value...}
+            属性
+                Object.prototype：可以为所有Object类型的对象添加属性
+                数据属性
+                    [[writable]]能否修改
+                    [[Enumerable]]能否枚举
+                    [[configurable]]能否删除
+                    [[value]]属性的数据值
+                存取器属性
+                    constructor属性
+                    get
+                        获取属性的值
+                    set
+                        设置属性的值
+                对象的扩展标记(extensible flag)
+                    扩展操作的功能
+                    所有对象都可扩展
+                    preventExtensions扩展的不可逆性操作
+                    object.seal不可配置
+                    object.freeze只读
+            方法
+                Object.create():指定原型对象和属性创建一个对象。
+                Object.defineProperty():给对象添加/修改一个属性并指定该属性的配置
+                    语法
+                        Object.defineProperty(obj,prop,descriptor)
+                    参数
+                        obj：需要定义的对象
+                        prop：需要定义或修改的属性名
+                        descriptor：属性定义或修改的属性的描述
+                    描述
+                        均可选键值
+                            configureable：当且仅当这个属性描述符值为 true 时，该属性可能会改变，也可能会被从相应的对象删除。默认为 false。
+                            enumerable：true 当且仅当该属性出现在相应的对象枚举属性中。默认为 false。
+                            value：与属性有关的值。可以是任何有效的Javascript值。默认为undefined
+                            writable：true当且仅当可能用赋值运算符改变与属性相关的值。默认为false
+                        存取描述可选键值
+                            get：一个给属性提供getter的方法，如果没有getter则为undefined。方法将返回作用属性的值，默认为undefined
+                            set：一个给属性提供setter的方法，如果没有setter则为undefined。该方法将受到作为唯一参数的新值分配给属性。默认为undefined
+                Object.defineProperties():在一个对象上添加或修改一个或者多个自有属性，并返回该对象。
+                    语法
+                        Object.defineProperities(obj,props)
+                    参数
+                        obj:将要被添加属性或修改属性的对象
+                        props:该对象的一个或多个键值对定义了将要为对象添加或修改的属性的具体配置
+                Object.keys():返回对象可枚举自身属性
+                    语法
+                        Object.keys(obj)
+                    参数
+                        返回该对象的所有可枚举自身属性的属性名
+                    描述
+                        Object.keys 返回一个所有元素为字符串的数组，其元素来自于从给定的对象上面可直接枚举的属性。这些属性的顺序与手动遍历该对象属性时的一致。
+                        如果你想获取一个对象的所有属性,，甚至包括不可枚举的，可以通过Object.getOwnPropertyNames()实现
+                Object.getOwnPropertyNames():返回对象所有自身属性的属性名（包括不可枚举属性）的数组
+                    语法
+                        Object.getOwnPropertyNames(obj)
+                    参数
+                        obj:要查看的对象
+                    描述
+                        Object.getOwnPropertyNames 返回一个数组，该数组对元素是 obj 自身拥有的枚举或不可枚举属性名称字符串
+                        数组中枚举属性的顺序与通过 for...in loop（或 Object.keys)）迭代该对象属性时一致。 数组中不可枚举属性的顺序未定义。
+                Object.getOwnPropertyDescriptor()：返回自有属性的属性描述符
+                    语法
+                        Object.getOwnPropertyDescriptor(obj,prop)
+                    参数
+                        obj:在该对象上查看属性
+                        prop:一个属性名称，该属性的属性描述被返回
+                    返回值
+                        如果指定的属性存在于对象上，则返回其属性描述符（property descriptor），否则返回 undefined
+                    描述
+                        该方法允许对一个属性的描述进行检索。在 Javascript 中， 属性 由一个字符串类型的“名字”（name）和一个“属性描述符”（property descriptor）对象构成
+                        一个属性描述符是一个记录
+                Object.getPrototypeOf():返回指定对象的原型
+                    语法
+                        Object.getPrototypeOf(obj)
+                    参数
+                        要返回的对象
+                    描述
+                        如果参数不是一个对象类型，将跑出TypeError异常
+                Object.freeze():冻结一个对象
+                    语法
+                        Object.freeze(obj)
+                    参数
+                        obj:要被冻结的对象
+                    描述
+                Object.isFrozen():判断对象是否已经被冻结
+                    语法
+                        Object.isFrozen(obj)
+                    参数
+                        obj:被检测的对象
+                    描述
+                        一个对象是冻结的（frozen）是指它不可扩展，所有属性都是不可配置的（non-configurable），且所有数据属性（data properties）都是不可写的（non-writable）
+                        数据属性是值那些没有取值器（getter）或赋值器（setter）的属性。
+                Object.preventExtensions():阻止对象扩展
+                Object.isExtensible():是否可以在它上面添加新的属性)
+                Object.seal():可以让一个对象密封，并返回被密封之后的对象
+                Object.isSealed():检测一个对象是否被密封sealed

@@ -1,0 +1,103 @@
+工具 -  嵌入式
+    ubuntu 
+        libncurses 内核剪裁工具：编程库
+        sudo apt-get install lib32ncurses5 lib32z1 64位运行32位程序的工具
+            在安装交叉工具链时
+    调试代码
+        J-Link 软件
+        GDB
+    开发工具
+        4、TortoiseSVN
+    代码比较：
+        8、Beyond Compare 文件和文件夹 对比，合并，同步，
+        TextDiff
+    汇编工具：
+        16工具  hex editor neo
+        
+    代码生成器
+        amo编程小工具集合
+        ┃  ┣━GifCam.exe
+   
+    系统移植
+        通讯工具
+            NFS服务器  网络服务系统 目录挂载工具  
+                网线连接
+                客户端自带
+            tftp服务器 文件传输工具  tftp-hpa
+            samba 文件共享服务器
+            Xftp文件传输工具
+            Tera Term 串口工具
+            ubuntu的 minicom
+            文件上传·
+            【下载】Receive file using Z-modem
+            【上传】Send file using Z-modem,版本v10.9
+        系统构建工具：
+            Buildroot
+            Yocto    
+            OpenWrt
+        根文件系统
+            rootfs.tar.xz 现成的文件系统
+            busybox 根文件系统制作工具
+        内核镜像，和设备树
+            linux3.14内核源码/Kconfig/makefile
+            uImage  生成的镜像
+            exynos4412-fs4412.dtb 生成的设备树
+        bootloader
+            u-boot-fs4412.img  最终的uboot镜像
+            u-boot-fs4412.bin   uboot镜像
+        烧写工具
+            formatTool TF卡格式化工具 恢复烧写的板卡
+            win32diskimager-1.0.0-install.exe  烧写系统镜像
+         格式化SD卡
+            HP USB Disk Storage Format Tool 2.0.6.EXE
+            SD Card Formatter 5.0.1 Setup.exe
+    操作系统
+        virual box
+        vagrant
+        Ubuntu
+        vmware Workstation:终端和虚拟机的区别：
+            内核编译：图形界面
+            桥接地址NAT地址的切换
+    
+    语言工具
+        gcc C语言编译工具
+        g++  C++编辑工具
+        minGc 
+        gcc-4.6.4.tar.xz 交叉编译工具
+        arm-2009q3.tar.bz2; 交叉编译工具 
+            arm-none- Linux开发最流行的编译器
+        bashrc 系统配置工具
+        arm-linux-readelf (查看当前文件or库是由什么编译器所编译 )
+        arm-linux-ar 生成静态库.a文件  -c : 创建一个文档      -s : 在文档中添加索引   -r : 插入文件成员
+        arm-linux-strip (去掉其中的调试信息，执行文件大小or动态库将小的多)
+        arm-linux-objcopy 将ELF格式生成结果转化为二进制文件
+        arm-linux-ld 链接器
+        arm-linux-gcc 编译器
+        arm-linux-as 汇编器
+        arm-linux-addr2line: 根据指令地址，得出代码位置，找到内核报错的位置
+        arm-linux-objdump （反汇编代码）
+        配合另一个命令nm ,查看文件的函数的地址
+
+    工程打包工具
+        makefile
+    静态库工具
+        ar 
+        autogen
+        cmake
+    开发板系统工具：
+        磁盘类工具     
+            df查看系统已用空间
+            fdisk 分区工具
+            mtd
+            mmc
+        网络工具
+            1.2.1 bluez工具使用说明
+            1.2.2 wpa工具使用说明
+            1.2.3 iw工具使用说明
+            1.2.4 ssh登陆工具使用
+            1.2.5 samba传输文件工具使用
+            rz命令
+        系统工具：
+            kmod内核管理工具
+    
+    

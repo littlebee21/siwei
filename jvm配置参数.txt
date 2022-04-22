@@ -1,0 +1,62 @@
+jvm 配置参数
+    调优参数
+        标准参数，-开头
+            通过 java 命令查看
+            常用参数
+                java -version
+                java -help
+        非标准参数
+            -X开头
+                通过 java -X more 查看
+                常用参数
+                    -Xms200m -Xmx200m：最小堆和最大堆
+                    -Xmn60m：新生代
+                    -Xss1m：栈空间大小
+                扩展：为什么最小堆和最大堆设置一样大？
+                    防止内存震荡（否则JVM会将堆内存进行扩容和缩容）
+                    扩展和回缩需要大量的计算，影响程序的执行效率
+            -XX开头
+                通过 java -XX:+PrintFlagsFinal -version | more 命令查看
+                常用参数
+                    -XX:+PrintGC
+                    -XX:+PrintGCDetails
+                    -XX:+PrintHeapAtGC
+    GC调优
+        Parallel常用参数
+            -XX:SurvivorRatio：调整eden和surviovor区域的大小
+            -XX:PreTenureSizeThreshold：大对象到底多大
+            -XX:MaxTenuringThreshold：设置的是年龄阈值，默认15(对象被复制的次数)
+            -XX:+ParallelGCThreads：并行收集器的线程数，一般设置为和CPU核数相同（同样适用于CMS）
+            -XX:+UseAdaptiveSizePolicy：自动选择各区大小比例
+        CMS常用参数
+            -XX:+UseConcMarkSweepGC：启用CMS收集器
+            -XX:ParallelCMSThreads：CMS线程数量
+            -XX:CMSInitiatingOccupancyFraction
+                使用多少比例的老年代后开始CMS收集，默认是68%（近似值）如果频繁发生SerialOld卡顿，应该调小（频繁CMS回收）
+            -XX:+UseCMSCompactAtFullCollection：在FGC时进行压缩
+            -XX:+CMSClassUnloadingEnabled
+                默认情况下GC是不回收PermGen的空间的（其名字也能反映这点）这个选项就是启用清除PermGen的功能，删除不用的classes
+            -XX:CMSInitiatingPermOccupancyFraction
+                达到什么比例时进行Perm回收
+            -XX:GCTimeRatio
+                设置GC时间占用程序运行时间的百分比
+            -XX:MaxGCPauseMillis
+                停顿时间（建议）GC会尝试各种手段达到这个时间，比如减小年轻代
+        G1常用参数
+            -XX:+UseG1GC
+            -XX:MaxGCPauseMillis
+                建议值，G1会尝试调整Young区的块数来达到这个值
+            -XX:+GCPauseIntervalMillis
+                GC的间隔时间
+            -XX:+G1HeapRegionSize
+                分区大小，建议逐渐增大该值
+            -XX:G1NewSizePercent
+                新生代最小比例，默认为5%
+            -XX:G1MaxNewSizePercent
+                新生代最大比例，默认为60%
+            -XX:GCTimeRatio
+                GC时间建议比例，G1回根据这个值调整堆空间
+            -XX:ConcGCThreads
+                线程数量
+            -XX:InitiatingHeapOccupancyPercent
+                启动G1堆空间占用比例

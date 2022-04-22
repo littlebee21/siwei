@@ -1,0 +1,58 @@
+axios
+    基础
+        Features
+        浏览器支持
+        安装
+        版本
+            Semver
+        引入
+            Resources
+            Credits
+            License
+            TypeScript
+    Example
+        执行多个并发请求
+        执行 POST 请求
+        执行 GET 请求
+    常量
+        配置的默认值/defaults
+            全局的 axios 默认值
+            自定义实例默认值
+            配置的优先顺序
+    axios API
+        请求
+            请求配置
+            请求方法的别名
+            创建实例使用
+                实例方法
+            请求
+                axios.request(config)
+                axios.get(url[, config])
+                axios.delete(url[, config])
+                axios.head(url[, config])
+                axios.options(url[, config])
+                axios.post(url[, data[, config]])
+                axios.put(url[, data[, config]])
+                axios.patch(url[, data[, co
+        响应
+            响应结构
+        并发
+            axios.all(iterable)
+            axios.spread(callback)
+        处理流程
+            拦截器
+                catch和then处理之前处理
+            错误处理
+                validateStatus错误码限定范围
+            then是接受到了
+            catch是异常处理
+            cancel token 取消请求
+                取消v
+                通过传递一个 executor 函数到
+                    CancelToken
+                        的构造函数
+    原理
+        序列化
+            URLSearchParams API
+            qs库编码数据：
+            querystring模块

@@ -1,0 +1,41 @@
+vagrant使用
+
+
+总结：
+    1，通过choco/官网 + 代理的方式 安装vagrant
+    1，去box网站找到vagrantfile
+    2，然后在C gao 目录，使用vagrant init创建vagrantfile文件
+    3，然后再c gao 目录, 使用vagrant up 运行对应的虚拟机box
+    4，使用xshell 的密钥的方式 进行登录
+        主机: 127.0.0.1:2222
+        使用vagrant config进行查看对应的，主机地址
+    
+    需要：
+    1，如果有需要，切换到 root
+        sudo -i  切换用户
+        passwd   更改root密码
+        创建用户
+
+理解：
+    通过127.0.0.1 可以看出虚拟机是作为本地的应用进行运行的
+
+
+
+
+问题：
+vagrant up 卡死：
+    1，在virualbox里删除所有文件
+    手动删除.vagrant文件夹
+    手动删除.virtualbox文件
+    不需要：
+    手动删除 vagrant.d中的虚拟机
+解决
+    ssh端口配置错误：删除多余的：配置：默认的情况肯定是卡不住的
+原理：
+    vagrant up会生成对应的
+配置：
+    ipconfig，查看主机地址
+连接：
+    1，有端口映射：使用127.0.0.1：2222进行连接
+    2，xshell第一次连接：ip：192.168.9.16：24   使用账号vagrant，密码vagrant进行访问
+    3，在cmd中连接：vagrant ssh连接

@@ -1,0 +1,23 @@
+语言对比 - 内存
+
+指针：
+    C指针
+    C++引用：就是变量别名
+    java引用：类似C指针
+
+
+内存管理机制：
+    java的jvm的自动垃圾回收机制
+    C++的智能指针链
+    C的手动malloc free
+
+
+内存生命周期
+动态分配：
+    C语言： malloc free
+    C++语言：析构函数，构造函数
+    java：对象访问new，gc垃圾回收，finally函数
+静态分配：
+    C语言static：内部，静态
+    C++语言static：静态，
+    java语言static：静态，

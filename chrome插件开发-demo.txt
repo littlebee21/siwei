@@ -1,0 +1,78 @@
+chrome插件开发
+    教程
+        子主题
+            第25课插件打包
+             第24课插件调试debug
+        子主题
+             第23课百度翻译案例四
+             第22课百度翻译案例三
+             第21课百度翻译案例二
+             第20课百度翻译案例一
+        子主题
+             第14课语音朗读案例
+             第13课谷歌翻译案例
+        教程
+            消息
+                 第19课长连接消息对话connect
+             第18课修改页面样式insertCSS
+             第17课设置背景图
+             第16课更便捷注入代码方法executeScript
+             第15课content_scripts简介
+             第12课重写浏览器页面chrome_url_overrides
+             第11课向页面注入代码content_scripts
+             第10课针对特定页面的插件pageAction
+             第9课为插件添加徽章badge
+             第8课右键菜单contextMenus
+             第7课消息通知notifications
+             第6课设置插件参数options_page
+             第5课storage用法
+        子主题
+             第4课javaScript的基本用法
+             第3课第一个插件helloWorld
+             第2课插件的文件结构
+             第1课初识chrome插件
+    chrome-plugin-demo
+    chrome插件的页面
+        4.1. manifest.json
+            不可缺少
+                manifest_version
+                name
+                version
+            推荐
+                description
+                和
+                icons
+        js
+            完成自己的内容
+                4.5. popup
+            完成页面的内容
+                4.2. content-scripts
+                    页面注入脚本的方式
+                        用于实现，广告频闭，css定制
+                    内容
+                        "matches": ["<all_urls>"],
+                            //"matches": ["http://*/*", "https://*/*"],
+                            // "<all_urls>" 表示匹配所有地址
+                        "js": ["js/jquery-1.8.3.js", "js/content-script.js"],
+                            // 多个JS按顺序注入
+                        "css": ["css/custom.css"],
+                            // JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式
+                        "run_at": "document_start"
+                            // 代码注入的时间，可选值： "document_start", "document_end", or "document_idle"，最后一个表示页面空闲时，默认document_idle
+            完成全部的内容
+                4.3. background
+            4.4. event-pages
+            4.6. injected-script自定义内容
+            4.7. homepage_url发现者，插件主页设置
+        对比
+            权限的对比
+                跨域权限
+            生命周期的对比
+    bug
+        注意:jquery需要放在popup.js前。
+        注意：由于json文件不能添加注释，源码中需要将以//开始的行删除掉，否则报错
+        每个插件必须有该文件
+        manifest_version 必须为2
+        matches 必须配置，这样可以规定他只去捕捉哪些页面。而不是点哪儿都会去捕捉
+        1.不能使用ajax
+        2.fetch获取的response要先转成text，再转回json

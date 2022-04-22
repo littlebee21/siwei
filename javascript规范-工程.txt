@@ -1,0 +1,15 @@
+工程。
+    模块
+        1. 总是使用模块 (import/export) 而不是其他非标准模块系统。
+        2. 不要使用通配符 import(导入)。
+        3. 不要从 import(导入) 中直接 export(导出)。
+        4. 一个地方只在一个路径中 import(导入) 。
+        5. 不要 export(导出) 可变绑定。
+        格式
+            6. 在只有单个导出的模块中，默认 export(导出) 优于命名 export(导出)。
+            7. 将所有 import 导入放在非导入语句的上面。
+            8. 多行导入应该像多行数组和对象字面量一样进行缩进。
+    javascript功能
+        3.JavaScript 能够改变 HTML 样式 (CSS)
+        4.JavaScript 能够隐藏 HTML 元素
+        5.JavaScript 能够显示 HTML 元素

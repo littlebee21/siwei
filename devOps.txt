@@ -1,0 +1,312 @@
+devOps
+    过程
+        plan计划
+            @产品原型
+                Axure
+                墨刀
+            @软件管理系统
+                禅道
+            @知识管理系统
+                confluence
+            GitLab
+            Tasktop
+            CollabNet VersionOne
+            Pivotal Tracker
+            Trello
+            Azure Boards
+        code编码
+            Spring Cloud
+                工具准备
+                    nacos
+                        部署
+                            单机
+                            集群
+                        WebUI功能
+                            服务
+                            配置
+                    sentinel
+                        安装运行
+                            下载地址
+                                1.7.2
+                            运行
+                编写微服务
+                    导入spring-cloud-alibaba-dependencies
+                    使用nacos做服务注册
+                        导入依赖jar包
+                        添加@EnableDiscoveryClient
+                        在bootstarp.yaml中配置nacos服务发现服务器地址
+                    使用nacos做配置中心
+                        导入依赖jar包
+                        在bootstrap.yaml中配置nacos配置中心服务器地址
+                            注意一定要是bootstrap.yml
+                        引入nacos配置中心中配置文件
+                            nacos官方文档
+                    使用sentinel做熔断、服务降级、限流
+                        导入依赖jar包
+                        微服务中的controller中配置sentinal
+                        openfeign中配置sentinel
+                编写网关Spring Cloud Gateway
+                    Spring Cloud Gateway旨在提供一种简单而有效的方法来路由到API，并为它们提供跨领域的关注点，例如：安全性，监视/指标和弹性。
+                    运行流程
+                    TokenRelayGatewayFilterFactory
+                        概述
+                            默认使用Authorization Code跳转到登入页面的
+                        使用配置
+                            依赖
+                                spring-boot-starter-oauth2-client
+                            配置
+                                spring.security.oauth2.registration
+                                spring.security.oauth2.provider
+                                spring.cloud.gateway.routes[*].filters[TokenRelay]
+                        错误
+                            reactor.core.Exceptions$ErrorCallbackNotImplemented: java.lang.IllegalArgumentException: Unable to find GatewayFilterFactory with name TokenRelay
+                                需要spring-boot-starter-oauth2-client依赖
+            @日志记录
+                SELF4J
+                    log4j
+                    logback
+            @API接口文档
+                文档自动生成工具
+                    swagger
+                在线接口文档编写系统
+                    showdoc
+            @code Review
+                Gitlab + MR模式
+                SonarQube
+            @版本管理系统
+                gitlab
+                git
+                GitLab
+                Bitbucket
+                Subversion
+            github CI/CD
+        builder构建
+            Maven/Gradle
+            MSBuild
+            Rake
+            JFrog Artifactory
+            Sonatype Nexus
+            NuGet
+        test测试
+            自动化测试
+                selenium
+            接口测试
+                jmeter
+            性能测试
+                jmeter
+            @单元测试
+                Junit
+                TestNG
+            JUnit
+            xUnit.net
+            Jasmine
+            Cucumber
+        release发布
+            代码仓库gitlab
+            发布jar包到maven中心仓库
+                注册JIRA账号
+                    https://issues.sonatype.org/secure/Signup!default.jspa
+                创建issue
+                    https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134
+                    必填信息
+                        Summary
+                        Group Id
+                            有域名的填写自己的域名
+                            没域名的可以使用io.github.用户名/com.github.用户名
+                                创建完后会提示在github上创建一个仓库表明账户是你自己的
+                                    Do you own the domain jast.cn? If so, please verify ownership via one of the following methods:&lt;br&gt;&lt;br&gt;Add a TXT record to your DNS referencing this JIRA ticket: OSSRH-62929 (Fastest)&lt;br&gt;Setup a redirect to your Github page (if it does not already exist)&lt;br&gt;If you do not own this domain, please read:&lt;br&gt;http://central.sonatype.org/pages/choosing-your-coordinates.html&lt;br&gt;You may also choose a groupId that reflects your project hosting, in this case, something like io.github.jast90 or com.github.jast90
+                                    Please create a new, public repository reachable at https://github.com/jast90/OSSRH-62929 to prove Github account ownership.
+                                到github创建https://github.com/jast90/OSSRH-62929仓库
+                                创建完成后回复配置仓库地址
+                                    io.github.jast90 has been prepared, now user(s) jast90 can:&lt;br&gt;&lt;br&gt;Deploy snapshot artifacts into repository https://oss.sonatype.org/content/repositories/snapshots&lt;br&gt;Deploy release artifacts into the staging repository https://oss.sonatype.org/service/local/staging/deploy/maven2&lt;br&gt;Release staged artifacts into repository &apos;Releases&apos;&lt;br&gt;please comment on this ticket when you promoted your first release, thanks
+                        Project URL
+                        SCM url
+                安装并配置GPG
+                    安装GPG
+                        https://gpgtools.org/
+                    生成GPG密钥对
+                        gpg --gen-key&lt;br&gt;
+                            输入name、email、password
+                                password在后面deploy会用到
+                    查看GPG公钥
+                        gpg –list-keys
+                            uid ultimate上一行
+                    上传GPG公钥
+                        gpg --keyserver hkp://keyserver.ubuntu.com:11371 --send-keys 上一步获取到的公钥&lt;br&gt;
+                配置maven的setting.xml
+                    server
+                配置pom.xml
+                    name
+                    url
+                    description
+                    license
+                        apache
+                        mongodb
+                    scm
+                    developers
+                    profile
+                        distributionManagement
+                发布jar包
+                    mvn deploy -Darguments=&quot;-DskipTests&quot; -projects a,b
+                        会弹出gpg输入密钥的密码
+                查看发布的jar包
+                    https://oss.sonatype.org/#stagingRepositories
+                    用JIRA账号登入
+                    登入后就能够看到deploy的jar包
+                    选中相关的Repository
+                        点击close，能正常关闭的话就可以release
+                        不能close，
+                            可以查看下方的提示信息，只要pom.xml文件完善的话就没什么问题
+                    release后到JIRA回复发布了第一个版本，就会收到回复
+                        Central sync is activated for io.github.jast90. After you successfully release, &lt;br&gt;your component will be published to Central, typically within 10 minutes, &lt;br&gt;though updates to search.maven.org can take up to two hours.
+                参考
+                    https://blog.fundebug.com/2019/01/14/how-to-deploy-jar-to-maven-central-repository/
+            使用 Maven 构建和测试 Java&lt;br&gt;
+            使用 Maven 发布 Java 包&lt;br&gt;
+            发布 Docker 映像&lt;br&gt;
+        deploy部署 CD
+            部署内容
+                @均衡负载
+                    nginx+keepalived
+                @Web应用容器
+                    IIS
+                    Apache
+                    tomcat
+                @消息队列
+                    kafka
+                    rocketmq
+                    rabbitmq
+                @分布式缓存
+                    redis
+                    memcached
+                @数据库
+            部署工具
+                Docker Swarm
+                Apache Mesos 和 Mesosphere Marathon
+                Kubernetes
+            @持续集成/持续部署
+                Jenkins
+                gitlab pipline
+                Travis CI
+                Circle CI
+                TeamCity
+                Codeship
+                GitLab CI
+                Bamboo
+                Spinnaker (部署)
+        operate运营
+            配置管理工具
+                Terraform
+                BOSH
+                Chef
+                Ansible
+                Puppet
+                Google Cloud Deployment Manager
+        monitor监控
+            云平台
+                GCP
+                    通过SecureCRT连接远程主机
+                        在本地机器上生成ssh密钥
+                        将jast.pub文件内容添加到GCP元数据
+                Amazon Web Services
+                Microsoft Azure
+                Google Cloud Platform
+                Pivotal Cloud Foundry
+                Heroku
+            工具
+                ELK Stack
+                Datadog
+                New Relic
+                Prometheus
+                Zipkin
+                Azure Monitor
+            @实时日志分析系统
+                ElasticSearch
+                logstash
+                kibana
+                filebeat
+                kafka
+            问题追踪
+                Atlassian Jira
+                JetBrains YouTrack
+                Zendesk
+    其他工具
+        通讯工具
+            Slack
+            Microsoft Teams
+            Google Hangouts
+            Zoom
+        信息共享
+            GitHub Pages
+            Confluence
+            Jekyll
+            Google Sites
+    发展背景
+        瀑布模型
+        敏捷开发
+        devops
+    主题
+        团队协作
+            Java构建
+                Maven
+                Gradle
+                Ant
+            版本控制
+                Git
+                    git文件上传下载gitHub
+                        两种方法上传本地文件到github
+                        Git GUI上传修改的文件
+                        Git Gui建库、克隆、上传、下载、合并
+                    git实操步骤与解决问题
+                        git更新代码
+                            git pull
+                            git更新步骤
+                            解决fatal: refusing to merge unrelated histories
+                            fatal: &amp;apos;origin&amp;apos; does not appear to be a git repository
+                            . git 中 rebase 和 merge 有什么区别
+                                merge 会把公共分支和你当前的 commit 合并在一起，形成一个新的 commit 提交rebase 会把你当前分支的 commit 放到公共分支的最后面,所以叫变基。就好像你从公共分支又重新拉出来这个分支一样。	eg: 如果你从 master 拉了个 feature 分支出来,然后你提交了几个 commit ,这个时候刚好有人把他开发的东西合并到 master 了,这个时候 master 就比你拉分支的时候多了几个 commit ,如果这个时候你 rebase develop 的话，就会把你当前的几个 commit，放到那个人 commit 的后面。    尽量不要在公共分支使用 rebase本地和远端对应同一条分支,优先使用 rebase ,而不是 merge比如 rebase,你自己开发分支一直在做,然后某一天，你想把主线的修改合到你的分支上,做一次集成,这种情况就用 rebase 比较好.把你的提交都放在主线修改的头上如果用 merge，脑袋上顶着一笔 merge 的8,你如果想回退你分支上的某个提交就很麻烦,还有一个重要的问题, rebase 的话,本来我的分支是从3拉出来的, rebase 完了之后,就不知道我当时是从哪儿拉出来的我的开发分支同样的,如果你在主分支上用 rebase , rebase 其他分支的修改,是不是要是别人想看主分支上有什么历史,他看到的就不是完整的历史课,这个历史已经被你篡改了
+                    gitLab的建立
+                        Centos7 搭建Gitlab服务器并配置
+                        Centos 7搭建Gitlab服务器超详细
+                        基于Docker搭建GitLab
+                        CentOS 7下基于Docker搭建GitLab服务器
+                            缺少 sudo docker pull gitlab/gitlab-ce:latest
+                Svn
+            项目管理
+                Worktile
+                Trello
+                Redmine
+                Jira
+            原型设计
+                Sketch
+                axrue
+                墨刀
+                 摹客
+                xiaopiu
+            文档管理
+                confluence 
+                    通过Docker安装JIRA和Confluence
+                Sphinx 
+                xwiki
+                Redmine知识库插件
+            日志汇集
+                sentry
+                    Spring Boot实战之配置使用Sentry上报错误日志(二)
+                    CentOS7环境下通过Docker安装sentry
+                    13-1 sentry的介绍和通过docker搭建sentry
+                    多语言业务错误日志收集监控工具Sentry 安装与使用
+                    Sentry通过Docker私有化部署
+                ELK
+                    elasticSearch
+                        ElasticSearch基础操作及ElasticsearchTemplate API
+                        spring-data-ES 完整版+kibana管理ES的index操作
+            代码规范
+                阿里项目代码规范
+                    阿里巴巴Java开发手册 1.4.0.pdf
+                数据库表使用规范
+                    mysql数据库开发规范
+                        MYSQL开发规范v1.0.2.doc
+                        MYSQL开发基本规范（涉及分区表）.doc
+            API管理
+                springfox-swagger2
+                    SpringMVC集成springfox-swagger2构建restful API

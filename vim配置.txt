@@ -1,0 +1,237 @@
+vim配置
+############################# 头文件的配置 ############################################
+
+	" .vimrc - Vim configuration file.
+	"
+	" Copyright (c) 2010 Jeffy Du. All Rights Reserved.
+	"
+	" Maintainer: Jeffy Du <jeffy.du@gmail.com>
+	"    Created: 2010-01-01
+	" LastChange: 2010-04-22
+	" {{{1
+	autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec ":call SetTitle()" 
+	func SetTitle() 
+		if &filetype == 'sh' 
+	"		call setline(1,"\#########################################################################") 
+	"		call append(line("."), "\# File Name: ".expand("%")) 
+	"		call append(line(".")+1, "\# Author: Master lu") 
+	"		call append(line(".")+2, "\# mail: luj@hqyj.com") 
+	"		call append(line(".")+3, "\# Created Time: ".strftime("%c")) 
+	"		call append(line(".")+4, "\#########################################################################") 
+	"		call append(line(".")+5, "\#!/bin/bash") 
+	"		call append(line(".")+6, "") 
+			call append(0,"\#!/bin/bash")
+	"		call append(line("."), "") 
+		else 
+			call setline(1, "/*************************************************************************") 
+			call append(line("."), "	> File Name: ".expand("%")) 
+			call append(line(".")+1, "	> Author: Master lu") 
+			call append(line(".")+2, "	> Mail: luj@hqyj.com ") 
+			call append(line(".")+3, "	> Created Time: ".strftime("%c")) 
+			call append(line(".")+4, " ************************************************************************/") 
+			call append(line(".")+5, "")
+		endif
+		if &filetype == 'cpp'
+			call append(line(".")+6, "#include<iostream>")
+			call append(line(".")+7, "using namespace std;")
+			call append(line(".")+8, "")
+		endif
+		if &filetype == 'c'
+		"	call append(line(".")+6, "#include<stdio.h>")
+		"	call append(line(".")+7, "")
+		endif
+		"	if &filetype == 'java'
+		"		call append(line(".")+6,"public class ".expand("%"))
+		"		call append(line(".")+7,"")
+		"	endif
+		"新建文件后，自动定位到文件末尾
+		autocmd BufNewFile * normal G
+	endfunc 
+
+	" GENERAL SETTINGS: {{{1
+	" To use VIM settings, out of VI compatible mode.
+	set nocompatible
+	" Enable file type detection.
+	filetype plugin indent on
+	" Syntax highlighting.
+	syntax on
+	" Setting colorscheme
+	color mycolor
+	" Other settings.
+
+
+################################# 基本内容的配置 ###############################
+	set tags=/home/linux/workdir/bootloader/u-boot-2013.01-fs4412/tags
+	set tags=/home/linux/workdir/linux-2.6.35-mj/tags
+	"set tags=/tags
+	set fdm=manual
+
+
+	set csprg=/usr/bin/cscope
+
+
+	set   autoindent
+	set   autoread
+	set   autowrite
+	set   background=dark
+	set   backspace=indent,eol,start
+	set nobackup
+	set   cindent
+	set   cinoptions=:0
+	set   cursorline
+	set   completeopt=longest,menuone
+	set noexpandtab
+	set   fileencodings=utf-8,gb2312,gbk,gb18030
+	set   fileformat=unix
+	set   foldenable
+	set   foldmethod=marker
+	set   guioptions-=T
+	set   guioptions-=m
+	set   guioptions-=r
+	set   guioptions-=l
+	set   helpheight=10
+	set   helplang=cn
+	set   hidden
+	set   history=100
+	set   hlsearch
+	set   ignorecase
+	set   incsearch
+	set   laststatus=2
+	set   mouse=a
+	set   number
+	set   pumheight=10
+	set   ruler
+	set   scrolloff=5
+	set   shiftwidth=4
+	set   showcmd
+	set   smartindent
+	set   smartcase
+	set   tabstop=4
+	set   termencoding=utf-8
+	set   textwidth=80
+	set   whichwrap=h,l
+	set   wildignore=*.bak,*.o,*.e,*~
+	set   wildmenu
+	set   wildmode=list:longest,full
+	set nowrap
+
+#####################################3
+" AUTO COMMANDS: {{{1
+" auto expand tab to blanks
+"autocmd FileType c,cpp set expandtab
+" Restore the last quit position when open file.
+autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \     exe "normal g'\"" |
+    \ endif
+set  list lcs=tab:\¦\ 
+
+" SHORTCUT SETTINGS: {{{1
+" Set mapleader
+let mapleader=","
+" Space to command mode.
+nnoremap <space> :
+vnoremap <space> :
+" Switching between buffers.
+nnoremap <C-h> <C-W>h
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-l> <C-W>l
+inoremap <C-h> <Esc><C-W>h
+inoremap <C-j> <Esc><C-W>j
+inoremap <C-k> <Esc><C-W>k
+inoremap <C-l> <Esc><C-W>l
+" "cd" to change to open directory.
+let OpenDir=system("pwd")
+nmap <silent> <leader>cd :exe 'cd ' . OpenDir<cr>:pwd<cr>
+############################## 插件设置 #########################################
+	" PLUGIN SETTINGS: {{{1
+	" taglist.vim
+		let g:Tlist_Auto_Update=1
+		let g:Tlist_Process_File_Always=1
+		let g:Tlist_Exit_OnlyWindow=1
+		let g:Tlist_Show_One_File=1
+		let g:Tlist_WinWidth=25
+		let g:Tlist_Enable_Fold_Column=0
+		let g:Tlist_Auto_Highlight_Tag=1
+		let g:Tlist_File_Fold_Auto_Close=1
+		let g:Tlist_Auto_Open=1
+	" NERDTree.vim
+		let g:NERDTreeWinPos="right"
+		let g:NERDTreeWinSize=25
+		let g:NERDTreeShowLineNumbers=1
+		let g:NERDTreeQuitOnOpen=1
+	" cscope.vim
+		set csto=1
+		set cst
+		set nocsverb
+		cs add /home/linux/kernel/linux-3.14/cscope.out 
+		cs add /home/linux/workdir/bootloader/u-boot-2013.01-fs4412/cscope.out 
+		cs add /home/linux/workdir/kernel/linux-2.6.35-mj/cscope.out
+		set csverb
+	" OmniCppComplete.vim
+		let g:OmniCpp_DefaultNamespaces=["std"]
+		let g:OmniCpp_MayCompleteScope=1
+		let g:OmniCpp_SelectFirstItem=2
+	" VimGDB.vim
+	if has("gdb")
+		set asm=0
+	 
+		run macros/gdb_mappings.vim
+	endif
+	" LookupFile setting
+	let g:LookupFile_TagExpr='"./tags.filename"'
+	let g:LookupFile_MinPatLength=2
+	let g:LookupFile_PreserveLastPattern=0
+	let g:LookupFile_PreservePatternHistory=1
+	let g:LookupFile_AlwaysAcceptFirst=1
+	let g:LookupFile_AllowNewFiles=0
+	" Man.vim
+	source $VIMRUNTIME/ftplugin/man.vim
+
+############################## 函数脚本快捷键 ########################################
+	" plugin shortcuts
+	function! RunShell(Msg, Shell)
+		echo a:Msg . '...'
+		call system(a:Shell)
+		echon 'done'
+	endfunction
+############################## 插件快捷键 ########################################
+	"nmap <C-H> <C-W>h 
+	"nmap <C-J> <C-W>j 
+	"nmap <C-K> <C-W>k 
+	"nmap <C-L> <C-W>l 
+
+	大纲显示
+	nmap  <F2> :TlistToggle<cr> 
+	树形显示目录
+	nmap  <F3> :NERDTreeToggle<cr> 
+	文件夹下的内容切换
+	nmap  <F4> :MRU<cr>		
+	文件查找插件
+	nmap  <F5> <Plug>LookupFile<cr> 
+	正则表达式
+	nmap  <F6> :vimgrep /<C-R>=expand("<cword>")<cr>/ **/*.c **/*.h<cr><C-o>:cw<cr> 
+	跳转函数和变量定义
+	nmap  <F8> :SrcExplToggle<cr> 
+	"nmap  <F9> :call RunShell("Generate tags", "ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .")<cr>
+	生成数据库文件
+	nmap <F10> :call HLUDSync()<cr>   
+	"nmap <F11> :call RunShell("Generate filename tags", "~/.vim/shell/genfiletags.sh")<cr>
+	"nmap <F12> :call RunShell("Generate cscope", "cscope -Rb")<cr>:cs add cscope.out<cr>
+	查找调用链
+	nmap <leader>a :cs add cscope.out<cr>  
+	查找C语言：函数名，宏，枚举值
+	nmap <leader>s :cs find s <C-R>=expand("<cword>")<cr><cr>
+	找找函数，宏，枚举
+	nmap <leader>g :cs find g <C-R>=expand("<cword>")<cr><cr>
+	指定的本函数的函数
+	nmap <leader>c :cs find c <C-R>=expand("<cword>")<cr><cr>
+
+	nmap <leader>t :cs find t <C-R>=expand("<cword>")<cr><cr>
+	nmap <leader>e :cs find e <C-R>=expand("<cword>")<cr><cr>
+	nmap <leader>f :cs find f <C-R>=expand("<cfile>")<cr><cr>
+	nmap <leader>i :cs find i <C-R>=expand("<cfile>")<cr><cr>
+	nmap <leader>d :cs find d <C-R>=expand("<cword>")<cr><cr>
+	nmap <leader>zz <C-w>o
+	nmap <leader>gs :GetScripts<cr>

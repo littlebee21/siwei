@@ -1,0 +1,31 @@
+效率 - vmware
+
+
+热键设计：
+    1，使用alt按键跳出虚拟机
+
+安装镜像：
+    1，使用默认设置，选择单个硬盘安装
+    1，断网安装
+    2，搜索镜像更换镜像源20
+    3，sudo apt install open-vm-tools 安装复制功能软件
+    sudo apt-get autoremove open-vm-tools
+    sudo apt-get install open-vm-tools  可以自适应窗口和分辨率
+    sudo apt-get install open-vm-tools-desktop 可以复制粘贴
+    需要重启虚拟机才能生效
+    4，sudo apt install vim等软件
+
+终端：
+    ctrl+-缩小字体：书签：设置ubuntu终端默认字体大小
+    缩小桌面图标的大小：settting appearance
+
+多用户登录：
+
+
+文件拷贝：
+    主机向ubuntu传递文件
+    ubuntu向主机传递文件：
+
+    通道：home文件夹:
+        ubuntu cp 命令与home交互
+        windows win+1快捷键+cv+everthing与home进行交互

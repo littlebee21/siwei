@@ -1,0 +1,180 @@
+java8新特性
+    原理
+        默认方法
+            多个继承的选择
+                类中的方法优先级最高
+                    。类或父类中声明的方法的优先级高于任何声明为默认方法的优先级
+                如果无法依据第一条进行判断，那么子接口的优先级更高：
+                    函数签名相同时，优先选择拥有最具体实现的默认方法的接口，即如果B继承了A，那么B就比A更加具体
+                显式选择
+                    最后，如果还是无法判断，继承了多个接口的类必须通过显式覆盖和调用期望的方法，显式地选择使用哪一个默认方法的实现
+                如果显示调用接口的方法
+                    Xxx.supper.hello（）
+                    public void hello() {OSO.super.hello(); }
+    使用
+        思想
+            为可读和灵活
+                从匿名类到Lambda表达式的转换
+                    是将实现单一抽象方法的匿名类转换为Lambda表达式
+                    注意点
+                        this   supper
+                        匿名类屏蔽类变量
+                        重载
+                从Lambda表达式到方法引用的转换
+                    Lambda表达式非常适用于需要传递代码片段的场景。不过，为了改善代码的可读性，也请尽量使用方法引用。因为方法名往往能更直观地表达代码的意图。
+                    注意点
+                        抽取lamda表达式的内容到单独的方法里面，然后传递方法引用
+                        尽量考虑使用静态辅助方法，比如comparing、maxBy
+                        很多通用的归约操作，比如sum、maximum，都有内建的辅助方法可以和方法引用结合使用
+                从命令式的数据处理切换到Stream
+                    将所有使用迭代器这种数据处理模式处理集合的代码都转换成StreamAPI的方式
+                    StreamAPI能更清晰地表达数据处理管道的意图。除此之外，通过短路和延迟载入以及利用第7章介绍的现代计算机的多核架构，我们可以对Stream进行优化。
+                    注意点
+                        考虑控制流语句，比如break、continue、return
+                        找工具转换
+                函数式的思考的迭代过程
+                    命令式编程
+                        告诉程序怎么做
+                    声明式编程
+                        告诉程序要做什么
+                            把最终如何实现的细节留给了函数库。我们把这种思想称之为内部迭代。它的巨大优势在于你的查询语句现在读起来就像是问题陈述，由于采用了这种方式，我们马上就能理解它的功能，比理解一系列的命令要简洁得多。
+                    为什么要采用函数式编程
+                        函数式编程具体实践了前面介绍的声明式编程（“你只需要使用不相互影响的表达式，描述想要做什么，由系统来选择如何实现”）和无副作用计算。
+                        它们能让我们的程序更便于阅读，易于编写。
+                    引用透明性
+                        如果一个函数只要传递同样的参数值，总是返回同样的结果，那这个函数就是引用透明的。
+            采用函数接口
+                没有函数接口，你就无法使用Lambda表达式
+                有条件的延迟执行
+                环绕执行
+            stream
+            lamda表达式
+                在哪里可以使用
+                    在使用函数式接口的地方
+                方法引用
+                    什么是方法引用
+                        方法引用是lamda表达式的快捷写法这种类型的lamda表达式 (Shapshot.User u)->u.isMan()
+                    有几种
+                        (1)指向静态方法的方法引用（例如Integer的parseInt方法，写作Integer::parseInt）。(2)指向任意类型实例方法的方法引用（例如String的length方法，写作String::length）。(3)指向现有对象的实例方法的方法引用（假设你有一个局部变量expensiveTransaction用于存放Transaction类型的对象，它支持实例方法getValue，那么你就可以写expensiveTransaction::getValue）。 
+                    构造函数方法引用
+                        Supplier c1=Apple::new;←─构造函数引用指向默认的Apple()构造函数Apple a1=c1.get();←─调用Supplier的get方法将产生一个新的Apple  
+                        Supplier c1=()->new Apple();←─利用默认构造函数创建Apple的Lambda表达式Apple a1=c1.get();←─调用Supplier的get方法将产生一个新的Apple 
+                        上面二者等价
+                函数式接口
+                    可以有几个抽象方法
+                        只定义一个抽象方法的接口
+                    官方预定义好的函数式接口在哪里
+                        java.util.function包下
+                复合Lambda表达式
+                    谓词复合
+                        谓词接口包括三个方法：negate、and和or，让你可以重用已有的Predicate来创建更复杂的谓词。
+                        请注意，and和or方法是按照在表达式链中的位置，从左向右确定优先级的。因此，a.or(b).and(c)可以看作(a||b)&amp;&amp;c。
+                    比较器复合
+                        逆序
+                            inventory.sort(comparing(Apple::getWeight).reversed());←─按重量递减排序
+                        比较器链
+                            inventory.sort(comparing(Apple::getWeight).reversed()   ←─ 按重量递减排序         .thenComparing(Apple::getCountry));            ←─ 两个苹果一样重时，进一步按国家排序
+                    函数复合
+                        你还可以把Function接口所代表的Lambda表达式复合起来。Function接口为此配了andThen和compose两个默认方法，它们都会返回Function的一个实例。
+            函数式编程的技巧
+                高阶函数
+                    能满足下面任一要求就可以被称为高阶函数
+                        接受至少一个函数作为参数
+                        返回的结果是一个函数
+                科里化
+                    科里化是一种将具备2个参数（比如，x和y）的函数f转化为使用一个参数的函数g，并且这个函数的返回值也是一个函数，它会作为新函数的一个参数。后者的返回值和初始函数的返回值相同，即f(x,y)=(g(x))(y)
+                持久化数据结构
+                    破坏式更新
+                    函数式更新
+                        没有改动任何现存的数据结构
+                    Stream的延迟计算
+                        Java8的Stream以其延迟性而著称。它们被刻意设计成这样，即延迟操作，有其独特的原因：Stream就像是一个黑盒，它接收请求生成结果。当你向一个Stream发起一系列的操作请求时，这些请求只是被一一保存起来。只有当你向Stream发起一个终端操作时，才会实际地进行计算。这种设计具有显著的优点，特别是你需要对Stream进行多个操作时（你有可能先要进行filter操作，紧接着做一个map，最后进行一次终端操作reduce）；这种方式下Stream只需要遍历一次，不需要为每个操作遍历一次所有的元素。
+        工具
+            CompletableFuture：组合式异步编程
+            用optional取代null：防止空指针
+                创建Optional对象
+                    创建optional
+                        空的
+                        包含非空值的
+                        包含可为空值的
+                    1、声明一个空的Optional对象
+                    2、依据一个非空值创建Optional
+                    3、可接受null的Optional
+                使用map从Optional对象中提取和转换值
+                    flatMap
+                        map操作的结果是一个Optional>，则flatMap得到Optional
+                        以不解包的方式组合两个Optional对象
+                使用flatMap链接Optional对象
+                默认行为及解引用Optional对象
+                两个Optional对象的组合
+                使用filter剔除特定值
+                optional取值
+                    get()
+                        有则返回，无则报异常
+                    orElse(T other)
+                        有则返回，无则返回给定值
+                    orElseGet(Supplier other) 
+                        是orElse方法的延迟调用版，Supplier方法只有在Optional对象不含值时才执行调用。如果创建默认值是件耗时费力的工作，你应该考虑采用这种方式（借此提升程序的性能），或者你需要非常确定某个方法仅在Optional为空时才进行调用，也可以考虑该方式（这种情况有严格的限制条件）
+                    T orElseThrow(Supplier exceptionSupplier)
+                        get方法非常类似，它们遭遇Optional对象为空时都会抛出一个异常，但是使用orElseThrow你可以定制希望抛出的异常类型
+                    ifPresent(Consumer consumer)
+                        有则用传入的方法消费这个对象
+                optional filter
+                    filter(Predicate predicate)
+                        filter方法接受一个谓词作为参数。如果Optional对象的值存在，并且它符合谓词的条件，filter方法就返回其值；否则它就返回一个空的Optional对象
+                caution与error
+                    不要写在域模型里面，因为optional对象不支持序列化
+                        null带来的种种问题
+                        Optional类入门
+                        应用Optional的几种模式
+                        基础类型的Optional对象，应避免使用
+                    避免使用optional对象的基础类
+                        因为基础类型的Optional不支持map、flatMap以及filter方法，而这些却是Optional类最有用的方法
+            新的日期和时间api
+                之前的缺点
+                    易变性以及糟糕的偏移值、默认值和命名。
+                    Date和Calendar都是可变的
+                    Dateformat不是线程安全的
+                java8的时间和日期api
+                    LocalDate
+                        静态方法，of创建
+                    LocalTime
+                    Instant
+                    Duration
+                    Period
+                    ZonedDateTime
+                    DateTimeFormatter
+                    TemporalAdjuster
+                        你现在可以按照特定的格式需求，定义自己的格式器，打印输出或者解析日期-时间对象。这些格式器可以通过模板创建，也可以自己编程创建，并且它们都是线程安全的。
+                改进
+                    新版的日期和时间API中，日期-时间对象是不可变的。
+                    你可以用绝对或者相对的方式操纵日期和时间，操作的结果总是返回一个新的实例，老的日期时间对象不会发生变化。
+                    新的API提供了两种不同的时间表示方式，有效地区分了运行时人和机器的不同需求。
+            重构/测试和调试
+                使用Lambda重构面向对象的设计模式
+                    对设计经验的归纳总结被称为设计模式
+                    策略模式
+                        用lamda表达式代替具体的实现类
+                    模板方法
+                        如果你需要采用某个算法的框架，同时又希望有一定的灵活度，能对它的某些部分进行改进，那么采用模板方法设计模式是比较通用的方案
+                        接口参数添加函数式接口，方便直接传lamda表达式，而不用通过继承来实现
+                    观察者模式
+                        某些事件发生时（比如状态转变），如果一个对象（通常我们称之为主题）需要自动地通知其他多个对象（称为观察者），就会采用该方案
+                        如果逻辑很简单的观察者模式可以直接用lamda表达式
+                    责任链模式?
+                        责任链模式是一种创建处理对象序列（比如操作序列）的通用方案。一个处理对象可能需要在完成一些工作之后，将结果传递给另一个对象，这个对象接着做一些工作，再转交给下一个处理对象，以此类推
+                    工厂模式
+                        使用工厂模式，你无需向客户暴露实例化的逻辑就能完成对象的创建
+                        return new XXX() 的地方换成 XXX::new
+                测试lamda表达式
+                    判断返回结果和预期结果是否一致
+                调试
+                    查看栈跟踪
+                        使用lambda表达式和非相同类的方法引用导致栈跟踪不易理解
+                    输出日志
+                        流的peek方法
+                            它不像forEach那样恢复整个流的运行，而是在一个元素上完成操作之后，它只会将操作顺承到流水线中的下一个操作
+                                Optional optional=Optional.empty(); 
+                                Optional optional=Optional.of("hello"); 
+                                Optional optional=Optional.ofNullable("hello"); 
+                            Optional optionalInteger=optional.map(String::length); 

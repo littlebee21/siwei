@@ -1,0 +1,25 @@
+chrome
+开发工具的使用
+    常用快捷键
+        打开开发工具
+        常用的开发者工具命令行
+        切换开发工具窗口
+        元素选择工具
+        使用多个插入符进行多选择编辑
+    断点调试的问题
+        断点调试的流程
+        element设DOM断点
+            属性修改时打断点
+            节点删除时打断点
+            Subtree modifications子树修改时打断点
+        console断点
+            1.console.log和alert()打印运行的信息调试
+            2.JavaScript断点调试debugger
+                通过鼠标可也看到source中变量的值
+                通过左下角的跳过函数进入函数等工具
+            3.运行时变量值查看，修改源代码临时保存调试
+        souce断点调试的功能
+            source设置普通断点进行调试方法
+            XHR Breakpoints设置的字符串匹配时
+            DOM 元素的值发生改版时断点
+            Event Listener Breakpoints事件监听断点

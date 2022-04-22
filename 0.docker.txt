@@ -1,0 +1,226 @@
+docker
+    docker安装常见应用
+        在测试中使用Docker
+            Docker内部连网
+                docker network create app
+                overlay网络
+            通过Docker链接连接容器（旧的）
+            Docker用于持续集成
+            docker存储
+                数据卷
+                    数据卷
+                    数据卷容器
+                    备份和恢复
+                docker存储驱动
+    容器主要的适用场景
+        容器化传统应用 提高现有应用的安全性和可移植性，节约成本。
+        持续集成、持续交付、持续部署 (CI/CD)。通过 Git 推送代码触发 CI/CD，可以做到快速构建镜像，快速部署到环境中。
+        微服务。容器适合将微服务打包在镜像中，运行在容器中，做到秒级启停、独立部署和服务松耦合的功能。
+        弹性调整。可以通过 Kubernetes 来实现计算资源的合理调配。
+    docker
+        使用maven插件为springbooot应用构建docker镜像
+            Docker Registry
+                Docker Registry 2.0搭建
+                Docker开启远程API
+            使用Maven构建Docker镜像
+                在应用的pom.xml文件中添加docker-maven-plugin的依赖
+                修改application.yml，将localhost改为db
+                使用IDEA打包项目并构建镜像
+            运行mall-tiny-docker项目
+                启动mysql服务
+                启动mall-tiny-docker应用服务
+    docker的应用
+        子主题
+            docker运维流程
+            docker事件状态图
+        操作系统安装docker
+            CentOS7安装Docker
+                https://docs.docker.com/install/linux/docker-ce/centos/
+                安装步骤
+                    官网中文安装参考手册
+                        https://docs.docker-cn.com/engine/installation/linux/docker-ce/centos/#prerequisites
+                    确定你是CentOS7及以上版本
+                        cat /etc/redhat-release
+                    yum安装gcc相关
+                        CentOS7能上外网
+                            分支主题
+                        yum -y install gcc
+                        yum -y install gcc-c++
+                    卸载旧版本
+                        yum -y remove docker docker-common docker-selinux docker-engine
+                        2018.3官网版本
+                    安装需要的软件包
+                        yum install -y yum-utils device-mapper-persistent-data lvm2
+                    设置stable镜像仓库
+                        大坑
+                            yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+                        推荐
+                            yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+                    更新yum软件包索引
+                        yum makecache fast
+                    安装DOCKER CE
+                        yum -y install docker-ce
+                    启动docker
+                        systemctl start docker
+                    测试
+                        docker version
+                        docker run hello-world
+                    配置镜像加速
+                        mkdir -p /etc/docker
+                        vim  /etc/docker/daemon.json
+                        systemctl daemon-reload
+                        systemctl restart docker
+                    卸载
+                        systemctl stop docker 
+                        yum -y remove docker-ce
+                        rm -rf /var/lib/docker
+            CentOS6.8安装Docker
+                yum install -y epel-release
+                yum install -y docker-io
+                安装后的配置文件：/etc/sysconfig/docker
+                启动Docker后台服务：service docker start
+                docker version验证
+            安装
+                1、卸载历史版本
+                2、安装官方yum源
+                3、安装Docker引擎
+                4、启动
+        镜像
+            docker发布镜像
+                本地镜像发布到阿里云
+                    本地镜像发布到阿里云流程
+                    镜像的生成方法
+                        前面的DockerFile
+                        从容器创建一个新的镜像
+                    将本地镜像推送到阿里云
+                        本地镜像素材原型
+                        阿里云开发者平台
+                            https://dev.aliyun.com/search.html
+                        创建仓库镜像
+                            命名空间
+                            仓库名称
+                        将镜像推送到registry
+                        公有云可以查询到
+                        查看详情
+                    将阿里云上的镜像下载到本地
+                        下载到本地
+                Registry私有镜像仓库
+                访问仓库
+                    DockerHub
+                        最大的公共镜像仓库，在其中注册一个账号，每ID可以免费拥有一个私有镜像
+                    登录仓库
+                        docker login -u username -p password
+                            默认登录DockerHub
+                        登录成功的用户可以上传个人的镜像
+                        用户无需登录即可通过search命令来查找官方仓库中的镜像，并利用docker pull来将它下载到本地
+                    登出仓库
+                        docker logout
+                            可以同时登录多个docker仓库，故此命令一般不执行
+                    认证文件
+                        /root/.docker/config.json
+                        Mac/Win机器上是隐藏密码的，但Linux下显示密码，只不过进行base64编码
+                        拷贝该文件到其他机器指定目录下即可免登录
+            docker拉取镜像
+                阿里云镜像加速
+                    是什么
+                        https://dev.aliyun.com/search.html
+                    注册一个属于自己的阿里云账户(可复用淘宝账号)
+                    获得加速器地址连接
+                        登陆阿里云开发者平台
+                        获取加速器地址
+                    配置本机Docker运行镜像加速器
+                    重新启动Docker后台服务：service docker restart
+                    Linux 系统下配置完加速器需要检查是否生效
+                网易云加速
+                    基本同上述阿里云
+            docker构建镜像
+        docker数据持久化
+        docker多个容器部署
+            Docker Compose入门学习
+        docker容器的运维
+            k8s管理kubenetes多主机容器化的应用
+                kubernetes包管理工具（helm）
+                kubernetes增强工具（rancher）
+            docker swarm 容器集群服务
+            docker日志
+            网络管理
+            备份和迁移
+                容器保存为镜像
+                    查看是否有挂在目录
+                    无目录挂在容器保存为镜像
+                    有目录挂载情况
+                备份镜像
+                镜像恢复与迁移
+            docker外网访问
+            cpu占有率
+        永远的HelloWorld
+            启动Docker后台容器(测试运行 hello-world)
+                docker run hello-world
+                run干了什么
+    docker原理组成
+    使用
+        docker工具
+            dockerMachine简化Docker安装的命令行工具
+            Docker操作系统之 Alpine
+            MinO对象存储
+            Docker图形化工具 Fontaine
+            私有仓库 Harbor
+                简介
+                    Harbor是一个用于存储和分发Docker镜像的企业级Registry服务器
+                    它是由VMWare在Docker_Registry基础上进行二次封装，加入很多额外程序，并提供了一个Web界面
+                主要组件
+                    proxy
+                        一个nginx前端代理，主要是分发前端页面UI访问和镜像上传和下载流量
+                    ui
+                        提供了一个Web管理页面，还包括一个前端页面和后端API，底层使用Mysql数据库
+                    registry
+                        镜像仓库，负责存储镜像文件，当镜像上传完毕后通过hook通知UI创建repository
+                    adminserver
+                        系统的配置管理中心，附带检查存储用量，UI和JobServer启动时需要加载AdminServer的配置
+                        JobService是负责镜像复制工作的，它和Registry通信，从一个Registry pull镜像，然后push到另一个Registry，并记录Job_log
+                    log
+                        日志汇总组件，通过Docker的log-driver把日志汇总到一起
+                安装
+                    1、下载解压
+                    2、使用docker加载镜像
+                配置
+                    harbor.yml
+                        hostname
+                            采用域名
+                        data_volume
+                            数据库路径
+                启动/停止
+                    1、运行prepare脚本
+                        Harbor将nginx实例用作所有服务的反向代理
+                        使用prepare脚本来配置nginx为使用HTTP和HTTPS
+                    2、利用docker-compose启动和停止Harbor
+                访问/登录
+                    1、配置hosts映射，做IP和域名的映射
+                    2、通过浏览器浏览
+                    3、修改daemon.json，配置私有仓库
+                    4、从Docker客户端访问Harbor
+                Pull镜像
+                    1、为要推送的镜像加tag
+                    2、推送镜像到Harbor
+                生产环境使用
+                    1、生成CA证书
+                    2、生成服务器证书
+                    3、向Harbor和Docker提供证书
+                    4、修改Harbor配置
+                        开启Https
+                    5、启动Harbor
+                        ./prepare
+                        docker-compose up -d
+                    6、从Docker客户端登录Harbor
+            docker在不同操作系统使用
+                DockerDesktop入门简介
+                docker守护进程的启动
+    实例
+        使用 GithubAction构建蒈菇博客镜像提
+            当容器启动时，一个新的可写层被加载到镜像的顶部。
+            这一层通常被称作“容器层”，“容器层”之下的都叫“镜像层”。
+            以它为模板commit一个没有doc的tomcat新镜像atguigu/tomcat02
+            对应的主机目录地址哪？？
+            将从构建上下文目录中  的文件/目录复制到新的一层的镜像内的  位置
+            vim /zzyyuse/myredis/conf/redis.conf/redis.conf
+            docker commit [OPTIONS] 容器ID [REPOSITORY[:TAG]]

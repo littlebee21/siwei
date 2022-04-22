@@ -1,0 +1,118 @@
+springboot项目
+    主题
+        D:.
+        │  crebas.sql
+        │  pom.xml
+        │  readme.txt
+        │  
+        └─src
+        ├─main
+        │  ├─java
+        │  │  └─cn
+        │  │      └─tablego
+        │  │          └─project
+        │  │              └─springboot
+        │  │                  │  TablegoSpringbootApplication.java
+            启动文件
+        │  │                  ├─common
+            公共层可以复用的层面
+        │  │                  │  ├─controller
+        │  │                  │  │      BaseController.java
+            对于controller层的抽取
+        │  │                  │  ├─exception
+        │  │                  │  │      BizException.java
+            业务逻辑处理异常
+        │  │                  │  │      ExceptionHandlerAdvice.java
+            统一的异常处理类
+                底层的全局异常处理方法
+                默认的全局异常处理方法
+                运行时异常处理方法
+                业务异常处理方法
+                字段验证的异常处理方法
+                上传文件的总大小超过maxuploadsize的异常处理方法
+                子主题
+        │  │                  │  ├─model
+            │  │                  │  │      BaseBean.java
+                实体的公共字段基础类
+                    创建人，保存用户ID值
+                    创建日期
+                    最后修改人，保存用户ID值
+                    最后修改日期
+                    删除标记
+            │  │                  │  │      BaseCondition.java
+                加强版vo，函数式编程
+                    serialVersionUID
+                        不写的警告
+                        不写jvm会默认生成
+                        确保反序列化没问题
+                        4.如何生成serialVersionUID
+            │  │                  │  │      BasePagingCondition.java
+                分页请求的参数---抽象类
+            │  │                  │  │      OverrideBeanMethods.java
+                重写bean的equals，hashCode，toString方法 ---抽象类
+            │  │                  │  │      Paging.java
+                分页查询参数的封装
+            │  │                  │  │      Result.java
+                相应参数
+                    成功的相应参数
+                    成功的相应参数
+                        带相应数据
+                    成功的相应参数
+                        带相应数据
+                            带成功消息
+                    失败的相应参数
+                    异常的相应参数
+                        错误消息
+                    异常的相应参数
+                        错误消息
+                            异常对象
+                    成功或者失败的相应参数
+                    创建
+                    设置
+                    获取
+        │  │                  │  └─util
+            │  │                  │          Assert.java
+                对于信息进行判断
+        │  │                  ├─configuration
+            │  │                  │      CorsConfig.java
+                跨域的配置问题
+            │  │                  │      MybatisPlusConfiguration.java
+                配置
+        │  │                  ├─controller
+        │  │                  │      QrtzCalendarsController.java
+            对于controller层的抽取的实现
+        │  │                  ├─mapper
+        │  │                  │      QrtzCalendarsMapper.java
+            mapper的接口层
+        │  │                  ├─model
+        │  │                  │  │  QrtzCalendars.java
+        │  │                  │  │
+        │  │                  │  └─condition
+        │  │                  │          QrtzCalendarsCondition.java
+        │  │                  └─service
+        │  │                          QrtzCalendarsService.java
+        │  └─resources
+            │      │  application.yml
+            │      │  logback-spring.xml
+            │      ├─mapper
+                │      │      QrtzCalendarsMapper.xml
+                    mapper的实现层
+            │      ├─static
+            │      └─templates
+                └─test
+                    └─java
+                        └─cn
+                            └─tablego
+                                └─project
+                                    └─springboot
+                                        QrtzCalendarsServiceTest.java
+    对于其中增删改查的写法
+        transactional
+        增删改查的内容
+            根据条件分页查询列表
+            根据主键ID查询条件
+            新增信息
+            修改信息
+            删除信息
+            根据主键ID删除
+            根据主键ID批量删除

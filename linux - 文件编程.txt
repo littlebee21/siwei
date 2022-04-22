@@ -1,0 +1,92 @@
+linux - 文件编程
+    文件IO stdio
+        fopen
+        fclose
+        fread
+        fwrite 代码
+        文件描述符 iseek 
+        总结：
+    目录IO
+        访问目录opendir
+            代码
+        读取目录readdir
+        关闭目录closedir
+        修改文件访问权限
+            chmod
+            fchmod
+        获取文件属性stat/istat/fstat
+            文件类型 和访问权限
+    标准IO
+        流/文件信息
+            概念 
+            分类
+            举例
+        流操作
+            打开流fopen
+                新建文件权限
+            关闭流fclose
+            读写流
+                fgetc fputc
+                    代码
+                    执行
+                fgets fputs
+                fread  fwrite
+                    代码
+                三种方式区别
+            定位流
+                ftell/fseek/rewind
+                    代码
+            判断流是否出错和结束
+            处理错误信息
+                strerror
+                prerror
+            格式化输出
+                fprint
+                sprint
+        自带缓冲
+            刷新流缓冲区
+                fflush
+    区别
+    IO编程
+        Linux上层开发与Kernel的关系
+        Linux I/O体系结构
+            设备类型
+            总线系统
+                总线类型
+                    PCI
+                    ISA
+                    SBus
+                    USB
+                    SCSI
+                    并口串口
+                    AMBA
+            文件系统
+            外设寻址的分层模型
+        I/O操作过程
+            打开文件
+            改变文件位置
+            读写文件
+            关闭文件
+        GNU Linux I/O操作类别
+            文件及流的标准输入输出
+            底层输入输出
+            文件系统接口
+            管道及FIFO（先入先出队列）
+            Socket
+            底层终端接口（tty）
+        主要数据结构介绍
+            FD
+            File
+            Files Structure
+        底层输入输出开发实例
+            打开（建立）和关闭文件
+                关于umask
+            读写文件
+            设置文件位置
+            文件符号和流
+            快速聚集I/O
+            内存映射I/O
+            同步I/O操作
+            文件锁定
+            中断驱动输入
+        标准输入输出开发实例

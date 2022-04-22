@@ -1,0 +1,32 @@
+java hellow world
+    how
+        开发环境idea
+        java项目组织环境
+            关系表
+                项目
+                    java的项目与main
+                    java的项目与文件
+                文件
+                    java文件与类
+                        public标记的类的名字要和文件的名字相同
+                        public标记的类在文件里可以没有
+                        没有public的则可与文件名不同
+                        数量
+                            一个文件里只能有一个public类
+                            一个文件里可以有多个class类
+                            一个文件至少一个class enum interface anotion组成
+                        文件内部class之间可以互相调用
+                        文件外部只有public的类可被调用
+                    java文件与方法
+                        单独方法不能够存在于文件中
+                类
+                    java的类与main
+                        一个文件里只能一个main函数
+                方法
+                main方法
+            原理
+                javac编译会给每一个类生成一个,class
+        java的运行方式
+            idea的运行方式
+            java class的运行方式
+                main可以传入参数

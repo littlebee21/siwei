@@ -1,0 +1,582 @@
+模板
+    python标准库
+        操作系统
+            通用操作系统服务
+                os --- 多种操作系统接口
+                io --- 处理流的核心工具
+                time --- 时间的访问和转换
+                argparse --- 命令行选项、参数和子命令解析器
+                getopt --- C-style parser for command line options
+                logging --- Python 的日志记录工具
+                logging.config --- 日志记录配置
+                logging.handlers --- 日志处理
+                getpass --- 便携式密码输入工具
+                curses --- 终端字符单元显示的处理
+                curses.textpad --- Text input widget for curses programs
+                curses.ascii --- Utilities for ASCII characters
+                curses.panel --- A panel stack extension for curses
+                platform --- 获取底层平台的标识数据
+                errno --- Standard errno system symbols
+                ctypes --- Python 的外部函数库
+            Windows系统相关模块
+                msilib --- Read and write Microsoft Installer files
+                msvcrt --- Useful routines from the MS VC++ runtime
+                winreg --- Windows 注册表访问
+                winsound --- Sound-playing interface for Windows
+            Unix 专有服务
+                posix --- 最常见的 POSIX 系统调用
+                pwd --- 用户密码数据库
+                spwd --- The shadow password database
+                grp --- The group database
+                crypt --- Function to check Unix passwords
+                termios --- POSIX 风格的 tty 控制
+                tty --- 终端控制功能
+                pty --- Pseudo-terminal utilities
+                fcntl --- The fcntl and ioctl system calls
+                pipes --- Interface to shell pipelines
+                resource --- Resource usage information
+                nis --- Sun 的 NIS (黄页) 接口
+                Unix syslog 库例程
+            加密服务
+                hashlib --- 安全哈希与消息摘要
+                hmac --- 基于密钥的消息验证
+                secrets --- 生成安全随机数字用于管理密码
+            文件
+                文件和目录访问
+                    pathlib --- 面向对象的文件系统路径
+                    os --- 常用路径操作
+                        文件
+                            os.chdir(path)
+                                改变当前工作目录
+                            os.open(file, flags[, mode])
+                                打开一个文件，并且设置需要的打开选项，mode参数是可选的
+                            os.chflags(path, flags)
+                                设置路径的标记为数字标记。
+                            os.fchdir(fd)
+                                通过文件描述符改变当前工作目录
+                            os.fchmod(fd, mode)
+                                改变一个文件的访问权限，该文件由参数fd指定，参数mode是Unix下的文件访问权限。
+                            os.fchown(fd, uid, gid)
+                                修改一个文件的所有权，这个函数修改一个文件的用户ID和用户组ID，该文件由文件描述符fd指定。
+                            os.fdatasync(fd)
+                                强制将文件写入磁盘，该文件由文件描述符fd指定，但是不强制更新文件的状态信息。
+                            os.read(fd, n)
+                                从文件描述符 fd 中读取最多 n 个字节，返回包含读取字节的字符串，文件描述符 fd对应文件已达到结尾, 返回一个空字符串。
+                            os.remove(path)
+                                删除路径为path的文件。如果path 是一个文件夹，将抛出OSError; 查看下面的rmdir()删除一个 directory。
+                            os.rename(src, dst)
+                                重命名文件或目录，从 src 到 dst
+                            os.readlink(path)
+                                返回软链接所指向的文件
+                            os.rename("oldname","newname")  重命名文件/目录
+                            修改
+                            文件属性
+                                系统配置信息
+                                    os.fpathconf(fd, name)
+                                        返回一个打开的文件的系统配置信息。name为检索的系统配置的值，它也许是一个定义系统值的字符串，这些名字在很多标准中指定（POSIX.1, Unix 95, Unix 98, 和其它）。
+                                文件所有者
+                                    os.chown(path, uid, gid)
+                                        更改文件所有者
+                                    os.lchown(path, uid, gid)
+                                        更改文件所有者，类似 chown，但是不追踪链接。
+                                os.unlink(path)
+                                    删除文件路径
+                                文件描述符
+                                    os.close(fd)
+                                        关闭文件描述符 fd
+                                    os.closerange(fd_low, fd_high)
+                                        关闭所有文件描述符，从 fd_low (包含) 到 fd_high (不包含), 错误会忽略
+                                    os.dup(fd)
+                                        复制文件描述符 fd
+                                    os.dup2(fd, fd2)
+                                        将一个文件描述符 fd 复制到另一个 fd2
+                                    os.fdopen(fd[, mode[, bufsize]])
+                                        通过文件描述符 fd 创建一个文件对象，并返回这个文件对象
+                                    os.fstat(fd)
+                                        返回文件描述符fd的状态，像stat()。
+                                    os.fstatvfs(fd)
+                                        返回包含文件描述符fd的文件的文件系统的信息，像 statvfs()
+                                    os.fsync(fd)
+                                        强制将文件描述符为fd的文件写入硬盘。
+                                    os.ftruncate(fd, length)
+                                        裁剪文件描述符fd对应的文件, 所以它最大不能超过文件大小。
+                                    os.isatty(fd)
+                                        如果文件描述符fd是打开的，同时与tty(-like)设备相连，则返回true, 否则False。
+                                    os.lseek(fd, pos, how)
+                                        设置文件描述符 fd当前位置为pos, how方式修改: SEEK_SET 或者 0 设置从文件开始的计算的pos; SEEK_CUR或者 1 则从当前位置计算; os.SEEK_END或者2则从文件尾部开始. 在unix，Windows中有效
+                                    os.write(fd, str)
+                                        写入字符串到文件描述符 fd中. 返回实际写入的字符串长度
+                                链接
+                                    os.lchmod(path, mode)
+                                        修改连接文件权限
+                                    os.link(src, dst)
+                                        创建硬链接，名为参数 dst，指向参数 src
+                                    os.symlink(src, dst)
+                                        创建一个软链接
+                        os.path模块
+                            获取
+                                os.getcwd() 获取当前工作目录，即当前python脚本工作的目录路径
+                                os.getcwd()
+                                    返回当前工作目录
+                                os.getcwdu()
+                                    返回一个当前工作目录的Unicode对象
+                                os.listdir(path)
+                                    返回path指定的文件夹包含的文件或文件夹的名字的列表。
+                                os.listdir('dirname')    列出指定目录下的所有文件和子目录，包括隐藏文件，并以列表方式打印
+                                os.curdir  返回当前目录: ('.')
+                                os.environ  获取系统环境变量
+                                os.stat('path/filename')  获取文件/目录信息
+                                os.pardir  获取当前目录的父目录字符串名：('..')
+                            os.system("bash command")  运行shell命令，直接显示
+                                os.chdir("dirname")  改变当前脚本工作目录；相当于shell下cd
+                                os.sep    输出操作系统特定的路径分隔符，win下为"\\",Linux下为"/"
+                                os.linesep    输出当前平台使用的行终止符，win下为"\t\n",Linux下为"\n"
+                                os.pathsep    输出用于分割文件路径的字符串 win下为;,Linux下为:
+                                os.name    输出字符串指示当前使用平台。win->'nt'; Linux->'posix'
+                            创建
+                                os.mkdir(path[, mode])
+                                    以数字mode的mode创建一个名为path的文件夹.默认的 mode 是 0777 (八进制)。
+                                os.makedirs(path[, mode])
+                                    递归文件夹创建函数。像mkdir(), 但创建的所有intermediate-level文件夹需要包含子文件夹。
+                                os.makedirs('dirname1/dirname2')    可生成多层递归目录
+                                os.mkdir('dirname')    生成单级目录；相当于shell中mkdir dirname
+                            删除
+                                os.removedirs('dirname1')    若目录为空，则删除，并递归到上一级目录，如若也为空，则删除，依此类推
+                                os.rmdir('dirname')    删除单级空目录，若目录不为空则无法删除，报错；相当于shell中rmdir dirname
+                                os.removedirs(path)
+                                    递归删除目录。
+                                os.rmdir(path)
+                                    删除path指定的空目录，如果目录非空，则抛出一个OSError异常。
+                            修改
+                                os.renames(old, new)
+                                    递归地对目录进行更名，也可以对文件进行更名。
+                                os.walk(top[, topdown=True[, onerror=None[, followlinks=False]]])
+                                    输出在文件夹中的文件名通过在树中游走，向上或者向下。
+                            os.path
+                                os.path.abspath(path)  返回path规范化的绝对路径
+                                os.path.split(path)  将path分割成目录和文件名二元组返回
+                                os.path.dirname(path)  返回path的目录。其实就是os.path.split(path)的第一个元素
+                                os.path.basename(path)  返回path最后的文件名。如何path以／或\结尾，那么就会返回空值。即os.path.split(path)的第二个元素
+                                os.path.exists(path)  如果path存在，返回True；如果path不存在，返回False
+                                os.path.isabs(path)  如果path是绝对路径，返回True
+                                os.path.isfile(path)  如果path是一个存在的文件，返回True。否则返回False
+                                os.path.isdir(path)  如果path是一个存在的目录，则返回True。否则返回False
+                                os.path.join(path1[, path2[, ...]])  将多个路径组合后返回，第一个绝对路径之前的参数将被忽略
+                                os.path.getatime(path)  返回path所指向的文件或者目录的最后存取时间
+                                os.path.getmtime(path)  返回path所指向的文件或者目录的最后修改时间
+                                os.path.getsize(path) 返回path的大小
+                                os.path.normpath(os.path.join(os.path.abspath(__file__),'..','..','..'))表示返回当前文件的上上上层目录
+                                os.pathconf(path, name)
+                                    返回相关文件的系统配置信息。
+                        终端
+                            进程组
+                                os.tcgetpgrp(fd)
+                                    返回与终端fd（一个由os.open()返回的打开的文件描述符）关联的进程组
+                                os.tcsetpgrp(fd, pg)
+                                    设置与终端fd（一个由os.open()返回的打开的文件描述符）关联的进程组为pg。
+                            os.openpty()
+                                打开一个新的伪终端对。返回 pty 和 tty的文件描述符。
+                        管道
+                            os.pipe()
+                                创建一个管道. 返回一对文件描述符(r, w) 分别为读和写
+                            os.mkfifo(path[, mode])
+                                创建命名管道，mode 为数字，默认为 0666 (八进制)
+                            os.popen(command[, mode[, bufsize]])
+                                从一个 command 打开一个管道
+                        权限
+                            os.access(path, mode)
+                                检验权限模式
+                            os.chmod(path, mode)
+                                更改权限
+                        进程
+                            os.chroot(path)
+                                改变当前进程的根目录
+                        设备
+                            os.major(device)
+                                从原始的设备号中提取设备major号码 (使用stat中的st_dev或者st_rdev field)。
+                            os.minor(device)
+                                从原始的设备号中提取设备minor号码 (使用stat中的st_dev或者st_rdev field )。
+                            os.makedev(major, minor)
+                                以major和minor设备号组成一个原始设备号
+                        其他
+                            os.lchflags(path, flags)
+                                设置路径的标记为数字标记，类似 chflags()，但是没有软链接
+                            os.lstat(path)
+                                像stat(),但是没有软链接
+                            os.mknod(filename[, mode=0600, device])
+                                创建一个名为filename文件系统节点（文件，设备特别文件或者命名pipe）。
+                            os.stat(path)
+                                获取path指定的路径的信息，功能等同于C API中的stat()系统调用。
+                            os.stat_float_times([newvalue])
+                                决定stat_result是否以float对象显示时间戳
+                            os.statvfs(path)
+                                获取指定路径的文件系统统计信息
+                            os.tempnam([dir[, prefix]])
+                                返回唯一的路径名用于创建临时文件。
+                            os.tmpfile()
+                                返回一个打开的模式为(w+b)的文件对象 .这文件对象没有文件夹入口，没有文件描述符，将会自动删除。
+                            os.tmpnam()
+                                为创建一个临时文件返回一个唯一的路径
+                            os.ttyname(fd)
+                                返回一个字符串，它表示与文件描述符fd 关联的终端设备。如果fd 没有与终端设备关联，则引发一个异常。
+                            os.utime(path, times)
+                                返回指定的path文件的访问和修改的时间。
+                    fileinput --- 迭代来自多个输入流的行
+                    stat --- 解析 stat() 结果
+                    filecmp --- 文件及目录的比较
+                    tempfile --- 生成临时文件和目录
+                    glob --- Unix 风格路径名模式扩展
+                    fnmatch --- Unix 文件名模式匹配
+                    linecache --- 随机读写文本行
+                    shutil --- 高阶文件操作
+                    文件的读写
+                        读写方式
+                            f=open()
+                            with open() as f:
+                        操作方式
+                            f.read
+                                读参数
+                            f.write
+                                写参数
+                            追加
+                                追加参数
+                        文件其它操作
+                            改写
+                            光标
+                            截取操作
+                            判断是否可读或可写
+                        文件读写流程
+                文件格式
+                    csv --- CSV 文件读写
+                    configparser --- 配置文件解析器
+                    netrc --- netrc 文件处理
+                    xdrlib --- 编码与解码 XDR 数据
+                    plistlib --- 生成与解析 Mac OS X .plist 文件
+                数据压缩和存档
+                    zlib --- 与 gzip 兼容的压缩
+                    gzip --- 对 gzip 格式的支持
+                    bz2 --- 对 bzip2 压缩算法的支持
+                    lzma --- 用 LZMA 算法压缩
+                    zipfile --- 使用ZIP存档
+                    tarfile --- 读写tar归档文件
+            网络
+                网络和进程间通信
+                    asyncio --- 异步 I/O
+                    socket --- 底层网络接口
+                    ssl --- 套接字对象的TLS/SSL封装
+                    select --- 等待 I/O 完成
+                    selectors --- 高级 I/O 复用库
+                    asyncore --- 异步socket处理器
+                    asynchat --- 异步 socket 指令/响应 处理器
+                    signal --- 设置异步事件处理程序
+                    mmap --- 内存映射文件支持
+            进程
+                并发执行
+                    threading --- 基于线程的并行
+                    multiprocessing --- 基于进程的并行
+                    multiprocessing.shared_memory --- 可从进程直接访问的共享内存
+                    concurrent 包
+                    concurrent.futures --- 启动并行任务
+                    subprocess --- 子进程管理
+                    sched --- 事件调度器
+                    queue --- 一个同步的队列类
+                    _thread --- 底层多线程 API
+                    _dummy_thread --- _thread 的替代模块
+                    dummy_threading --- 可直接替代 threading 模块。
+        环境配置
+            程序框架
+                turtle --- 海龟绘图
+                cmd --- 支持面向行的命令解释器
+                shlex --- Simple lexical analysis
+            调试和分析
+                审计事件表
+                bdb --- Debugger framework
+                faulthandler --- Dump the Python traceback
+                pdb --- Python的调试器
+                Python Profilers 分析器
+                timeit --- 测量小代码片段的执行时间
+                trace --- Trace or track Python statement execution
+                tracemalloc --- 跟踪内存分配
+            软件打包和分发
+                distutils --- 构建和安装 Python 模块
+                ensurepip --- Bootstrapping the pip installer
+                venv --- 创建虚拟环境
+                zipapp --- Manage executable Python zip archives
+            自定义 Python 解释器
+                code --- 解释器基类
+                codeop --- 编译Python代码
+            导入模块
+                zipimport --- 从 Zip 存档中导入模块
+                pkgutil --- 包扩展工具
+                modulefinder --- 查找脚本使用的模块
+                runpy --- Locating and executing Python modules
+                importlib --- import 的实现
+                Using importlib.metadata
+            Python 语言服务
+                parser --- Access Python parse trees
+                ast --- 抽象语法树
+                symtable --- Access to the compiler's symbol tables
+                symbol --- 与 Python 解析树一起使用的常量
+                token --- 与Python解析树一起使用的常量
+                keyword --- 检验Python关键字
+                tokenize --- 对 Python 代码使用的标记解析器
+                tabnanny --- 模糊缩进检测
+                pyclbr --- Python module browser support
+                py_compile --- Compile Python source files
+                compileall --- Byte-compile Python libraries
+                dis --- Python 字节码反汇编器
+                pickletools --- pickle 开发者工具集
+            杂项服务
+                formatter --- Generic output formatting
+            Python运行时服务
+                sys --- 系统相关的参数和函数
+                sysconfig --- Provide access to Python's configuration information
+                builtins --- 内建对象
+                __main__ --- 顶层脚本环境
+                warnings --- Warning control
+                dataclasses --- 数据类
+                contextlib --- Utilities for with-statement contexts
+                abc --- 抽象基类
+                atexit --- 退出处理器
+                traceback --- 打印或检索堆栈回溯
+                __future__ --- Future 语句定义
+                gc --- 垃圾回收器接口
+                inspect --- 检查对象
+                site —— 指定域的配置钩子
+        语言
+            数据结构
+                可用性注释
+                内置常量
+                    由 site 模块添加的常量
+                内置类型
+                    逻辑值检测
+                    布尔运算 --- and, or, not
+                    比较
+                    数字类型 --- int, float, complex
+                    迭代器类型
+                    序列类型 --- list, tuple, range
+                    文本序列类型 --- str
+                    二进制序列类型 --- bytes, bytearray, memoryview
+                    集合类型 --- set, frozenset
+                    映射类型 --- dict
+                    上下文管理器类型
+                    其他内置类型
+                    特殊属性
+                内置函数
+                数据类型
+                    datetime --- 基本的日期和时间类型
+                    calendar --- 日历相关函数
+                    collections --- 容器数据类型
+                    collections.abc --- 容器的抽象基类
+                    heapq --- 堆队列算法
+                    bisect --- 数组二分查找算法
+                    array --- 高效的数值数组
+                    weakref --- 弱引用
+                    types --- 动态类型创建和内置类型名称
+                    copy --- 浅层 (shallow) 和深层 (deep) 复制操作
+                    pprint --- 数据美化输出
+                    reprlib --- 另一种 repr() 实现
+                    enum --- 对枚举的支持
+            算法
+                二进制数据服务
+                    struct --- 将字节串解读为打包的二进制数据
+                    codecs --- 编解码器注册和相关基类
+                数字和数学模块
+                    numbers --- 数字的抽象基类
+                    math --- 数学函数
+                    cmath --- 关于复数的数学函数
+                    decimal --- 十进制定点和浮点运算
+                    fractions --- 分数
+                    random --- 生成伪随机数
+                    statistics --- 数学统计函数
+                文本处理服务
+                    string --- 常见的字符串操作
+                    正则表达式re模块
+                        正则表达式属性
+                        正则表达式的组成
+                            匹配字符
+                                字符/数字/空白
+                                转义/字符集/任意
+                                特殊字符
+                            匹配数量
+                                匹配多个字符
+                            匹配位置
+                                匹配开头
+                                匹配结尾
+                            或匹配
+                            分组匹配
+                        常用正则表达式方法
+                            匹配单个字符match
+                            多个字符串匹配match
+                            匹配到数据替换sub
+                            文章阅读次数search
+                            匹配进行切割字符串split
+                        javascript正则表达式方法
+                            匹配模式
+                            匹配+返回结果exec
+                            测试模式匹配结果text
+                            找一个和多个匹配match
+                            替换匹配的字符串replace
+                            检索匹配的值search
+                            字符串分割为数组split
+                    difflib --- 计算差异的辅助工具
+                    textwrap --- 文本自动换行与填充
+                    unicodedata --- Unicode 数据库
+                    stringprep --- 因特网字符串预备
+                    readline --- GNU readline 接口
+                    rlcompleter --- GNU readline 的补全函数
+            内置异常
+                基类
+                具体异常
+                警告
+                异常层次结构
+            函数式编程模块
+                itertools --- 为高效循环而创建迭代器的函数
+                functools --- 高阶函数和可调用对象上的操作
+                operator --- 标准运算符替代函数
+            互联网数据处理
+                email --- 电子邮件与 MIME 处理包
+                json --- JSON 编码和解码器
+                    JSON 函数
+                    json.dumps数组编码为 JSON 
+                        语法
+                        实例
+                    json.loads解码 JSON 数据。该函数返回 Python 字段的数据类型
+                        语法
+                        实例
+                    encode函数用于将 Python 对象编码成 JSON 字符串
+                        语法
+                        实例
+                    decode将已编码的 JSON 字符串解码为 Python 对象
+                        语法
+                        实例
+                    使用第三方库：Demjson
+                        环境配置
+                mailcap --- Mailcap 文件处理
+                mailbox --- Manipulate mailboxes in various formats
+                mimetypes --- Map filenames to MIME types
+                base64 --- Base16, Base32, Base64, Base85 数据编码
+                binhex --- 对binhex4文件进行编码和解码
+                binascii --- 二进制和 ASCII 码互转
+                quopri --- 编码与解码经过 MIME 转码的可打印数据
+                uu --- 对 uuencode 文件进行编码与解码
+        数据库
+            数据持久化
+                pickle --- Python 对象序列化
+                copyreg --- 注册配合 pickle 模块使用的函数
+                shelve --- Python 对象持久化
+                marshal --- 内部 Python 对象序列化
+                dbm --- Unix "数据库" 接口
+                sqlite3 --- SQLite 数据库 DB-API 2.0 接口模块
+        web
+            结构化标记处理工具
+                html --- 超文本标记语言支持
+                html.parser --- 简单的 HTML 和 XHTML 解析器
+                html.entities --- HTML 一般实体的定义
+                XML处理模块
+                    xml.etree.ElementTree --- ElementTree XML API
+                    xml.dom --- The Document Object Model API
+                    xml.dom.minidom --- Minimal DOM implementation
+                    xml.dom.pulldom --- Support for building partial DOM trees
+                    xml.sax --- Support for SAX2 parsers
+                    xml.sax.handler --- Base classes for SAX handlers
+                    xml.sax.saxutils --- SAX 工具集
+                    xml.sax.xmlreader --- Interface for XML parsers
+                    xml.parsers.expat --- Fast XML parsing using Expat
+            互联网协议和支持
+                webbrowser --- 方便的Web浏览器控制器
+                cgi --- Common Gateway Interface support
+                cgitb --- 用于 CGI 脚本的回溯管理器
+                wsgiref --- WSGI Utilities and Reference Implementation
+                urllib --- URL 处理模块
+                urllib.request --- 用于打开 URL 的可扩展库
+                urllib.response --- urllib 使用的 Response 类
+                urllib.parse --- Parse URLs into components
+                urllib.error --- urllib.request 引发的异常类
+                urllib.robotparser --- robots.txt 语法分析程序
+                http --- HTTP 模块
+                http.client --- HTTP 协议客户端
+                ftplib --- FTP 协议客户端
+                poplib --- POP3 protocol client
+                imaplib --- IMAP4 protocol client
+                nntplib --- NNTP protocol client
+                smtplib ---SMTP协议客户端
+                smtpd --- SMTP 服务器
+                telnetlib --- Telnet client
+                uuid --- UUID objects according to RFC 4122
+                socketserver --- A framework for network servers
+                http.server --- HTTP 服务器
+                http.cookies --- HTTP状态管理
+                http.cookiejar —— HTTP 客户端的 Cookie 处理
+                xmlrpc --- XMLRPC 服务端与客户端模块
+                xmlrpc.client --- XML-RPC client access
+                xmlrpc.server --- Basic XML-RPC servers
+                ipaddress --- IPv4/IPv6 manipulation library
+        被取代的模块
+            contextvars --- Context Variables
+                Context Variables
+                Manual Context Management
+                asyncio support
+            optparse --- 解析器的命令行选项
+            imp --- Access the import internals
+    python库
+        格式处理
+            读写JSON文件
+                序列化和
+            文件和异常
+                读写文本文件
+                读写二进制文件
+                读写JSON文件
+                    `dump` - 将Python对象按照JSON格式序列化到文件中
+                    `dumps` - 将Python对象处理成JSON格式的字符串
+                    `load` - 将文件中的JSON数据反序列化成对象
+                    `loads` - 将字符串的内容反序列化成Python对象
+    pip-python的第三方库管理工具
+        操作系统
+            pywin32提供和windows交互的方法和类的Python库。	 
+        语言
+            nltk自然语言工具包。	 
+            NumPy为Python提供了很多高级的数学方法。	 
+        爬虫方向的库
+            Scrapy爬虫工具常用的库。
+            Requestshttp库。	 
+            OpenCV图片识别常用的库，通常在练习人脸识别时会用到
+            pytesseract图片文字识别，即OCR识别
+            Twistet对于网络应用开发者最重要的工具。	 
+            Scapy数据包探测和分析库。	 
+            BeautifulSoup xml和html的解析库，对于新手非常有用。
+        游戏
+            Pyglet 3D动画和游戏开发引擎。	 
+            Pygame开发2D游戏的时候使用会有很好的效果。	 
+        数据库
+            SQLAlchemy	数据库的库。	 
+            SciPy  Python的算法和数学工具库。	 
+        测试
+            IPython  Python的提示信息。包括完成信息、历史信息、shell功能，以及其他很多很多方面。	 
+            nose  Python的测试框架。	 
+        绘制数据
+            matplotlib绘制数据图的库。对于数据科学家或分析师非常有用。	 
+            SymPy做代数评测、差异化、扩展、复数等等。	 
+        GUI
+            Pillow 是PIL（Python图形库）的一个分支。适用于在图形领域工作的人
+            pyQT	Python的GUI工具。给Python脚本开发用户界面时次于wxPython的选择。	 
+            wxPython	Python的一个GUI（图形用户界面）工具。	 
+            pyGtk也是Python GUI库。	 
+            基于tkinter模块的GUI
+                基本上使用tkinter来开发GUI应用需要以下5个步骤：
+                    1. 导入tkinter模块中我们需要的东西。
+                    2. 创建一个顶层窗口对象并用它来承载整个GUI应用。
+                    3. 在顶层窗口对象上添加GUI组件。
+                    4. 通过代码将这些GUI组件的功能组织起来。
+                    5. 进入主事件循环(main loop)。
+            使用Pygame进行游戏开发
+                制作游戏窗口
+                在窗口中绘图
+                加载图像
+                实现动画效果
+                碰撞检测
+                事件处理
+    教程
+        关于HTTP协议的相关知识，可以看看阮一峰老师的[《HTTP协议入门》](http://www.ruanyifeng.com/blog/2016/08/http.html)，
+        如果想了解国内的网络数据服务，可以看看[聚合数据](https://www.juhe.cn/)和[阿凡达数据](http://www.avatardata.cn/)等网站，国外的可以看看[{API}Search](http://apis.io/)网站。
+        segmentfault上面的文章[《总结：Python中的异常处理》]

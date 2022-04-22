@@ -1,0 +1,88 @@
+搜索 - 工具
+    资源检索手段：机器
+        联合检索
+            需求 - 实现
+                注解检索
+                    vscode
+                类名检索
+                
+                idea的资源文件检索
+                    字符查找
+                        只需要将焦点定位到idea中进行打字就好了
+                    细分查找
+                        Ctrl+N按名字搜索类
+                        Ctrl+Shift+N按文件名搜索文件
+                        Alt+F7查找类或方法在哪被使用
+                    查看
+                        右键可以展开项目
+                everthing和anytxt的联合使用
+                分工
+            使用脚本实现无缝连接
+        文件资源管理器
+            路由功能
+    文本
+        vscode
+            ctrl+p
+            ctrl+shift+find
+            ctrl+f
+        chrome
+            ctrl+find
+                搜索是搜索的疑问
+                搜索的谓语
+                搜索的宾语
+                搜索的是已知的点
+            chrome的正则表达式的检索
+        github /
+        all search
+        docfetcher
+        mindmaster
+        anytxt
+            打开文件夹之后进行检索
+            anytxt对浏览器和代码收藏的内容进行一站式管理
+                搜索关键字，得到名称和地址
+            搜索
+                anytxt的搜索不能搜索中文在java文件中
+        idea
+            点进去然后分屏，看源码·和参数
+        man 手册
+        正则表达式 文本过滤匹配
+        标亮工具的使用
+    文件名
+        octortree的检索
+            alt+s
+        everthing文件名查找
+                如果说everthing搜索的目的是为了整理
+                搜索引擎和everything的区别：
+                everthing可以自定义也更加高效
+        chrome的收藏夹进行搜索
+            那么google搜索的目的就是理解+整理
+        utoos备忘录的收集
+        Grepper用于收藏代码片段
+            但是是google的
+        linux
+            fzf  常用
+            locate
+            Catfish
+            Tracker
+            Beagle
+            Fasd
+            深度文件管理器（1.4版本+）
+            FSearch 图形界面
+            ANGRYsearch 图形界面
+            Albert
+    全文过滤
+        官方文档检索
+        在vscode的项目中进行检索
+            ctrl+shift+f
+        在idea的项目中进行检索
+            shift shift+tab
+                设置始终定位到打开
+            double shift
+        mindmanager
+        foxreader
+    搜索辅助工具
+        vimium辅助到达搜索入口
+        utools打开搜索窗口
+        autohotkey
+
+        

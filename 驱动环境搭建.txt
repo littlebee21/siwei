@@ -1,0 +1,24 @@
+驱动环境搭建
+
+环境搭建：参考：01_内核模块上——编译方法.md
+    静态加载（形成产品）
+        只能位于内核的目录下：
+    动态加载 （开发过程）
+        内核的目录下：Kconfig/makefile/makemenuconfig
+        位于独立目录：独立makefile/make（X86）/（arm）
+        步骤：
+            1，单独makefile联合内核makefile进行编译
+            2，sudo insmod ./***.ko
+            3, dmseg 
+            4，sudo rmmod
+        注意：
+            1，内核传参不能空格
+            2，内核模块的安装不能重名
+
+
+
+
+
+
+保留资源：
+2，现在看来ubuntu12的环境不要丢掉了，配合xshell的界面优化还能继续的使用

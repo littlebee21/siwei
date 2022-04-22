@@ -1,0 +1,99 @@
+主题
+    Java util软件包包含以下类和API：
+        Collections Framework
+            馆藏框架
+        Concurrent Classes
+            并发课程
+        Functional Interfaces
+            功能介面
+        Regex Classes
+            正则表达式类
+        Stream API
+            流API
+        ZIP API
+            ZIP API
+        Internationalization Support Classes
+            国际化支持课程
+        Service Loader
+            服务加载器
+        Properties API
+            属性API
+        Random Number Generation API
+            随机数生成API
+        String Parsing and Scanning
+            字符串解析和扫描
+        Base64 Encoding and Decoding Classes
+            Base64编码和解码类
+        Legacy Date and Time Classes
+            旧版日期和时间类别
+        Miscellaneous Exceptions and Utility Classes
+            杂项异常和实用程序类
+    重要接口
+        Collection: The root interface of the Collections API.
+            集合：Collections API的根接口。
+        Comparator: 
+            比较器 ：用于实现对象的排序逻辑。
+        Queue and Deque: Queue and Double ended Queue
+            队列和双端队列：队列和双端队列
+        Iterator: implemented by the Collections classes to provide iteration logic.
+            Iterator ：由Collections类实现以提供迭代逻辑。
+        List
+            清单
+        ListIterator
+            ListIterator
+        Map
+            地图
+        Set
+            组
+    重要类
+        ArrayList
+            数组列表
+        Base64
+            Base64
+        Calendar
+            日历
+        GregorianCalendar
+            阳历日历
+        Date
+            日期
+        EnumMap
+            枚举地图
+        EnumSet
+            枚举集
+        HashMap
+            哈希图
+        HashSet
+            哈希集
+        Hashtable
+            哈希表
+        LinkedList
+            链表
+        Optional
+            可选的
+        PriorityQueue
+            PriorityQueue
+        Properties
+            物产
+        ResourceBundle
+            资源束
+        TreeMap
+            树状图
+        TreeSet
+            树集
+    实用程序类 
+        Arrays
+            数组
+        Collections
+            馆藏
+        Formatter
+            格式化程序
+        Scanner
+            扫描器
+        Random
+            随机
+        Timer, TimerTask
+            计时器，TimerTask
+        UUID
+            UUID
+        StringJoiner
+        StringTokenizer

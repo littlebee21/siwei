@@ -1,0 +1,49 @@
+portainer
+    基本使用
+        安装方式
+            Linux使用Docker部署Portainer
+        # 登录 Portainer
+        portainer安装镜像
+        使用说明
+            添加Endpoint
+            管理Endpoint资源
+            添加Docker私服仓库
+            创建容器
+            应用模板快速部署
+            查看容器控制台日志
+    功能
+        界面
+            控制面板分类展示
+            技术栈分类展示：使用swarm或docker-compose等启动的服务/集群会在这里出现
+        部署
+            应用模板快速部署
+            使用多个Docker仓库私服pull/push镜像
+        运维
+            管理容器生命周期
+            管理Swarm集群或多服务器的镜像/容器/卷/网络
+            操作事件日志记录
+            容器控制台日志展示
+        用户权限管理功能（需付费$9.9）
+        # Portainer 运行容器内部命令
+        # Portainer 备份
+        # Portainer 升级
+        # Portaniner 绑定域名
+    实例
+        部署
+            # 部署MySQL容器
+            # 部署WordPress容器
+            zookeeper
+                1.创建docker集群。
+                2.安装portainer
+                    1）创建目录/home/portainer
+                    2.） 安装命令如下：
+                    3）验证安装是否成功。
+                    3.2）web访问http://10.0.0.211:9000
+                4.安装zookeeper
+                5. 安装kafka
+                6.验证kafka收发消息
+        # 进阶实战：Nginx 容器实现端口转发
+            # 部署Nginx容器
+            # 部署 FileBrowser 容器
+            # 设置 Nginx 配置文件实现端口转发
+        # 进阶实战：Portainer 设置 HTTPS

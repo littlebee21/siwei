@@ -1,0 +1,4 @@
+系统管理
+    startx命令 – 初始化X-windows
+    uname命令 – 显示系统信息
+    vmstat命令 – 显示虚拟内存状态

@@ -1,0 +1,58 @@
+关键字：初始化和赋值
+初始化不及时造成的bug
+    对于代码块的要求：
+        在循环当中可能会应为条件循环，
+            不能在条件语句中执行，每次循环都需要的变量值；
+
+    eg：
+            int main(int argc, const char *argv[])
+            {
+                struct student student[5] = {
+                    {10101,"Sun",96},
+                    {10103,"Wang",98.5},
+                    {10110,"Li",100},
+                    {10108,"Ling",83.5},
+                    {10106,"Zhang",88}
+                };
+                //by number xuanze
+                int i;
+                int j;
+                struct student min;
+                int minpostion = 0; ///在循环开始前进行了一次初始化
+                struct student tmp;
+                int k;
+                for(i = 0; i<4; i++){
+                    min.number = student[i].number;
+                    min.postion = i     //应该在这里再次初始化一次
+                    printf("min.number is %d\n",min.number);
+                    printf("\n");
+
+                    for(j = i+1; j<= 4;j++){
+                        if(student[j].number < min.number){
+                            min.number = student[j].number;
+                            minpostion = j;
+                        }
+                    }
+                    
+                    printf("min.number is %d\n",min.number);
+                    printf("now i is %d\n",i);
+                    printf("now min postion is %d\n",minpostion);
+                    printf("\n");
+                    
+                    //if(student[i].number != min.number){
+                    tmp = student[i];     //否则在这里使用的时候可能使用的就是上个循环遗留下来的变量；
+                    student[i] = student[minpostion];
+                    student[minpostion] = tmp;
+                    //}
+
+                    //print
+                    for(k = 0; k<5 ; k++){
+                        printf("%d %s %f\n",student[k].number,  \
+                                student[k].name, \
+                                student[k].score);
+                    }
+                    printf("\n");
+                }
+
+                return 0;
+            }

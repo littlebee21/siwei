@@ -1,0 +1,93 @@
+java规范 - JDK 
+    IO
+        5. 使用完IO资源流，需要关闭
+         FileReader默认编码导致乱码问题
+         直接大文件或者一次性从数据库读取太多数据到内存，可能导致OOM问题
+         大文件处理
+         使用完IO资源流，需要关闭
+        序列化
+            JSON序列化,Long类型被转成Integer类型！
+    (五) 集合处理	12
+        初始
+            hashcode和equals的重写
+            集合初始化要指定集合初始值大小
+        转换
+            ArrayList的sublist方法不能转换成ArrayList
+                在 subList 场景中，高度注意对原集合元素个数的修改
+            集合转数组
+                使用集合转数组的方法，必须使用集合的 toArray(T[] array)
+            数组转集合
+                使用工具类 Arrays.asList()把数组转换成集合时，不能使用其修改集合相关的方 法
+            这个没看懂：泛型通配符接收数据？
+        循环
+            foreach循环不要remove/add 要用Iterator
+            hashmap
+                高度注意 Map 类集合 K/V 能不能存储 null 值的情况
+                使用 entrySet 遍历 Map 类集合 KV，而不是 keySet 方式进行遍历。
+                如果是 JDK8，使用 Map.foreach 方法。
+            set
+                合理利用好集合的有序性(sort)和稳定性(order)
+                利用 Set 元素唯一的特性，可以快速对一个集合进行去重操作
+            六、大数据复制使用System.arraycopy();
+        在Comparator的条件要全
+            1） x，y 的比较结果和 y，x 的比较结果相反
+            2） x>y，y>z，则 x>z。
+             3） x=y，则 x，z 比较结果和 y，z 比较结果相同
+    (六) 并发处理	15
+        多线程
+            14. 多线程情况下，考虑线性安全问题
+            8.写完代码，脑洞一下多线程执行会怎样，注意并发一致性问题
+            10.多线程异步优先考虑恰当的线程池，而不是new thread,同时考虑线程池是否隔离
+        安全容器
+            单例对象保证线程安全
+            使用DateUtils
+                SimpleDateFormat 是线程不安全的类
+            JDK8  Instant 代替 Date
+            避免 Random 实例被多线程使用
+            hashmap会在容量不够进行resize造成死链
+        线程池
+            创建线程池指定有意义名字
+            线程资源必须线程池提供
+            必须使用threadPoolExecutor
+                FixedThreadPool 和 SingleThreadPool:
+                CachedThreadPool 和 ScheduledThreadPool:
+        锁
+            加锁的精确型
+                使用同步代码块替代同步方法
+            并发修改同一记录时，避免更新丢失，需要加锁
+            防止死锁
+                多个资源加锁要保持一致性的加锁顺序
+            性能
+                同步调用应该去考量锁的性能损耗
+                将目标属性声明为 volatile 型实现延时初始化？
+                    通过双重检查锁（double-checked locking）实现延迟初始化的优化问题隐患
+        volatile
+            解决多写问题
+                使用AtomicInteger
+                使用LongAdder
+        定时任务
+            9，使用 ScheduledExecutorService 则没有这个问题
+        使用static ThreadLocal 解决：无法解决共享对象的更新
+    并发
+         线程池使用注意点
+             使用Executors声明线程池，newFixedThreadPool的OOM问题
+         先查询，再更新/删除的并发一致性
+        使用 CountDownLatch 进行异步转同步操作
+    反射
+         当反射遇到方法重载的坑
+     编码细节
+        关键字
+             static静态变量依赖spring实例化变量，可能导致初始化出错
+        数据类型
+            金额数值计算精度的坑
+             Integer缓存的坑
+        容器
+            threadlocal
+                 使用ThreadLocal，线程重用导致信息错乱的坑
+             ArraysasList的几个坑
+                 基本类型不能作为 ArraysasList方法的参数，否则会被当做一个参数。
+                 ArraysasList 返回的 List 不支持增删操作。
+                 ArrayListtoArray() 强转的坑
+                 使用ArraysasLis的时候，对原始数组的修改会影响到我们获得的那个List
+        日期
+             日期YYYY格式设置的坑

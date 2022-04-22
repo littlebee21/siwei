@@ -1,0 +1,64 @@
+Junit
+    属性
+        JUnit4.4的assertThat 的优点
+            就一句话
+            主谓宾
+            Matcher联合使用
+    原理
+    组成
+        常用注解：时间定位
+            @Test
+            @Ignore
+            @Before
+            @After
+            @BeforeClass
+            @AfterClass
+        4.4以前版本常用断言api
+            @Test(timeout = 5000 )
+            @Test(expected = XXXXException. class)
+            Assert.assertEquals("提示语", 5, result);
+            assertTrue(String message, boolean condition) 
+            assertFalse(String message, boolean condition)
+            assertEquals(String message, XXX expected,XXX actual) 
+            assertArrayEquals(String message, XXX[] expecteds,XXX [] actuals)
+            assertNotNull(String message, Object object)
+            assertNull(String message, Object object)
+            assertSame(String message, Object expected, Object actual)
+            assertNotSame(String message, Object unexpected,Object actual)
+            assertThat(String reason, T actual, Matcher matcher)
+        4.4以后assertthat
+            字符相关匹配符
+                assertThat(testedValue, equalTo(expectedValue));
+                assertThat(testedString, equalToIgnoringCase(expectedString));
+                assertThat(testedString, equalToIgnoringWhiteSpace(expectedString);
+                assertThat(testedString, endsWith(suffix));
+                assertThat(testedString, startsWith(prefix));
+            一般匹配符
+                assertThat(object,nullValue());
+                assertThat(object,notNullValue());
+                assertThat(testedString, is(equalTo(expectedValue)));
+                assertThat(testedValue, is(expectedValue));
+                assertThat(testedObject, is(Cheddar.class));
+                assertThat(testedString, not(expectedString));
+                assertThat(testedNumber, allOf( greaterThan(8), lessThan(16) ) );
+            数值相关匹配符
+                assertThat(testedDouble, closeTo( 20.0, 0.5 ));
+                assertThat(testedNumber, greaterThan(16.0));
+                assertThat(testedNumber, lessThan (16.0));
+                assertThat(testedNumber, greaterThanOrEqualTo (16.0));
+                assertThat(testedNumber, lessThanOrEqualTo (16.0));
+            集合相关匹配符
+                assertThat(mapObject, hasEntry("key", "value" ) );
+                assertThat(iterableObject, hasItem (element));
+                assertThat(mapObject, hasKey ("key"));
+                assertThat(mapObject, hasValue(value));1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859
+    SSM框架上使用
+        创建一个测试基类
+            @RunWith(SpringRunner.class)/@RunWith(SpringJUnit4ClassRunner.class) 
+                让测试在Spring容器环境下执行
+            ContextConfiguration 加载所需的配置文件（可以以字符数组的形式加载）
+            @Transactional 开启事务：已经配置了注解式事务
+            @Rollback 设置测试后回滚，默认属性为true，即回滚
+        创建DaoTest测试类继承测试基类
+        创建ServiceTest测试类继承测试基类
+        创建ControllerTest测试类继承测试基类

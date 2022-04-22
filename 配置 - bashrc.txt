@@ -1,0 +1,74 @@
+配置 - bashrc
+        source ~/.bashrc1设值别名
+        alias cp='cp -i'
+        alias egrep='egrep --color=auto'
+        alias fgrep='fgrep --color=auto'
+        alias grep='grep --color=auto'
+        alias l.='ls -d .* --color=auto'
+        alias ll='ls -l --color=auto'
+        alias ls='ls --color=auto'
+        alias mv='mv -i'
+        alias rm='rm -i'
+    自定义特定：
+    废弃：
+        alias cf='cd $(find * -type d | fzf)'   或者弄成locate
+        alias vimf='vim $(fzf)'
+    暂时无法使用：
+        alias cmdf='cmd.exe /c start "" $(locate /mnt/f | fzf)'
+    使用：
+    常量：
+        alias cdn='cd /mnt/f/all/note'
+    查找：
+        alias cdf='cd $(locate /mnt/f | fzf)' 
+        alias vimf='vim $(locate /mnt/f | fzf -e)'
+        alias hisf='$(fc -l -n|fzf)'
+
+        alias cmd='cmd.exe /c start ""'
+    文本查找：
+
+    
+    ssh
+        alias webserver='ssh sk@server.example.com'
+        alias dns='ssh sk@server.example.com'
+        alias dhcp='ssh sk@server.example.com -p 2233'
+        alias ubuntu='ssh sk@server.example.com -i ~/.ssh/id_rsa_remotesystem'
+    根据文件名字切换到对应目录
+
+
+
+自定义脚本;
+function cdf(){
+        cd $(locate -i -e $1 |grep -v AppData| fzf)
+}
+
+function vimff(){
+        vim "$(locate -i -e $1 |fzf)"
+}
+
+function vimf(){
+        vim "$(fzf)"
+}
+
+cd $(locate -i -e siwei | fzf)
+
+出现问题：
+关闭终端重启即可
+
+
+alias cdn='cd /mnt/f/all/note/siwei'
+alias cdg='cd /mnt/c/Users/gao'
+alias cdp='cd /mnt/f/codehub/tempcode'
+alias hisf='$(fc -l -n|fzf)'
+function cf(){
+    code "$(locate -i -e $1 |fzf)"
+}
+function vf(){
+    vim "$(locate -i -e $1 |fzf)"
+}
+function cdf () {
+        cd $(locate -i -e  $1|grep -v AppData | fzf)
+}
+function f(){
+        vim "$(fzf)"
+}
+     

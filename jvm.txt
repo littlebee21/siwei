@@ -1,0 +1,382 @@
+jvm
+    jvm 通用common
+        jvm常用的性能平价参数
+            运行数据区的jvm的常用参数
+    jvm内存结构
+        class文件的结构
+        对象的内存布局
+            对象头（Header）
+                包含两部分
+                    运行时元数据（Mark Word）
+                        hashCode
+                        GC分代年龄
+                        锁状态标志
+                        线程持有的锁
+                        偏向线程ID
+                        偏向时间戳
+                    类型指针
+                        指向类元数据InstanceKlass，确定该对象所属的类型
+                说明：如果是数据，还需记录数组的长度
+            实例数据（Instance Data）
+                说明
+                    它是对象真正存储的有效信息，包括程序代码定义的各种类型的字段（包括从父类继承下来的和本身拥有的字段）
+                规则
+                    相同宽度的字段总是被分配在一起
+                    父类中定义的变量会出现在子类之前
+                    如果CompactFields参数为true（默认为true）：子类的窄变量可能插入父类变量的空隙
+            对齐填充（Padding）
+                不是必须的，也没特别含义，仅仅起到占位符的作用
+        jvm指令集
+        类加载器classloader
+            (1) Bootstrap ClassLoader
+            (2) Extension ClassLoader
+            (3) System ClassLoader
+            (4) User-Defined ClassLoader
+        执行引擎execution engin
+            字节码执行机制
+            执行本地方法
+        运行时数据区
+            vm stack栈
+                虚拟机栈的生命周期
+                局部变量的复用
+                JAVA虚拟机栈
+                    Java虚拟机栈中是一个个栈帧，每个栈帧对应一个被调用的方法
+                    栈遵循的是后进先出的原则，所以线程当前执行的方法对应的栈帧必定在Java虚拟机栈的顶部
+                    栈帧
+                        局部变量表&lt;br&gt;
+                            方法中定义的局部变量是否线程安全？
+                                内部产生内部消亡，则线程安全
+                        操作数栈
+                        动态连接&lt;br&gt;
+                        方法返回地址
+                        一些附加信息
+                    内存溢出问题&lt;br&gt;
+                        -xss
+                            调整栈大小
+                        线程请求分配的栈容量超过栈允许的最大容量，抛出StackOverFlowError异常&lt;br&gt;
+                        如果可以动态扩展，尝试扩展的时候没有申请到足够的内存或者在创建新的线程时没有足够的内存去创建对应的栈，那么会抛出OOM&lt;br&gt;
+                程序计数器
+                    可以看作是当前线程所执行的字节码指令的行号指示器&lt;br&gt;
+                    线程私有
+                    如果线程执行的是非本地（native）方法，则程序计数器中保存的是当前需要执行的指令地址；&lt;br&gt;如果线程执行的是本地方法，则程序计数器中的值是undefined&lt;br&gt;
+                        为什么本地方法在程序计数器中的值是undefined的？&lt;br&gt;因为本地方法大多是通过C/C++实现的，并未编译成需要执行的字节码指令
+                    由于程序计数器中存储的数据所占的空间不会随程序的执行而发生大小上的改变，因此，程序计数器是不会发生内存溢出现象
+            本地方法栈
+                java虚拟机栈管理java方法的调用，本地方法栈管理本地方法的调用&lt;br&gt;
+                    本地方法？
+                        一个Native Method就是一个java调用非java代码的接口&lt;br&gt;
+                        有时候java应用需要与java外面的环境交互，这是本地方法存在的主要原因&lt;br&gt;
+                    本地方法是由C语言实现的&lt;br&gt;
+                    本地方法栈--&gt;本地方法接口&lt;--本地方法库&lt;br&gt;
+                Hotspot JVM 将本地方法栈和JAVA虚拟机栈合二为一&lt;br&gt;
+            java heap堆
+                年轻代（YoungGen）&lt;br&gt;
+                    Eden&lt;br&gt;
+                        几乎所有的对象都是在Eden区new出来的（一些特别大的对象，直接进人老年代）&lt;br&gt;
+                    Survivor0(From)&lt;br&gt;
+                    Survivor1(To)
+                老年代（OldGen）
+                占比
+                    默认：-XX:NewRatio=2，表示年轻代占1，老年代占2，年轻代占1/3&lt;br&gt;
+                    默认：Eden:S0:S1=8:1:1
+                        实际可能不是这个比例，因为自适应内存分配策略&lt;br&gt;
+                        调整比例:-XX:SurvivorRatio=8&lt;br&gt;
+                    -XX:xmn设置新生代的空间的大小，一般默认&lt;br&gt;
+                晋升机制
+                    -XX:MaxTenuringThreshold&lt;br&gt;
+                        默认15，大于则进入老年区&lt;br&gt;
+                        对象在survivor区，每经历一次minorGC，年龄+1
+                    new对象先放到Eden区&lt;br&gt;
+                    当Eden区满的时候，再创建对象，则会触发垃圾回收（MinorGC），销毁不再被引用的对象，将新对象放进来&lt;br&gt;
+                    然后将Eden区存活对象放到S0区&lt;br&gt;
+                    如果再次触发垃圾回收，之前没被回收的S0区对象会放到S1区&lt;br&gt;
+                    再次经过垃圾回收，会存放到S0区域&lt;br&gt;
+                    当触发阈值，则进人老年区
+                    养老区内存不足时，触发GC（MajorGC）；GC后还不能保存对象，则OOM&lt;br&gt;
+                备注
+                    关于S0/S1：复制之后有交换，谁空谁是to&lt;br&gt;
+                    关于GC：频繁在新生区收集，很少在养老区收集，几乎不在永久区/元空间收集&lt;br&gt;
+                元空间（永久代）&lt;br&gt;
+                    jdk1.8之前是永久代
+            方法区&lt;br&gt;
+                Non-heap(非堆)
+                    存储被虚拟机加载的类型信息、常量、静态变量、即时编译器编译后的代码缓存等&lt;br&gt;
+                        随着jdk版本的更新会有变化；
+                    类型信息
+                        类class、接口interface、枚举enum、注解annotation&lt;br&gt;
+                            包路径、父类、修饰符等&lt;br&gt;
+                        域信息&lt;br&gt;
+                        方法信息
+                    常量
+                        常量池
+                            字节码文件（.class）中的常量池
+                            为什么需要常量池？&lt;br&gt;
+                                一个java源文件中的类、接口编译后产生一个字节码文件。而java中的字节码需要数据支持，&lt;br&gt;通常这种数据会很大以至于不能直接存到字节码里，换另一种方式，可以存到常量池，这个&lt;br&gt;字节码包含了指向常量池的引用（符号引用）。在动态链接的时候会用到运行时常量池&lt;br&gt;
+                            常量池可以看做是一张表，虚拟机指令根据这张常量表找到要执行的类名、方法名、参数类型、字面量类型等&lt;br&gt;
+                        运行时常量池&lt;br&gt;
+                            常量池表是class文件的一部分，用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后存放到方法区中的运行常量池中&lt;br&gt;
+                            运行时常量池包含所中不同的常量，包括编译期就已经明确的数值字面量，也包括运行期解析后&lt;br&gt;才获得的方法或者字段引用。此时不再是常量池中的符号地址，这里转换为真实地址&lt;br&gt;
+                                相较于常量池有动态性
+                            创建类或接口的运行常量池，如果需要创建的内存空间超过了所能提供的最大值，则会OOM&lt;br&gt;
+                    静态变量
+                        静态变量和类关联在一起，随着类的加载而加载&lt;br&gt;
+                        类变量被类的所有实例共享，即使没有类的实例也能访问&lt;br&gt;
+                变化
+                    1.6
+                        有永久代，静态变量存放在永久代
+                    1.7
+                        有永久代，但已经逐步“去永久代”,&lt;font color=&quot;#ff0000&quot;&gt;&lt;u&gt;字符串常量池、静态变量移除，保存在堆中&lt;/u&gt;&lt;/font&gt;&lt;br&gt;
+                            StringTable&lt;br&gt;
+                                永久代回收效率低只有当FGC才会触发，导致了StringTable回收效率不高；&lt;br&gt;但是我们开发中会有大量的字符串被创建，会导致永久代内存不足，放到堆&lt;br&gt;里能及时回收
+                            静态变量
+                                jdk7往后HotSpot虚拟机选择把静态变量与类型在java语言一端的映射class对象放到一起，存储于java堆中&lt;br&gt;
+                    1.8
+                        无永久代，类型信息、字段、方法、常量保存在本地内存的元空间，但字符串常量池、静态变量仍在堆
+                    永久代为什么被替换为元空间？&lt;br&gt;
+                        为永久代设置空间大小很难确定&lt;br&gt;
+                            在某些场景下，如果动态加载类过多，容易产生Perm区OOM&lt;br&gt;
+                            元空间和永久代的最大区别&lt;br&gt;
+                                元空间不在虚拟机中，而是使用的本地内存&lt;br&gt;
+                        对永久代调优很困难
+                方法区垃圾回收
+                    一般来说&lt;font color=&quot;#ff0000&quot;&gt;这个区域的回收效果比较难令人满意，尤其是类型的卸载&lt;/font&gt;，条件比较苛刻，但是这个部门区域的回收&lt;font color=&quot;#ff0000&quot;&gt;有时又确实有必要的&lt;/font&gt;&lt;br&gt;
+                    垃圾回收
+                        常量池中废弃的常量
+                            字面量
+                                字面量比较接近Java语言层次的常量概念，如文本字符串、final常量等
+                            符号引用
+                                符号引用属于编译原理方面的概念，包括下面三类
+                                1、类和接口的全限定名
+                                2、字段的名称和描述符
+                                3、方法的名称和描述符
+                            HotSpot虚拟机对常量池的回收策略是很明确的
+                                只要常量池中的常量没有被任何地方引用，就可以被回收
+                        不再使用的类型
+                            回收条件
+                                该类的所有实例都已被回收&lt;br&gt;
+                                加载该类的类加载器已被回收&lt;br&gt;
+                                该类对应的java.lang.class对象没有被任何地方引用，无法通过反射访问该类的方法&lt;br&gt;
+            运行时常量池
+                字面量
+                符号引用
+        方法区的扩展
+            元空间方法区使用接口
+                即时编译的内容
+                native的内容
+                已经被虚拟机加载的类常量静态变量
+        直接内存
+        执行引擎
+            解释器
+            即时编译
+                JIT编译器&lt;br&gt;
+            HotSpot VM采用解释性和JIT编译器并存&lt;br&gt;
+                为什么不抛弃解释器？
+    jvm包含的算法与原理
+        类
+            类加载机制
+                双亲委派机制
+                Bootstrap类加载器
+                Extension类加载器
+                System类加载器
+                自定义类加载器
+            类加载机制
+                加载过程
+                    加载&lt;br&gt;
+                        Loading&lt;br&gt;
+                            类的二进制字节流&lt;br&gt;
+                            将字节流代表的静态存储结构转换为方法区的运行时数据结构&lt;br&gt;
+                            生成java.lang.class
+                    验证&lt;br&gt;
+                        Verification&lt;br&gt;
+                            确保class文件字节流包含信息符号虚拟机要求&lt;br&gt;
+                    准备
+                        Preparation&lt;br&gt;
+                            为类变量分配内存，并设置该变量的初始值，即零值&lt;br&gt;
+                    解析&lt;br&gt;
+                        Resolution&lt;br&gt;
+                            将常量池内的符号引用转换为直接引用的过程&lt;br&gt;
+                    初始化&lt;br&gt;
+                        initialization&lt;br&gt;
+                            执行类构造器方法&lt;clinit&gt;()&lt;br&gt;
+                双亲委派
+                    工作原理
+                        自定义加载器&lt;br&gt;
+                            Custom ClassLoader&lt;br&gt;
+                        系统类加载器
+                            Application ClassLoader&lt;br&gt;
+                        拓展类加载器&lt;br&gt;
+                            Extension ClassLoader&lt;br&gt;
+                        引导类加载器&lt;br&gt;
+                            Bootstrap ClassLoader&lt;br&gt;
+                                出于安全考虑，仅包含java、javax、sun等开头的类&lt;br&gt;
+                        JAVA的核心库都是使用引导类加载器进行加载
+                    优点
+                        避免类的重复加载
+                            java类对应加载器有层次关系，避免重复
+                        保护程序安全，防止核心API被随意篡改&lt;br&gt;
+                            举例：java.lang
+                            自定义java.lang.String，写个静态代码块，调用String控制台没有打印静态代码块内容，&lt;br&gt;就是因为还是用的核心库的String，默认使用的父类4&lt;br&gt;
+                    loadClass()
+                    破坏双亲委派机制
+                        重写findClass()&lt;br&gt;
+                        热替换
+                沙箱安全机制
+        GC垃圾回收
+            jvm虚拟对象刨析
+                String的intern()
+                对象的实例化&lt;br&gt;
+                    创建对象的方式&lt;br&gt;
+                        new
+                            最常见的对象
+                            变形1：Xxx的静态方法&lt;br&gt;
+                            变形2：XxxBuilder、XxxFactory的静态方法&lt;br&gt;
+                        Class的newInstance()：反射的方式，只能调用空参的构造器，权限必须是public&lt;br&gt;
+                        Constructor的newInstance(Xxx)：反射的方式，可以调用空参、带参的构造器，权限没有要求
+                        使用clone()
+                            不调用任何构造器，当前类需要实现Cloneable接口，实现clone()
+                        使用反序列化
+                            从文件中、从网络中获取一个对象的二进制流
+                        第三方库Objenesis
+                    创建对象的步骤&lt;br&gt;
+                        1.判断对象对应的类是否加载、链接、初始化
+                        2.为对象分配内存
+                            如果内存规整
+                                指针碰撞
+                            如果内存不规整
+                                虚拟机要维护一个列表
+                                空闲列表分配
+                            说明
+                        3.处理并发安全问题
+                            采用CAS配上失败重试保证更新的原子性
+                            每个线程预先分配一块TLAB
+                        4.初始化分配到的空间
+                            所有属性设置默认值，保证对象实例字段在不赋值时可以直接使用
+                        5.设置对象的头信息
+                        6.执行init方法进行初始化&lt;br&gt;
+                对象分配的基本策略
+                    对象优先在eden区分配
+                    大对象直接进入老年代
+                    长期存货的对象将进入老年代
+                    对象空间分配算法
+                        指针碰撞
+                        空闲列表
+                对象的加载过程
+                    类加载检查
+                    分配内存
+                        内存分配的并发问题
+                    初始化零值
+                    设置对象头
+                    执行init方法
+                判断对象已经死亡算法
+                    2.1 引用计数法
+                        1）强引用（Strong Reference）
+                            无论任何情况下，只要强引用关系还存在，垃圾回收器永远不会回收掉被引用的对象&lt;br&gt;
+                        2）软引用（Soft Reference）
+                            内存不足即回收
+                        3）弱引用（Weak Reference）
+                            发现即回收
+                        4）虚引用（Phantom Referenece）
+                            对象回收跟踪&lt;br&gt;
+                    2.2 可达性分析算法
+                    2.5 对象是否死亡
+                    2.6 回收方法区
+            七种垃圾回收器及其分类
+                串行回收器：Serial、Serial Old
+                并行回收器：ParNew、Parallel Scavenge、Parallel Old
+                并发回收器：CMS、G1
+                其他的垃圾回收器
+                发展阶段
+                    Serial（串行）--&gt;Parallel（并行）--&gt;CMS（并发）--&gt;G1--&gt;ZGC
+            GC&lt;br&gt;
+                部分收集（Partial GC）&lt;br&gt;
+                    新生代收集
+                        Minor GC/YGC
+                            Eden\S0\S1&lt;br&gt;
+                            触发机制
+                                当Eden空间不足，触发YGC；每次YGC会清理整个年轻代&lt;br&gt;
+                                因为java对象有朝生夕死的特性，所以YGC很频繁，回收速度也快&lt;br&gt;
+                                YGC会引发STW，暂停其他用户线程，等垃圾回收结束，用户线程回复运行&lt;br&gt;
+                    老年代收集
+                        Major GC/OGC
+                            代表：CMS GC
+                            触发机制
+                                出现Major GC，一般会伴随至少一次Minor GC&lt;br&gt;
+                                    即老年代空间不足会先去MinorGC，空间还不足才会MajorGC&lt;br&gt;
+                                MajorGC一般速度比MinorGC慢10倍以上，STW时间更长&lt;br&gt;
+                                如果MajorGC后空间不足，会报OOM
+                    混合收集
+                        Mixed GC&lt;br&gt;
+                            代表：G1 GC
+                        收集整个新生代和部分老年代
+                整堆收集（Full GC）&lt;br&gt;
+                    整个java堆和方法区的垃圾回收&lt;br&gt;
+                    触发机制&lt;br&gt;
+                        调用System.gc()，系统建议执行，但不一定执行&lt;br&gt;
+                        老年代空间不足
+                        方法区空间不足
+                        MinorGC后进入老年代的平均大小大于老年代的可用内存&lt;br&gt;
+                        Eden区、S0区向S1区复制时，S1空间不足，则把对象放到老年区，切老年区的可用内存大小不足&lt;br&gt;
+            垃圾回收算法
+                标记阶段&lt;br&gt;
+                    对象存活判断&lt;br&gt;
+                        引用计数算法
+                            对每个对象保存一个整型的引用计数器属性，用于记录对象被引用的情况（引用+1、引用失效-1，为0则可回收）&lt;br&gt;
+                            优点
+                                实现简单、垃圾对象便于辨识；判定效率高，回收没有延时
+                            缺点
+                                存储空间开销大
+                                    单独存储计数器
+                                时间开销
+                                    每次赋值更新计数器，伴随加减法&lt;br&gt;
+                                无法处理循环引用
+                        可达性分析算法&lt;br&gt;
+                            又叫根搜索算法/追踪性垃圾收集&lt;br&gt;
+                                有效解决在引用计数算法中循环引用的问题，防止内存泄漏
+                            基本思路
+                                以根对象集合（GC Roots）为起始点，按照从上至下的方式&lt;font color=&quot;#ff0000&quot;&gt;搜索被根对象集合所连接的目标对象是否可达&lt;/font&gt;&lt;br&gt;
+                                使用可达性分析算法后，内存中的存活对象都会被根对象集合直接或间接连接着，搜索所走过的路径成为&lt;font color=&quot;#ff0000&quot;&gt;引用链&lt;/font&gt;
+                                如果目标对象没有任何引用链相连，则是不可达的，意味着该对象已经死亡，可以标记为垃圾对象
+                                在可达性分析算法中，只有能够被根对象集合直接或间接连接的对象才是存活对象
+                            GC Roots&lt;br&gt;
+                                虚拟机栈（栈帧中的本地变量表）中引用的对象&lt;br&gt;
+                                本地方法栈内JNI（通常说的本地方法）引用的对象&lt;br&gt;
+                                方法区中类静态属性引用的对象
+                                方法区中常量引用的对象
+                                所有被同步锁synchronized持有的对象
+                                java虚拟机内部的引用
+                                除了以上固定集合，还可以有其他对象“临时性”加入&lt;br&gt;
+                                    如分代收集和局部回收
+                                小技巧：
+                                    由于Root采用栈方式存放变量和指针，所以如果一个指针，它保存了堆内存里面的对象，但是自己又不存放在堆内存里面，那它就是一个Root
+                            注意
+                                保障一致性，需要STW&lt;br&gt;
+                标记-清除
+                    Mark-Sweep&lt;br&gt;
+                        适用场景
+                            对象存活比较多的时候
+                            老年代
+                        缺点
+                            提前GC
+                            碎片空间
+                            扫描两次
+                                标记存活对象
+                                清除没有标记的对象
+                                    这里的清除，并不是真的清空，而是把需要清除的对象地址保存在空闲的地址列表里；下次有新对象需要加载时，判断垃圾的位置空间是否够，如果够就存放
+                标记-复制
+                    Copying&lt;br&gt;
+                        适合场景
+                            存活对象少，比较高效
+                            扫描整个空间（标记存活对象并复制移动）
+                            适合年轻代&lt;br&gt;
+                        缺点
+                            需要空闲空间
+                            需要复制移动对象
+                标记-整理
+                    Mark-Compact
+                        等同于标记-清除后再进行一次碎片整理
+                        标记-清除是非移动式的回收算法；标记-整理是移动式的
+        程序执行区算法
+            执行模式
+                解释模式
+                编译模式
+                混合模式

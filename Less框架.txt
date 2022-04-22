@@ -1,0 +1,106 @@
+Less框架
+    less的组成
+        导入（Importing）
+            reference 它使用一个LESS文件作为参考，不会输出它。
+            inline  它使您能够将CSS复制到输出而不进行处理。
+            less          它会将导入的文件视为常规LESS文件，尽管可能是文件扩展名。
+            css        它会将导入的文件视为常规CSS文件，尽管可能是文件扩展名。
+            once      它将只导入一次文件。
+            multiple   它会多次导入文件。
+            optional       即使找不到要导入的文件，它仍会继续编译
+        注释（Comments）
+        规则集detached-ruleset
+        混合（mixin）
+            变量和混合在调用者作用域可见
+            对混合（mixins）进行分组
+            对混合 (minins) 进行嵌套
+            Mixin Guards
+                逻辑运算符
+                类型检查函数
+                默认函数将mixin与其他混合匹配
+            CSS Guards
+            Less 混合参数
+            less混合返回值
+        变量
+            作用域（Scope）
+            转义（Escaping）
+            &父选择器
+                父选择器的运算
+                选择器预留到继承（父）选择器
+            命名空间和访问器--访问属性
+            映射（Maps）--访问属性
+            运算（Operations）
+        执行
+            条件逻辑赋值
+                嵌套（Nesting）
+                @规则嵌套和冒泡
+            循环
+            合并merge
+                Comma它增加了属性值到最后
+                Space它添加属性值与空格
+            Less 选择器在一个选择器中扩展其他选择器样式
+        函数
+            calc() 特例
+            其它函数
+                1 color 它是一个代表颜色的字符串。
+                2 image - size 它用于从文件检查图像的维度。
+                3 image - width 它检查文件中图像的宽度。
+                4 image-height 它检查图像从文件的高度。
+                5 convert   数字从一个单位转换为另一个单位。
+                6 data - uri   数据uri是统一资源标识符(URI)模式，其在网页中嵌入资源。
+                7 default   默认函数仅在保护条件内可用且与任何其他混合程序不匹配时才返回true。
+                8 unit  默认函数仅在保护条件内可用且与任何其他mixin不匹配时才返回true
+                9 get - unit get-unit函数返回其中存在参数的单位，其数字和单位。
+                10svg - gradient svg-gradient是一种颜色到另一种颜色的转换。 
+            Less 字符串函数
+                Escape对符号进行编码
+                e不带引号字符串
+                % format格式化为字符串
+                replace替换字符串中的文本
+            Less 列表函数
+                Length(@var)  它将以逗号或空格分隔的值列表作为参数。
+                Extract(@var,2)     它将返回列表中指定位置的值。
+            Less 数学函数
+                ceil 它将数字向上舍入为下一个最大整数
+                floor  它将数字向下取整为下一个最小整数
+                min 它指定一个或多个参数的最小值
+                max它指定一个或多个参数的最大值
+                percentage    它将浮点数转换为百分比字符串
+                round     它舍入浮点数
+                sqrt   它返回一个数字的平方根。
+                abs 它提供了数字的绝对值
+                sin    它返回数字上的弧度。
+                asin   它指定返回-pi / 2和pi / 2之间的值的数字的反正弦(反正弦)。
+                cos它返回指定值的余弦值，并在没有单位的数字上确定弧度
+                acos它指定返回0和pi之间的值的数字的反余弦(反余弦)。
+                tan它指定数字的正切。
+                atan 它指定指定数字的反正切(反正切)。
+                pi它返回pi值。
+                pow它指定第一个参数的值增加到第二个参数的权力
+                mod它返回相对于第二个参数的第一个参数的模数。 它还处理负点和浮点数
+            Less 类型函数
+                isnumber它使用一个值作为参数，并返回 true ，如果它是一个数字或 false
+                isstring它使用一个值作为参数，并返回 true ，如果它是一个字符串或 false
+                iscolor它使用一个值作为参数，并返回 true (如果值是颜色)或 false (如果不是)。
+                iskeyword它使用一个值作为参数，并返回 true (如果值是关键字)或 false (如果不是)。
+                isurl   它使用一个值作为参数，并返回 true (如果值为url)或 false (如果值不为)。
+                ispixel如果值是以像素为单位的数字，或者 false ，则以值为参数返回 true 。
+                isem它采用一个值作为参数，并返回 true ，如果值是em值或 false (如果值不是)
+                ispercentage它采用一个值作为参数，如果值不是百分比，则返回 true ，如果值为百分比，或返回false 。
+                isunit如果值是指定单位中作为参数提供的数字，则返回 true ，如果值不是指定单位中的数字，则返回 false
+                isruleset它将一个值作为参数，并返回 true ，如果值为规则集或 false
+    less的属性
+    Less的使用
+        npm install -g less
+        命令行编译
+            $ lessc styles.less
+            在代码中调用 Less 编译器
+            手动调用分析器（paser）和编译器
+        Less 插件
+            插件列表
+            命令行安装插件npm install less-plugin-clean-css
+            使用安装的插件lessc --plugin=path_to_plugin=options
+            在代码中使用插件
+            在浏览器中
+        框架/库 Importers
+        编辑器相关插件

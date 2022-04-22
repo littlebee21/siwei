@@ -1,0 +1,1206 @@
+大数据
+    分布式系统原理
+        概念
+            模型
+                节点
+                    一个节点往往对应一个进程
+                异常
+                    机器宕机
+                        大型集群中每日宕机发生的概率为千分之一左右
+                        一般需要人工介入重启机器
+                    网络异常
+                        网络分化
+                    存储数据丢失
+                        从其他节点读取、恢复存储的状态
+                    异常处理原则
+                        任何在设计阶段考虑到的异常情况一定会在系统实际运行中发生
+                        但在系统实际运行遇到的异常却很有可能在设计时未能考虑
+                        所以，除非需求指标允许，在系统设计时不能放过任何异常情况
+                分布式三态
+                    A 向 B 发送消息，B 返回给 A 一个确认
+                    成功
+                    失败
+                    超时(未知)
+            副本
+                指在分布式系统中为数据或服务提供的冗余
+                副本一致性(5种)
+                    强一致性
+                        任何时刻任何用户(节点)都可以读到最近一次成功更新的副本数据
+                    单调一致性
+                        任何时刻，任何用户一旦读到某个数据在某次更新后的值，
+                        这个用户不会再读到比这个值更旧的值
+                    会话一致性
+                        任何用户在某一次会话内一旦读到某个数据在某次更新后的值，
+                        这个用户在这次会话过程中不会再读到比这个值更旧的值
+                    最终一致性
+                        最终一致性要求一旦更新成功，各个副本上的数据最终将达到完全一致的状态，
+                        但达到完全一致状态所需要的时间不能保障
+                    弱一致性
+                        一旦某个更新成功，用户无法在一个确定时间内读到这次更新的值，
+                        且即使在某个副本上读到了新的值，也不能保证在其他副本上可以读到新的值
+                    强一致性很难实现，弱一致性很难使用
+                    <单调、会话、最终>
+            衡量分布式系统的指标
+                性能
+                    吞吐量
+                    响应时间
+                    系统并发能力
+                        QPS(query per second)
+                可用性
+                    在面对各种异常时系统可以正确提供服务的能力
+                    可用性=系统无故障运行时间/(系统无故障运行时间+系统故障维护时间)
+                可扩展性
+                    通过扩展集群机器规模提高系统性能、存储容量等
+                    线性扩展性
+                        系统的某一指标可以随着集群中的机器数量线性增长
+                一致性
+                    副本一致性
+        CAP 理论
+                Consistency
+                Availiablity
+                Tolerance to the partition of network(Partition tolerance)
+            无法设计出一种分布式协议，同时具备CAP三种属性
+                该协议下的副本始终是强一致性的
+                服务始终可用
+                协议可以容忍任何网络分区异常
+                    大多数分布式系统都分布在多个子网络，每个子网络就叫做一个区(partition)
+            CAP 理论中，P 无法避免，C 和 A 无法同时做到，
+                因此只能尽量地在 C 和 A 之间寻求平衡
+            意义
+                不要去妄图设计一种对 CAP 三大属性都完全拥有的完美系统
+                热力学第二定律、永动机
+        副本一致性协议
+            Lease机制
+            Quorum 机制
+                CAP
+                    有一定的C，有较好的A，也有较好的P
+                    比较平衡
+                WARO
+                    Write All Read One
+                    所有副本都写入成功才算更新成功
+                    问题
+                        写操作很脆弱
+                            只要有一个副本更新失败，此次写操作就视为失败了
+                        读操作很简单
+                            读取任一副本都可以
+                Quorum 原理
+                    Quorum 在读和写之间做一个折中
+                    N个副本
+                        写操作
+                            在 W 个副本中更新成功之后，才认为此次更新成功
+                        读操作
+                            至少需要读取 R 个副本才能读到此次更新的数据
+                        要求 W 和 R 有重叠
+                            W + R > N
+                            一般 W + R = N + 1
+                Quorum 机制分析
+                    Quorum无法保证强一致性
+                    如何读取最新数据？
+                        在已经知道最近成功提交的数据版本号的前提下，
+                        最多读R个副本就可以读到最新的数据了
+                    如何确定最高版本号的数据是一个成功提交的数据？
+                        继续读取其他副本，直到读到最高版本号副本出现了W次
+                应用
+                    基于 Quorum 机制选择 primary
+                        中心节点(服务器)读取 R 个副本，
+                            选择 R 个副本中版本号最高的副本作为新的 primary
+                        新选出的 primary 不能立即提供服务，
+                            还需要与至少 W 个副本完成同步后，才能提供服务
+                    应用案例
+                        HDFS 高可用中的 Quorum
+                        Zookeeper 的 Quorum
+                            Zookeeper 集群要求
+                                集群的节点数目必须是奇数
+                                    比如集群3个节点，Quorums = 2，也就是说集群可以容忍1个节点失效，这时候还可以选举出1个leader，集群还可用
+                                    节点数配置成奇数的集群的容忍度更高
+                                    比如集群4个节点，Quorums = 3，相当于集群的容忍度还是1，如果2个节点失效，整个集群还是无效的
+                                集群中必须超过半数节点(Majority)可用，整个集群才能对外可用
+                                    防止脑裂
+                            脑裂(Split Brain)
+                                如果两个控制器之间的网络通路出现了问题，此时两个控制器其实都是正常工作的，
+                                但是两者都检测不到对方的存在，所以两者都会尝试接管所有总线，这就是脑裂。
+                                如果网络又恢复了的话，会出现两个Brain的情况，整个集群的行为不一致了
+            两阶段提交协议
+            Paxos 协议
+    Flink
+        实时大数据处理架构
+            Lambda架构
+                Storm创始人提出
+                组件
+                    Batch Layer
+                    Speed Layer
+                    Serving Layer
+                不足
+                    一个业务维护两套代码
+            Kappa架构
+                LinkedIn前首席工程师杰伊·克雷普斯提出
+                组件
+                    Real-Time Layer
+                    Serving Layer
+                改进
+                    在Lambda 的基础上进行了优化，删除了 Batch Layer 的架构
+                    Kappa架构中只有流计算
+                核心
+                    避免维护batch和speed层两份独立的代码
+                    将实时和离线代码统一起来
+        应用场景
+            事件驱动型应用
+                定义
+                    事件驱动型应用是一类具有状态的应用
+                    该应用会根据事件流中的事件触发计算、更新状态或进行外部操作
+                场景
+                    (社交)微博关注动作
+                        关注者的关注数增加
+                        被关注者的粉丝数增加
+                    (电商实时推荐)浏览商品动作
+                        猜你喜欢
+                    (金融反欺诈)异常交易动作
+                        给用户发送短信提醒
+                        限制交易金额
+                    (工业能耗控制)钢铁冶炼的能耗控制
+                        指标
+                            质量
+                            能耗
+                        采集设备温度/炉压/含氧量等指标，进行计算，进而自动控制设备的煤烟阀开度/喷氧阀开度，达到高质量低能耗的企业要求
+                业务本质
+                    每条数据(事件)触发变化
+            数据分析型应用
+                定义
+                    数据分析型应用是从原始数据中提取出有价值的信息和指标
+                业务本质
+                    对数据集进行操作，进行操作
+            数据管道型应用(ETL)
+                ETL
+                    Extract-Transform-Load
+                    从数据源提取/转换/加载数据到目标端的过程
+                    在数据仓库领域应用广泛
+                为什么需要ETL？
+                    企业数据各自独立
+                        客户数据
+                        销售数据
+                        采购数据
+                    消除数据孤岛，实现企业数据的全局观
+                ETL的特点
+                    多数据源
+                        数据库
+                        文件
+                        音视频
+                    T是最耗时的部分
+                ETL要解决的问题
+                    噪音
+                        数据完整性
+                            字段缺失
+                        格式不统一
+                            比如日期格式
+                        错误数据
+                        重复数据
+                ETL同步方式
+                    增量同步
+                    全量同步
+                        多针对文件系统，无法识别增量数据
+                    实时同步
+                        触发器机制
+        架构
+            API 层次
+            组件
+                Client
+                Flink Master
+                    Dispatcher
+                    Jobmanager
+                    ResourceManager
+                TaskManager
+                https://zhuanlan.zhihu.com/p/197438282?utm_source=wechat_session
+            任务执行
+                Transformation 算子
+                    作用
+                        一个或多个 DataStream 转换为新的 DataStream
+                    分类
+                        基本转换算子
+                            DataStream -> DataStream
+                            map
+                                输入一个元素，输出一个元素
+                            flatMap
+                                输入一个元素，输出零个或多个元素
+                            filter
+                                过滤筛选，将符合判断条件的结果集输出
+                        键控流转换算子
+                            DataStream -> KeyedStream
+                            keyBy
+                                将 DataStream 根据指定的 Key 进行分区
+                                根据key的Hash值进行分区
+                        聚合算子(aggregations)
+                            KeyedStream -> DataStream，
+                                WindowedStream -> DataStream，
+                                    AllWindowedStream -> DataStream
+                            sum
+                            min，max
+                            fold
+                            子主题
+                        多流转换算子
+                            unoin
+                                DataStream -> DataStream
+                                可以将多个流合并到一个流中
+                                要求多个数据流的数据类型必须相同
+                            connect
+                                DataStream -> ConnectedStreams
+                                和union类似，但只能连接两个流，两个流的数据类型可以不同，
+                                会对两个流中的数据应用不同的处理方法
+                            split
+                                DataStream -> SplitStream
+                                根据规则把一个数据流切分成多个流
+                        窗口转换算子
+                            KeyedStream -> WindowedStream，
+                                DataStream -> WindowedStream
+                            window
+                                按照规则对 KeyedStream 进行分组
+                            windowAll
+                                对常规数据流(DataStream)进行分组
+                                因为是在非分区数据流上运行，所以是非并行数据转换
+                                    并行度始终为1
+                        reduce
+                            KeyedStream -> DataStream，
+                                WindowedStream -> DataStream，
+                                    AllWindowedStream -> DataStream
+                            归并操作，返回单个的结果值
+                            常用聚合操作例如 min、max 等都可使用 reduce 方法实现
+                        Join
+                task
+                Slot
+                四层执行图
+                    StreamGraph
+                        Stream API 编写的代码生成的最初的图
+                        用来表示程序的拓扑结构
+                    JobGraph
+                        StreamGraph 经过优化后生成了 JobGraph，
+                         JobGraph 是提交给 JobManager 的数据结构。
+                        优化为：将多个符合条件的节点 chain 在一起作为一个节点
+                            从而减少数据 Shuffle
+                    ExecutionGraph
+                        JobManager 根据 JobGraph 生成 ExecutionGraph
+                        ExecutionGraph 是 JobGraph 的并行化版本，是调度层最核心的数据结构
+                    物理执行图
+                        在各个 TaskManager 上部署 Task 后形成的“图”，并不是一个具体的数据结构
+                    图片说明
+                分区方式
+        Flink 基础知识
+            Flink 分区策略
+                继承关系
+                    StreamPartitioner 是所有所有流分区器的基类
+                    StreamPartitioner 实现了 ChannelSelector 接口
+                    ChannelSelector 接口
+                        作用
+                            决定将记录写入到哪个 Channel
+                        主要方法
+                            void setup(int numberOfChannels) 
+                                初始化输出 Channel 的数量
+                            int selectChannel(T record)
+                                根据当前记录以及 Channel 总数，决定将记录写入下游哪个 Channel
+                            boolean isBroadcast()
+                                是否是广播模式，决定了是否将记录写入下游所有 Channel
+                八大分区策略
+                    GlobalPartitioner
+                        将记录输出到下游 Operator 的第一个实例
+                    ShufflePartitioner
+                        将记录随机输出到下游Operator的每个实例
+                    RebalancePartitioner
+                        将记录以循环的方式输出到下游Operator的每个实例
+                    RescalePartitioner
+                        上游2并行度对下游4并行度，则一对二；上游4并行度对下游2并行度，则二对一
+                    BroadcastPartitioner
+                        广播分区将上游数据集输出到下游 Operator 的每个实例中
+                    ForwardPartitioner
+                        将记录输出到本地下游 Operator 实例
+                        ForwardPartitioner 要求上下游算子的并行度一样，上下游同属一个 SubTasks
+                        只有 ForwardPartitioner 的上下游算子可以 chain 到一起
+                    KeyGroupStreamPartitioner(Hash分区)
+                        按 key 的 Hash 值输出到下游 Operator 实例
+                    CustomPartitionerWrapper
+                        自定义分区器
+            Flink  并行度
+                概念
+                    Flink 中的任务被分成多个并行任务来执行，其中每个并行的实例处理一部分数据，
+                    这些并行实例的数量被称为并行度
+                设置(优先级由高到低)
+                    操作算子层面(Operator Level)
+                    执行环境层面(Execution Environment Level)
+                    客户端层面(Client Level)
+                    系统层面(System Level)(配置文件层面)
+                Flink 中的并行度是由什么来决定的？
+                    Flink 中的并行度由最大的算子并行度决定
+                Flink 中的 Slot 和 Parallelism 有什么区别？
+                    Slot 是 表示集群的并发执行能力
+                    Parallelism 是实际使用的并发能力
+            Flink 重启策略
+                分类
+                    固定延迟重启(Fixed Delay Restart)
+                        参数
+                            restart-strategy.fixed-delay.attempts
+                                作业宣告失败之前 Flink 重试执行的最大次数
+                            restart-strategy.fixed-delay.delay
+                                连续两次重启尝试之间的延时
+                    故障率重启(Failure Rate Restart)
+                        故障率重启策略在 Job 失败后重启，但是超过失败率后，Job 会最终被认定失败
+                        在两个连续的重启尝试之间，重启策略会等待一个固定的时间
+                        参数
+                            restart-strategy.failure-rate.max-failures-per-interval
+                                单个时间间隔内允许的最大重启次数
+                            restart-strategy.failure-rate.failure-rate-interval
+                                测量故障率的时间间隔
+                            restart-strategy.failure-rate.delay
+                                连续两次重启尝试之间的延时
+                    没有重启策略(No Restart)
+                        作业直接失败，不尝试重启
+                是否启用了 Checkpoint
+                    是
+                        默认使用固定延迟重启策略
+                    否
+                        使用无重启策略
+                配置
+                    可以在 flink-conf.yaml 中配置，表示全局配置
+                    也可以在代码中动态指定，会覆盖全局配置
+        流处理概念
+            Bounded & Unbounded Data
+            时间语义
+                Event Time
+                Ingestion Time
+                Processing Time
+            Window
+                为什么需要 Window？
+                    Flink是天然支持无限流数据处理的分布式计算框架
+                    在Flink中可以通过Window将无限流切分成有限流
+                    Window是处理有限流的核心组件
+                Window 分类
+                    时间驱动(Time Window)
+                        Tumbling Window
+                        Sliding Window
+                        Session Window (gap)
+                            如果到来的元素之间的时间间隔均不大于gap，这些元素会被合并到一个 Window 中
+                            如果两个元素的时间间隔大于gap，则后面的元素会进入一个新的window中
+                            <不大于gap，大于gap>
+                    事件驱动(Count Window)
+                        Tumbling Window
+                        Sliding Window
+                Window 三大核心组件
+                    WindowAssigner
+                        负责将传入的元素分配给一个或多个窗口
+                    Trigger
+                        每个WindowAssigner都自带一个默认的Trigger
+                        用来判断一个窗口是否需要被触发
+                        方法<四on一销毁>
+                            onElement()
+                                每次往window增加一个元素的时候都触发
+                            onEventTime()
+                                当event-time timer被触发的时候会调用
+                            onProcessingTimer()
+                                当processing-time timer被触发的时候会调用
+                            onMerge()
+                                对两个trigger的state进行merge操作
+                            clear()
+                                window销毁的时候被调用
+                        TriggerResult
+                            onElement()、onEventTime()、onProcessingTimer() 会返回一个 TriggerResult
+                            结果分类
+                                CONTINUE
+                                    不做任何事
+                                FIRE
+                                    触发窗口
+                                PURGE
+                                    清空整个window的元素并销毁窗口
+                                FIRE_AND_PURGE
+                                    触发窗口，然后销毁窗口
+                    Evictor
+                        作用
+                            剔除掉不应该在此时间窗口内的数据
+                            或者用户想要剔除的其它数据
+                        分类
+                            evictorBefore
+                                后续处理逻辑之前调用evictorBefore
+                            evictorAfter
+                                后续处理逻辑之后调用evictorAfter
+                Window 的生命周期
+                    创建
+                        当属于该窗口的第一个元素到达时就会创建该窗口
+                    销毁
+                        当时间超过窗口的结束时间戳 + 用户指定的延迟时延时(allowedLateness(<time>))
+                        窗口将被移除
+                Watermark
+                    乱序问题
+                        事件产生的时间顺序和事件被处理的顺序不一致
+                    Flink 中处理乱序的三种方法
+                        window + trigger + watermark 
+                            全局乱序处理
+                        allowedLateness
+                            局部乱序处理(对窗口计算的修正)
+                            allowedLateness会再次触发窗口的计算，而之前触发的数据会buffer起来
+                            watermark超过end-of-window + allowedLateness()的时间，窗口才会被真正销毁
+                        SideOutput
+                            侧输出流针对迟到很久的数据进行额外的处理
+                            不会再次触发原窗口的计算，需要用户另外指定处理逻辑
+                    Watermark 是什么？
+                        Watermark是
+                            一个时间戳
+                                它标识了小于这个时间戳的事件已经都到达了
+                        Watermark和StreamRecord一样继承了StreamElement，
+                            和普通数据一起在算子之间传递
+                        目的是
+                            通过超时等待来解决数据乱序问题
+                        本质是
+                            对数据延迟和正确性的平衡
+                                watermark设置太大，收到结果的速度就会很慢，处理延迟就会很高
+                                如果太小，则计算的正确性就不能保证
+                        <是，继承，目的是，本质是>
+                    Watermark的设置
+                    Watermark的特性
+                        必须单调递增
+                            单输入取最大
+                                最大watermark的出现表明了此watermark之前的数据都已经出现
+                                自然也包括更小的watermark
+                            多输入取最小
+                                木桶效应
+                        代表当前事件时间
+                        如果程序收到一个Long.MAX_VALUE数值的watermark，
+                            就表示对应的那一条流不会再有数据发过来了
+                    Watermark的传递
+                        Watermark通过广播的方式传播到下游
+                        对于一个算子，它会维护所有分区发来的watermark，
+                            然后在最小的watermark更新之后，把更新的值作为当前事件时间时钟并广播到下游
+        Flink Connector
+            File System Connector
+            JDBC Connector
+            Kafka Connector
+            Elasticsearch Connector
+            HBase Connector
+            Hive Connector
+        状态管理
+            状态后端
+                MemoryStateBackend
+                FsStateBackend
+                RocksDBStateBackend
+                    一般在生产情况下使用
+            状态
+                状态管理方式
+                    Managed State
+                        Flink Runtime 管理
+                        自动存储，自动恢复
+                    Raw State
+                        用户自己管理
+                        不常用
+                子主题
+                    Keyed State(LVM)
+                        特点
+                            只能用在 KeyedStream 上的算子中
+                            每个 Key 对应一个 State
+                            并发改变，State 随着 Key 在实例间迁移
+                        使用
+                            通过 getRuntimeContext() 访问
+                            Rich Function
+                        分类/继承关系
+                            State
+                                Value State
+                                    存储数据类型
+                                        单个值
+                                Map State
+                                    存储数据类型
+                                        Map
+                                AppendingState
+                                    MergingState
+                                        List State
+                                            存储数据类型
+                                                List
+                                        ReducingState
+                                            存储数据类型
+                                                单个值
+                                            求平均值
+                                                只存和，不存计数
+                                        AggregatingState
+                                            存储数据类型
+                                                单个值
+                                            求平均值
+                                                只存和，也存计数
+                                图片说明
+                                <LVRAM>
+                    Operator State<BLU(E)>
+                        特点
+                            可以用于所有算子
+                                常用于 Source
+                            一个 Operator 实例对应一个 State
+                            并发改变，有多种重新分配方式可选
+                                均匀分配
+                                合并后每个得到全量
+                        使用
+                            实现 CheckpointedFunction 或 ListCheckpointed 接口
+                        List State
+                        Union List State
+                        Broadcast State
+            容错
+                Checkpointing
+                    Flink Checkpoint 机制
+                        主要工作是持久化备份 state ，做一个全局的分布式快照
+                        4步
+                            发起者Checkpoint Coordinator
+                                JobManager中的 Checkpoint Coordinator 是整个 Checkpoint 的发起者
+                            1. trigger Checkpoint
+                                Checkpoint Coordinator 向所有的Source节点 trigger Checkpoint
+                                Source节点向下游广播barrier，
+                                    并将自己的状态(异步)写入到持久化存储(Persistent Storage)中
+                            2. barrier对齐
+                                对于下游task，只有收到所有input的barrier后
+                                    也就是完成barrier对齐之后
+                                才会执行相应的CheckPoint
+                                    也就是将自己的状态写入到持久化存储中
+                            3. 汇报 state handle
+                                当task完成state备份后，
+                                    会将备份数据的地址(state handle)通知给Checkpoint Coordinator
+                            4. 全局 Checkpoint 完成
+                                当 Checkpoint Coordinator 收集齐所有 task 的 state handle 之后
+                                就认为这一次Checkpoint全局完成了，
+                                就会向持久化存储中再备份一个 Checkpoint meta 文件
+                            <tb汇完>
+                    Barrier 对齐
+                        begin aligning
+                            当第一个 barrier 到达时开始对齐
+                        aligning
+                        checkpoinging
+                    Exactly Once
+                        Checkpoint 保证了内部算子的 Exactly Once
+                        Checkpoint + 两阶段提交协议 共同保证了端到端的 Exactly-Once
+                    Asynchronous State Snapshots
+                    Chandy-Lamport算法
+                        Chandy-Lamport 算法是一种分布式快照(Distributed Snapshot)算法
+                            分布式快照算法
+                                用来在缺乏类似全局时钟或者全局时钟不可靠的分布式系统中来确定一种全局状态
+                            Flink 使用的是 Chandy-Lamport 的改进算法
+                                核心思想是在 input source 端插入 barrier 
+                                    来替代 Chandy-Lamport 算法中的 Marker
+                                通过控制 barrier 的同步来实现 snapshot 的备份和 exactly-once 语义
+                        Global Snapshot
+                            可以理解为 Global State
+                            将分布式系统简化成
+                                有限个进程(节点)
+                                和进程之间的 channel 组成(边)
+                                    input channel
+                                    output channel
+                                的有向图
+                            局部快照
+                                每个进程的 local state
+                                它的 input channel 中有序的 message
+                            将所有的进程的局部快照合并起来就可以得到全局快照
+                        算法步骤
+                            Initiating a snapshot
+                                创建快照
+                                    可以由系统中的任意一个进程发起
+                            Propagating a snapshot
+                                传播创建快照事件
+                                系统中其他进程开始逐个创建 snapshot
+                            Terminating a snapshot
+                                算法结束条件
+                        举例说明
+                            P1 P2 两个进程各有三个变量
+                            P1 发起全局 Snapshot，P1 先记录本身的进程状态，然后向 P2 发送 marker 信息
+                            在 marker 信息到达 P2 之前，P2 向 P1 发送 message: M
+                            P2 收到 P1 发送过来的 marker 信息之后，记录自己的状态
+                            P1 收到 P2 之前发送过来的 message: M，P1 需要记录 message M
+                    增量检查点
+                    不用对齐的 Checkpoint
+                        Flink 1.11 Unaligned Checkpoint
+                        子主题
+                Savepoints
+        Flink 内存管理
+            JVM分代内存管理(Hotspot)
+                GC策略
+                    Young Gen
+                        Eden
+                        Survivor
+                            From
+                            To
+                    Old Gen
+                        从新生代存活的对象、大对象
+                    Permanent Gen
+                        类定义、字节码、常量
+                GC类型
+                    Minor GC
+                        触发条件
+                            新生代区域满
+                        回收区域
+                            新生代
+                    Major GC(Full GC)
+                        触发条件
+                            老年代或持久代区域满
+                        回收区域
+                            新生代/老年代/持久代
+            JVM存在的问题
+                Java对象存储密度低
+                    一个只包含boolean属性的对象占16个字节
+                Java GC触发频繁
+                    处理大量数据时产生大量对象
+                OOM问题影响稳定性
+                    JVM中所有对象大小超过分配给JVM的内存大小时
+            Flink改进
+                将对象序列化到预分配的MemorySegment(32KB)上
+                Flink堆内存划分
+                    Network Buffers
+                        用于数据的网络传输
+                        2048个32KB大小的buffer（MemorySegment）
+                        taskmanager.network.numberOfBuffers设置
+                    Memory Manager Pool
+                        由众多MemorySegment组成的超大集合
+                        Flink 中的算法（sort/shuffle/join）会向这个内存池申请 MemorySegment
+                        占了堆内存的 70%
+                    Remaining (Free) Heap
+                        留给用户代码以及 TaskManager 的数据结构使用
+                Flink序列化框架
+                    序列化/反序列化
+                        为了能正确反序列化，序列化时存储辅助信息
+                    Java序列化的问题
+                        序列化时记录了过多的类信息，辅助信息过大
+                    Flink实现了自己的序列化框架
+                        数据流通常是一种类型，所以可以只保存一份对象Schema信息
+                    TypeSerializer
+                        针对 Flink 支持的六大类数据类型，Flink都可以自动生成对应的 TypeSerializer
+                        能非常高效的对数据集进行序列化和反序列化
+                使用堆外内存
+                Java支持任意类型的Java和Scala类型
+                    BasicTypeInfo
+                        Java基本类型或String类型
+                    BasicArrayTypeInfo
+                        Java基本类型数组或 String 数组
+                    CaseClassTypeInfo
+                        Scala CaseClass(包括 Scala tuples)
+                    PojoTypeInfo
+                        任意的 POJO (Java or Scala)
+                    TupleTypeInfo
+                        任意 Flink Tuple 类型(Tuple1 到 Tuple25)
+                    WriteableTypeInfo
+                        任意 Hadoop Writeable 接口的实现类
+                    GenericTypeInfo
+                        任意其他类型
+        Flink 网络流控与反压
+            为什么需要网络流控？
+                Producer 发送速率大于 Consumer 接收速率
+                问题
+                    接收 buffer 有界
+                        consumer 丢弃新到的数据
+                    接收 buffer 无界
+                        buffer 持续扩张，耗尽 consumer 内存
+                实现
+                    静态限速
+                        问题
+                            通常无法事先预估 consumer 端的最大速率
+                            consumer 承受能力通常会动态波动
+                    动态反馈/自动反压
+                        正反馈
+                            接收速率大于发送速率时发生
+                        负反馈
+                            接收速率小于发送速率时发生
+                反压
+                    狭义
+                        负反馈
+                    真正的反压机制
+                        正负反馈都包含
+            什么是反压？
+                产生
+                    短时负载高峰导致系统接收数据的速率远高于它处理数据的速率
+                反压机制
+                    系统能够自动检测到被阻塞的 Operator
+                    然后系统自适应地降低源头或者上游的发送速率
+                反压产生的具体场景？
+                    大促或秒杀活动导致流量陡增
+                    垃圾回收停顿(Stop-The-World)可能会导致流入的数据快速堆积
+            反压问题不解决会怎么样？
+                会导致资源耗尽甚至系统崩溃
+            Flink 网络传输三级 Buffer
+                Flink Network Buffer
+                Netty ChannelOutboundBuffer / ChannelInboundBuffer
+                Socket Buffer
+                图片说明
+            Flink 反压机制
+                Flink V1.5 之前
+                    基于 TCP 滑动窗口机制实现反压
+                        由于 TCP 天然具备 feedback 流控机制，所以 Flink 基于 TCP 实现了反压的效果
+                        Flink 没有专门的反压机制
+                    反压传播两个阶段
+                        跨 Taskmanager
+                            反压如何从 IC(InputChannel) 传播到 RS(ResultSubPartition) 
+                            反压传播路径(前5点)
+                                InputChannel 满了
+                                InputChannel LocalBufferPool
+                                    LocalBufferPool 满了，向 NetworkBufferPool 申请空间，
+                                    但是能够申请到的空间是有限的
+                                Flink NetworkBufferPool
+                                    NetworkBufferPool 未必用完了
+                                Netty
+                                    Netty buffer 满了(Netty buffer 其实是无界的，通过高水位控制)
+                                    disable netty autoRead
+                                        Netty 不再从 Socket 读取数据
+                                Socket buffer 变满
+                                    向发送端 Socket 发送 ACK window = 0
+                                    发送端 Socket 收到 ACK window = 0 之后会停止数据发送
+                                发送方 Socket buffer 逐渐变满
+                                发送方 Netty 逐渐变满，Netty 不可写
+                                发送方 ResultSubPartition 不可写
+                                最终，发送方算子不可写
+                                图片说明
+                        Taskmanager 内部
+                            反压如何从 RS 传播到 IC
+                            反压传播路径
+                                图片说明
+                    反压路径
+                        Flink 应用层的 LocalBufferPool，NetWorkBufferPool
+                        到 Netty 的 Buffer
+                        到 底层Socket的Buffer
+                    TCP-Based 反压的弊端
+                        单个 task 导致的反压，会阻断整个 TM-TM 之间的 socket，导致 barrier 也发不出去
+                        反压传播链路过长，导致反压生效时间过长
+                Flink V1.5 之后
+                    Credit-Based反压机制
+                        在 Flink 层面实现了类似 TCP 滑动窗口的机制来实现流量控制
+                        backlog
+                        credit 表示接收端允许发送的数据量
+                    解决的问题
+                        压力不会传导到底层 Socket，也就不会阻塞 Socket
+                        传播链路减少了两层，反压响应时间更快了
+                反压不一定会触发
+                    外部数据存储到 Sink 的反压源头是否会触发？
+                    Kafka 可以，ES 不可以
+                    所以反压不是万能的，静态限流也非常重要
+            如何查看 Flink 背压？
+                Flink WebUI中有 Back Pressure 选项
+                    可以查看各个算子的背压状况
+                    也可以查看某个算子各个分区的背压状况
+                Sampling in progress 参数
+                    表示 JobManager 正在对运行的任务触发堆栈跟踪采样
+                背压状态
+                    OK
+                        0 <= Ratio <= 0.10
+                    LOW
+                        0.10 <Ratio <= 0.5
+                    HIGH
+                        0.5 <Ratio <= 1
+        常用类
+            ParameterTool
+                org.apache.flink.api.java.utils.ParameterTool
+                这个类提供了从不同来源读取和解析程序参数的简单实用方法
+                重要方法
+                    fromArgs
+                        从命令行参数解析程序参数
+                    fromPropertiesFile
+                        从配置文件解析程序参数
+    Spark
+    Hadoop
+        Hadoop
+            Hadoop 高可用
+                1.x 版本
+                    只有一个 Namenode
+                    所有元数据由惟一的 Namenode 负责管理
+                2.x 版本
+                    引入双NameNode架构
+                    同时借助共享存储系统来进行元数据的同步
+                    元数据存储形式
+                        内存镜像
+                            Namenode 启动时，会加载磁盘镜像到内存中以进行元数据的管理，
+                            存储在 NameNode 内存
+                        磁盘镜像(FSImage)
+                            磁盘镜像是某一时刻 HDFS 的元数据信息的快照
+                            包含所有相关 Datanode 节点文件块映射关系和命名空间(Namespace)信息，
+                            存储在 NameNode 本地文件系统
+                            状态 
+                                checkpoint
+                                    表示合并中的fsimage
+                                finalized
+                                    表示已经持久化磁盘的文件
+                        日志(EditLog)
+                            记录 Client 发起的每一次操作信息
+                            用于定期和磁盘镜像合并成最新镜像，保证 NameNode 元数据信息的完整，
+                            存储在 NameNode 本地和共享存储系统(QJM)中。
+                            状态
+                                inprocess
+                                    表示正在写的日志文件
+                                finalized
+                                    表示已经写完的日志文件
+        HDFS
+            HDFS读写流程
+                block、packet、chunk
+                    block
+                        block是文件分块的基本单位
+                        分块大小
+                            Hadoop 1.x默认的block大小是64MB
+                            Hadoop 2.x默认的block大小是128MB
+                            如果文件大小小于分块大小，则按实际文件大小分配，而非一个块大小
+                    packet
+                        packet是数据传输的基本单位
+                        传输数据组件
+                            Client端和DataNode
+                            DataNode的PipLine之间
+                        默认大小为64KB
+                    chunk
+                        chunk是进行数据校验的基本单位
+                        默认大小为512Byte
+                        再加4Byte的校验位
+                    三层buffer
+                写流程(6)<CNCNCC>
+                    Client
+                        向NameNode发出写文件请求
+                    NameNode
+                        检查
+                            文件名是否已经存在
+                            用户是否有写入权限
+                        若检查通过
+                            则返回输出流对象
+                    Client
+                        按照 BLOCKSIZE 对文件分块
+                        按照分块逐个向 NameNode 提出写入申请
+                        两个参数
+                            BLOCKSIZE
+                            REPLICATION FACTOR
+                    NameNode
+                        对可写入DataNode进行排序
+                        返回前 REPLICATION FACTOR 个 DataNode 组成的列表 
+                    Client
+                        Client
+                            将NameNode返回的DataNode列表和块数据一同发送给列表中的第一个DataNode
+                            以packet为单位进行发送
+                        DataNode
+                            每向第一个 DataNode 写入一个packet，这个packet就会在 DataNode 组成的pipeline 中进行复制
+                            DataNode块数据写入完成之后会给NameNode发送完成信号
+                    Client/NameNode
+                        整个文件写入完成之后Client会请求关闭输出流
+                        NameNode会持久化元数据
+                读流程(4)<CNCC>
+                    Client
+                        向NameNode提出读文件请求
+                    NameNode
+                        发送给Client
+                            此文件的所有数据块组成的列表
+                            每个数据块对应的DataNode列表
+                    Client
+                        逐个下载数据块
+                    Client
+                        关闭输入流
+            三类故障
+                节点故障
+                    NameNode
+                        有备份，则启动备份
+                        有备份，则集群挂掉
+                    DataNode
+                        故障检测
+                            DataNode 
+                                每3秒向NameNode发送一个心跳信号
+                            NameNode
+                                十分钟内没有收到心跳信号，则任务DataNode挂掉了
+                                DataNode可能只是出现了网络故障
+                网络故障
+                    每当发送数据时，接受方会回复应答信号
+                    多次发送尝试后还是没有收到应答信号，则认为发生网络故障
+                数据故障
+                    DataNode
+                        DataNode定时给NameNode发送数据块报告
+                        在发送数据块报告前会检测校验和是否正常
+                        DataNode不会发送损坏的数据块
+                    NameNode
+                        NameNode根据数据块报告就知道哪个数据块损坏了
+        MapReduce
+            map 数量和 reduce 数量
+                map 数量
+                    由输入切片的数量决定
+                    128MB为一个切片，有多少切片就有多少个 map task
+                 reduce 数量
+                    由用户配置
+        Yarn
+    Hive
+        Hive 是什么？
+            由 Facebook 开源的用于解决海量结构化日志的数据统计
+            Hive 是基于 Hadoop 的数据仓库工具
+            可以将结构化的数据文件映射为一张表，并提供类 SQL 查询功能
+            本质是将 HQL 转化成 MapReduce 程序
+            图标是一个象头蜜蜂
+        原理
+            Hive 处理的数据存储在 HDFS
+            Hive 分析数据底层的默认实现是 MapReduce
+            执行程序运行在 Yarn 上
+        架构
+            元数据
+                元数据中记录着表对应文件的 Path
+                元数据默认存放在 Derby 数据库中
+                    只能允许一个会话连接
+                一般使用 MySQL 作为元数据库
+                    为了支持多用户多会话
+            Hive Client
+                用户接口
+                    CLI (Hive shell)
+                    JDBC/ODBC(Java 访问 Hive)
+                    WebUI(浏览器访问 Hive)
+                解析器
+                    检查基本语法
+                编译期
+                    将任务翻译成 MR
+                优化器
+                执行器
+            MapReduce
+            HDFS
+        特点
+            与数据库对比
+                Hive 处理的数据量大
+                Hive 读多写少(数据仓库)
+                Hive 不能建立索引
+            优缺点
+                优点
+                    简单
+                    适用于处理大数据且对实时性要求不高的场景
+                缺点
+                    无法表达迭代算法
+                    效率低，调优困难
+        使用
+            加载数据
+                insert
+                    不常用
+                从文件系统加载数据
+                    load
+                        本地加载
+                            load data local inpath '路径' into table student；
+                        HDFS 加载
+                            load data inpath '路径' into table student；
+                    put
+                        hadoop fs -put stu1.txt /user/hive/warehouse/stu
+    HBase
+        HBase 是什么？
+            HBase 是 Hadoop Database 的简称
+            是建立在 HDFS 之上的面向列的分布式数据库
+                提供快速随机访问海量结构化数据
+            HDFS 为 HBase 提供可靠的底层数据存储服务
+            MapReduce 为 HBase 提供高性能的计算能力
+            Zookeeper 为 HBase 提供稳定服务和 Failover 机制
+            HBase 是一个通过大量廉价的机器解决海量数据的高速存储和读取的分布式数据库解决方案
+        HBase 和 HDFS
+            HDFS
+                适用于存储大容量文件的分布式文件系统
+                不支持快速单独记录查找
+                提供了高延迟批量处理
+                提供的数据只能够顺序访问
+            HBASE
+                HBase 是建立在 HDFS 之上的数据库
+                提供在较大的表快速查找
+        HBase 存储机制
+            HBase 是一个面向列的数据库
+            表是行的集合
+                行是列族的集合
+            列族是列的集合
+                列是键值对的集合
+        Hbase 架构
+            依赖
+                依赖 HDFS 做底层的数据存储
+                依赖 MapReduce 做数据计算
+                依赖 ZooKeeper 做服务协调和 Failover 机制
+            Client
+                HBase 两张特殊表
+                    .META.
+                        记录用户所有表拆分出来的的 Region 映射信息
+                        一个 .META. 可以包含多个 Regoin
+                    -ROOT-
+                        记录了 .META. 表的 Region 信息
+                        一个 -ROOT- 只有一个 Region
+                数据访问过程
+                    Client 访问用户数据前需要首先访问 ZooKeeper，
+                        找到 -ROOT- 表的 Region 所在的位置
+                    然后访问 -ROOT- 表，
+                        接着访问 .META. 表
+                    最后才能找到用户数据的位置去访问
+                    寻址
+            HMaster
+                主服务器
+                功能
+                    为 RegionServer 分配 Region
+                    负责 RegionServer 的负载均衡
+                    发现失效的 RegionServer 并重新分配其上的 Region
+                    HDFS 上的垃圾文件（HBase）回收
+                    处理 Schema 更新请求
+                        表的创建，删除，修改，列簇的增加等等
+            HRegionServer
+                区域服务器
+                功能
+                    负责维护 Master 分配给它的 Region，处理对这些 Region 的 IO 请求
+                    负责 Split 在运行过程中变得过大的 Region，负责 Compact 操作
+            图片说明
+            参考
+                https://www.cnblogs.com/frankdeng/p/9310278.html
+        名词概念
+            Rowkey
+                和 MySQL 中的主键概念是完全一样的
+                Hbase 使用 Rowkey 来唯一的区分某一行的数据
+                    HBase 会对表中的数据按照 rowkey 排序
+                Hbase 只支持3种查询方式
+                    基于 Rowkey 的单行查询
+                    基于 Rowkey 的范围扫描
+                    全表扫描
+            Column
+                可以理解成 MySQL 的列
+            ColumnFamily
+                Hbase 通过列族划分数据的存储
+                    列族下面可以包含任意多的列
+                在表创建的时候就必须指定列族
+            TimeStamp
+                时间戳是实现 Hbase 多版本的关键
+                    使用不同的 TimeStamp 来标识相同 Rowkey 行对应的不同版本的数据
+                为了避免数据存在过多版本造成的的管理(包括存贮和索引)负担
+                hbase 提供了两种数据版本回收方式
+                    保存数据的最后 n 个版本
+                    保存最近一段时间内的版本
+            Cell
+                通过 rowkey 和 columns 确定的为一个存储单元称为 cell
+                每个 cell 都保存着同一份数据的多个版本
+            Region
+                类似关系数据库分区或分片的概念
+                Hbase 会将一个大表的数据基于 Rowkey 的不同范围分配到不同的 Region 中，
+                    每个 Region 负责一定范围的数据访问和存储
+                    区域是表被拆分，并分布在区域服务器中
+                由于大表数据被切分到不通的 Region，所以访问起来的时延很低
+        HBase 注意点
+            介于 NoSQL 和 RDBMS 之间，
+                仅能通过主键(rowkey)和主键的 range 来检索数据
+            HBase 查询数据功能很简单，不支持 join 等复杂操作
+                可通过 hive 支持来实现多表 join 等复杂操作
+            HBase 中支持的数据类型是 byte[]
+            主要用来存储结构化和半结构化的松散数据
+        HBase 特点
+            海量存储
+                适合存储 PB 级别的海量数据
+            列式存储
+                列式存储其实说的是列族存储
+                    列族下面可以有非常多的列
+                列族在创建表的时候就必须指定
+            易扩展(两个方面)
+                一个是基于上层处理能力（RegionServer）的扩展
+                    RegionServer 的作用是管理 Region、承接业务的访问
+                        通过横向添加 RegionSever 的机器，进行水平扩展，
+                        提升Hbase上层的处理能力，提升Hbsae服务更多Region的能力
+                一个是基于存储的扩展（HDFS）
+                    通过横向添加 Datanode 的机器，进行存储层扩容
+                    提升 Hbase 的数据存储能力和提升后端存储的读写能力
+            高并发
+            稀疏
+                列族中，你可以指定任意多的列
+                在列数据为空的情况下，不会占用存储空间
+        HBase 中的表特点
+            大
+                一个表可以有上十亿行，上百万列
+            面向列
+                面向列(簇)的存储和权限控制，列(簇)独立检索
+            稀疏
+                对于为空(null)的列，并不占用存储空间，
+                因此，表可以设计的非常稀疏
+            无模式
+                同一张表中不同的行可以有截然不同的列
+        Hbase 为什么查询速度快?
+        OLTP && OLAP
+            OLTP
+                联机事务处理
+                OLTP 是传统的关系型数据库的主要应用，主要是基本的、日常的事务处理，例如银行交易
+                采用面向行的数据库
+                    数据库被设计为小数目的行和列
+                面向交易的处理系统
+            OLAP
+                联机分析处理
+                    是数据仓库系统最主要的应用
+                OLAP 是数据仓库系统的主要应用，支持复杂的分析操作，侧重决策支持，并且提供直观易懂的查询结果
+                采用面向列的数据库
+                    设计为巨大表
+                面向决策的处理系统
+        使用场景
+            HBase 适用于海量数据存储和准实时查询
+                只有当数据量非常大的时候，才能发挥其良好的性能
+                在上百亿行、上百万列的数据中，实现百毫秒级别的查询
+            查询简单、不涉及复杂关联的环境
+                交通(红绿灯信息采集)
+                交易记录(长久保存)
+                数据库历史数据
+    Kafka
+        Kafka 是什么？
+            Kafka是一种高吞吐量的分布式发布订阅消息系统
+        基本概念
+            Topic
+                一个Topic对应一个消息队列
+            Partition
+                一个Topic分成多个Partition
+                偏移量
+                    Partition中会为消息保存一个Partition内唯一的ID，一般称为偏移量
+                Partition中被消费的消息是何时删除的？
+                    无论消息是否被消费，除非消息到期Partition从不删除消息
+            Broker
+                每个Partition最终都要存储在物理机器上，这样的物理机器称为Broker
+                Partition冗余，同一个Partition有多个副本
+                    Producer应该写入到哪一个副本上呢？Consumer又应该从哪个副本上读取呢？
+                    Kafka的各个Broker需要Zookeeper进行通信
+                    每个Partition的多个副本之间通过Zookeeper的Leader选举机制选出主副本
+                    所有该Partition上的读写都通过这个主副本进行
+                    其他冗余副本会从主副本上同步新的消息，就像其他的Consumer一样
+            Producer
+                消息生产者
+            Consumer
+                消息消费者
+            Consumer Group
+                消费模型
+                    点对点模型(队列模型)
+                        多个消费者共同消费一个队列，每条消息只发送给一个消费者
+                        效率高
+                    发布/订阅模型
+                        多个消费者订阅Topic，每个消息会发布给所有的消费者
+                        支持冗余的消费
+                组内点对点、组间发布/订阅
+                    消费者组内以点对点模式工作，组内一条消息只被消费一次
+                    消费者组以发布/订阅模式工作，组间一条消息被消费多次
+        Kafka 的优点
+            高吞吐
+                Kafka 每秒可以处理几十万条消息
+            低延迟
+                毫秒级延迟
+            容错性
+                n 个节点的集群运行最多 n-1 个节点出现故障
+            持久性，
+                消息被持久化到本地磁盘
+            可靠性
+                支持数据备份防止数据丢失
+            可扩展
+            <高低容持可可>
+        Kafka 为什么快？Kafka 如何保证高吞吐量？
+            利用 partition 实现并行处理
+                Kafka的Topic中都包含一个或多个partition，
+                不同partition可位于不同节点并行处理，所以速度更快
+            顺序写磁盘
+                追加写相比于随机写要减少了磁盘寻址时间，速度更快
+                Kafka中每个分区是一个有序的，不可变的消息序列，
+                    新的消息不断追加到partition的末尾
+            充分利用 Page Cache
+                引入 Cache 的目的是为了提高 Linux 操作系统对磁盘访问的性能
+                Broker 收到数据后，写磁盘时只是将数据写入 Page Cache，
+                    并不保证数据一定完全写入磁盘。
+            零拷贝技术(Zero Copy)
+                减少了文件在内核空间和用户空间的来回拷贝
+                    减少了上下文切换
+                Producer 生产的数据持久化到 Broker
+                    采用 mmap 文件映射
+                Consumer 从 Broker 读取数据
+                    采用 sendfile 实现快速读取
+            批量压缩
+                很多情况下，系统的瓶颈不是CPU或磁盘，而是网络IO
+                批量数据的传输
+                    减少了网络往返的开销，同时使用更大的数据包可以提升带宽利用率
+                message 支持压缩
+                    进一步提高了网络传输数据的效率
+        Kafka 负载均衡策略
+        Kafka Exactly Once 语义
+            Kafka 通过幂等性和事务来实现 Exactly-Once
+            幂等
+                可以实现 Producer 的 exactly-once 语义
+                如果一条消息被 Producer 发送多次，在 Broker 端这条消息只会被写入日志一次
+                原理
+                    发送到broker端的每批消息都会被赋予一个序列号，Kafka 会把序列号保存在底层日志中，若发送消息的序列号小于或等于 broker 端保存的序列号，就说明该消息已经被写入 broker，那么 broker 就会拒绝这条消息的写入操作
+            事务
+                可以实现 Producer 和 Consumer 的 Exactly-Once
+                通过事务可以将一组消息放入一个原子性单元中统一处理，Kafka 为实现事务要求应用程序必须提供一个唯一的 id 来表征事务，这个 id 被称为事务 id 。
+                Producer 写入数据的时候会写入控制消息，控制消息共有两类(COMMIT 和 ABORT)，分别表示事务的提交和事务终止。将控制消息保存到 Kafka 日志中的目的就是让 Consumer 能够识别事务边界，从而整体读取某个事务下的所有消息。
+            两者关系
+                幂等性是可以独立使用的，不需要依赖事务属性
+                事务属性不能独立使用，必须依赖于幂等性
+                    通过幂等实现了 Producer 的 Exactly Once
+                    通过控制消息实现了 Consumer 的 Exactly Once
+    Zookeeper
+        Zookeeper 是什么？

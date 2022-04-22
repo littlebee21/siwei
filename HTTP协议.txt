@@ -1,0 +1,152 @@
+HTTP协议
+    http的使用
+        http的功能
+            需要传输超媒体数据
+            解决机器与机器间的通讯
+            解决人与机器间的通讯
+            应对网络爬虫
+                Robots协议
+        超文本标记语言协议 HTML5
+        查看工具
+            1.1 Chrome Network抓包面板
+            1.2 telnet
+            1.3 curl
+            1.4 Wireshark
+    https
+    对比
+        http和https的区别
+        请求方法的对比get post
+            get从指定资源请求数据报文
+            post向指定的资源递交被处理数据报文
+            get和post表格对比
+            get和post大小限制误区
+            head请求
+            cookie
+        http1.0和http1.1区别
+            HTTP2.0更新
+            HTTP1.1
+                技术实现WebSocket持久连接协议
+                管线化--通过持久连接完成
+                本质还是无连接协议
+            HTTP1.0
+    实例
+        get实例
+            //请求首行
+                GET /hello/index.jsp HTTP/1.1
+            //请求头信息，因为GET请求没有正文
+            请求地址域名和端口
+                Host: localhost
+            http自动升级到https
+                Upgrade-Insecure-Requests：1 
+            用户代理信息
+                User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0
+            浏览器支持的请求类型
+                Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            浏览器能处理的压缩代码
+                Accept-Encoding: gzip, deflate
+            浏览器当前设置的语言
+                Accept-Language: zh-cn,zh;q=0.5
+            接受字符编码
+                Accept-Charset: GB2312,utf-8;q=0.7,*;q=0.7
+            连接类型
+                Connection: keep-alive
+            老饼干用户信息
+                Cookie: JSESSIONID=369766FDF6220F7803433C0B2DE36D98
+            //空行
+            //因为GET没有正文，所以下面为空
+        POST
+            // 请求首行
+                POST /hello/index.jsp HTTP/1.1
+            //请求头信息
+            请求域名
+                Host: localhost
+            用户代理信息
+                User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0
+            请求类型
+                Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            浏览器语言
+                Accept-Language: zh-cn,zh;q=0.5
+            刘晏七能处理的压缩代码
+                Accept-Encoding: gzip, deflate
+            接受的字符串
+                Accept-Charset: GB2312,utf-8;q=0.7,*;q=0.7
+            连接方式
+                Connection: keep-alive
+            Cookie: JSESSIONID=369766FDF6220F7803433C0B2DE36D98
+            代理
+                代理的作用
+            post独有
+                请求体的媒体内容
+                    Content-Type: application/x-www-form-urlencoded 
+                        Content-Type: text/html; charset=utf-8Content-Type: multipart/form-data; boundary=something
+                    HTML格式text/plain ：
+                    纯文本格式text/xml ： 
+                    XML格式image/gif ：
+                    gif图片格式image/jpeg ：
+                    jpg图片格式image/png：
+                    png图片格式
+                请求参数长度
+                    Content-Length: 14 
+                原始的URL
+                    Referer: http://localhost/hello/index.jsp
+                请求来源地址
+                    Origin: http://www.study.com 
+                // 这里是空行
+                //POST有请求正文
+                    username=hello
+    HTTP组成
+        request报文
+            请求行
+                请求方法
+                    HTTP1.0定义了三种请求方法： GET, POST 和 HEAD方法。
+                    HTTP1.1新增了五种请求方法：OPTIONS, PUT, DELETE, TRACE 和 CONNECT 方法。
+                请求地址
+                http版本号
+            请求头
+                强，协商缓存
+            请求体
+        response报文
+            状态行
+                HTTP状态码
+                    400字符串未保持一致
+                    401状态码用户需要验证
+                    403状态码：服务器已经得到请求，但是拒绝执行
+                访问异常
+                协议/版本号
+            响应头
+                Cache-Control
+                ETag
+                Location再次请求地址
+                Set-Cookie设置客户端cookie
+            响应体
+    http原理层级
+        应用层
+            http协议
+                http1.1.长连接
+                端口
+            https
+        传输层
+            tcp
+                ss和tls与httpsl
+                tcp自动封装
+                tcp的校验和
+                tcp流量控制
+            拥塞窗口
+                慢开始
+                拥塞避免
+                快重传
+                快恢复
+        网络层
+        链路层
+            ARQ协议
+                停止等待ARQ协议
+                    无差错情况
+                    出现差错情况
+                    确认丢失和确认迟到
+                        确认丢失
+                        确认迟到
+                连续ARQ协议
+    http属性
+        HTTP是无状态：
+        HTTP是媒体独立的：
+        HTTP是无连接：

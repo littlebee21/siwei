@@ -1,0 +1,95 @@
+linux内核
+24_内核编译与管理
+                什么是内核
+                    系统上的一个文件
+                        位置和文件名
+                            /boot/vmlinuz-xxx
+                        内容
+                            包含了硬件侦测程序
+                            硬件驱动程序
+                编译内核
+                    动机
+                        增加新功能
+                            原来的内核没有提供系统的新功能
+                        精简内核
+                            原有内核过于臃肿
+                            需要在嵌入式系统上使用
+                        增强稳定性
+                            原来的内核在一些硬件上不稳定
+                    源代码的获取和patch
+                        1. 直接获取Linux发行版提供的源代码
+                            好处是可以得到发行版编译内核时的有关设置
+                        2. 在 Linux 内核的网站上获取最新的源代码
+                            好处是可以得到最新的硬件支持
+                        3. 曾经通过获取源代码编译过内核，就可以只获取 patch 文件，修补原有的源代码，利用原有的编译设置进行编译，省时省工
+                    源代码的解压缩、安装和观察
+                        内核源代码的位置
+                            /usr/src/kernels 目录下的特定内核源代码子目录
+                                子目录
+                                    arch
+                                        CPU硬件平台相关项目
+                                    block
+                                        块设备文件相关的项目
+                                    crypto
+                                        内核支持的加密技术
+                                    Documentation
+                                        内核说明文档
+                                    drivers
+                                        硬件驱动程序
+                                    firmware
+                                        硬件的固件程序
+                                    fs
+                                        内核支持的文件系统
+                                    include
+                                        头文件
+                                    init
+                                        初始化内核所需的数据
+                                    ipc
+                                        内核的进程间交换
+                                    kernel
+                                        定义内核的程序、状态、线程、进程调度、信号等
+                                    lib
+                                        一些函数库
+                                    mm
+                                        与内存单元有关的数据，如虚拟内存和swap文件等
+                                    net
+                                        网络有关的数据和防火墙设置
+                                    security
+                                        selinux 等安全模块
+                                    sound
+                                        音效有关的模块
+                                    virt
+                                        与虚拟化有关的项目，CentOS 支持KVM
+                        编译和安装
+                            1. 清理工作
+                                1. 清理原有的内核编译设置参数和残留文件
+                                    # cd 内核源文件目录
+                                    # make mrproper
+                                2. 清理上一次的编译编译的残留文件，但不清除编译设置参数
+                                    # cd 内核源文件目录
+                                    # make clean
+                            2. 挑选编译内核的参数
+                                # make menuconfig
+                                    通过文字界面的菜单选择编译参数
+                                # make oldconfig
+                                    把 ./.config 文件中的参数作为默认值
+                                    把不在./.config 文件中的参数作为选项供用户作为编译内核的选项选择
+                            3. 编译
+                                # make vmlinuz 
+                                    编译未经压缩的内核
+                                # make modules 
+                                    仅编译内核模块
+                                # make bzImage
+                                    编译经默认压缩的内核
+                                # make all 编译上述全部内容
+                            4. 安装内核
+                                1.把 bzImage 文件拷贝到 /boot 目录下且命名成 vmlinuz-xxx
+                                2.把 .config 配置文件拷贝到 /boot 目录下，且命名为 config-xxx
+                                3.# chmod a+x  /boot/vmlinuz-xxx
+                                4.# cp System.map /boot/System.map-xxx
+                                5. # gizp -c Module.symvers > /boot/symvers-xxx.gz
+                                6. # restorecon -Rv /boot
+                            5. 创建对应的 initramfs
+                                # dracut -v /boot/initramfs-xxx.img xxx
+                            6. 编辑grub菜单
+                                # grub-mkconfig -o /boot/grub/grub.cfg

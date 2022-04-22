@@ -1,0 +1,206 @@
+chrome
+    chrome文档
+        概述
+            开发工具的组成
+            1.设备模式（device toolbar）
+                show media queries媒体查询
+                    颜色的含义
+                    设定不同模式
+                show sensors配置传感器
+                show network选择网络设备
+            2.element元素
+                element元素的功能
+                    搜索html文本元素的功能
+                    选择对应的html元素，则会指示到特定区域
+                element面板的组成
+                    左侧栏HTML
+                    右侧栏CSS
+                    style编辑样式
+                        style框格的顺序
+                            element.style
+                        style添加样式
+                            .hov选定元素状态
+                            .cls给元素添加css类
+                                增加css类
+                            +添加新的规则类
+                        Matched CSS Rules节点选择器
+                        text-shadow声明的快捷方式
+                    compute左侧选中的盒子模型参数
+                element元素面板的使用
+                    使用 Color Picker 修改颜色
+                        步骤1 找到css声明
+                        步骤2：找到css声明值旁方框
+                        步骤3：修改颜色
+                    时时的修改项目HTML和DOM节点
+                        编辑内容
+                        修改元素类型
+                        edit as html
+                        增添删除拷贝节点
+                        改变css属性会立刻生效
+                    快速调整CSS数值及颜色图形动画
+                        向样式规则添加背景色或颜色
+                        动画的调试
+            3.console控制台
+                console功能
+                console  控制台对象
+                console的使用
+                    console的JavaScript交互式编程
+                        输入函数可以之后直接使用
+                    console查看程序中打印的log日志
+                    console返还元素
+                        $() css选择器匹配的元素
+                        $$() css选择器匹配元素的数组 
+                        $x()返回与指定的XPath相匹配的所有元素的数组
+                    console中访问节点
+                        使用document.queryselectedall
+                        使用$0快速访问元素
+                        拷贝--》js path
+            4.source源码面板
+                resource功能
+                source的快捷键
+                    ctrl+l 跳转到指定行
+                    nav导航到选定文件
+                    find搜索
+                        搜索的原则
+                            支持驼峰匹配法
+                        ctrl+o搜索所有脚本
+                        ctrl+f  在当前文件搜索
+                        Ctrl + Shift + F在所有文件搜文字
+                            查找方式
+                    replace替换
+                source的代码修改
+                    代码的执行原理
+                        修改脚本文件
+                    实时编辑
+                        element视图中相应脚本的链接（例：\）
+                        Scources 子面板中选择脚本的文件名
+                    保存修改的内容
+                        步骤1 选择文件
+                        步骤2 右键save as
+                        步骤3  之后再次递交的修改
+                    Local modifications查看修改历史记录
+                        修改历史面板显示
+                source增强代码的可读性{}
+            5.network网络性能
+                检索页面
+            6.性能面板Performance
+            7.内存面板（Memory）
+            8.应用面板（Application）
+            9.安全面板（Security）
+            10.主菜单（Customize and control DevTools）
+            audit审计
+                audit功能
+            timeline时间轴
+                timeline功能
+            profile配置面板
+                profile功能
+                分析器
+        配置和自定义DevTools
+            配置和自定义DevTools
+            TL;DR
+            打开主菜单
+            打开设置
+            打开命令菜单
+            对面板标签重新排序
+            自定义DevTools布局
+            使用深色(dark)主题
+            打开和关闭抽屉式选项卡
+            启用实验性功能
+            模拟打印媒体
+            显示HTML注释
+        调试 Progressive Web Apps
+            TL;DR
+            Web app manifest
+            模拟添加到主屏幕的事件
+            Service workers
+            Service worker 缓存
+            清除存储
+            其他Application面板指南
+        了解安全问题(Security 面板)
+        键盘快捷键和UI快捷键参考
+            打开开发者工具
+            全局的键盘快捷键
+            面板中的鼠标快捷方式
+                Elements 面板
+                Sources 面板
+                Console 面板
+            面板中的键盘快捷方式
+                Elements 面板
+                Sources 面板
+                Timeline (时间轴)面板
+                Profiles 面板
+                Console 面板
+                设备模式
+        检查和编辑页面和样式
+        管理本地存储，Cookies和资源
+            检查和管理storage
+                Local storage（本地存储）
+                Session storage（会话存储）
+                IndexedDB
+                Web SQL
+                Application Cache（应用缓存）
+                Service Worker Caches
+                清除 service workers, storage, databases, 和 caches
+        使用设备模式模拟移动设备
+        远程调试Android设备
+            访问本地服务器
+            远程调试 WebView
+        检查和调试JavaScript
+            如何设置断点
+                在代码特定行上设置断点
+                使一个行号断点有条件
+                删除或禁用一个行号断点
+                设置监测DOM变化的断点
+                更多关于DOM change breakpoints(DOM变化断点)类型
+                在XHR上中断
+                当一个事件触发时中断
+                在未捕获的异常上中断
+            遍历代码
+            在任何页面上运行代码片段
+            美化压缩的JavaScript
+            在Sources(源文件)面板中跟踪监视变量
+            将预处理的代码映射到源
+        使用 Console(控制台)
+            在控制台中诊断和打印日志
+            比较类似的数据对象
+            测量和计数执行
+            ​异常和错误处理
+            Console API 参考
+            计算表达式
+            监听事件
+            命令行API参考
+        如何查看性能
+            如何使用时间轴工具
+            时间轴事件参考
+        分析运行时性能
+        评估网络性能
+            评估资源加载时间
+            了解资源加载时序
+            在不同网络条件下优化性能
+        修复内存问题
+            修复内存问题
+            了解内存术语
+            如何录制堆快照
+            使用分配分析器
+        扩展Chrome DevTools
+            整合 DevTools 和 Chrome
+            DevTools扩展API
+            调试协议
+        其他前端开发工具
+            设置编辑器
+            使用DevTools Workspaces保存更改
+            设置命令行快捷方式
+            设置CSS和JS预处理器
+            设置浏览器扩展
+            设置你的构建工具
+    chrome文档的扩充
+        使用chrome文档测试项目
+            使用chrome测试接口
+            使用chrome测试
+    chrome 插件
+        百度翻译插件
+        收藏夹插件的使用
+            打开新标签
+                激活收藏夹
+            当前标签中
+                激活收藏夹

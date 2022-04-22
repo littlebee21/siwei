@@ -1,0 +1,10 @@
+beyond compare
+
+
+
+1，通过everthing找到对应文件的 路径拷贝到beyond中
+2，复制临时代码到tmpcode当中 通过 everthing
+
+
+
+

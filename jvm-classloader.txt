@@ -1,0 +1,31 @@
+classloader
+    类加载器流程
+        1.加载
+        2.链接
+        3.初始化
+        4.卸载
+    类的加载器的作用
+        类的本质
+            Class实例可以代表的结构
+                （1）class：外部类，成员（成员内部类，静态内部类），局部内部类，匿名内部类
+                （2）interface：接口
+                （3）[]：数组
+                （4）enum：枚举
+                （5）annotation：注解@interface
+                （6）primitive type：基本数据类型
+                （7）void
+在Java中万事万物皆对象
+    类加载的过程
+        1，javac.exe命令
+        2，生成一个火多个字节码.class文件
+        3，对.class文件解释运行
+        4，类加载到内存中
+        5.缓存一段时间之后垃圾回收
+    类加载器的组成
+        上级框架jvm
+        类的加载器的分类
+                (1) Bootstrap ClassLoader
+                (2) Extension ClassLoader
+                (3) System ClassLoader
+                (4) User-Defined ClassLoader
+        使用Classloader加载src目录下的配置文件

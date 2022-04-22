@@ -1,0 +1,50 @@
+工具 - 下载
+    当前解决方案：
+        磁力链接：使用迅雷
+        网盘资源：使用百度网盘
+        qq下载：
+        百度网盘
+        蓝奏云
+        迅雷
+    ┃  ┣━internet_download_manager_6.35.1 .zip
+        geek
+        视频的下载
+            YouTube网页版下载器
+            Think4V UtubeDown
+            UtubeGet
+            youtubedl
+            pip工具
+        文档下载助手
+            用户：689178973  密码：309856
+        坚果云：文档同步的好助手
+        chrome
+        软件格式
+            msi
+            exe
+        winget
+        scoop
+        choco
+
+    
+    下载技巧：
+        搜索关键字： **官网太慢，百度云
+        开源软件镜像网站 清华网站
+        choco下载 https://community.chocolatey.org/packages/vagrant
+    
+    github下载
+        http下载可以使用代理：切换v2ray为全局代理模式
+        全局代理就是在window的网络处配置成 开启全局代理
+    
+    vmware因该使用
+        桥接模式：是局域网
+        允许虚拟机进行网络连入：
+        然后配置虚拟机的代理为，局域网内主机地址+ v2ray端口10809
+
+    代理软件：
+        v2rayN
+        clash
+
+
+linux下的下载：
+    可以设置全局的代理
+    可以设置apt包下载的代理

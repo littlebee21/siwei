@@ -1,0 +1,300 @@
+java知识点
+    jdk的模块
+        JavaBean
+        记录类
+            record关键字
+        JTable的使用
+            1、常规的方式
+            2、基于TableModel的方式
+                定义一个类继承AbstractTableModel
+                初始化数据
+                覆盖几个基本的方法
+                创建表格时使用自己定义的Model
+    创建图形界面
+        使用 Swing 创建 GUI — 在 Java 平台上创建 GUI的综合介绍。
+        创建 JavaFX GUI — JavaFX 教程的集合。
+    中间件库
+    其他基础库
+        Java 并发编程
+            进程与线
+            多线程的入门类和接口
+            线程组和线程优先级
+            线程的状态及主要转化方法
+            线程间的通信
+            重排序和 happens-before
+            volatile
+            synchronized 与锁
+            CAS 与原子操作
+            AQS
+            计划任务
+            Stream 并行计算原理
+            Frok/Join
+            通信工具类
+            CopyOnWrite
+            并发集合容器
+            锁接口和类
+            阻塞队列
+            线程池原理
+        java网络编程
+        Java 异常处理
+            Java 异常简介
+            Java 异常处理
+            Java try catch
+            Java throw 和 throws
+            Java 捕获多个异常
+            Java try-with-resources
+            Java 日志
+            Java 断言
+        Java 注解
+        java 序列化
+            13、Java 字符流
+                Java Reader
+                Java Writer
+                Java InputStreamReader
+                Java OutputStreamWriter
+                Java FileReader
+                Java FileWriter
+                Java BufferedReader
+                Java BufferedWriter
+                Java StringWriter
+                Java PrintWriter
+            12、Java 字节流
+                Java IO 流简介
+                Java InputStream
+                Java OutputStream
+                Java FileInputStream
+                Java FileOutputStream
+                Java ByteArrayInputStream
+                Java ByteArrayOutputStream
+                Java ObjectInputStream
+                Java ObjectOutputStream
+                Java BufferedInputStream
+                Java BufferedOutputStream
+                Java PrintStream
+        java面向对象
+            Object
+                toString
+                equals
+            package
+                2.1、package的创建
+                2.2、import
+                2.3包的命名
+                2.4、classpath的设置
+        java数据结构
+        java jvm相关
+            java语言的组成class文件
+            java的基础语法
+                equal和==对比
+            object 对象
+                clone
+                finalize
+                hashCode
+                wait
+                notify
+                notifyAll
+    语言和工具
+        java高级功能
+            Java设计模式
+            lambda表达式
+            java泛型
+                27、java泛型组成
+                    参数
+                    类型通配符<?>
+                        类型通配符一般是使用?代替具体的类型参数
+                        类型通配符上限
+                            List<? extends Number>如此定义就是通配符泛型值接受Number及其下层子类类型
+                        类型通配符下限
+                             List<? super Number>表示类型只能接受Number及其三层父类类型
+                泛型的使用
+                    定义
+                        定义类和接口在后
+                        泛型接口public interface  接口名<类型参数> {  }
+                        泛型类public class 类名<T> {
+                            泛型类的类型参数声明部分也包含一个或多个类型参数，参数间用逗号隔开
+                            一个泛型参数，也被称为一个类型变量，是用于指定一个泛型类型名称的标识符
+                            因为他们接受一个或多个参数，这些类被称为参数化的类或参数化的类型
+                        定义方法在前
+                            理解：大部分方法都有参数怕搞混，所以放在后面
+                        泛型方法 public <MVP> void name(MVP mvp)
+                    使用
+                    实例化
+                         Test<Object> t = new Test<Object>();
+                            规则
+                                所有泛型方法声明都有一个类型参数声明部分（由尖括号分隔），该类型参数声明部分在方法返回类型之前。
+                                每一个类型参数声明部分包含一个或多个类型参数，参数间用逗号隔开。一个泛型参数，也被称为一个类型变量，是用于指定一个泛型类型名称的标识符。
+                                类型参数能被用来声明返回值类型，并且能作为泛型方法得到的实际参数类型的占位符。
+                                泛型方法体的声明和其他方法一样。注意类型参数只能代表引用型类型，不能是原始类型（像int,double,char的等）。
+            java的动态代理
+            反射
+                Class类
+                    获取一个class的Class实例有三种方法
+                        直接通过一个class的静态变量class获取：Class cls = String.class
+                        如果有一个实例变量，可以通过该实例变量提供的getClass()方法获取：String s = "Hello";Class cls = s.getClass();
+                        如果知道一个class的完整类名，可以通过静态方法Class.forName()获取：
+                        Class cls = Class.forName("java.lang.String");
+                    Class 实例比较与instanceof比较
+                    通过反射获取该Object的class信息
+                    通过Class实例来创建对应类型的实例
+                    VM动态加载class的特性：为了在运行期根据条件加载不同的实现类。
+        util常用工具类
+            数学计算：Math
+                随机数
+                BigInteger
+                    创建：BigInteger a = new BigInteger("1234567890")
+                    运算：a.add(b) / a.subtract(b) / a.multiply(b) / a.mod(b) 等
+                    转换：比如longValueExact()
+                BigDecimal
+                    创建：BigDecimal bd = new BigDecimal("123.4567")
+                    小数位数：bd.scale() // 4，四位小数
+                    去掉末尾零：bd.stripTrailingZeros()
+                    运算：bd.function(bd2)
+                    截断
+                    比较：bd.equals(bd2)
+            生成伪造随机数：Random
+            生成安全随机数：SecureRandom
+            方法引用system.out::println
+                通过对象名引用成员方法
+                17_方法引用_通过对象名引用成员方法
+                18_方法引用_通过类名引用静态成员方法
+                19_方法引用_通过super引用父类的成员方法
+                20_方法引用_通过this引用本类的成员方法
+                21_方法引用_类的构造器(构造方法)引用
+                22_方法引用_数组的构造器引用
+            函数式编程 常用的函数式接口
+                08_常用的函数式接口_Supplier接口
+                09_常用的函数式接口_Supplier接口练习_求数组元素最大值
+                10_常用的函数式接口_Consumer接口
+                11_常用的函数式接口_Consumer接口的默认方法andThen
+                12_常用的函数式接口_Consumer接口练习_字符串拼接输出
+                13_常用的函数式接口_Predicate接口
+                14_常用的函数式接口_Predicate接口_默认方法and
+                15_常用的函数式接口_Predicate接口_默认方法or&negate
+                16_常用的函数式接口_Predicate接口练习_集合信息筛选
+                17_常用的函数式接口_Function接口
+                18_常用的函数式接口_Function接口_默认方法andThen
+                19_常用的函数式接口_Function接口练习_自定义函数模型拼接
+            日期的处理
+            日志框架
+                JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j
+                log4j
+                JDC
+        java lang语言
+            java源文件声明规则
+            语言的封装
+                String
+                    创建：String s1 = "Hello" 
+                    比较：s1.equals(s2)
+                    搜索：s1.contain(s2)  s1.indexOf(s2) / s1.lastIndexOf(s2) / s1.statsWith(s2) / s1.endWith(s2)
+                    提取：s1.substring(index1, index2)
+                    去除首尾空白：s1.trim() / s1.strip()
+                    替换子串：s1.replace(s2, s3) / s1.replaceAll(regex)
+                    分割：s1.split(regex)
+                    拼接：String.join("拼接符号", String[])
+                    基本类型类型转换成String：String.valueOf(基本类型)  
+                    String转换成基本类型：Integer.parseInt(s1) / Double.parseDouble(s1) / Boolean.parseBoolean(s1)
+                    String -> char[]：char[ ] cs = s1.toCharArray()  
+                    char[] -> String：String s = new String(cs)
+                    类型转换
+                    编码：byte[] b1 = s1.getBytes("某种编码方式")
+                    解码：String s1 = new String(b1, "某种编码方式")
+                    编码-解码
+                StringBuilder
+                    创建：StringBuilder sb = new StringBuilder(缓冲区大小);
+                    写入字符串：sb.append(s1).sappend(s2)...
+                    删除字符串：sb.delete(start_index, end_index)
+                    转换：String s1 = sb.toString()
+                StringJoiner
+                    创建：var sj = new StringJoiner(分隔符, 开始符号, 末尾符号)
+                    写入字符串：sj.add(s1)
+                    转换：String s1 = sb.toString()
+                包装类型
+                    自动装箱：Integer n = 100; // 编译器自动使用Integer.valueOf(int)
+                    自动拆箱：int x = n; // 编译器自动使用Integer.intValue()
+                    进制转换：int x2 = Integer.parseInt("100", 16); // 256,因为按16进制解析
+                    静态变量
+                    Number
+            关键字
+                var
+                String 
+            枚举类
+                为什么使用枚举类？
+                创建：enum ClassName{A, B, C...}
+                比较：==
+                返回常量名：String s = ClassName.A.name()
+                返回定义常量的序号：int n = ClassName.A.ordinal()
+                增加可读性：toString()
+                枚举：switch
+            变量与常量
+                变量：基本类型的变量和引用类型的变量。
+                常量 := final + 变量
+            语句结构
+                2、异常处理
+                    2.1、异常的概念
+                        try{
+                          // 程序代码
+                        }catch(异常类型1 异常的变量名1){
+                          // 程序代码
+                        }catch(异常类型2 异常的变量名2){
+                          // 程序代码
+                        }finally{
+                          // 程序代码
+                        }
+                    2.2、异常的产生
+                    2.3、异常的创建
+                    2.4、异常的处理
+                    2.5、异常的多态
+                    2.6、finally
+                输入和输出
+                    输出：System.out.println(输出的内容)
+                    输入：Scanner scanner = new Scanner(System.in);  String name = scanner.nextLine();
+            运算符
+                整数运算
+                    四则运算
+                    自增/自减：++、--
+                    位移
+                    位运算
+                    相关概念
+                        运算优先级
+                        溢出
+                        类型转换
+                浮点数运算
+                    四则运算
+                    相关概念
+                        溢出
+                        强制转型
+                        类型提升
+                布尔运算
+                    比较运算符：>，>=，<，<=，==，!=
+                    与运算： &&
+                    或运算： ||
+                    非运算： !
+                    三元运算符：b ? x : y
+                    相关概念
+                        短路运算：如果一个布尔运算的表达式能提前确定结果，则后续的计算不再执行，直接返回结果。
+                        关系运算优先级
+            函数
+                main函数
+            java数据类型
+                类型
+                    byte
+                    short
+                    int
+                    long
+                    float
+                    double
+                    boolean
+                    char
+                内置数据类型
+                引用数据类型
+                    对象
+                    数组
+                命名规则
+                    Java常量
+                    类名
+                    方法名
+                类型转换
+                    自动类型转换
+                    强制类型转换
+                    隐含强制类型转换
+类型转换
+编码-解码

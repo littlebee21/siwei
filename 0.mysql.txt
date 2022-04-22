@@ -1,0 +1,147 @@
+mysql
+    mysql的使用
+        mysql命令
+            mysql数据的完整性约束
+                usigned（无符号）
+                unique（唯一）
+                    不能约束null
+                    联合唯一unique(字段1,字段2...)
+                default（默认值）
+                not null（非空）
+                auto_increment（自增）
+                    前提必须是唯一
+                primary key（主键）
+                    联合主键 
+                foreign key （外键）
+                    外键设置：foreign key(字段) references 表名(字段)
+                    级联更新修改、删除
+                        foreign key(字段) references 表名(字段) on upadte cascade [on delete cascade]
+            mysql数据库支持的数据类型
+                数字
+                    int 整型
+                    float 浮点数
+                    decimal 精确小数
+                字符
+                    char 定长字符串
+                        长度受限，短字符浪费空间，读写效率高
+                    varchar 变长字符串
+                        长度不限，短字符节省空间，读写效率低
+                时间和日期
+                    year 年
+                    date 年月日
+                    time 时分秒
+                    datetime 年月日时分秒
+                    timestamp 年月日时分秒（2038年之前）
+                enum和set
+                    enum（）枚举单选
+                        自动屏蔽不存在项
+                    set()集合多选
+                        多个重复赋值自动去重
+            MySQL 序列使用
+            MySQL 正则表达式
+        1. 安装和配置（以CentOS Linux环境为例）。
+        Python DB-API使用流程：
+    mysql的使用
+        mysql分布式
+            主从复制原理
+        可视化数据库管理工具
+            SQLyog
+        数据库的备份与恢复
+            备份
+            恢复
+        批量导入
+            insert提效
+                提交前关闭自动提交
+                  尽量使用批量insert语句
+                  可以使用MyISAM存储引擎
+            LOAD DATA INFLIE；
+                使用LOAD DATA INFLIE ,比一般的insert语句快20倍
+                select * into OUTFILE 'D:\\product.txt' from product_info
+                load data INFILE 'D:\\product.txt' into table product_info
+        如何
+    原理
+        SQL处理层
+            查询逻辑
+                查询请求
+                缓存是否命中
+                yes:返回结果
+                no:解析查询
+                sql优化
+                执行查询，返回结果
+            解析查询
+                from:笛卡尔积
+                ON：主表保留
+                Join:不服务on也添加
+                where：非聚合
+                    非select别名
+                group by:改变对象引用
+                having-只作用分组后
+                select：distinct
+                order by-可使用select别名
+                limit: rows-offset
+    分层结构
+        MySQL 元数据
+        网络连接层
+            Connectors
+                该层一般基于 C/S 架构组件，对外提供交互的组件
+                等待客户端连接，每一个客户端连接请求，
+服务器都会新建一个线程处理
+                如果是线程池的话，则是分配一个空的线程
+                每个线程独立，拥有各自的内存处理空间
+                身份认证：用户名、IP、密码验证
+                权限认证：privs
+        SQL 处理层
+            Management Service & Utilities
+                管理服务组件和工具组件，提供对MySQL 集成管理，备份、恢复、安全管理等
+            SQL Interface
+                SQL 接口组件，接收用户 SQL 命令，如 DML，DDL 和存储过程等，并将最终结果返回给用户
+            Parser解析和优化
+                查询分析器组件，首先分析 SQL 命令语法的合法性（是否符合 SQL 92 标准），并尝试将 SQL 命令分解成数据结构，若分解失败，则提示 SQL 语句不合理
+                Limit 属于 MySQL 自己的语法，不属于 SQL 92 标准
+            Optimizer优化器组件
+                优化器组件，对 SQL 命令按照标准流程进行优化分析
+                    针对索引，选择最优索引。
+                        多表关联，将数据较小的表放在左边（嵌套循环，外层循环小提高性能）。
+                    通过执行计划 Explain 执行 Where 从左到右寻找过滤力度最大的先执行（如有主键，先找主键）。
+            Caches & Buffers停止使用
+                缓存和缓冲组件
+                    Map 结构： Key 存储 SQL 语句 hash 值，Value 存储 SQL 返回的结果。当该数据更新时，缓存层会删除。
+                    MySQL 8.0 版本已经不再使用该功能
+                show variables like  '%query_cache_type%'
+                SET GLOBAL query_cache_size = 4000;
+        插件式存储引擎层
+            MyISAM
+                高速引擎，查询和插入顺序较高。5.6 版本支持了事务（与 InnoDB 事务不同），但不能同时与带有事务引擎使用（GTID 全局事务ID，可了解），但是仍然不支持行锁。
+                B+Tree 索引
+            InnoDB
+                5.5 版本以后默认引擎，支持事务处理、回滚、修复及 MVCC（多版本并发控制）和行锁及外键。
+                B+Tree 索引
+            Memory
+                内存存储引擎，无需磁盘 I/O。重启表结构会保留，数据会丢失。
+                Hash 索引
+            CSV
+                可以将 Excel 等彪哥数据存储为 CSV 文件。
+                不支持索引
+            NDB
+                集群存储引擎，类似 Oracle 的 RAC 集群，不同的是结构采用 share noting 集群架构。
+                NDB 数据全部放在内存中，但是 JOIN 查询速度慢。
+                只支持 READ COMMITTED 隔离级别
+                没有 MVCC
+            Archive
+                只支持INSERT/SELECT操作，MySQL5.1之后支持索引。
+                支持数据压缩，行锁
+            Federated
+                本身不保存任何数据，提供远程数据库表的指向
+            Maria
+                可以看作MyISAM的后续版本
+                支持缓存数据、索引外键、支持行锁、提供MVCC功能、支持事务和非事务安全选项、更有BLOB类型处理性能
+    MySQL 架构
+        架构图
+        视图
+            可更新视图
+            物化示图
+        分区
+            RANGE分区
+            LIST分区
+            HASH分区
+            KEY分区

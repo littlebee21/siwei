@@ -1,0 +1,78 @@
+结构化--XML
+    xml的功能
+        xml简化数据共享
+        xml把数据从html中分离
+        xml简化数据传输
+        xml简化平台变更
+        xml扩展载体使用
+        xml创建新的语言
+    xml的属性
+        结构
+            xml文档必须有根元素
+            xml文档必须有关闭标签
+            xml必须正确嵌套
+            xml属性必须加引号
+        xml标签大小写区分
+        xml的命名规则
+        xml的空格会被保留
+        xml和html的对比
+        xml浏览器
+            Mozilla Firefox
+                从 1.0.2 版本开始，Firefox 就已开始支持 XML 和 XSLT（包括 CSS）。
+            Mozilla
+                Mozilla 含有用于 XML 解析的 Expat，并支持显示 XML + CSS。Mozilla 同时拥有对 Namespaces 的某些支持。
+                Mozilla 同样可做到对 XSLT 的执行（XSLT implementation）。
+            Netscape
+                自从版本 8 开始，Netscape 开始使用 Mozilla 的引擎，因此它对 XML / XSLT 的支持与 Mozilla 是相同的。
+            Opera
+                自从版本 9 开始，Opera 已经拥有对 XML / XSLT（以及 CSS）的支持。版本 8 仅支持 XML + CSS。
+            Internet Explorer
+                自从版本 6 开始，Internet Explorer 就开始支持 XML、Namespaces、CSS、XSLT 以及 XPath。
+                注释：Internet Explorer 5 同样拥有对 XML 的支持，但是 XSL 部分与 W3C 的官方标准不兼容！
+        xml的工作原理
+    XML的内容
+        xml的声明
+        xml的注释
+        节点
+            xml的节点关系
+            xml的节点标签
+            常用节点选择工具
+            节点选择语法
+        xml元素
+            其它元素
+            文本
+            属性
+    xml的使用
+        验证
+            XML 验证器
+            XML 浏览器
+            XML 错误会终止您的程序
+                XML 文档中的错误会终止你的 XML 程序。
+                W3C 的 XML 规范声明：如果 XML 文档存在错误，那么程序就不应当继续处理这个文档。理由是，XML 软件应当轻巧，快速，具有良好的兼容性。
+                如果使用 HTML，创建包含大量错误的文档是有可能的（比如你忘记了结束标签）。其中一个主要的原因是 HTML 浏览器相当臃肿，兼容性也很差，并且它们有自己的方式来确定当发现错误时文档应该显示为什么样子。
+                使用 XML 时，这种情况不应当存在。
+        XML 可用于交换、共享和存储数据。
+        XML 文档形成 树状结构，在"根"和"叶子"的分支机构开始的。
+        XML 有非常简单的 语法规则。带有正确语法的 XML 是"形式良好"的。有效的 XML 是针对 DTD 进行验证的。
+        XSLT 用于把 XML 转换为其他格式，比如 HTML。
+        所有现代的浏览器有一个内建的 XML 解析器，可读取和操作 XML。
+        DOM（Document Object Model）定义了一个访问 XML 的标准方式。
+        XMLHttpRequest 对象提供了一个网页加载后与服务器进行通信的方式。
+        XML 命名空间提供了一种避免元素命名冲突的方法。
+        CDATA 区域内的文本会被解析器忽略。
+    xpath
+        有七种类型的节点
+        选取节点
+            XPath 路径表达式
+            谓语
+            选取未知节点
+            选取若干路径
+            XPath 标准函数
+            xpath的运算符
+        选取节点方法
+            根据位置
+            更具属性数学条件
+        相关
+            XSLT样式表
+            XQuery数据查询
+            XLink 和 XPointer创建超链接方法

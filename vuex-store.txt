@@ -1,0 +1,10 @@
+vuex的store.js存储
+    功能：实现非父子之间的通信
+    vuex的安装
+    取值的组件{{}}里面使用this.$store.state
+    创建mutation突变
+    总线传输机制
+    仓库关系
+        state公有数据
+        action异步操作
+        mutation同步数据修改

@@ -1,0 +1,570 @@
+CSS
+    css的功能
+        把样式添加到 HTML 4.0 中，是为了解决内容与表现分离的问题
+        外部样式表可以极大提高工作效率
+    css的使用
+        缝隙和空白问题
+            html之间有空格
+        图片过大影响布局问题
+            margin负边距
+        图片溢出div的解决方案
+            max-width最大宽度设置
+            overfow父元素不显示溢出部分
+            最终解决方案js动态获取div的宽
+        css新增的内容
+            css3选择器在页面中插入内容
+                1、插入文字
+                2、插入图片
+                3、插入项目编号
+        样式表的编写逻辑
+            css选择器的使用
+            布局相关样式
+                Block Formatting Context
+                    BFC条件
+                    BFC 的特征
+                视口
+                    视觉视口（visual viewport）缩放窗口
+                    布局视口（layout viewport）pc标准窗口
+                    理想视口（ideal viewport） 分辨率
+                    设备像素比
+                自适应布局
+                    1.viewport元标签  设置布局视口为理想视口时
+                        PC端and iphone
+                    2.百分比布局
+                    3.自适应场景下的rem解决方案
+                        rem2px和px2rem
+                            webpack loader的形式：
+                            webpack中使用postcss plugin
+                        rem 布局的缺点
+                    4 通过vw/vh来实现自适应
+                        vw/vh单位的兼容性
+                1.display盒子布局
+                    2.block传统盒子布局
+                        1.postion
+                        3.margin必须要固定长度
+                            折叠的条件margin
+                        2.float
+                            width+float内容宽度
+                        常用布局的写法
+                            container内容区域形式
+                            单列定宽单列自适应布局
+                                不同的单位结合
+                            flex的单列布局
+                            flex的双列左定宽 右自适
+                            flex的一列不定宽  右自适
+                            双列
+                                定宽布局
+                                自适应布局
+                                等高布局
+                                    ① 利用负边距实现
+                                    ②使用display：table-cell；
+                                    ③通过javascript
+                                定宽中间自适应布局
+                                    三列或多列布局
+                                    三列或多列布局
+                                flex的多列布局
+                                    左中定宽 右侧自适
+                                    两侧定宽中间自适
+                                    等分
+                                    九宫格
+                            三栏实现-圣杯布局
+                            三栏实现-双飞翼布局
+                            三栏实现--绝对定位布局
+                            三栏布局--flex
+                            三栏布局--grid栅格布局
+                    3.flex-
+                        弹性盒子作用
+                        弹性盒子组成
+                        3、弹性盒布局
+                        弹性盒子属性
+                            justify-content元素主轴线对齐
+                            align-items元素交叉轴对齐
+                            align-content文本各行的对齐
+                            flex-flow
+                                flex-direction主轴排列方式
+                                flex-wrap主轴元素换行方式
+                        item弹性元素
+                            align-self纵轴对齐方式
+                            margin-right对齐
+                            margin居中
+                            order排列顺序
+                                ordinal-group显示顺序
+                            flex分配空间
+                                flex-basic项目占据的主轴空间
+                                flex-grow空间权值
+                                flex-shrink缩小权值
+                    3.表格布局
+                2.    colume多列布局
+                    conlumn-count创建列数
+                    column-gap列间隔
+                    column-rule列边框样式
+                        width边框厚度
+                        style边框样式
+                        color边框颜色
+                    css3的conlumn属性
+                        span元素跨越
+                        width列宽度
+                盒布局和多列布局的区别
+            盒模型宽度设置
+    css的属性
+        Css的3种基本类型
+            重新定义HTML样式
+            nav链接状态样式
+            自定义样式
+        样式表属性
+        浏览器兼容的前缀
+        可以设置尺寸属性的HTML元素
+        css层叠
+            选择器优先级
+            css样式表优先级
+                后写的覆盖先写的（同一级别）
+                内联属性”—>“写在 style标签里”—>“外部链接
+                    内联方式表
+                    内部样式表
+                    外部样式表
+                    导入式
+                优先级的调整！important
+        css继承
+            font字体相关属性
+                color属性
+                font-family, 字体集
+                font-size,   字体大小
+                font-style,   字体样式
+                font-variant,  字体变形
+                font-weight,  字体粗细
+            text文本相关属性
+                line-height：行高
+                text-indent：文本缩进
+                text-align：文本水平对齐
+                text-shadow：设置文本阴影
+                word-spacing：增加或减少单词间的空白（即字间隔）
+                letter-spacing：增加或减少字符间的空白（字符间距）
+                text-transform：控制文本大小写
+                direction：规定文本的书写方向
+                color：文本颜色
+            list列表相关属性
+                list-style-type
+                list-style-image
+            visiably元素可见性
+            form表格布局属性
+                caption-side
+                border-collapse
+                empty-cells
+    语句
+        条件执行
+            css3@font-face浏览器使用自定义文字预定义
+                css3根据条件使用不同的文字
+            @media媒体类型条件执行
+                css3多媒体类型
+                css3多媒体的属性
+                    操作符
+                        only
+                        not排除
+                多条语句--用于多个设备
+                语句的引入方式1
+                语句的引入方式2
+                voice family属性听觉用户代理 
+                font-size屏幕和印刷媒体
+            @charset这个规则定义了浏览器使用的字符集
+            @import指示请求导入样式表
+            @namespace
+            @document只能应用于特定页面
+            @page打印的单独页面定义样式
+            @supports知否支持某个特性/功能
+        css选择器
+            子主题
+                *通用选择器
+                # id选择器
+                p.class类选择器
+                    多类选择器
+                    分类选择器
+                element元素选择器
+            []属性选择器
+                属性选择器
+                属性和值选择器
+                属性和值选择器 多值
+                css3属性*包含选择器
+                css3属性^开头字符选择器
+                css3属性$结尾字符选择器
+            嵌套选择器
+                element：a伪元素选择器
+                    匹配首个字符
+                    匹配首行字符
+                    匹配选取部分
+                    内容插入
+                        :before/:after插入位置
+                        content 插入内容
+                        counter计数器
+                            reset初始值
+                            increment 增量值
+                            counter计数器名
+                伪类和伪元素选择的区别
+                p.class:xxx伪类选择器
+                    target目标伪类
+                        root页面根元素
+                        not否定伪类
+                        empty元素为空白时
+                        target跳转超链接
+                    enabled元素状态伪类
+                    last-child结构伪类
+                        css3结构性伪类选择器
+                        css3循环结构选择器
+                        css3类型nthof type选择
+                        css3兄弟元素选择器
+                    hover等动态伪类
+                        UI元素状态伪类选择器
+                    link等链接伪类
+                        link尚未访问
+                        visied访问过的
+            组合选择符
+                ,分组选择器
+                  后代选择器
+                >子代选择器
+                +相邻兄弟选择器
+                ~后续兄弟选择器
+        盒子模型属性
+            样式的样式：颜色样式
+                颜色单位
+            0.盒子整体预定义
+                1.所有元素使用
+                2.大类元素使用
+                    body
+                    img
+            1.元素位置
+                定位的属性
+                    定位的分类
+                        普通流定位
+                        相对定位
+                        绝对定位
+                        浮动定位
+                    position在IE8之前使用的问题
+                    float在IE浏览器之前的问题
+                1.display显示方式
+                    block显示块级元素
+                    display:inline  -- 显示为内联元素
+                    inline-block内联块元素
+                        inline-block功能
+                    none类型
+                    run-in后元素放内部
+                    compact后元素放左边
+                    css2  inline-table类型
+                    css3  list-item类型
+                    css3  表格相关类型
+                    css3  flex弹性盒子属性
+                    css3  inline-flex行内弹性元素
+                    各种浏览器对各种盒模型的支持情况
+                    display属性的属性值
+                3oopacity元素的不透明级别
+                visibility显示和隐藏
+                    不同浏览器处理方式
+                    两者区别
+                2.元素的完全居中实现
+                    父元素设置成display: table, 子元素设置为单元格 display: table-cell。
+                    弹性布局display: flex。设置align-items: center; justify-content: center
+                    父元素固定宽高，postion50%  设置子元素margin值为自身的一半。
+                    父元素固定宽高，postion 0绝对定位margin auto
+                    自身尺寸未知：   postion50% 和transform方法
+                2.vertical-align垂直对齐方式
+                2.margin：auto；元素盒子水平居中对齐
+                    margin-bottom元素下边距
+                    margin-left元素左边距
+                    margin-right 元素右边距
+                    margin-top元素上边距
+                    margin外边距尺寸
+                    margin:auto的使用条件
+                    双边距重叠问题（外边距折叠）
+                2.position定位
+                    TRBL
+                        left左边距偏移
+                        top上边距偏移
+                        right右边距偏移
+                        bottom到下外边距偏移
+                        左右对齐position：absolute
+                        百分比的含义
+                    absolute绝对定位
+                    relative相对正常定位
+                    fixed固定于浏览器
+                    sticky粘性定位
+                    static静态文档流对象
+                    定位的区别和使用
+                        relative的使用
+                        absolute的使用
+                        fix的使用
+                3.float浮动定位
+                    浮动方向属性
+                    clear清除浮动 =进来
+                        2.class="clear"在浮动元素后使用空元素
+                        3.父级div定义 overflow: auto
+                        3..给浮动元素的添加父元素overflow:hidden
+                        4.伪元素添加clear属性 :after 方法
+                    浮动定位方法
+                        left 在左侧不允许浮动元素。
+                        right 在右侧不允许浮动元素。
+                        both 在左右两侧均不允许浮动元素。
+                        none 默认值。允许浮动元素出现在两侧。
+                        inherit 规定应该从父元素继承 clear 属性的值。
+                clip剪辑一个绝对定位元素
+                z-index重叠制定
+                overflow元素溢出
+                    溢出的功能
+                    溢出属性的属性
+                    溢出属性
+                        overflow-x处理左右边缘溢出元素
+                        overflow-y处理上下边缘溢出元素
+                visibility=hidden, opacity=0，display:none区别
+            2.元素尺寸
+                尺寸单位
+                    pt 磅
+                    px 像素
+                    rem
+                    em字体尺寸
+                box-sizing元素
+                    box-sizing默认content  width=content
+                    box-sizing设置border    width=content+padding+border
+                width宽度属性
+                    auto 默认值  子元素content+margin+border+padding=父元素content
+                    width:100%  子元素content=父元素contentwidth
+                    width:auto和width:100%的区别
+                height高度属性
+                2.盒子模型尺寸
+                    border边框三联
+                        边框定位border-方向+
+                        边框宽度border-width
+                            方法1关键词
+                            方法2 长度单位
+                        边框样式border-style
+                        边框颜色border-color
+                    border边框样式
+                        css3  border-radius圆角
+                            border-top-left-radius左上角弧度
+                            border-top-right-radius右上角弧度
+                            border-bottom-left-radius左下角弧度
+                            border-bottom-right-radius右下角弧度
+                            简写规则
+                            运行规则
+                                没有边框时
+                        css3  border-shadow盒阴影
+                            盒阴影
+                        css3  border-image边界图片
+                            显示原理
+                            topbotton背景显示方法
+                            border-image语法
+                        outline轮廓
+                            outline轮廓属性
+                            outline-offset 调整外边框尺寸
+                        外边框属性
+                    padding内边距尺寸
+                css3 元素尺寸调整resizing
+            4..背景样式
+                简写
+                    2.css3--background-image背景图片
+                    5..背景位置background--posithion
+                        百分比的使用
+                    3.背景图片平铺方式bkground-repeat
+                    4.背景图片滚动方式background-attachment
+                    1.背景颜色background-color
+                        a链接背景修饰background-color
+                css3--背景图像位置background-Origin
+                    语法写法
+                    属性值
+                css3--背景图像大小background-size
+                    属性
+                        auto默认值
+                        length宽高
+                        percentage百分比
+                        cover放大铺满
+                        contain缩小铺满
+                css3-背景图像的缝隙  background-break
+                css3--背景剪裁绘制   background-clip
+                    属性值
+                    浏览器前缀
+                css3--线性渐变background:linuear-grandient
+                    background:linear-gradient 顶部线性渐变
+                    background linear-grandient 左右线性渐变
+                    background linear-grandient 斜对角渐变
+                    自定义角度
+                    多个颜色节点
+                    透明度
+                    重复线性渐变
+                css3--径向渐变background-radial-gradient
+                    x%颜色结点分布
+                    shape形状
+                    size渐变的大小
+                    repeating-radial-gradient重复径向渐变
+                多个背景图片url url
+                多个背景多个属性
+            6.font字体样式
+                字体集font-family
+                字体大小font-size
+                    使用百分比和em组合
+                    使用em标准单位
+                    使用px像素
+                    px和em关系
+                字体粗细font-weight
+                字体颜色color
+                字体样式font-style
+                字体变形font-variant
+                字体拉抻font-stretch
+                显示客户端字体
+            6...text文本属性
+                文本溢出 text-overflow
+                文本位置
+                    盒子内部文本垂直居中对齐padding
+                    盒子内部文本水平对齐方式text-align
+                        文本居中对齐text-align: center;
+                    水平垂直都居中padding+text-align
+                    文本相对父盒子垂直居中 line-height
+                文本大小
+                    文本行高line-height
+                文本格式
+                    文本垂直方式vertical-align
+                    文本缩进text-indent
+                    文本换行   word-break
+                    文本转换大小写text-transform
+                    元素内单词间距wrod-spacing
+                    元素内字母间距letter-spacing
+                    css3--word-wrap单词换行
+                    css3--word-break单词拆分换行
+                        word-break方法值
+                文本样式
+                    元素内文本下划线text-decoration
+                        a链接文本修饰text-decorcation
+                    处理空白 white-space
+                    css3--text-shadow文本阴影
+                    css3--box-shadow盒子阴影
+                        纸质卡片效果
+                css3
+            7.变化属性
+                css3 transition过渡效果
+                    多项属性过渡效果
+                    过渡属性
+                        transition-property哪个属性
+                        transtion-timing-function变换速率
+                        transtion-duration持续时间
+                        transtion-delay变换延迟时间
+                css3 animation动画效果
+                    动画属性
+                    @keyframes创建关键帧
+                    animation-name指定合集名称，
+                    animation-fill-mode不播放时的效果
+                    animation-play-mode播放状态
+                    animation-timing-function实现动画速度
+                    animation-iteration-count播放次数
+                    动画属性简写
+                transiton和animations的区别
+                CSS3的transform文字图像变形功能
+                    三维变换
+                    none 定义不进行转换。
+                    transform-origin元素基准点
+                        transform-origin : 100% 0 0
+                    transform 各个变换执行顺序
+                    rotate旋转
+                        rotate(angle) 定义 2D 旋转，在参数中规定角度。
+                        rotate3d(x,y,z,angle) 定义 3D 旋转。
+                        rotateX(angle) 定义沿着 X 轴的 3D 旋转。
+                        rotateY(angle) 定义沿着 Y 轴的 3D 旋转。
+                        rotateZ(angle) 定义沿着 Z 轴的 3D 旋转。
+                    scale(x,y)缩放
+                        scale(x[,y]?) 定义 2D 缩放转换。
+                        scale3d(x,y,z) 定义 3D 缩放转换。
+                        scaleX(x) 通过设置 X 轴的值来定义缩放转换。
+                        scaleY(y) 通过设置 Y 轴的值来定义缩放转换。
+                        scaleZ(z) 通过设置 Z 轴的值来定义 3D 缩放转换。
+                        scale(x,y)使元素X轴和Y轴同时缩放
+                    skew倾斜
+                        skew(x-angle,y-angle) 定义沿着 X 和 Y 轴的 2D 倾斜转换。
+                        skewX(angle) 定义沿着 X 轴的 2D 倾斜转换。
+                        skewY(angle) 定义沿着 Y 轴的 2D 倾斜转换。
+                    translate移动
+                        translateX(x) 定义转换，只是用 X 轴的值。
+                        translateY(y) 定义转换，只是用 Y 轴的值。
+                        translateZ(z) 定义 3D 转换，只是用 Z 轴的值。
+                        translate(x,y)水平方向和垂直方向同时移动
+                    perspective(n) 为 3D 转换元素定义透视视图。
+                        perspective 设置为 1500px
+                        perspective 设置为 150px
+        5..内容样式举例
+            table th td表格样式
+                表格宽度和高度width height
+                表格边框border
+                    折叠边框borde-collapser
+                    表格边框颜色color
+                TH
+                    表格垂直对齐vertical-align
+                    表格文字对齐text-align
+                    表格填充padding
+                html5表格属性
+                    align表格显示位置
+                    border边框
+                    frame 边框线条
+                        1.void(默认值)
+                            表示无边框
+                        2.above
+                            表示仅顶部有边框
+                        3.below
+                            表示仅有底部边框
+                        4.hsides
+                            表示仅有顶部边框和底部边框
+                        5.lhs
+                            表示仅有左侧边框
+                        6.rhs
+                            表示仅有右侧边框
+                        7.vsides
+                            表示仅有左右侧边框
+                        8.box
+                            包含全部4个边框
+                        9.border
+                            包含全部4个边框
+                    rules单元格分割线
+                        1.none(默认值)
+                            表示无分割线
+                        2.all
+                            表示包括所有分割线
+                        3.rows
+                            表示仅有行分割线
+                        4.clos
+                            表示仅有列分割线
+                        5.groups
+                            表示仅在行组和列组之间有分割线
+            list列表样式
+                list-style-position列表标记的位置
+                list-style-type标记样式类型
+                list-style-image列表项标记
+            css3 img图片样式
+                border-radius角度
+                border缩略图
+                max-width响应式图片
+                relative-absolute图片文本
+                卡片式图片
+                filter grayscale图片滤镜
+                图片廊
+                    图像拼合
+            css3 button按钮样式
+                background-color颜色
+                font-size按钮大小
+                border-radius按钮形状
+                color 边框颜色
+                ：hover按钮悬停
+                box-shadow按钮阴影
+                curser透明度 
+                float按钮组
+                    带边框
+            表单
+                textarea文本样式
+                select下拉菜单
+                input输入框样式
+                    width宽度
+                    padding填充
+                    border边框
+                    color颜色
+                    focus聚焦样式
+                    image输入图标
+                    带动画
+                    按钮样式
+            a链接样式
+                链接状态
+                设置链接状态样式规则
+            cursor光标样式
+                curser鼠标光标类型
+                cursor光标移动到元素的类型
+            appearance 元素的外观像一个标准的用户界面元素

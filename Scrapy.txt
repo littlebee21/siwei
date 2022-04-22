@@ -1,0 +1,79 @@
+Scrapy
+    scrapy属性
+    scrapy的组成
+        项目的目录结构
+             scrapy.cfg配置文件
+             douban
+            spiders爬虫
+                 __pycache__
+                __init__.py
+                comic_spide.py
+             pipelines.py数据持久化下载
+             middlewares.py
+             items.py容器
+             settings.py项目配置
+        5+2结构组件
+            5个主要模块
+                spiders
+                Engine引擎  控制数据处理流程
+                Download下载网页返回给蜘蛛
+                Sceduler调度器
+                item piplines爬取条目列表
+            2个中间件
+                Downloader Midderware
+                Spider Middleware拓展scrapy功能
+        Scrapy原理结构的数据流路径
+            数据处理流程
+                1. 引擎询问蜘蛛需要处理哪个网站，并让蜘蛛将第一个需要处理的URL交给它。
+                2. 引擎让调度器将需要处理的URL放在队列中。
+                3. 引擎从调度那获取接下来进行爬取的页面。
+                4. 调度将下一个爬取的URL返回给引擎，引擎将它通过下载中间件发送到下载器。
+                5. 当网页被下载器下载完成以后，响应内容通过下载中间件被发送到引擎；如果下载失败了，引擎会通知调度器记录这个URL，待会再重新下载。
+                6. 引擎收到下载器的响应并将它通过蜘蛛中间件发送到蜘蛛进行处理。
+                7. 蜘蛛处理响应并返回爬取到的数据条目，此外还要将需要跟进的新的URL发送给引擎。
+                8. 引擎将抓取到的数据条目送入条目管道，把新的URL发送给调度器放入队列中。
+    Scrapy的爬虫对象类型
+        spider
+            属性
+                1. name：爬虫的名字。
+                2. allowed_domains：允许爬取的域名，不在此范围的链接不会被跟进爬取。
+                3. start_urls：起始URL列表，当我们没有重写start_requests()方法时，就会从这个列表开始爬取。
+                4. custom_settings：用来存放蜘蛛专属配置的字典，这里的设置会覆盖全局的设置。
+                5. crawler：由from_crawler()方法设置的和蜘蛛对应的Crawler对象，Crawler对象包含了很多项目组件，利用它我们可以获取项目的配置信息，如调用crawler.settings.get()方法。
+                6. settings：用来获取爬虫全局设置的变量。
+            方法
+                7. start_requests()：此方法用于生成初始请求，它返回一个可迭代对象。该方法默认是使用GET请求访问起始URL，如果起始URL需要使用POST请求来访问就必须重写这个方法。
+                8. parse()：当Response没有指定回调函数时，该方法就会被调用，它负责处理Response对象并返回结果，从中提取出需要的数据和后续的请求，该方法需要返回类型为Request或Item的可迭代对象（生成器当前也包含在其中，因此根据实际需要可以用return或yield来产生返回值）。
+                9. closed()：当蜘蛛关闭时，该方法会被调用，通常用来做一些释放资源的善后操作。
+    SCRAPY shell常用命令
+        scrapy shell "http://comic.kukudm.com/comiclist/3/"
+    Scrapy的使用
+        Scrapy框架的编写步骤
+            scrapy startproject hellospider建立爬虫工程：步骤1
+            工程中产生一个Scrapy爬虫框架：步骤2
+            编写spider：步骤3
+            piplines.py编写item pipline ：步骤4
+            settings优化配置策略：步骤5
+        scrapy框架的使用
+            爬虫的运转
+        高级
+        Scrapy分布式实现
+            1. 安装Scrapy-Redis。
+            2. 配置Redis服务器。
+            3. 修改配置文件。
+                   - SCHEDULER = 'scrapy_redis.scheduler.Scheduler'
+                   - DUPEFILTER_CLASS = 'scrapy_redis.dupefilter.RFPDupeFilter'
+                   - REDIS_HOST = '1.2.3.4'
+                   - REDIS_PORT = 6379
+                   - REDIS_PASSWORD = '1qaz2wsx'
+                   - SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.FifoQueue'
+                   - SCHEDULER_PERSIST = True（通过持久化支持接续爬取）
+                   - SCHEDULER_FLUSH_ON_START = True（每次启动时重新爬取）
+        Scrapyd分布式部署
+            1. 安装Scrapyd
+            2. 修改配置文件
+                   - mkdir /etc/scrapyd
+                   - vim /etc/scrapyd/scrapyd.conf
+            3. 安装Scrapyd-Client
+                   - 将项目打包成Egg文件。
+                   - 将打包的Egg文件通过addversion.json接口部署到Scrapyd上。

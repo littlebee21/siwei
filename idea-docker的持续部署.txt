@@ -1,0 +1,27 @@
+docker的持续部署
+    dockermaven插件容器
+        1.服务器开放docker端口,默认2357
+        2.IDEA新建springboot项目，
+            配置docker-maven插件，
+                mvn clean -DskipTests package或build触发docker 镜像构建
+            Dockerfile
+        3.配置idea，创建容器并启动
+            idea docker插件配置docker连接
+    4.2 jenkins下载与启动
+        准备maven和git
+        基于jenkins构建镜像进行容器化部署
+        插件安装
+        环境配置
+            设置javahome
+            设置mavenhome
+            设置maven镜像
+            new item 构建maven风格的项目
+            配置代码库
+            触发器配置
+            指定要构建的modeulename
+                branch
+                token
+            构建命令配置
+            配置构建后执行的shell脚本
+            配置构建邮件通知
+        手动触发构建

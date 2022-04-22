@@ -1,0 +1,193 @@
+代码生成
+    不分模块的参数配置文件
+        项目路径、
+              "projectDir" : "D:\\tablego-springboot",
+        基本的包路径
+              "basePackagePath" : "cn.tablego.project.springboot",
+        组织名称
+              "groupId" : "cn.tablego",
+        项目名称
+              "artifactId" : "tablego-springboot",
+        端口号
+              "port" : "8080",
+        路径
+              "contextPath" : "/tablego-springboot",
+        应用名称
+              "appName" : "tablego-springboot",
+        描述
+              "description" : "TableGo-SpringBoot项目",
+        源路径
+              "srcPath" : "/src/main/java",
+        资源路径
+              "resourcesPath" : "/src/main/resources",
+        测试路径
+              "testPath" : "/src/test/java",
+        日志包含属性
+              "logFields" : "CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, DELETE_FLAG",
+        注释匹配字段类型
+              "remarkMatchDict" : "类型, 类别, 状态, 是否",
+        备注说明
+              "remarkMatchMulti" : "备注, 说明",
+        模板参数列表
+              "ftlParamList" : [ 
+        模块结构
+            模板名称
+                "templateName" : "${tableUpperCamelCase}[java].ftl",
+                "templateName" : "${tableUpperCamelCase}Condition[java].ftl",
+                "templateName" : "${tableUpperCamelCase}Service[java].ftl",
+                "templateName" : "${tableUpperCamelCase}Controller[java].ftl",
+                "templateName" : "${tableUpperCamelCase}Mapper[java].ftl",
+                "templateName" : "${tableUpperCamelCase}Mapper[xml].ftl",
+                "templateName" : "${tableUpperCamelCase}ServiceTest[java].ftl",
+                "templateName" : "${appNameUpperCamelCase}Application[java].ftl",
+                "templateNames" : "BaseBean[java].ftl, BaseCondition[java].ftl, BasePagingCondition[java].ftl, OverrideBeanMethods[java].ftl, Paging[java].ftl, Result[java].ftl",
+                "templateNames" : "BaseController[java].ftl",
+                "templateNames" : "RedisService[java].ftl",
+                "templateNames" : "ExceptionHandlerAdvice[java].ftl, BizException[java].ftl",
+                "templateNames" : "Assert[java].ftl",
+                "templateNames" : "MybatisPlusConfiguration[java].ftl, CorsConfig[java].ftl, AsyncThreadPoolConfiguration[java].ftl, RedisConfiguration[java].ftl",
+                "templateNames" : "application[yml].ftl, logback-spring[xml].ftl, smart-doc[json].ftl",
+                "templateName" : "pom[xml].ftl",
+            模板文件相对目录
+                "ftlRelativeDir" : "${srcPath}/model",
+                "ftlRelativeDir" : "${srcPath}/model/condition",
+                "ftlRelativeDir" : "${srcPath}/service",
+                "ftlRelativeDir" : "${srcPath}/controller",
+                "ftlRelativeDir" : "${srcPath}/mapper",
+                "ftlRelativeDir" : "${resourcesPath}/mapper",
+                "ftlRelativeDir" : "${testPath}",
+                "ftlRelativeDir" : "${srcPath}",
+                "ftlRelativeDir" : "${srcPath}/common/model",
+                "ftlRelativeDir" : "${srcPath}/common/controller",
+                "ftlRelativeDir" : "${srcPath}/common/service",
+                "ftlRelativeDir" : "${srcPath}/common/exception",
+                "ftlRelativeDir" : "${srcPath}/common/util",
+                "ftlRelativeDir" : "${srcPath}/configuration",
+                "ftlRelativeDir" : "${resourcesPath}",
+            包路径
+                "packagePath" : "${basePackagePath}.model",
+                "packagePath" : "${basePackagePath}.model.condition",
+                "packagePath" : "${basePackagePath}.service",
+                "packagePath" : "${basePackagePath}.controller",
+                "packagePath" : "${basePackagePath}.mapper",
+                "relativePath" : "${resourcesPath}/mapper",
+                "packagePath" : "${basePackagePath}",
+                "packagePath" : "${basePackagePath}",
+                "packagePath" : "${basePackagePath}.common.model",
+                "packagePath" : "${basePackagePath}.common.controller",
+                "packagePath" : "${basePackagePath}.common.service",
+                "packagePath" : "${basePackagePath}.common.exception",
+                "packagePath" : "${basePackagePath}.common.util",
+                "packagePath" : "${basePackagePath}.configuration",
+            相对路径
+                "relativePath" : "${srcPath}",
+                "relativePath" : "${srcPath}"
+                "relativePath" : "${srcPath}"
+                "relativePath" : "${srcPath}"
+                "relativePath" : "${srcPath}"
+                "relativePath" : "${testPath}"
+                "relativePath" : "${srcPath}",
+                "relativePath" : "${srcPath}",
+                "relativePath" : "${srcPath}",
+                "relativePath" : "${srcPath}",
+                "relativePath" : "${srcPath}",
+                "relativePath" : "${srcPath}",
+                "relativePath" : "${srcPath}",
+                "relativePath" : "${resourcesPath}",
+            字段过滤
+                "needFilterField" : "false"
+            是否建立独立文件
+                "buildSingleFile" : "true"
+                "buildSingleFile" : "true"
+                "buildSingleFile" : "true"
+                "buildSingleFile" : "true"
+                "buildSingleFile" : "true"
+                "buildSingleFile" : "true"
+                "buildSingleFile" : "true"
+                "buildSingleFile" : "true"
+                "buildSingleFile" : "true"
+            排除指定的表字段
+                "excludeFields" : "${logFields}"
+        文件操作配置列表
+              "fileList" : [ {
+                文件来源路径
+                    "fromPath" : "/readme.txt, /crebas.sql"
+                文件目标路径
+                    "toPath" : "${resourcesPath}/static"
+                    "toPath" : "${resourcesPath}/templates"
+        实体中生成sqlcondition.like注解
+              "likeFeilds" : {
+                "T_USER" : [ "FULL_NAME" ],
+                "T_SYS_PARAM" : [ "PARAM_NAME" ],
+                "T_DEPARTMENT" : [ "DEPT_NAME" ],
+                "T_DICT_TYPE" : [ "TYPE_NAME" ],
+                "T_PROVINCE" : [ "PROVINCE_NAME" ]
+        condition类和mapper.xml中生成指定字段查询条件
+              "searchFeilds" : {
+                "T_USER" : [ "USERNAME", "USER_TYPE", "FULL_NAME" ],
+                "T_USER_EXT_INFO" : [ "BIRTHDAY", "PROVINCE_CODE", "CITY_CODE", "AREA_CODE" ],
+                "T_SYS_PARAM" : [ "PARAM_NAME", "PARAM_CODE", "PARAM_TYPE" ],
+                "T_DEPARTMENT" : [ "DEPT_NAME", "DEPT_CODE", "PARENT_ID" ],
+                "T_DICT_TYPE" : [ "TYPE_NAME", "TYPE_CODE" ],
+                "T_DICTIONARY" : [ "DICT_NAME", "DICT_CODE", "DICT_TYPE_CODE" ],
+                "T_PROVINCE" : [ "PROVINCE_NAME", "PROVINCE_CODE" ],
+                "T_CITY" : [ "CITY_NAME", "CITY_CODE", "PARENT_CODE" ],
+                "T_AREA" : [ "AREA_NAME", "AREA_CODE", "PARENT_CODE" ]
+        分页查询的SQL
+            joinTables
+          "noSqlTables" : [ "T_SYS_PARAM" ],
+          "componentList" : [ {
+            名字
+                "name" : "单元测试组件",
+                "name" : "跨域请求配置组件",
+                "name" : "Knife4j组件",
+                "name" : "Smart-Doc组件",
+                "name" : "异步线程池组件",
+                "name" : "Redis组件",
+                "name" : "MongoDB组件",
+            是否开启
+                "enable" : "true",
+                "enable" : "true",
+                "enable" : "true",
+                "enable" : "false",
+                "codeEnableKey" : "enableKnife4j"
+                "codeEnableKey" : "enableSmartDoc",
+                "enable" : "false",
+                "enable" : "false",
+                "codeEnableKey" : "enableRedis",
+                "enable" : "false",
+                "codeEnableKey" : "enableMongoDB"
+            对应模板
+                "templateNames" : "${tableUpperCamelCase}ServiceTest[java].ftl"
+                "templateNames" : "CorsConfig[java].ftl"
+                "templateNames" : "smart-doc[json].ftl"
+                "templateNames" : "AsyncThreadPoolConfiguration[java].ftl"
+                "templateNames" : "RedisConfiguration[java].ftl, RedisService[java].ftl"
+        原本的项目配置
+              "projectConfig" : {
+                "dbDriverClassName" : "com.mysql.jdbc.Driver",
+                "dbUrl" : "jdbc:mysql://127.0.0.1:3306/test?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&nullNamePatternMatchesAll=true&allowPublicKeyRetrieval=true",
+                "dbUsername" : "root",
+                "dbPassword" : "root",
+                "redisHost" : "127.0.0.1",
+                "redisPort" : "6379",
+                "redisDatabase" : "0",
+                "mongodbUri" : "mongodb://127.0.0.1:27017/local"
+        版本
+              "version" : {
+                "java" : "1.8",
+                "springBootStarterParent" : "2.4.8",
+                "mysqlConnectorJava" : "5.1.49",
+                "mybatisPlusBootStarter" : "3.4.3.2",
+                "swaggerSpringBootStarter" : "1.9.1.RELEASE",
+                "hibernateValidator" : "6.2.0.Final",
+                "commonsLang3" : "3.11",
+                "knife4j" : "3.0.3",
+                "snakeyaml" : "1.27",
+                "lombok" : "1.18.20",
+                "hutoolAll" : "5.7.4",
+                "redisson" : "3.15.6",
+                "mavenCompilerPlugin" : "3.8.1",
+                "mavenSourcePlugin" : "3.2.1",
+                "mavenSurefirePlugin" : "2.22.2",
+                "smartDocMavenPlugin" : "2.2.2"

@@ -1,0 +1,254 @@
+linux系统移植操作：
+linux系统移植操作-确保网络连接的正常：
+    0.系统移植准备uboot emmmmmmmmmmmmmmmmmmmx
+        1，解压拷贝u-boot-2013.01undo.tar.bz2到~/fs4412
+        2, ./u-boot-2013.01/Makefile 
+                184-186  交叉编译工具的修改
+        3， ./u-boot-2013.01/board/samsung/origen  复制4412芯片原厂的到同目录
+        4， ./u-boot-2013.01/board/include/configs/fs4412.h 在总目录创建4412头文件
+            复制 include/configs/origen.h 
+        5， ./u-boot-2013.01/boards.cfg  添加新开发板支持
+        7， arch/arm/cpu/armv7/start.S 134 行后添加点灯代码   添加测试现象
+        7,  board/samsung/fs4412/lowlevel_init.5 添加串口信息打印支持
+        7， board/samsung/fs4412/fs4412.c 添加网卡的支持
+        7， board/samsung/fs4412/fs4412.c 添加EMMC的支持
+
+        6.  make disclean 
+            make fs4412_config
+            make
+        得到u-boot.bin
+        8,  cp sdfuse_q ./u-boot-2013.01/ -r  拷贝三星 加密处理
+        9,  cp CodeSign4SecureBoot  ~/fs4412/u-boot-2013.01/ -r 拷贝三星安全启动方式
+        10, cp ./build.sh  ~/fs4412/u-boot-2013.01/   拷贝执行脚本
+            可执行权限
+        11， .build 执行
+        得到u-boot-fs4412.bin
+
+        12，~/fs4412/win-sd  开发板刷机：
+            1，在linux制作SD卡启动盘
+                a, ~/fs4412/sdfuse_q           unzip sdfuse_q.zip,   提升权限
+                b，SD卡连接到虚拟机,查看SD
+                c, 拷贝bin到烧写文件夹下          cp ~/fs4412/u-boot-fs4412.bin  到 ~/fs4412/sdfuse_q 
+                d, sudo ./mkuboot.sh #烧录
+                    dd if=u-boot-fs4412.bin of=/dev/sdb seek=1 
+            2，在windows下制作SD卡启动盘
+                a, cp ./u-boot-fs4412.bin ./win-sd
+                b, dd if=/dev/zero of=sector0 bs=512 count=1      //拼接
+                c, cat sector0 u-boot-fs4412.bin > u-boot-fs4412.img //链接添加512个字节在img头
+                d, 拷贝出来
+                e, Win32DiskImager.exe来烧写u-boot-fs4412.img到SD卡
+    0，开发板
+        1. USB转串线9针端连接开发板三个9孔母口的COM2（中间的那个）
+        2. 开发板启动模式开关设置为下图形式
+    1，串口连接
+        波特率，
+        端口，
+        空格进入
+    2，uboot设置ip地址
+        setenv serverip 192.168.9.16
+        setenv ipaddr 192.168.9.99
+        setenv gatewayip 192.168.9.1
+        setenv bootcmd tftp 41000000 uImage\;tftp 42000000 exynos4412-fs4412.dtb\;bootm 41000000 - 42000000
+            解释：u-boot# setenv 
+                          bootcmd tftp 41000000 uImage\; 启动位置
+                           tftp 42000000 exynos4412-fs4412.dtb\; 
+                            bootm 41000000 - 42000000
+        setenv bootargs root=/dev/nfs nfsroot=192.168.9.16:/opt/4412/rootfs rw console=ttySAC2,115200 init=/linuxrc ip=192.168.9.99
+                            setenv bootargs root=/dev/nfs 
+                            nfsroot=192.168.9.16:/opt/4412/rootfs 
+                            rw 
+                            console=ttySAC2,115200      
+                            init=/linuxrc          //
+                            ip=192.168.9.99        //本机地址
+        saveenv
+    3，vmware设置
+        1，桥接模式
+            intel 设置使用本机电脑的网卡
+            sudo ifconfig 192.168.9.16 设置ubuntu地址
+        2，设置vmware的桥接
+            a.关闭vmware重新获取网络信号，disconnect net
+    4.ping 192.168.9.16
+
+linux系统移植操作-确保ubuntu的开发环境
+    5.执行操作ubuntu
+        0, tftp安装
+             #安装tftp-hpa tftpd-hpa：
+            sudo apt-get install tftp-hpa tftpd-hpa
+
+            sudo mkdir /tftpboot #创建tftp服务端共享目录
+            sudo chmod -R 777 /tftpboot #修改目录权限
+
+            #修改服务端配置文件---tftpd-hpa
+            sudo vim /etc/default/tftpd-hpa
+            #文件内容如下：
+            #RUN_DAEMON="no"
+            #OPTIONS="-s /tftpboot -c -p -U tftpd"
+            TFTP_USERNAME="tftp"
+            TFTP_DIRECTORY="/tftpboot"
+            TFTP_ADDRESS="0.0.0.0:69"
+            TFTP_OPTIONS="-l -c -s"
+
+            #运行服务端
+            sudo service tftpd-hpa restart
+
+            #测试
+            cd /tftpboot
+            touch xxx
+            vim xxx #随便输入一些内容后保存退出
+            cd ~
+            tftp 127.0.0.1
+            tftp>get xxx
+            tftp>q
+            cat xxx #查看xxx内容为上面输入的内容则表示安装成功，否则安装过程有问题
+        0，nfs安装 
+            #nfs 安装
+            sudo apt-get install nfs-kernel-server32
+
+            #编辑服务端配置文件----/etc/exports
+            sudo vim  /etc/exports
+            #在其内添加一行，内容如下：
+            /opt/4412/rootfs *(rw,sync,no_root_squash,no_subtree_check)
+
+            #创建挂载点目录并修改挂载点目录的访问权限
+            sudo mkdir /opt/4412/rootfs -p
+            sudo chmod 777 /opt/4412/rootfs
+
+            #启动NFS服务端（每一次修改/etc/exports都要重启nfs）
+            sudo service nfs-kernel-server restart
+            sudo service rpcbind restart
+
+            #验证安装是否正确
+            #在/opt/4412/rootfs下创建一个空文件
+            cd /opt/4412/rootfs
+            touch test
+            sudo  mount 127.0.0.1:/opt/4412/rootfs   /mnt
+            #127.0.0.1（这是被挂目录的主机IP）     
+            #ubuntu上NFS服务器上被挂目录的绝对路径/opt/4412/rootfs
+            #/mnt（挂载的目的地）
+
+            ls -l /mnt #如果有test的话就说明ok了
+            sudo rm /mnt/test
+            sudo mount /mnt #卸掉挂载的目录
+        0，根文件系统制作
+            1, http://busybox.net/downloads/ 源码下载
+            2, tar xvf busybox-1.22.1.tar.bz2` 解压源码
+            3, cd busybox-1.22.1 
+            4, make menuconfig 配置
+            5, make 
+            6，make install     //出现问题不用管
+            得到初级生成的目录文件_install
+            7, mkdir dev etc mnt proc var tmp sys root
+            8, cp   ?????/gcc-4.6.4/arm-arm1176jzfssf-linux-gnueabi/sysroot/lib  .   -r    拷贝交叉编译工具lib
+            9, chmod +w ./lib -R     
+            10, rm *.a
+            11, arm-none-linux-gnueabi-strip *
+            12, du -md   确定所有的库<= 8M
+            得到一个精简的库文件lib
+            13, _install/etc/inittab 添加系统启动文件
+            14，_install/etc/fstab 
+            15, _install/etc/init.c/rcS 
+            16, chmod +x init.d/rcS
+            17, _install/etc/profile
+            得到一个配置好的跟文件系统
+            18， cp **/_install/*   /opt/4412/rootfs -r
+            修改内核：
+            19， make menuconfig 确定内核支持NFS
+        0，内核编译和nfs烧录
+            1，tar xvf /home/gao/ 
+            1，改顶层makefile200行 ARCH 内核的交叉编译工具
+        拷贝：
+            1，cp arch/arm/configs/exynos_defconfig .config 拷贝exynos的默认配置文件到内核顶层目录，减少图形界面配置
+            1，cp arch/arm/boot/dts/exynos4412-origen.dts  arch/arm/boot/dts/exynos4412-fs4412.dts 拷贝设备树配置文件
+            1，make exynos_defconfig  内核自带生成配置脚本
+            1，make savedefconfig  #生成备份.config用的文件defconfig
+                1.2，mv defconfig xxx_config #更名
+                1.3，mv xxx_config arch/arm/configs #这些xxx_config一般保存在arch/arm/configs目录下
+        配置：
+            2，对内核进行配置 make menuconfig   
+                图形界面的方式修改.config文件
+                1，TCP/IP支持
+                2，NFS 支持
+                3，DM9000网卡支持
+                2. 修改drivers/clk/clk.c
+            2，对设备树进行详细的配置 arch/arm/boot/dts/exynos4412-fs4412.dts
+                1，arch/arm/boot/dts/exynos4412-fs4412.dts,在chosen节点后增加如下内容
+                2, 修改文件 drivers/clk/clk.c 529行：
+        生成
+            4，生成uImage文件 uboot使用的linux内核文件
+                0，mkimage sudo  cp  ???/u-boot-2013.01/tools/mkimage  /sbin  添加image的生成工具
+                1，在makefile中添加由image到uImage的程序脚本
+                1，make uImage  -j2  内核编译
+                1，arch/arm/boot/uImage  生成镜像文件
+            4，生成dtb文件
+                1，vim arch/arm/boot/dts/Makefile 修改设备树的makefile
+                    exynos4412-origen.dtb \ 下面添加
+                    exynos4412-fs4412.dtb \
+                2，make dtbs 设备树编译       
+                3，exynos4412 生成dtb文件：
+                    设备树的二进制文件
+            测试初步验证
+            5，sudo cp arch/arm/boot/uImage  /tftpboot    拷贝到/tftpboot目录下 
+            6，sudo cp arch/arm/boot/dts/exynos4412-fs4412.dtb /tftpboot
+            7，网线+环境+串口+上电
+
+        1. 网线连接开发板和主机
+        2，/tftpboot目录,ftp服务器文件准备
+            uImage 内核镜像
+            exynos4412-fs4412.dtb 设备树
+        3.  sudo service tftpd-hpa restart 启动tftp服务
+        4. /opt/4412目录, nfs服务器文件准备
+            rootfs.tar.xz 解压到/opt/4412
+            sudo tar xvf rootfs.tar.xz -C /opt/4412
+            sudo chmod 777 /opt/4412/rootfs
+        5. 开发板加电，观察串口终端软件界面，看能不能进入Linux命令行
+    
+    6,上电不再进入uboot，直接进入linux
+
+
+
+
+
+原理：
+    在uboot和内核中支持 fs4412的板子设备：
+    
+
+
+参考05.启动流程
+    1，power on 上电
+    2，run irom code 芯片自带程序 （BL0）
+        从IROM 芯片自带
+        在IRAM 芯片自带
+    3, BLO 跑 BL1 
+        BL1也是由三星厂家提供，只有二进制文件，没有源码
+    4，BL1 跑 BL2
+    5，BL2 跑 uboot
+    6，uboot跑image
+
+参考06.用arm芯片的地址：
+    32位总共4G，
+    部分的地址已经被定死了，作为特殊功能
+
+
+错误：
+1，复制问题：
+2，网络问题：ping
+3，文件路径问题
+4，生成文件问题
+5，保存问题
+
+
+
+
+问题：nfs挂在失败
+原因：
+以前使用的16.04版本的ubuntu没问题，现在更换了18.04.4版本，开始报错。
+从Ubuntu17.04开始，nfs默认只支持协议3和协议4，而kernel中默认支持协议2。
+
+修改 NFS 配置文件：
+sudo vim /etc/default/nfs-kernel-server
+1
+在末尾添加：
+RPCNFSDOPTS="--nfs-version 2,3,4 --debug --syslog"
+————————————————
+版权声明：本文为CSDN博主「丨匿名用户丨」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/p1279030826/article/details/112179714

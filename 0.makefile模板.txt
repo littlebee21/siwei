@@ -1,0 +1,43 @@
+通用makefile：
+    韦东山 https://www.100ask.net/detail/v_5f1aa217e4b0a1003caf08c6/3?from=p_5f338ae3e4b075dc42ad44a1&type=8&parent_pro_id=p_5f338c6de4b0b4059c4bbb8e
+
+···
+自带的宏定义
+变量
+
+all指令
+    
+
+伪指令
+clean
+···
+
+
+
+
+make的使用情况：
+    按照文件夹进行分类
+        1，单文件项目：
+        2，多文件项目：
+            多个c源文件+同名头文件
+        3，多个文件多个程序：
+    按照输出目录：
+        1，指定头文件目录，库文件及目录：
+
+
+
+
+
+makefile语法的本质：
+    makefile语法本质就是c/c++里面的宏，只能替换，不能实现含义
+    makefile语法的最简单规则   目标：依赖1，依赖2••••••
+
+    如果使用通配符，就要使用wildcard
+        1、wildcard : 扩展通配符
+        2、notdir ： 去除路径
+        3、patsubst ：替换通配符
+    makefile，只执行一条语句
+        剩下的内容作为递归的方式进行设计
+    格式：
+        变量使用大写
+        关键字使用小写

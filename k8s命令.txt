@@ -1,0 +1,35 @@
+命令
+    run
+        kubectl run --image=  --port=
+    get
+        kubectl get pod -n 
+        kubectl get ns
+        kubectl get node
+        kubectl get service
+    describe
+        kubectl describe pod 
+    logs
+        kubectl logs -f -n  
+    exec
+        kubectl exec -n    -- command
+        kubectl exec  -- ps aux
+    create
+        kubectl create -f 
+        配置volume
+    apply
+        kubectl apply -f 
+    scale
+        kubectl scale deployment  --replicas 
+    set
+        image
+            kubectl set image / =
+    rollout
+        undo
+            如果更新了三次，reversion分别是1，2，3，连续两次执行默认的undo，reversion的变化是 3 -> 2, 2 -> 3。
+            指定回滚版本，--to-reversion
+        status
+            查看deployment是否已经完成
+        history
+            可以通过history查看某个deployment的历史版本信息，返回的信息又两列分别是REVERSION和CHANGE-CAUSE。
+        pause
+            暂停deployment的更新操作

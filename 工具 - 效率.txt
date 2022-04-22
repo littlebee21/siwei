@@ -1,0 +1,98 @@
+ 效率
+        键盘替代鼠标工具
+            hunt and peck出现字母然后点击
+        应用分组软件
+            TidyTabs
+                实现应用的分组显示
+                    对于window应用程序标签的检测
+                    对于windows应用的分组标签
+            groupy分组工具
+                有些软件不能合并
+            windowsTabs
+            Multrin
+            资源管理器分类
+                qttablebar
+        应用切换
+            fastWinSwitch应用切换工具
+        Everything：秒速找到你想要的文件
+        按键脚本
+            winhotkey
+            vimdesktop：
+            autohotkey
+            keytweak 键盘重映射
+
+
+
+0.效率 - 软件
+    软件
+        wps的使使用
+        网盘的使用
+            存储
+                在云端
+                网盘的在线解压
+            创建索引
+                生成目录树
+                    使用百度云db缓存生成
+                思维导图存储对应的资源
+            检索
+                搜索文件名的方式
+                通过右键可以直接使用vscode下载打开
+        foxi使用
+        打开文件
+            软件其实是容器文件才是内容
+            打开文件然后关闭，等待下次再打开
+    效率工具
+        wox
+        listary
+        everthing
+        utools
+        wps
+        鼠标增强工具
+        编辑器的使用
+            编写思维导图
+                使用evething打开
+                    设置java文件的打开方式
+                标签业式的管理
+                使用窗口化进行开发
+                使用白色背景进行编辑
+            思维导图和idea重量编辑器的区别
+                启动速度
+                    差不多
+                    项目加载过一边之后启动速度会加快
+                启动的感受
+                    idea会自动的加载风扇
+                进入页面后的切换
+                编写程序和编写导图的思维方式
+                    代码也应该可以停止
+                        思维导图可以停止
+                文件的修改方式
+                    另存为
+                    打开方式
+                    创建项目
+                        复制
+            像编写思维导图一样编写代码
+                工作方式
+                    频繁的打开和关闭‘
+                    最小化
+                        win+shit+fn+wasd
+    开机启动项
+        网易云音乐
+        total command
+        视图
+            tidytabs pro
+        指令
+            hunt and peck
+                使用指令操控窗体
+                但是在有些的情况下无法识别桌面上的所有的内容
+                擅长检测应用内部人的按键的菜单
+            windesktop
+                使用指令操控窗体
+            autohotkey
+                开机之后直接可以使用
+            evething
+                切换应用搜索文件
+            utools
+                切换应用打开搜索
+        网络
+            clash
+                设计打开的github网络

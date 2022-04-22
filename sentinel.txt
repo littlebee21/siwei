@@ -1,0 +1,338 @@
+sentinel
+    Sentinel 的使用
+        » Sentinel中的管理控制台
+        » 2.1 获取 Sentinel 控制台
+        » 2.2 sentinel服务启动
+        » 客户端能接入控制台
+    快速使用
+        使用介绍
+            Sentinel 可以简单的分为 Sentinel 核心库和 Dashboard。核心库不依赖 Dashboard，但是结合 Dashboard 可以取得最好的效果。
+            资源可以是任何东西，服务，服务里的方法，甚至是一段代码。使用 Sentinel 来进行资源保护，主要分为几个步骤:定义资源定义规则检验规则是否生效
+            先把可能需要保护的资源定义好，之后再配置规则。也可以理解为，只要有了资源，我们就可以在任何时候灵活地定义各种流量控制规则。在编码的时候，只需要考虑这个代码是否需要保护，如果需要保护，就将之定义为一个资源。
+                com.alibaba.csp    sentinel-core    1.8.1
+        引入依赖
+        定义资源
+            代码方式
+                把需要控制流量的代码用 Sentinel API SphU.entry("HelloWorld") 和 entry.exit() 包围起来即可。在下面的例子中，我们将 System.out.println("hello world"); 作为资源（被保护的逻辑），用 API 包装起来。参考代码如下:
+                public static void main(String[] args) {    // 配置规则.    initFlowRules();    while (true) {       // 1.5.0 版本开始可以直接利用 try-with-resources 特性      try (Entry entry = SphU.entry("HelloWorld")) {       // 被保护的逻辑       System.out.println("hello world");    } catch (BlockException ex) {       // 处理被流控的逻辑      System.out.println("blocked!");    }  }}
+            注解方式
+                Sentinel 提供了 @SentinelResource 注解用于定义资源，并提供了 AspectJ 的扩展用于自动定义资源、处理 BlockException 等。使用 Sentinel Annotation AspectJ Extension 的时候需要引入以下依赖：    com.alibaba.csp    sentinel-annotation-aspectj    x.y.z
+                @SentinelResource("HelloWorld")public void helloWorld() {    // 资源中的逻辑    System.out.println("hello world");}
+                注解支持模块需要配合 Spring AOP 或者 AspectJ 一起使用。
+                注解方式埋点不支持 private 方法。
+                @SentinelResource 用于定义资源，并提供可选的异常处理和 fallback 配置项。 @SentinelResource 注解包含以下属性：value：资源名称，必需项（不能为空）entryType：entry 类型，可选项（默认为 EntryType.OUT）blockHandler / blockHandlerClass: blockHandler 对应处理 BlockException 的函数名称，可选项。blockHandler 函数访问范围需要是 public，返回类型需要与原方法相匹配，参数类型需要和原方法相匹配并且最后加一个额外的参数，类型为 BlockException。blockHandler 函数默认需要和原方法在同一个类中。若希望使用其他类的函数，则可以指定 blockHandlerClass 为对应的类的 Class 对象，注意对应的函数必需为 static 函数，否则无法解析。fallback / fallbackClass：fallback 函数名称，可选项，用于在抛出异常的时候提供 fallback 处理逻辑。fallback 函数可以针对所有类型的异常（除了 exceptionsToIgnore 里面排除掉的异常类型）进行处理。fallback 函数签名和位置要求：        1. 返回值类型必须与原函数返回值类型一致；        2. 方法参数列表需要和原函数一致，或者可以额外多一个 Throwable 类型的参数用于接收对应的异常。        3. fallback 函数默认需要和原方法在同一个类中。若希望使用其他类的函数，则可以指定 fallbackClass 为对应的类的 Class 对象，注意对应的函数必需为 static 函数，否则无法解析。defaultFallback（since 1.6.0）：默认的 fallback 函数名称，可选项，通常用于通用的 fallback 逻辑（即可以用于很多服务或方法）。默认 fallback 函数可以针对所有类型的异常（除了 exceptionsToIgnore 里面排除掉的异常类型）进行处理。若同时配置了 fallback 和 defaultFallback，则只有 fallback 会生效。defaultFallback 函数签名要求：        1. 返回值类型必须与原函数返回值类型一致；        2. 方法参数列表需要为空，或者可以额外多一个 Throwable 类型的参数用于接收对应的异常。        3. defaultFallback 函数默认需要和原方法在同一个类中。若希望使用其他类的函数，则可以指定 fallbackClass 为对应的类的 Class 对象，注意对应的函数必需为 static 函数，否则无法解析。exceptionsToIgnore（since 1.6.0）：用于指定哪些异常被排除掉，不会计入异常统计中，也不会进入 fallback 逻辑中，而是会原样抛出。
+            主流框架的默认适配
+                Spring Cloud Alibaba Sentinel
+                    使用 group ID 为 com.alibaba.cloud 和 artifact ID 为 spring-cloud-starter-alibaba-sentinel 的 starter。    com.alibaba.cloud    spring-cloud-starter-alibaba-sentinel
+                    demo示例
+                    @SentinelResource 注解用来标识资源是否被限流、降级。上述例子上该注解的属性 sayHello 表示资源名。@SentinelResource 还提供了其它额外的属性如 blockHandler，blockHandlerClass，fallback 用于表示限流或降级的操作（注意有方法签名要求），更多内容可以参考 Sentinel 注解支持文档（https://github.com/alibaba/Sentinel/wiki/%E6%B3%A8%E8%A7%A3%E6%94%AF%E6%8C%81）。若不配置 blockHandler、fallback 等函数，则被流控降级时方法会直接抛出对应的 BlockException；若方法未定义 throws BlockException 则会被 JVM 包装一层 UndeclaredThrowableException。注：一般推荐将 @SentinelResource 注解加到服务实现上，而在 Web 层直接使用 Spring Cloud Alibaba 自带的 Web 埋点适配。Sentinel Web 适配同样支持配置自定义流控处理逻辑
+                    Sentinel 目前已经支持 Spring WebFlux，需要配合 spring-boot-starter-webflux 依赖触发 sentinel-starter 中 WebFlux 相关的自动化配置。
+                    webflux demo示例
+                    当 Spring WebFlux 应用接入 Sentinel starter 后，所有的 URL 就自动成为 Sentinel 中的埋点资源，可以针对某个 URL 进行流控
+                    feign
+                        Sentinel 适配了 Feign 组件。如果想使用，除了引入 spring-cloud-starter-alibaba-sentinel 的依赖外还需要 2 个步骤：配置文件打开 Sentinel 对 Feign 的支持：feign.sentinel.enabled=true加入 spring-cloud-starter-openfeign 依赖使 Sentinel starter 中的自动化配置类生效：    org.springframework.cloud    spring-cloud-starter-openfeign
+                        @FeignClient(name = "service-provider", fallback = EchoServiceFallback.class, configuration = FeignConfiguration.class)public interface EchoService {    @RequestMapping(value = "/echo/{str}", method = RequestMethod.GET)    String echo(@PathVariable("str") String str);}class FeignConfiguration {    @Bean    public EchoServiceFallback echoServiceFallback() {        return new EchoServiceFallback();    }}class EchoServiceFallback implements EchoService {    @Override    public String echo(@PathVariable("str") String str) {         return "echo fallback";    }}
+                        NoteFeign 对应的接口中的资源名策略定义：httpmethod:protocol://requesturl。@FeignClient 注解中的所有属性，Sentinel 都做了兼容。EchoService 接口中方法 echo 对应的资源名为 GET:http://service-provider/echo/{str}。
+                    RestTemplate
+                        Spring Cloud Alibaba Sentinel 支持对 RestTemplate 的服务调用使用 Sentinel 进行保护，在构造 RestTemplate bean的时候需要加上 @SentinelRestTemplate 注解。
+                        @Bean@SentinelRestTemplate(blockHandler = "handleException", blockHandlerClass = ExceptionUtil.class)public RestTemplate restTemplate() {    return new RestTemplate();}
+                        @SentinelRestTemplate 注解的属性支持限流(blockHandler, blockHandlerClass)和降级(fallback, fallbackClass)的处理。其中 blockHandler 或 fallback 属性对应的方法必须是对应 blockHandlerClass 或 fallbackClass 属性中的静态方法。该方法的参数跟返回值跟 org.springframework.http.client.ClientHttpRequestInterceptor#interceptor 方法一致，其中参数多出了一个 BlockException 参数用于获取 Sentinel 捕获的异常。
+                        比如上述 @SentinelRestTemplate 注解中 ExceptionUtil 的 handleException 属性对应的方法声明如下：public class ExceptionUtil {    public static ClientHttpResponse handleException(HttpRequest request, byte[] body, ClientHttpRequestExecution e xecution, BlockException               exception) {            ...    }}
+                        应用启动的时候会检查 @SentinelRestTemplate 注解对应的限流或降级方法是否存在，如不存在会抛出异常
+                        @SentinelRestTemplate 注解的限流(blockHandler, blockHandlerClass)和降级(fallback, fallbackClass)属性不强制填写。当使用 RestTemplate 调用被 Sentinel 熔断后，会返回 RestTemplate request block by sentinel 信息，或者也可以编写对应的方法自行处理返回信息。这里提供了 SentinelClientHttpResponse 用于构造返回信息。Sentinel RestTemplate 限流的资源规则提供两种粒度：httpmethod:schema://host:port/path：协议、主机、端口和路径httpmethod:schema://host:port：协议、主机和端口
+                    Endpoint
+                        在使用 Endpoint 特性之前需要在 Maven 中添加 spring-boot-starter-actuator 依赖，并在配置中允许 Endpoints 的访问。Spring Boot 1.x 中添加配置 management.security.enabled=false。暴露的 endpoint 路径为 /sentinelSpring Boot 2.x 中添加配置 management.endpoints.web.exposure.include=*。暴露的 endpoint 路径为 /actuator/sentinelSentinel Endpoint 里暴露的信息非常有用。包括当前应用的所有规则信息、日志目录、当前实例的 IP，Sentinel Dashboard 地址，Block Page，应用与 Sentinel Dashboard 的心跳频率等等信息。
+                    配置
+                        下表显示当应用的 ApplicationContext 中存在对应的Bean的类型时，会进行自动化设置：
+                        Spring Cloud Alibaba Sentinel 提供了这些配置选项:
+                    官方文档地址： https://github.com/alibaba/spring-cloud-alibaba/wiki/Sentinelhttps://sentinelguard.io/zh-cn/docs/open-source-framework-integrations.html
+                API Gateway 适配
+                    Spring Cloud Gateway
+                        从 1.6.0 版本开始，Sentinel 提供了 Spring Cloud Gateway 的适配模块，可以提供两种资源维度的限流：route 维度：即在 Spring 配置文件中配置的路由条目，资源名为对应的 routeId自定义 API 维度：用户可以利用 Sentinel 提供的 API 来自定义一些 API 分组
+                            com.alibaba.csp    sentinel-spring-cloud-gateway-adapter    x.y.z
+                        使用时只需注入对应的 SentinelGatewayFilter 实例以及 SentinelGatewayBlockExceptionHandler 实例即可。比如：
+                        @Configurationpublic class GatewayConfiguration {    private final List viewResolvers;    private final ServerCodecConfigurer serverCodecConfigurer;    public GatewayConfiguration(ObjectProvider> viewResolversProvider,        ServerCodecConfigurer serverCodecConfigurer) {        this.viewResolvers = viewResolversProvider.getIfAvailable(Collections::emptyList);        this.serverCodecConfigurer = serverCodecConfigurer;    }    @Bean    @Order(Ordered.HIGHEST_PRECEDENCE)    public SentinelGatewayBlockExceptionHandler sentinelGatewayBlockExceptionHandler() {         // Register the block exception handler for Spring Cloud Gateway.        return new SentinelGatewayBlockExceptionHandler(viewResolvers, serverCodecConfigurer);    }    @Bean    @Order(-1)    public GlobalFilter sentinelGatewayFilter() {        return new SentinelGatewayFilter();    }}
+                        server:  port: 8090spring:  application:    name: spring-cloud-gateway  cloud:    gateway:      enabled: true      discovery:        locator:          lower-case-service-id: true      routes:        # Add your routes here.        - id: product_route          uri: lb://product          predicates:            - Path=/product/**        - id: httpbin_route          uri: https://httpbin.org          predicates:            - Path=/httpbin/**          filters:             - RewritePath=/httpbin/(?.*), /$\{segment}
+                        自定义了一些 API 分组:private void initCustomizedApis() {    Set definitions = new HashSet<>();    ApiDefinition api1 = new ApiDefinition("some_customized_api")      .setPredicateItems(new HashSet() {{          add(new ApiPathPredicateItem().setPattern("/product/baz"));          add(new ApiPathPredicateItem().setPattern("/product/foo/**")             .setMatchStrategy(SentinelGatewayConstants.URL_MATCH_STRATEGY_PREFIX));        }});    ApiDefinition api2 = new ApiDefinition("another_customized_api")      .setPredicateItems(new HashSet() {{           add(new ApiPathPredicateItem().setPattern("/ahas"));        }});    definitions.add(api1);    definitions.add(api2);    GatewayApiDefinitionManager.loadApiDefinitions(definitions);}
+                        那么这里面的 route ID（如 product_route）和 API name（如 some_customized_api）都会被标识为 Sentinel 的资源。比如访问网关的 URL 为 http://localhost:8090/product/foo/22 的时候，对应的统计会加到 product_route 和 some_customized_api 这两个资源上面，而 http://localhost:8090/httpbin/json 只会对应到 httpbin_route 资源上面。您可以在 GatewayCallbackManager 注册回调进行定制：setBlockHandler：注册函数用于实现自定义的逻辑处理被限流的请求，对应接口为 BlockRequestHandler。默认实现为 DefaultBlockRequestHandler，当被限流时会返回类似于下面的错误信息：Blocked by Sentinel: FlowException。
+                        官方demo地址：https://github.com/alibaba/Sentinel/tree/master/sentinel-demo/sentinel-demo-spring-cloud-gateway
+                        Spring Cloud Alibaba Sentinel 使用
+                            若想跟 Sentinel Starter 配合使用，需要加上 spring-cloud-alibaba-sentinel-gateway 依赖，同时需要添加 spring-cloud-starter-gateway 依赖来让 spring-cloud-alibaba-sentinel-gateway 模块里的 Spring Cloud Gateway 自动化配置类生效：
+                                com.alibaba.cloud    spring-cloud-starter-alibaba-sentinel    com.alibaba.cloud    spring-cloud-alibaba-sentinel-gateway    org.springframework.cloud    spring-cloud-starter-gateway
+                            同时请将 spring.cloud.sentinel.filter.enabled 配置项置为 false（若在网关流控控制台上看到了 URL 资源，就是此配置项没有置为 false）。*注意：网关流控规则数据源类型是 gw-flow，若将网关流控规则数据源指定为 flow 则不生效。
+                    Zuul 1.x
+                        Sentinel 提供了 Zuul 1.x 的适配模块，可以为 Zuul Gateway 提供两种资源维度的限流：route 维度：即在 Spring 配置文件中配置的路由条目，资源名为对应的 route ID（对应 RequestContext 中的 proxy 字段）自定义 API 维度：用户可以利用 Sentinel 提供的 API 来自定义一些 API 分组
+                            com.alibaba.csp    sentinel-zuul-adapter    x.y.z
+                        如果您正在使用 Spring Cloud Zuul Starter，那么可以通过引入 spring-cloud-alibaba-sentinel-zuul 来更方便地整合 Sentinel。
+                    Zuul 2.x
+                        从 1.7.2 版本开始支持，需要 Java 8 及以上版本
+                        Sentinel 提供了 Zuul 2.x 的适配模块，可以为 Zuul Gateway 提供两种资源维度的限流：route 维度：对应 SessionContext 中的 routeVIP自定义 API 维度：用户可以利用 Sentinel 提供的 API 来自定义一些 API 分组
+                            com.alibaba.csp    sentinel-zuul2-adapter    x.y.z
+                        官方文档地址：https://github.com/alibaba/Sentinel/wiki/%E7%BD%91%E5%85%B3%E9%99%90%E6%B5%81#zuul-2x
+                    网关流控实现原理
+                        当通过 GatewayRuleManager 加载网关流控规则（GatewayFlowRule）时，无论是否针对请求属性进行限流，Sentinel 底层都会将网关流控规则转化为热点参数规则（ParamFlowRule），存储在 GatewayRuleManager 中，与正常的热点参数规则相隔离。转换时 Sentinel 会根据请求属性配置，为网关流控规则设置参数索引（idx），并同步到生成的热点参数规则中。
+                        外部请求进入 API Gateway 时会经过 Sentinel 实现的 filter，其中会依次进行 路由/API 分组匹配、请求属性解析和参数组装。Sentinel 会根据配置的网关流控规则来解析请求属性，并依照参数索引顺序组装参数数组，最终传入 SphU.entry(res, args) 中。Sentinel API Gateway Adapter Common 模块向 Slot Chain 中添加了一个 GatewayFlowSlot，专门用来做网关规则的检查。GatewayFlowSlot 会从 GatewayRuleManager 中提取生成的热点参数规则，根据传入的参数依次进行规则检查。若某条规则不针对请求属性，则会在参数最后一个位置置入预设的常量，达到普通流控的效果。
+                Spring WebFlux
+                    Sentinel 提供与 Spring WebFlux 的整合模块，从而 Reactive Web 应用也可以利用 Sentinel 的流控降级来保障稳定性。该整合模块基于 Sentinel Reactor Adapter 实现。
+                        com.alibaba.csp    sentinel-spring-webflux-adapter    x.y.z
+                    使用时只需注入对应的 SentinelWebFluxFilter 实例以及 SentinelBlockExceptionHandler 实例即可。@Configurationpublic class WebFluxConfig {    private final List viewResolvers;    private final ServerCodecConfigurer serverCodecConfigurer;    public WebFluxConfig(ObjectProvider> viewResolversProvider,        ServerCodecConfigurer serverCodecConfigurer) {        this.viewResolvers = viewResolversProvider.getIfAvailable(Collections::emptyList);        this.serverCodecConfigurer = serverCodecConfigurer;    }    @Bean    @Order(-1)    public SentinelBlockExceptionHandler sentinelBlockExceptionHandler() {        // Register the block exception handler for Spring WebFlux.       return new SentinelBlockExceptionHandler(viewResolvers, serverCodecConfigurer);    }    @Bean    @Order(-1)    public SentinelWebFluxFilter sentinelWebFluxFilter() {        // Register the Sentinel WebFlux filter.       return new SentinelWebFluxFilter();    }}
+                    可以在 WebFluxCallbackManager 注册回调进行定制：setBlockHandler：注册函数用于实现自定义的逻辑处理被限流的请求，对应接口为 BlockRequestHandler。默认实现为 DefaultBlockRequestHandler，当被限流时会返回类似于下面的错误信息：Blocked by Sentinel: FlowException。setUrlCleaner：注册函数用于 Web 资源名的归一化。函数类型为 (ServerWebExchange, String) → String，对应含义为 (webExchange, originalUrl) → finalUrl。setRequestOriginParser：注册函数用于从请求中解析请求来源。函数类型为 ServerWebExchange → String。
+                    官方demo地址： https://github.com/alibaba/Sentinel/tree/master/sentinel-demo/sentinel-demo-spring-webflux
+                Dubbo
+                    Sentinel 提供 Dubbo 的相关适配 Sentinel Dubbo Adapter，主要包括针对 Service Provider 和 Service Consumer 实现的 Filter。相关模块：sentinel-apache-dubbo-adapter（兼容 Apache Dubbo 2.7.x 及以上版本，自 Sentinel 1.5.1 开始支持）sentinel-dubbo-adapter（兼容 Dubbo 2.6.x 版本）
+                     Apache Dubbo 2.7.x 及以上版本：    com.alibaba.csp    sentinel-apache-dubbo-adapter    x.y.zDubbo 2.6.x 及以下版本:    com.alibaba.csp    sentinel-dubbo-adapter    x.y.z|引入此依赖后，Dubbo 的服务接口和方法（包括调用端和服务端）就会成为 Sentinel 中的资源，在配置了规则后就可以自动享受到 Sentinel 的防护能力。
+                    注：若希望接入 Dashboard，请参考 接入控制台的步骤。只引入 Sentinel Dubbo Adapter 无法接入控制台！若不希望开启 Sentinel Dubbo Adapter 中的某个 Filter，可以手动关闭对应的 Filter，比如：
+                    限流粒度可以是服务接口和服务方法两种粒度：服务接口：resourceName 为 接口全限定名，如 com.alibaba.csp.sentinel.demo.dubbo.FooService服务方法：resourceName 为 接口全限定名:方法签名，如 com.alibaba.csp.sentinel.demo.dubbo.FooService:sayHello(java.lang.String)
+                    Sentinel Dubbo Adapter 还支持配置全局的 fallback 函数，可以在 Dubbo 服务被限流/降级/负载保护的时候进行相应的 fallback 处理。用户只需要实现自定义的 DubboFallback 接口，并通过 DubboFallbackRegistry 注册即可。默认情况会直接将 BlockException 包装后抛出。同时，我们还可以配合 Dubbo 的 fallback 机制 来为降级的服务提供替代的实现。
+                    官方demo地址： https://github.com/alibaba/Sentinel/tree/master/sentinel-demo/sentinel-demo-dubbo
+                gRPC
+                    Sentinel 提供与 gRPC Java 的整合，以 gRPC ServerInterceptor 和 ClientInterceptor 的形式保护 gRPC 服务资源
+                        com.alibaba.csp    sentinel-grpc-adapter    x.y.z
+                    在使用 Sentinel gRPC Adapter 时，只需要将对应的 Interceptor 注册至对应的客户端或服务端中。其中客户端的示例如下： public class ServiceClient {    private final ManagedChannel channel;    ServiceClient(String host, int port) {        this.channel = ManagedChannelBuilder.forAddress(host, port)              .intercept(new SentinelGrpcClientInterceptor()) // 在此处注册拦截器             .build();      // 在此处初始化客户端 stub 类   }}
+                    服务端的示例如下：import io.grpc.Server;Server server = ServerBuilder.forPort(port)    .addService(new MyServiceImpl()) // 添加自己的服务实现    .intercept(new SentinelGrpcServerInterceptor()) // 在此处注册拦截器    .build();
+                    Sentinel gRPC Adapter 目前只支持 unary call
+                HTTP Client 适配
+                    Apache HttpClient
+                        Sentinel 提供 Apache HttpClient 的适配模块 sentinel-apache-httpclient-adapter，可以针对 HTTP client 请求进行流控和熔断
+                            com.alibaba.csp    sentinel-apache-httpclient-adapter    x.y.z
+                        从 Sentinel 1.8.0 版本开始支持。目前暂不支持 AsyncHttpClient
+                    OkHttp
+                        Sentinel 提供 OkHttp 的适配模块 sentinel-okhttp-adapter，可以针对 HTTP client 请求进行流控和熔断
+                            com.alibaba.csp    sentinel-okhttp-adapter    x.y.z
+                        从 Sentinel 1.8.0 版本开始支持。
+                Apache RocketMQ
+        定义规则
+            通过流控规则来指定允许该资源通过的请求次数，例如下面的代码定义了资源 HelloWorld 每秒最多只能通过 20 个请求。
+            private static void initFlowRules(){    List rules = new ArrayList<>();    FlowRule rule = new FlowRule();    rule.setResource("HelloWorld");    rule.setGrade(RuleConstant.FLOW_GRADE_QPS);    // Set limit QPS to 20.    rule.setCount(20);    rules.add(rule);    FlowRuleManager.loadRules(rules);}
+        检查效果
+            运行之后，可以在日志 ~/logs/csp/${appName}-metrics.log.xxx 里看到的输出:
+        启动 Sentinel 控制台
+            Sentinel 开源控制台支持实时监控和规则管理
+                （1）下载控制台 jar 包并在本地启动
+                （2）客户端接入控制台
+                    1. 客户端需要引入 Transport 模块来与 Sentinel 控制台进行通信。您可以通过 pom.xml 引入 JAR 包:    com.alibaba.csp    sentinel-transport-simple-http    1.8.1
+                    2. 启动时加入 JVM 参数 -Dcsp.sentinel.dashboard.server=consoleIp:port 指定控制台地址和端口
+                    3. 确保应用端有访问量
+    功能
+        2 使用 Sentinel 来进行熔断与限流
+            1. 定义资源
+            2. 定义规则
+        3 sentinel 熔断降级
+    机制
+        4 Sentinel 流控（限流）
+            4.1 直接失败模式
+            4.2 关联模式
+            4.3 Warm up（预热）模式
+            4.4 排队等待模式
+            4.5 热点规则 (ParamFlowRule)
+        6 黑白名单规则
+            访问控制规则 (AuthorityRule)
+        5. Sentinel 系统保护
+        指标(Metrics)
+            Sentinel 提供实时指标，包括资源计数、响应时间、并发等。您可以在Sentinel-Dashboard上查看这些指标，但您也可以使用指标 API 来检索数据。HTTP API 服务器的默认端口是8719，但您可以通过csp.sentinel.api.port属性项修改它。
+            资源指标(Metrics of Resources)
+                获取所有资源的实时指标
+                    应用程序接口： GET /clusterNode
+                    [  { "avgRt" : 0.0 ,  //每秒平均响应时间 "blockRequest" : 0 ,  //每分钟的块数 "blockedQps" : 0.0 ,  //每秒的块数 "curThreadNum" : 0 ,  //当前并发 " passQps" : 1.0 ,  // 每秒成功退出计数 "passReqQps" : 1.0 ,  //每秒通过计数 "resourceName" : "/registry/machine" , 资源 名称 "timeStamp": 1529905824134,  //时间戳 "totalQps" : 1.0 ,  // 每分钟的总请求数 "totalRequest" : 193 } ,    ... . ]
+                按资源名称获取实时指标
+                    运行命令  curl http://localhost:8719/cnode?id=xxxx查询指定的资源名称。参数id对应资源名称。支持模糊查询。
+                显示资源的源指标
+                    命令： curl http://localhost:8719/origin?id=xxxx
+                调用链
+                    应用程序接口： GET /tree
+            历史资源指标
+                指标日志
+                    资源指标日志在目录中生成：${home}\logs\csp\${appName}-${pid}-metrics.log.${date}.xx. 例如，日志文件名将是：app-3518-metrics.log.2018-06-22.1
+                块日志
+                    块日志将在 dir 中生成${home}\logs\csp\sentinel-block.log。如果没有发生阻塞，则不会生成日志。
+                指标日志获取 API
+                    curl http://localhost:8719/metric?startTime=XXXX&amp;endTime=XXXX
+        仪表盘(Dashboard)
+            启动Dashboard
+                下载
+                    https://github.com/alibaba/Sentinel/releases  下载最新的 Sentinel Dashboard jar
+                运行
+                    java -Dserver.port=8080 -Dcsp.sentinel.dashboard.server=localhost:8080 -Dproject.name=sentinel-dashboard -jar sentinel-dashboard.jar
+                    -Dserver.port=8080 是 Sentinel Dashboard 的 HTTP 端口
+                    com.alibaba.csp    sentinel-transport-simple-http    x.y.z
+            配置仪表盘IP地址
+                启动应用程序时添加仪表板 IP 地址：-Dcsp.sentinel.dashboard.server=consoleIp:port
+            调用资源
+                1. “Machine Discovery（机器发现）”将显示按应用程序名称分组的机器
+                    机器列表页面
+                2. "Resources Tracing（资源追踪）" 将按机器显示资源
+                    “资源链（Resource Chain）”中显示的资源存储在内存中
+                3. "Monitoring（监控）" 将汇总同一应用程序中所有机器的资源指标
+                    “监控”只会在 5 分钟内记录指标。如果需要持久化这些数据。 如果遗漏任何信息，请检查您的配置并通过record.log和 进行故障排除metricStat.log.pid.
+                    2. 单机或少于500个节点的集群的资源监控 
+            管理规则
+                规则查询
+                    Sentinel 仪表板中的规则页面
+                规则配置
+                    默认情况下，所有这些规则都存储在内存中
+        动态规则配置
+            规则
+                Sentinel 的理念是开发者只需要关注资源的定义。一旦定义了资源，就可以动态添加和更新各种规则。Sentinel 提供了两种修改规则的方式： 1. 通过API直接修改（loadRules的XxxRuleManager） 2. 通过动态与外部存储集成 DataSource
+                通过 API 进行规则管理非常简单。您可以使用以下 API 修改不同的规则： 1. 流程规则： FlowRuleManager.loadRules(List rules) 2. 降级规则： DegradeRuleManager.loadRules(List rules) 3. 系统规则： SystemRuleManager.loadRules(List rules) 4. 权限规则： AuthorityRuleManager.loadRules(List rules)
+            动态数据源扩展
+                loadRules()方法只接受内存中的规则。但更多情况下，规则存储在文件、数据库或配置中心中。动态DataSource接口使我们能够与任何配置源集成。建议在生产中使用动态规则数据源。
+                通过 Sentinel 仪表盘设置规则后将规则推送到统一规则配置中心。Sentinel 客户端实现了ReadableDataSource从配置中心实时观察变化的接口。过程如下：
+            数据源集成
+                Redis数据源
+                    Sentinel DataSource Redis 提供了与 Redis 的集成。数据源利用Redis pub-sub特性实现推送模型（listener）。数据源使用Lettuce作为Redis客户端，需要JDK 1.8及以上版本。（不支持Redis Cluster）
+                    用法
+                        要使用 Sentinel DataSource Redis，您应该添加以下依赖项：  com.alibaba.csp  sentinel-datasource-redis  x.y.z
+                        然后您可以创建一个RedisDataSource并注册到规则管理器。例如：ReadableDataSource> redisDataSource = new RedisDataSource>(redisConnectionConfig, ruleKey, channel, flowConfigParser);FlowRuleManager.register2Property(redisDataSource.getProperty());1. redisConnectionConfig: 使用RedisConnectionConfig类来构建你的 Redis 连接配置2. ruleKey: Redis String 的规则持久化键3. channel: 订阅频道
+                        创建多个数据源来订阅不同的规则类型数据源ruleKey在初始化期间首先从 Redis 字符串（提供）加载初始规则。所以为了一致性，用户应该ruleKey像这样同时发布值和保存值（使用Redis事务）：MULTISET ruleKey valuePUBLISH channel valueEXEC
+                         Lettuce Redis 客户端
+                            public  void pushRules(List rules, Converter, String> encoder) {  StatefulRedisPubSubConnection connection = client.connectPubSub();  RedisPubSubCommands subCommands = connection.sync();  String value = encoder.convert(rules);  subCommands.multi();  subCommands.set(ruleKey, value);  subCommands.publish(ruleChannel, value);  subCommands.exec();}
+                            只需使用相同的密钥，就可以在 Redis 集群中处理事务
+                        使用 Lettuce Redis Cluster 客户端
+                            public  void pushRules(List rules, Converter, String> encoder) {  RedisAdvancedClusterCommands subCommands = client.connect().sync();  int slot = SlotHash.getSlot(ruleKey);  NodeSelection nodes = subCommands.nodes((n)->n.hasSlot(slot));  RedisCommands commands = nodes.commands(0);  String value = encoder.convert(rules);  commands.multi();  commands.set(ruleKey, value);  commands.publish(channel, value);  commands.exec();}
+                        如何构建RedisConnectionConfig
+                            使用 Redis 独立模式构建
+                                RedisConnectionConfig config = RedisConnectionConfig.builder()                .withHost("localhost")                .withPort(6379)                .withPassword("pwd")                .withDataBase(2)                .build();
+                            使用 Redis Sentinel 模式构建
+                                RedisConnectionConfig config = RedisConnectionConfig.builder()                .withRedisSentinel("redisSentinelServer1",5000)                .withRedisSentinel("redisSentinelServer2",5001)                .withRedisSentinelMasterId("redisSentinelMasterId").build();
+                            使用Redis集群模式构建
+                                RedisConnectionConfig config = RedisConnectionConfig.builder()                .withRedisCluster("redisSentinelServer1",5000)                .withRedisCluster("redisSentinelServer2",5001).build();
+                Nacos数据源
+                    Sentinel 数据源 Nacos 提供了与Nacos 的集成，使 Nacos 可以作为 Sentinel 的动态规则数据源。要使用 Sentinel DataSource Nacos，添加以下依赖项：  com.alibaba.csp  sentinel-datasource-nacos  x.y.z
+                    创建一个NacosDataSource并注册到规则管理器
+                        // remoteAddress is the address of Nacos// groupId and dataId are concepts of NacosReadableDataSource> flowRuleDataSource = new NacosDataSource<>(remoteAddress, groupId, dataId,    source -> JSON.parseObject(source, new TypeReference>() {}));FlowRuleManager.register2Property(flowRuleDataSource.getProperty());
+                Spring Cloud Config 数据源
+                    Sentinel 数据源 Spring Cloud Config 提供了与 Spring Cloud Config 的集成，使 Spring Cloud Config 可以作为 Sentinel 的动态规则数据源。要使用 Sentinel DataSource Spring Cloud Config，添加以下依赖项：  com.alibaba.csp  sentinel-datasource-spring-cloud-config  x.y.z
+                    创建一个SpringCloudConfigDataSource并注册到规则管理器。
+                        ReadableDataSource> flowRuleDs = new SpringCloudConfigDataSource<>(ruleKey, s -> JSON.parseArray(s, FlowRule.class));FlowRuleManager.register2Property(flowRuleDs.getProperty());
+                ZooKeeper 数据源
+                    Sentinel 数据源 ZooKeeper 提供了与 ZooKeeper 的集成，使得 ZooKeeper 可以作为 Sentinel 的动态规则数据源。数据源使用推送模型（监听器）。要使用 Sentinel DataSource ZooKeeper，添加以下依赖项：    com.alibaba.csp    sentinel-datasource-zookeeper    x.y.z
+                    创建一个ZookeeperDataSource并注册到规则管理器
+                        // `path` is the data path in ZooKeeperReadableDataSource> flowRuleDataSource = new ZookeeperDataSource<>(remoteAddress, path, source -> JSON.parseObject(source, new TypeReference>() {}));FlowRuleManager.register2Property(flowRuleDataSource.getProperty());
+                    不建议在单个路径中添加大量规则（有限制，也会导致性能不佳）
+                动态文件数据源
+                apollo数据源
+                etcd数据源
+                Consul数据源
+    区别
+        启动 sentinel
+            Sentinel与Hystrix的区别
+    原理
+        9 .sentinel滑动窗口实现原理
+            2.sentinel使用滑动窗口都统计啥
+            3.滑动窗口源码实现
+        哨兵如何工作
+            entry
+            NodeSelectorSlot（跟踪节点并在内存中形成调用树）
+                ContextUtil.enter("entrance1", "appA");Entry nodeA = SphU.entry("nodeA");if (nodeA != null) {    nodeA.exit();}ContextUtil.exit();上面的代码将在内存中生成以下结构         machine-root               /                  /     EntranceNode1         /       /         DefaultNode(nodeA)
+                每个DefaultNode都由上下文和资源名称标识。换句话说，一个资源 id 可能有多个DefaultNode由 中声明的条目名称区分的ContextUtil.enter(contextName)。
+                 ContextUtil.enter("entrance1", "appA");  Entry nodeA = SphU.entry("nodeA");  if (nodeA != null) {    nodeA.exit();  }  ContextUtil.exit();  ContextUtil.enter("entrance2", "appA");  nodeA = SphU.entry("nodeA");  if (nodeA != null) {    nodeA.exit();  }  ContextUtil.exit();上面的代码将在内存中生成以下结构：                 machine-root                       /        \                     /            \          EntranceNode1       EntranceNode2                  /                  \                /                      \       DefaultNode(nodeA)   DefaultNode(nodeA)
+                负责收集资源的路径，并将这些资源的调用路径，以树状结构存储起来，用于根据调用路径来限流降级  curl  http://localhost:8719/tree?type=root。
+            ClusterNodeBuilderSlot（构建以资源命名的集群节点）
+                则用于存储资源的统计信息以及调用者信息，例如该资源的 RT, QPS, thread count 等等，这些信息将用作为多维度限流，降级的依据。原始呼叫者的姓名由originin标记ContextUtil.enter(contextName, origin)。
+                可以通过调用以下 HTTP API 来显示信息： http://localhost:8719/origin?id=xxxx
+            StatisticSlot（收集运行时统计信息）
+                1. ClusterNode（ResourceNode）：一个资源的总统计；  2. 源节点：来自不同调用者的一个 ClusterNode 的统计信息；  3. DefaultNode：节点的条目，由上下文条目名称和资源ID标记；4. 传入入口的总和统计。
+                StatisticNode 由滑动窗口数据结构 (LeapArray) 支持：
+            FlowSlot 
+                则用于根据预设的限流规则以及前面 slot 统计的状态，来进行流量控制；
+                这个 slot 主要根据预设的资源的统计信息，按照固定的次序，依次生效。如果一个资源对应两条或者多条流控规则，则会根据如下次序依次检验，直到全部通过或者有一个规则生效为止:指定应用生效的规则，即针对调用方限流的；调用方为 other 的规则；调用方为 default 的规则。
+            AuthoritySlot
+                则根据配置的黑白名单和调用来源信息，来做黑白名单控制
+            DegradeSlot
+                则通过统计信息以及预设的规则，来做熔断降级；
+                这个 slot 主要针对资源的平均响应时间（RT）以及异常比率，来决定资源是否在接下来的时间被自动熔断掉。
+            SystemSlot
+                则通过系统的状态，例如 load1 等，来控制总的入口流量
+                这个 slot 会根据对于当前系统的整体情况，对入口资源的调用进行动态调配。其原理是让入口的流量和当前系统的预计容量达到一个动态平衡。注意系统规则只对入口流量起作用（调用类型为 EntryType.IN），对出口流量无效。可通过 SphU.entry(res, entryType) 指定调用类型，如果不指定，默认是EntryType.OUT。
+            ProcessorSlot
+                作为 SPI 接口进行扩展（1.7.2 版本以前 SlotChainBuilder 作为 SPI），使得 Slot Chain 具备了扩展的能力。可以自行加入自定义的 slot 并编排 slot 间的顺序，从而可以给 Sentinel 添加自定义的功能。
+        流量控制
+            Sentinel 提供了根据需要根据适当的形状处理随机传入请求的能力
+            流量控制
+                线程/QPS 流量控制
+                    指标类型
+                    并发
+                        这种模式通常用于防止线程池被占用。如果调用需要很长时间才能完成，则在调用上阻塞的线程将会拥塞。响应时间越长，可能占用的线程就越多。除了并发（又名信号量隔离）之外，还有其他方法可以实现这一点：线程池隔离。  1. 线程池隔离：分配托管线程池来处理不同的调用。当池中没有更多空闲线程时，请求被拒绝而不影响其他资源。当调用超过超时时间时，调用将被削减。  2. 信号量隔离：限制调用的并发数。使用线程池的好处是可以通过预分配线程池来完全隔离业务逻辑。但它也给我们带来了上下文切换和额外线程的额外成本。如果传入的请求已经在一个单独的线程中处理，例如一个 servlet 请求，如果使用线程池模式，它几乎会使线程开销增加一倍。所以我们推荐使用并发线程计数流量控制，它代表了轻量级的信号量隔离。
+                    QPS
+                        当 QPS 超过阈值时，我们将采取行动来控制传入的请求，这可以通过配置 中的controlBehavior字段来完成FlowRule
+                        立即拒绝 ( RuleConstant.CONTROL_BEHAVIOR_DEFAULT) ：这是默认行为。超出的请求会立即被拒绝并抛出 FlowException。
+                         热身（RuleConstant.CONTROL_BEHAVIOR_WARM_UP) ： 如果系统使用率低了一段时间，但突然有大量请求进来，系统可能无法一次处理所有这些请求。但是，如果我们稳步增加传入请求并让系统预热，它可能最终能够处理所有请求。可以通过在 中设置warmUpPeriodSec字段来配置此预热期FlowRule。
+                        速率限制器 ( RuleConstant.CONTROL_BEHAVIOR_RATE_LIMITER) :  该策略严格控制请求之间的间隔。换句话说，它允许请求以统一的速率通过。这个策略是漏桶的一个实现。它用于以稳定的速率处理请求，通常用于处理突发请求而不是拒绝它们。例如，消息突然流入。当大量请求同时到达时，系统可以以固定速率处理所有这些传入请求
+                呼叫路径流量控制(Flow Control by Call Path)
+                    我们使用NodeSelectorSlot来建立资源的调用链，
+                    并ClusterBuilderSlot收集调用者的运行时统计数据。
+                    按来电者(By caller)
+                        调用时ContextUtil.enter(resourceName, origin)，该参数origin指示调用者的身份（如对端的服务名）。该ClusterBuilderSlot会收集这些信息，并用它来进行流量控制。
+                        所述origin可以通过字段来定义limitApp在FlowRule。该字段具有以下值：1. default: 没有具体的来电者。如果此资源的总值超过此规则中定义的阈值，则传入请求将被阻止。2. >：特定呼叫者已超过规则中定义的阈值。3. other：此规则适用于来自origin该资源字段中未明确定义的调用者的请求。
+                    按入口(By entrance)
+                        路径保持在NodeSelectorSlot. 例如，资源节点可以来自 entry1 或 entry2。
+                    按相关资源（By related resource）
+                        例如，两个资源将访问相同的数据库记录。ResourceA 将从数据库中读取记录，resourceB 将记录写入数据库。ResourceA 访问数据库的频率取决于ResourceB。我们可以通过配置ResourceA的规则与价值实现这个strategy字段RuleConstant.RELATE，以及价值ref_identity为ResourceB。
+            流量控制原理
+                1. 资源之间的调用链；  
+                2. 运行时指标，例如 QPS、响应时间和系统负载；  
+                3. 需要采取的行动，例如立即拒绝或排队。
+                Sentinel 允许应用程序以灵活的方式组合所有这些统计信息。
+        熔断和并发
+            Sentinel  实现断路
+                最大并发限制
+                    Sentinel 没有使用线程池，而是通过限制并发线程的数量（即信号量隔离）来减少不稳定资源的影响。当资源的响应时间变长时，线程就会开始被占用。当线程数累积到一定数量时，将拒绝新传入的请求。反之，当资源恢复稳定后，占用的线程也会被释放，接受新的请求。通过限制并发线程而不是线程池，您不再需要预先分配线程池的大小，从而避免排队、调度和上下文切换等计算开销。
+                断路
+                    除了限制并发性，根据响应时间对不稳定资源进行降级也是保证可靠性的有效方法。当资源的响应时间过长时，在指定的时间窗口内将拒绝对该资源的所有访问。
+                自适应系统保护
+                    自适应系统保护在保证系统可靠性的前提下保持较高的系统吞吐量。Sentinel 对系统负载保护的做法是load1作为发起流量控制的指标，允许通过的流量由处理请求的能力决定，包括响应时间和当前 QPS。
+                    Load Protection
+                        请求将在以下条件下被阻止：当前系统负载（load1）超过阈值（highestSystemLoad）；当前并发请求超过估计容量 ( thread count > minRt * maxQps)
+                    Global Metrics Protection
+                        我们有一个ENTRY_NODE记录全局指标（例如 inbound QPS、平均 RT 和线程数）的全局统计节点。
+                    全球保护项目有以下几种： 
+                        1. 系统负载 (System load  / load1) 
+                        2. 系统 CPU 使用率（System CPU usage） 
+                        3. 全局入站 QPS（Global inbound QPS）  
+                        4. 全局平均响应时间（Global average response time） 
+                        5. 全局最大并发（入站流量，Global max concurrency）请注意，系统规则仅对inbound traffic( EntryType.IN)生效。
+            断路
+                断路器提供稳定性并防止分布式系统中的级联故障。
+                Hystrix的线程池限制
+                断路器策略
+                    慢请求比率：通过慢请求比率进行断路。我们需要提供“上限响应时间”，RT 超过上限 RT 的请求将被记录为慢请求。
+                    错误率：按错误率（错误计数/总完成计数）进行断路。
+                    错误计数：按异常数量进行断路。
+                断路器状态变化观察器
+                    EventObserverRegistry.getInstance().addStateChangeObserver("logging",    (prevState, newState, rule, snapshotValue) -> {    if (newState == State.OPEN) {      System.err.println(String.format("%s -> OPEN at %d, snapshotValue=%.2f", prevState.name(),      TimeUtil.currentTimeMillis(), snapshotValue));    } else {      System.err.println(String.format("%s -> %s at %d", prevState.name(), newState.name(),      TimeUtil.currentTimeMillis()));    }    });
+    组成
+        关键概念
+            资源
+                资源是 Sentinel 中的一个关键概念。它可以是任何东西，例如服务、方法，甚至是代码片段。一旦被 Sentinel API 包裹，就被定义为资源，可以申请 Sentinel 提供的保护。
+            规则
+                Sentinel 保护资源的方式由规则定义，例如流量控制、并发和熔断规则。规则可以动态更改，并实时生效。
+        生态系统景观
+            git地址： https://github.com/alibaba/Sentinel/wiki
+        核心类解析
+            ProcessorSlotChain
+                Sentinel 的核心骨架，将不同的 Slot 按照顺序串在一起（责任链模式），从而将不同的功能（限流、降级、系统保护）组合在一起。slot chain 其实可以分为两部分：统计数据构建部分（statistic）和判断部分（rule checking），目前的设计是 one slot chain per resource，因为某些 slot 是 per resource 的（比如 NodeSelectorSlot）。
+            Context
+                Context 代表调用链路上下文，贯穿一次调用链路中的所有 Entry。Context 维持着入口节点（entranceNode）、本次调用链路的 curNode、调用来源（origin）等信息。Context 名称即为调用链路入口名称。Context 维持的方式：通过 ThreadLocal 传递，只有在入口 enter 的时候生效。由于 Context 是通过 ThreadLocal 传递的，因此对于异步调用链路，线程切换的时候会丢掉 Context，因此需要手动通过 ContextUtil.runOnContext(context, f) 来变换 context。
+            Entry
+                每一次资源调用都会创建一个 Entry。Entry 包含了资源名、curNode（当前统计节点）、originNode（来源统计节点）等信息。CtEntry 为普通的 Entry，在调用 SphU.entry(xxx) 的时候创建。特性：Linked entry within current context（内部维护着 parent 和 child）需要注意的一点：CtEntry 构造函数中会做调用链的变换，即将当前 Entry 接到传入 Context 的调用链路上（setUpEntryFor）。资源调用结束时需要 entry.exit()。exit 操作会过一遍 slot chain exit，恢复调用栈，exit context 然后清空 entry 中的 context 防止重复调用。
+            Node
+                Sentinel 里面的各种种类的统计节点
+                    StatisticNode：最为基础的统计节点，包含秒级和分钟级两个滑动窗口结构。DefaultNode：链路节点，用于统计调用链路上某个资源的数据，维持树状结构。ClusterNode：簇点，用于统计每个资源全局的数据（不区分调用链路），以及存放该资源的按来源区分的调用数据（类型为 StatisticNode）。特别地，Constants.ENTRY_NODE 节点用于统计全局的入口资源数据。EntranceNode：入口节点，特殊的链路节点，对应某个 Context 入口的所有调用数据。Constants.ROOT 节点也是入口节点。
+                构建的时机
+                    EntranceNode 在 ContextUtil.enter(xxx) 的时候就创建了，然后塞到 Context 里面。NodeSelectorSlot：根据 context 创建 DefaultNode，然后 set curNode to context。ClusterBuilderSlot：首先根据 resourceName 创建 ClusterNode，并且 set clusterNode to defaultNode；然后再根据 origin 创建来源节点（类型为 StatisticNode），并且 set originNode to curEntry。
+                Node 的维度
+                    ClusterNode 的维度是 resourceDefaultNode 的维度是 resource * context，存在每个 NodeSelectorSlot 的 map 里面EntranceNode 的维度是 context，存在 ContextUtil 类的 contextNameNodeMap 里面来源节点（类型为 StatisticNode）的维度是 resource * origin，存在每个 ClusterNode 的 originCountMap 里面
+            StatisticSlot
+                StatisticSlot 是 Sentinel 最为重要的类之一，用于根据规则判断结果进行相应的统计操作。entry 的时候：依次执行后面的判断 slot。每个 slot 触发流控的话会抛出异常（BlockException 的子类）。若有 BlockException 抛出，则记录 block 数据；若无异常抛出则算作可通过（pass），记录 pass 数据。exit 的时候：若无 error（无论是业务异常还是流控异常），记录 complete（success）以及 RT，线程数-1。记录数据的维度：线程数+1、记录当前 DefaultNode 数据、记录对应的 originNode 数据（若存在 origin）、累计 IN 统计数据（若流量类型为 IN）。
+        7 核心组件
+            8 插槽Slot
+                NodeSelectorSlot
+                调用链树
+                ClusterBuilderSlot
+                StatistcSlot
+                SystemSlot
+                AuthoritySlot
+                FlowSlot
+                DegradeSlot
+                DefaultProcessorSlotChain
+                slot总结

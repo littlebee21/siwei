@@ -1,0 +1,85 @@
+RAM
+    RAM存储：Random Access Memory
+        RAM分类
+            SRAM 高速缓存
+            DRAM动态随机存取存储器
+                DDRSDRAM
+                DDR2SDRAM
+                DDR3SDRAM
+                DDR4SDRAM
+        LCD的硬件电路
+            LCD属性
+                尺寸
+                分辨率
+                色彩像素
+                触控
+                TFTLCD和SRAM区别
+            TFT_LCD模块组成
+                控制引脚
+                    CS： TFTLCD 片选信号。
+                    RST：硬复位 TFTLCD
+                    WR：向 TFTLCD 写入数据。
+                    RD：从 TFTLCD 读取数据。
+                    RS：命令/数据标志（ 0，读写命令； 1，读写数据）
+                数据引脚
+                    D[15： 0]： 16 位双向数据线
+                 ILI9341 液晶控制器
+                    控制
+                        gram显存
+                            gram显存对应mcu和模块引脚
+                        ILI9341 重要命令
+                            0XD3读 ID4 指令
+                            0X36存储器的读写方向
+                                功能
+                                参数
+                            0X2A列地址设置指令
+                                参数EC列地址结束
+                                参数SC列地址起始
+                            0X2B页地址设置指令
+                                SP页地址起始
+                                EP页地址结束
+                            0X2C写 GRAM 指令
+                            0X2E读 GRAM 指令
+            LCD使用流程
+                LCD的编程接口初始化
+                读点流程
+                画点流程
+                    1.设置坐标
+                    2.写 GRAM 指令
+                    3.写入颜色数据
+        NOR/PSRAM 设备
+            SRAM设备组成
+                控制
+                    读信号（OE）
+                    写信号（WE）
+                    地址线（如 A0~A18）
+                    片选信号（CS）
+                    UB/LB 信号
+                数据
+                    数据线（如 D0~D15）
+    ROM
+        ROM分类
+            MROM
+            PROM
+            EPROM
+             EEPROM
+            FLASHROM(NOR，NAND两种）
+        SD卡结构
+            SD卡寄存器
+            SD卡的通信协议
+                SD 卡的通信协议包括 SD 和 SPI 两类
+            TF卡和SD卡的区别
+            SD的读写实现
+        磁盘
+            磁盘的物理结构分区
+            磁盘逻辑分区表
+    读写且不易失
+        EEPROM
+        NVRAM
+        FLASH
+            FLASH分类
+                norflash
+                nandflash
+            FLASH地址结构
+            FLASH寄存器
+            FLASH存取的实现

@@ -1,0 +1,24 @@
+java io 包
+    Java流操作的相关类或接口：
+        File -- 文件类
+        RandomAccessFile -- 随机存储文件类
+        字符
+            Reader -- 字符输入流
+                Reader 是所有的输入字符流的父类，它是一个抽象类。
+                CharReader、StringReader 是两种基本的介质流，它们分别将Char 数组、String中读取数据。
+                PipedReader 是从与其它线程共用的管道中读取数据。
+                BufferedReader 很明显就是一个装饰器，它和其子类负责装饰其它Reader 对象。
+                FilterReader 是所有自定义具体装饰流的父类，其子类PushbackReader 对Reader 对象进行装饰，会增加一个行号。
+                InputStreamReader 是一个连接字节流和字符流的桥梁，它将字节流转变为字符流。
+            Writer -- 字符输出流
+                Writer 是所有的输出字符流的父类，它是一个抽象类。
+                CharArrayWriter、StringWriter 是两种基本的介质流，它们分别向Char 数组、String 中写入数据。
+                PipedWriter 是向与其它线程共用的管道中写入数据，
+                BufferedWriter 是一个装饰器为Writer 提供缓冲功能。
+                PrintWriter 和PrintStream 极其类似，功能和使用也非常相似。
+                OutputStreamWriter 是OutputStream 到Writer 转换的桥梁，
+        字节
+            InputStream -- 字节输入流
+            OutputStream -- 字节输出流
+    字符流的输入和输出关系
+    9.RandomAccessFile类

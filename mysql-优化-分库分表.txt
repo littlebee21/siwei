@@ -1,0 +1,261 @@
+mysql 分库分表
+    数据库集群问题
+        读写分离：主从复制延迟
+            1. 写操作后读操作指定发送给主机
+                与业务强绑定，对业务的侵入和影响较大
+            2. 读取从机失败后，二次读取主机数据
+                增加了主机的读压力
+            3. 关键业务访问主机，非关键业务读写分离
+        数据迁移和扩容问题
+            推测短期内数据的增长
+            数据库迁移的方法
+        表级联问题
+        分页与排序问题
+        分布式事务问题
+            读写分离：分配机制
+                程序代码封装
+                    代码中抽象一个数据访问层或中间层封装，来实现读写请求和db服务器连接的管理
+                独立系统：中间件封装
+                    Atlas
+                    TDDL
+                    MySQL Route
+        分布式全局唯一ID
+        分库分表
+            水平分表带来的问题
+                1. 需要路由算法来实现分配
+                2. 需要进行多次join操作
+                3. 分页问题，涉及多张表，需要多次查询最好整合数据进行聚合操作
+                    count操作
+                    orderby操作
+            垂直分表带来的问题
+                1. 表操作的数量增加
+    分布式mysql
+        复制原理
+            节点复制
+                服务器间外部复制
+                    主从模式
+                        Asynchronous Replication
+                            逻辑原理
+                            技术实现
+                            问题
+                        Fully synchronous Replication
+                            逻辑实现
+                            技术实现
+                            存在问题
+                        Semisynchronous Replication
+                            逻辑实现
+                            技术实现
+                            半同步退化机制
+                            存在问题
+                        Lossless Replication
+                            逻辑实现
+                            技术实现
+                            存在问题
+                            半同步复制与无损复制区别
+                                半同步复制
+                                无损复制
+                    MGR模式
+                        特性
+                            数据一致性
+                            事务并发冲突处理
+                            节点故障自动检测
+                            组成员自动管理
+                            容错能力
+                        基于Paxos多主更新
+                        示例
+                            分支主题
+                            Certify 
+                                冲突解决方式
+                                    单主模式
+                                    多主模式
+                        MGR使用
+                            前置条件
+                                仅支持 InnoDB 引擎
+                                仅支持IPv4
+                                必须打开GTID特性，二进制日志格式必须设置为ROW，用于选主与write set
+                                每张表必须有主键，用于做write set冲突检测
+                            限制条件
+                                一个MGR集群最多支持9个节点
+                                官方建议 READ COMMITTED 隔离级别
+                                SELECT ... FOR UPDATE 可能造成死锁
+                                不支持外键：多主不支持，单主模式不存在此问题
+                                不支持外键于save point特性，无法做全局间的约束检测与部分部分回滚
+                                二进制日志不支持 binlog event checksum
+                                不支持 SERIALIZABLE 事务隔离级别
+                                COMMIT可能会失败，类似于快照事务隔离级别的失败场景
+                                DDL 无法作为事务处理，存在一些问题
+                                不支持 Replication event checksums，需要在 my.cnf 里面配置
+                        Single-Primary Mode
+                            示图
+                        Multi-Primary Mode
+                            示图
+                服务器间内部复制
+                    基于Binlog复制
+                        statement-based replication
+                            优势
+                                binlog文件较小
+                                主从数据库版本可以不一样
+                            缺点
+                                不定函数或者功能会让复制出问题
+                                复制过程可能会有全表扫描
+                                有AUTO_INCREMENT字段，会有阻塞
+                                复杂语句如果执行出错会消耗更多资源
+                        row-based replication
+                            优点
+                                对函数、存储过程、触发器等机制兼容
+                                更小锁粒度
+                                支持多线程复制
+                            缺点
+                                binlog日志量大
+                                对大事务执行效率不高
+                                UDF产生的大BLOB值影响复制效率
+                                不能直接查看binlog日志
+                        mixed-based replication
+                    基于GTID复制
+                        GTID
+                            source_id
+                            transaction_id
+                            示例
+                        工作原理
+                            GTID在binlog中的结构
+                        优点
+                            更简单的实现 failover 做到主从切换自动化
+                            更简单的搭建主从复制。
+                            数据比传统的复制更加安全。
+                            GTID 是连续的没有空洞的，保证数据的一致性，零丢失。
+                        缺点
+                            只支持 InnoDB 引擎
+                            必须全 GTID 才可以复制
+                            故障处理比较复杂，需要注入空事务
+                            不支持 CREATE TABLE ... SELECT 语句，因为该语句会被拆成 CREATE TABLE 和 INSERT 两个事务，并且两个事务被分配同一个 GTID，导致 INSERT 操作直接 Skip
+                            不支持CREATE TEMPORARY TABLE、DROP TEMPORARY TABLE 临时表操作
+                            Errant transaction 问题：即从库不能进行任何事物型操作，会引入新的 GTID，当 binlog 被清除后，再进行主从切换，会导致其他从库找不到此 GTID，从而挂载不上
+                    GTID配合SBR、RBR、MBR三者之一混合使用，保证数据一致性
+                        Master配置
+                        Slave配置
+            基于 MySQL 原生异步或半同步复制协议
+                MHA
+                    架构
+                        分支主题
+                        MHA Manager
+                        Master
+                        Slave(M)
+                        Slave(N)
+                    工作流程
+                    Failover过程
+                        无法保证数据不会丢失
+                    优点
+                        可以进行故障的自动检测和转移
+                        可扩展性较好，可以根据需要扩展MySQL的节点数量和结构
+                        相比于双节点的 MySQL 复制，三节点/多节点的 MySQL 发生不可用的概率更低
+                        支持基于日志点、GTID的复制方式
+                    缺点
+                        至少需要三节点，相对于双节点需要更多的资源
+                        逻辑较为复杂，发生故障后排查问题，定位问题更加困难
+                        数据一致性仍然靠原生半同步复制保证，仍然存在数据不一致的风险
+                        可能因为网络分区发生脑裂现象
+                        需要基于 SSH 免认证配置，存在一定的安全隐患
+                        只监控 master，未监控 slave 状态
+                MMM
+                    优点
+                    缺点
+                        由于架构里只有一个写入点，所以扩展性是有限的，但是对一般中型企业够用了。解决方案：对于大应用可以采取垂直拆分到多个 MMM 架构的方式，使用 MMM Cluster 来管理
+                        对于读写分离和读负载均衡还是要程序来开发或者使用其他工具完成。
+                        数据不能保证抢一致性，但是保证了高可用
+                        可能因为网络分区发生脑裂现象
+                        存在单点故障
+                        不支持基于 GTID 复制
+                Zookeeper + Proxy
+                    优点
+                        较好保证了整个系统的高可用
+                        扩展性好，可以扩展为大规模集群
+                    缺点
+                        依然依赖于原生的半同步复制
+                        引入 zk，使系统变得更加复杂
+            基于分布一致性协议
+                MGR
+                MySQL Innodb Cluster(基于MGR方案)
+                    优点
+                        支持多主写入
+                        无脑裂问题
+                        自动故障转移，自动添加、剔除节点，不依赖任何第三方工具
+                    缺点
+                        同 MGR
+                MySQL NDB Cluster
+                    优点
+                        全部使用官方组件，不依赖于第三方
+                        当 NDB Cluster 关闭时，NDB Cluster 数据节点在 Memory 中保存的数据将写入磁盘，并在 Cluster 启动的下一个 time 重新加载到 Memory。
+                        同步复制，在 NDB Cluster 所有数据节点都保持同步，可实现数据强一致性
+                    缺点
+                        基于内存，数据库集群规模受内存大小限制
+                        配置复杂，必须使用 NDB 存储引擎，与常规存储引擎存在差异，只支持 READ COMMITTED 隔离级别，没有 MVCC
+                        联表 JOIN 性能很差
+                MariaDB Galera Cluster
+                    功能
+                        同步复制
+                        真正的 multi-master，即所有节点可以同时读写数据库
+                        自动的节点成员控制，失效节点自动被清除
+                        新节点加入数据自动复制
+                        真正的并行复制，基于行级
+                        用户可以直接连接集群，使用感受上与 MySQL 完全一致
+                    优点
+                        因为是多主，所以不存在 Slavelag（延迟）
+                        不存在丢失事务的情况
+                        同时具有读和写的扩展能力
+                        节点间数据是同步的,而 Master/Slave 模式是异步的，不同 Slave 上的 binlog 可能是不同的
+                    缺点
+                        需要打 wsrep 补丁
+                        只支持 InnoDB 存储引擎
+                        不同 Slave 的 binlog 可能不同
+        数据读取负载均衡
+            利用DNS轮询的方式把程序的读连接到不同的备库上
+            利用LVS, haporxy 这样的代理方式完成
+    架构原理
+        高性能db集群
+            读写分离
+                主从
+                    主机提供写服务，从机提供读服务
+                主备
+                    从机不提供读服务
+                本质
+                    减轻了db的访问压力，db的存储压力仍然存在
+                    通过复制来实现主从、主备数据同步
+            复制原理
+                异步复制
+                    1. master记录写操作到binary log中
+                    2. slave会在一定时间间隔内探测master是否修改了数据
+                    3. 探测到master binary log发生了改变，则开始一个IO线程读取binary log
+                    4. 同时master会开始一个dump线程来给IO线程发送事件
+                    5. slave收到事件会保存到自己的中继日志中 relay log
+                    6. slave会启动SQL线程来读取relay log，在本地重放，保持其与master的数据一致
+                    7. IO线程、SQL线程进入睡眠，等待下次唤醒
+                半同步复制
+                组复制
+            与NoSQL的对比
+                关系型数据库的确定
+                    1. 存储的是行记录，无法存储数据结构
+                    2. Schema强约束，操作不存在的列会报错，扩充列需要执行DDL修改，修改过程可能长时间将表锁住
+                    3. 大数据场景下IO较高
+                    4. 全文搜索功能比较弱
+                NoSQL方案
+                    1. KV存储，解决无法存储数据结构问题，以Redis为代表
+                    2. 文档数据库，解决强Schema问题，以MongoDB为代表
+                    3. 列式数据库，解决大数据场景下IO问题，以HBase为代表
+                    4. 全文搜索引擎，解决全文搜索性能问题，以ElasticSearch为代表
+        分库分表
+            业务分库
+            分表
+                水平分表
+                垂直分表
+                不局限拆分的次数
+    分库分表
+        水平分割
+        垂直分割
+        第三方插件
+            Shareding JDBC
+            MyCat
+    如何建表
+        一对多的关系
+            * (思路小结：’建两个表，一’方不动，’多’方添加一个外键字段)*
+        多对多关系`
+            好的方式是实体和关系分离并单独建表

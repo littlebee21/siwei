@@ -1,0 +1,506 @@
+nginx配制文件
+    nginx_conf_ctx
+        0. ngx_core_conf_t全局
+            daemon
+                daemon
+                1
+            master
+                master_process
+                1
+            timer_resolution
+                timer_resolution
+                0
+            worker_processes
+                worker_processes
+                1
+            debug_points
+                debug_points
+                0
+            rlimit_nofile
+                worker_rlimit_nofile
+            rlimit_core
+                worker_rlimit_core
+            priority
+                worker_priority
+            cpu_affinity_auto
+            cpu_affinity_n
+            cpu_affinity
+            username
+            user
+                pw_uid
+            group
+                gr_gid
+            working_directory
+                working_directory
+            lock_file
+                lock_file
+                logs/nginx.lock
+            pid
+                logs/nginx.pid
+            oldpid
+            env
+                env
+            environment
+        3. events_array服务和网络链接
+            ngx_event_conf_t
+                connections
+                    worker_connections
+                    512
+                use
+                    use
+                    ngx_epoll_module->ctx_index
+                name
+                    ngx_epoll_module->name
+                multi_accept
+                    multi_accept
+                    0
+                accept_mutex
+                    accept_mutex
+                    1
+                accept_mutex_delay
+                    accept_mutex_delay
+                    500
+                debug_connection
+                    debug_connection
+            ngx_epoll_conf_t
+                events
+                    epoll_events
+                    512
+                aio_requests
+                    worker_aio_requests
+                    32
+        6. ngx_http_conf_ctx_t
+            0. ngx_http_core_module
+                ngx_http_core_preconfiguration
+                    ngx_http_core_main_conf_t
+                        初始化http头标签
+                ngx_http_core_postconfiguration
+                    再看
+                ngx_http_core_create_main_conf
+                    ngx_http_core_main_conf_t
+                ngx_http_core_init_main_conf
+                    ngx_http_core_main_conf_t
+                        server_names_hash_max_size=512
+                        server_names_hash_bucket_size=ngx_cacheline_size
+                            ngx_align
+                        variables_hash_max_size=1024
+                        variables_hash_bucket_size=64
+                            ngx_align
+                ngx_http_core_create_srv_conf
+                    ngx_http_core_srv_conf_t
+                ngx_http_core_merge_srv_conf
+                    ngx_http_core_srv_conf_t
+                        connection_pool_size=64 * sizeof(void *)
+                        request_pool_size=4096
+                        client_header_timeout=60000
+                        client_header_buffer_size=1024
+                        large_client_header_buffers|num=4, size=8192
+                        ignore_invalid_headers=1
+                        merge_slashes=1
+                        underscores_in_headers=0
+                ngx_http_core_create_loc_conf
+                    ngx_http_core_loc_conf_t
+                ngx_http_core_merge_loc_conf
+                    太多了
+            1. ngx_http_log_module
+                ngx_http_log_init
+                    postconfiguration
+                    初始http日志格式
+                ngx_http_log_create_main_conf
+                    ngx_http_log_main_conf_t
+                ngx_http_log_create_loc_conf
+                    ngx_http_log_loc_conf_t
+                ngx_http_log_merge_loc_conf
+                    日志合并，待仔细看
+            2. ngx_http_upstream_module
+                ngx_http_upstream_add_variables
+                    preconfiguration
+                ngx_http_upstream_create_main_conf
+                    ngx_http_upstream_main_conf_t
+                        upstreams|array
+                            ngx_http_upstream_srv_conf_t|4
+                ngx_http_upstream_init_main_conf
+                    后续找个配置具体分析
+            3. ngx_http_static_module
+                ngx_http_static_init
+                    postconfiguration
+                    ngx_http_core_main_conf_t->phases[NGX_HTTP_CONTENT_PHASE].handlers=ngx_http_static_handler
+            4. ngx_http_autoindex_module
+                ngx_http_autoindex_init
+                    postconfiguration
+                ngx_http_autoindex_create_loc_conf
+                    ngx_http_autoindex_loc_conf_t
+                ngx_http_autoindex_merge_loc_conf
+                    ngx_http_autoindex_loc_conf_t
+                        enable=0
+                        format=0
+                        localtime=0
+                        exact_size=1
+            5. ngx_http_index_module
+                ngx_http_index_init
+                    postconfiguration
+                ngx_http_index_create_loc_conf
+                    ngx_http_index_loc_conf_t
+                ngx_http_index_merge_loc_conf
+            6. ngx_http_auth_basic_module
+                ngx_http_auth_basic_init
+                    postconfiguration
+                ngx_http_auth_basic_create_loc_conf
+                    ngx_http_auth_basic_loc_conf_t
+                ngx_http_auth_basic_merge_loc_conf
+            7. ngx_http_access_module
+                ngx_http_access_init
+                    postconfiguration
+                ngx_http_access_create_loc_conf
+                    ngx_http_access_loc_conf_t
+                ngx_http_access_merge_loc_conf
+            8. ngx_http_limit_conn_module
+                ngx_http_limit_conn_init
+                    postconfiguration
+                ngx_http_limit_conn_create_conf
+                    ngx_http_limit_conn_conf_t
+                ngx_http_limit_conn_merge_conf
+                    ngx_http_limit_conn_conf_t
+                        log_level=NGX_LOG_ERR
+                        status_code=NGX_HTTP_SERVICE_UNAVAILABLE
+            9. ngx_http_limit_req_module
+                ngx_http_limit_req_init
+                    postconfiguration
+                ngx_http_limit_req_create_conf
+                    ngx_http_limit_req_conf_t
+                ngx_http_limit_req_merge_conf
+                    ngx_http_limit_req_conf_t
+                        limit_log_level=NGX_LOG_ERR
+                        status_code=NGX_HTTP_SERVICE_UNAVAILABLE
+            10. ngx_http_geo_module
+            11. ngx_http_map_module
+                ngx_http_map_create_conf
+                    ngx_http_map_conf_t
+            12. ngx_http_split_clients_module
+            13. ngx_http_referer_create_conf
+                ngx_http_referer_create_conf
+                    ngx_http_referer_conf_t
+                ngx_http_referer_merge_conf
+            14. ngx_http_proxy_module
+                ngx_http_proxy_add_variables
+                    preconfiguration
+                ngx_http_proxy_create_main_conf
+                    ngx_http_proxy_main_conf_t
+                ngx_http_proxy_merge_loc_conf
+                    ngx_http_proxy_loc_conf_t
+                ngx_http_proxy_merge_loc_conf
+            15. ngx_http_fastcgi_module
+                ngx_http_fastcgi_add_variables
+                    preconfiguration
+                ngx_http_fastcgi_create_main_conf
+                    ngx_http_fastcgi_main_conf_t
+                ngx_http_fastcgi_create_loc_conf
+                    ngx_http_fastcgi_loc_conf_t
+                ngx_http_fastcgi_merge_loc_conf
+            16. ngx_http_uwsgi_module
+                ngx_http_uwsgi_create_main_conf
+                    ngx_http_uwsgi_main_conf_t
+                ngx_http_uwsgi_create_loc_conf
+                    ngx_http_uwsgi_loc_conf_t
+                ngx_http_uwsgi_merge_loc_conf
+            17. ngx_http_scgi_module
+                ngx_http_scgi_create_main_conf
+                    ngx_http_scgi_main_conf_t
+                ngx_http_scgi_create_loc_conf
+                    ngx_http_scgi_loc_conf_t
+                ngx_http_scgi_merge_loc_conf
+            18. ngx_http_memcached_create_loc_conf
+                ngx_http_memcached_create_loc_conf
+                    ngx_http_memcached_loc_conf_t
+                ngx_http_memcached_merge_loc_conf
+                    ngx_http_memcached_loc_conf_t
+            19. ngx_http_empty_gif_module
+            20. ngx_http_browser_add_variable
+                ngx_http_browser_add_variable
+                ngx_http_browser_create_conf
+                    ngx_http_browser_conf_t
+                ngx_http_browser_merge_conf
+                    ngx_http_browser_conf_t
+            21. ngx_http_upstream_hash_module
+                ngx_http_upstream_hash_create_conf
+                    ngx_http_upstream_hash_srv_conf_t
+            22. ngx_http_upstream_ip_hash_module
+            23. ngx_http_upstream_least_conn_module
+            24. ngx_http_upstream_keepalive_module
+                ngx_http_upstream_keepalive_create_conf
+                    ngx_http_upstream_keepalive_srv_conf_t
+            25. ngx_http_upstream_zone_module
+            26. ngx_http_write_filter_module
+                ngx_http_write_filter_init
+                    postconfiguration
+            27. ngx_http_header_filter_module
+                ngx_http_header_filter_init
+                    postconfiguration
+            28. ngx_http_chunked_filter_module
+                ngx_http_chunked_filter_init
+                    postconfiguration
+            29. ngx_http_range_header_filter_module
+                ngx_http_range_header_filter_init
+                    postconfiguration
+            30. ngx_http_gzip_filter_module
+                ngx_http_gzip_add_variables
+                    preconfiguration
+                ngx_http_gzip_filter_init
+                    postconfiguration
+                ngx_http_gzip_create_conf
+                    ngx_http_gzip_conf_t
+                ngx_http_gzip_merge_conf
+            31. ngx_http_postpone_filter_module
+                ngx_http_postpone_filter_init
+            32. ngx_http_ssi_filter_module
+                ngx_http_ssi_preconfiguration
+                    preconfiguration
+                ngx_http_ssi_filter_init
+                    postconfiguration
+                ngx_http_ssi_create_main_conf
+                    ngx_http_ssi_main_conf_t
+                ngx_http_ssi_init_main_conf
+                ngx_http_ssi_create_loc_conf
+                    ngx_http_ssi_loc_conf_t
+                ngx_http_ssi_merge_loc_conf
+            33. ngx_http_charset_filter_module
+                ngx_http_charset_postconfiguration
+                    postconfiguration
+                ngx_http_charset_create_main_conf
+                    ngx_http_charset_main_conf_t
+                ngx_http_charset_create_loc_conf
+                    ngx_http_charset_loc_conf_t
+                ngx_http_charset_merge_loc_conf
+            34. ngx_http_userid_filter_module
+                ngx_http_userid_add_variables
+                    preconfiguration
+                ngx_http_userid_init
+                    postconfiguration
+                ngx_http_userid_create_conf
+                    ngx_http_userid_conf_t
+                ngx_http_userid_merge_conf
+            35. ngx_http_headers_filter_module
+                ngx_http_headers_filter_init
+                    postconfiguration
+                ngx_http_headers_create_conf
+                    ngx_http_headers_conf_t
+                ngx_http_headers_merge_conf
+            36. ngx_http_copy_filter_module
+                ngx_http_copy_filter_init
+                    postconfiguration
+                ngx_http_copy_filter_create_conf
+                    ngx_http_copy_filter_conf_t
+                ngx_http_copy_filter_merge_conf
+            37. ngx_http_range_body_filter_module
+                ngx_http_range_body_filter_init
+                    postconfiguration
+            38. ngx_http_not_modified_filter_module
+                ngx_http_not_modified_filter_init
+                    postconfiguration
+        worker_cpu_affinity
+        user
+        pid
+        初始化配置调用顺序create main configurationcreate server configurationcreate location configurationpreconfigurationinit main configurationpostconfiguration//下面两个顺序待定merge server configurationmerge location configuration
+    主题
+        配置
+            4.核心配置结构
+                main全局块
+                events块
+                http块
+                    server块(多个)
+                        location块
+            3.1.3 核心配置
+                站点模式
+                    基于IP
+                    基于端口
+                    基于域名
+                 站点功能（include）
+                    别名（alias）
+                    正则匹配（location）
+                        精确匹配
+                        区分大小
+                        不区分大小
+                        URI定向
+                        文件名定向
+                        优先级
+                        生产案例
+                四层访问控制
+                账号认证
+                自定义错误提示
+                自定义访问日志
+                    日志参数
+                    日志目录
+                    日志配置
+                    日志模板
+                    并发优化
+                    日志切割
+                判断文件
+                超时时间设置
+                作为下载服务器
+                作为上传服务器
+                其他配置
+            3.2 高级配置
+                3.2.1 状态页面
+                3.2.2 三方模块
+                3.2.3 使用变量
+                3.2.4 日志目录
+                3.2.5 压缩功能
+                3.2.6 HTTP功能
+                3.2.7 图标显示
+                3.2.8 安全选项
+                    版本隐藏
+                    OpenSSL升级
+        常见模块
+            官方模块
+                http_stub_status_module
+                http_random_index_module
+                http_sub_module
+                limit_conn_module
+                 limit_req_module
+                http_access_module
+                http_auth_basic_module
+                proxy_pass
+                upstream
+            第三方模块
+                memc-nginx-module
+                echo-nginx-module 
+                lua-nginx-module
+                srcache-nginx-module
+                drizzle-nginx-module
+                rds-json-nginx-module
+                http_geoip_module
+                ngx_cache_purge
+    全局配置main
+        event配置工作模式以及连接数
+            accept_mutex on;   #设置网路连接序列化，防止惊群现象发生，默认为on
+            multi_accept on;  #设置一个进程是否同时接受多个网络连接，默认为off
+            #use epoll;      #事件驱动模型，select|poll|kqueue|epoll|resig|/dev/poll|eventport
+            worker_connections  1024;    #最大连接数，默认为512
+            子主题
+        http模块相关配置
+            include       mime.types;   #文件扩展名与文件类型映射表
+            default_type  application/octet-stream; #默认文件类型，默认为text/plain
+            #access_log off; #取消服务日志    
+            log_format myFormat  自定义格式
+            日志格式默认值
+                access_log log/access.log myFormat;  #combined为日志格式的默认值
+            sendfile on;   #允许sendfile方式传输文件
+            sendfile_max_chunk 100k;  #每个进程每次调用传输数量不能大于设定的值，默认为0，即不设上限。
+            keepalive_timeout 65;  #连接超时时间，
+                默认为75s，可以在http，server，location块。
+            error_page 404 https://www.baidu.com; #错误页
+            serverr虚拟主机配置
+                keepalive_requests 120; #单连接请求上限次数。
+                listen       4545;   #监听端口
+                server_name  127.0.0.1;   #监听地址
+                location路由规则
+                    #root path;  #根目录
+                       #index vv.txt;  #设置默认页
+                       proxy_pass  http://mysvr;  #请求转向mysvr 定义的服务器列表
+                       deny 127.0.0.1;  #拒绝的ip
+                       allow 172.18.5.54; #允许的ip
+                upstream集群
+                    server 127.0.0.1:7878;
+                    server 192.168.10.121:3333 backup;  #热备
+    location配置语法
+        location的作用
+            根据用户请求的网站URL进行匹配，匹配成功即进行相关的操作
+        location的正则
+            正则表达式实例教程
+                nginx location 配置 正则表达式实例详解
+            “=”精确匹配,内容要同表达式完全一致才匹配成功
+            “~”大小写敏感
+            “~*”大小写忽略
+            “^~”只匹配以 uri 开头
+            “@”nginx内部跳转
+            不加任何规则
+                默认是大小写敏感，前缀匹配，相当于加了“~”与“^~”
+        匹配优先级
+        Location解析过程
+        if指令
+        return指令
+        内置变量
+    nginx的配置结构
+        conf配置文件结构
+            配置文件图结构
+                配置文件结构
+            配置文件教程
+        main全局配置
+            #user  nobody
+                #主模块命令， 指定Nginx的worker进程运行用户以及用户组，默认由nobody账号运行
+            worker_processes  1;
+                指定Nginx要开启的进程数。
+            #error_log  logs/error.log;
+                #错误日志存放目录
+            #pid 
+                logs/nginx.pid;
+            worker_rlimit_nofile 100000;
+                worker进程的最大打开文件数限制
+            worker_cpu_affinity 0001 0010 0100 1000 0001 00100100 1000;
+                cpu亲和力配置，让不同的进程使用不同的cpu
+        event配置
+            设定nginx的工作模式及连接数上限
+            use epoll;
+                use用来指定nginx的工作模式
+            worker_connections  1024;
+                设置nginx每个进程最大的连接数，默认是1024
+        http服务器
+            include       mime.types;
+                文件扩展名与文件类型映射表
+            default_type  application/octet-stream;
+                默认文件类型，当文件类型未定义时候就使用这类设置的。
+            log_format  access  &amp;apos;$remote_addr - $remote_user [$time_local] &amp;quot;$request&amp;quot; &amp;apos;
+                设置日志模式
+            设定请求缓存
+                server_names_hash_bucket_size 128;client_header_buffer_size 512k;large_client_header_buffers 4 512k;client_max_body_size 100m;
+            server_tokens off;
+                隐藏响应header和错误通知中的版本号
+            tcp_nopush   on;
+                激活tcp_nopush参数可以允许把httpresponse header和文件的开始放在一个文件里发布，积极的作用是减少网络报文段的数量
+             tcp_nodelay  on;
+                激活tcp_nodelay，内核会等待将更多的字节组成一个数据包，从而提高I/O性能
+            sendfile on
+                开启高效传输模式
+             keepalive_timeout  65;
+                长连接超时时间，单位是秒
+            upstream backend_server {server   10.254.244.20:81 weight=1 max_fails=2 fail_timeout=30s;}
+                upstream表示负载服务器池，定义名字为backend_server的服务器池
+                轮询
+                    upstream webhost {server 192.168.0.5:6666 ;server 192.168.0.7:6666 ;}
+                权重
+                    upstream webhost {server 192.168.0.5:6666 weight=2;server 192.168.0.7:6666 weight=3;}
+                ip_hash
+                    upstream webhost {ip_hash;server 192.168.0.5:6666 ;server 192.168.0.7:6666 ;}
+                        每个请求按访问IP的hash结果分配,这样来自同一个IP的访客固定访问一个后端服务器,有效解决了动态网页存在的session共享问题
+                url_hash
+                    upstream webhost {server 192.168.0.5:6666 ;server 192.168.0.7:6666 ;hash $request_uri;}
+                        此方法按访问url的hash结果来分配请求,使每个url定向到同一个后端服务器,可以进一步提高后端缓存服务器的效率
+            server虚拟主机
+                设置一个虚拟机主机，可以包含自己的全局快，同时也可以包含多个locating模块。
+                listen  80;
+                    server的全局配置，配置监听的端口
+                server_name  localhost;
+                    本server的名称，当访问此名称的时候nginx会调用当前serevr内部的配置进程匹配。
+                index index.html index.htm index.php;
+                    首页排序
+                root  /data0/abc;
+                    #站点根目录，即网站程序存放目录
+                error_page 500 502 404 /templates/kumi/phpcms/404.html; 
+                    错误页面
+                rewrite ^/list-([0-9]+)-([0-9]+)\.html$ /index.php?m=content
+                    伪静态   将www.abc.com/list....html的文件转发到index.php。。。
+                access_log /var/log/nginx/access.log access;
+                    定义本虚拟主机的访问日志
+                location ~ /.svn/ { deny all;}
+                    location 标签，根目录下的.svn目录禁止访问
+                location /
+                    location其实是server的一个指令，为nginx服务器提供比较多而且灵活的指令，都是在location中提现的
+                    root   html; 
+                        相当于默认页面的目录名称，默认是相对路径，可以使用绝对路径配置。
+                    index  index.html index.htm;
+                error_page   500 502 503 504  /50x.html;
+                     #错误页面的文件名称
+                location = /50x.html
+                    location处理对应的不同错误码的页面定义到/50x.html，这个跟对应其server中定义的目录下。
+                    root   html;
+                        定义默认页面所在的目录

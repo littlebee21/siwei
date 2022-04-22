@@ -1,0 +1,40 @@
+当前状态 - C语言
+    0. 数据结构，算法思考
+    1，循环模板，判断模板：
+    1，函数模板：一张纸为内存模型的思考方式
+    1，流程：读取数据修改数据返回数据
+    2，C语言练习题模板
+        define
+        struct
+        scanf
+        print
+        for
+        p++
+        return
+    2，C语言语法的：
+        运算符优先级：明确描述内存空间 void **p(void *name,int argument)，
+        地址操作内存图:memset,memcpy,malloc，free
+        C的内存分布图:data,stack,heap,lib,bss,text
+        数据类型大小：int long short double
+        关键字和变量三要素：链接，作用域，读写，生命周期
+        直接能够像说话一样背诵出来
+    3，常用函数使用：
+        也是命名的艺术，通过相似的命名，一key多value的形式
+        strlen strcpy strncpy strcat strncat
+        memset mencpy memmove
+    3，百度+整理工具的使用
+    4，linux的基本命令使用
+        gcc
+        makefile
+    5，函数的调用
+
+
+
+不求全：但求用，函数，语法，命令都是这样
+    不要想着将所有的内容都学会
+    如何用有限的东西进行组合达成自己的目标
+
+练习方式：
+    1，用榔头敲石头
+    2，用榔头敲狗头
+    3，用榔头敲龙头

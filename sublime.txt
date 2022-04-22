@@ -1,0 +1,182 @@
+sublime
+    sublime的功能
+        sublime插件可以调整css的顺序
+    sublime的属性
+    sublime的组成
+        sublime快捷键
+            sublime常用
+                html5模板建立
+                复制
+                    Ctrl+Shift+D 复制光标所在整行，插入在该行之前
+                剪切
+                    ctrl+x剪切当前行
+                撤销
+                    Ctrl+Y 恢复撤销
+                    Ctrl+U 软撤销
+                    Ctrl+Z 撤销
+                粘贴
+                移动光标
+                    ctrl+shift+enter生成上面一行并且移动光标到上一行
+                    ctrl+enter生成下面一行并且移动光标到下一行
+                     Ctrl + M    在起始括号和结尾括号间切换
+                    Ctrl + ↑/↓    移动当前显示区域
+                     Ctrl + ←/→ 进行逐词移动
+            sublime编辑
+                注释
+                    Ctrl+/ 注释整行（如已选择内容，同“Ctrl+Shift+/”效果）
+                    Ctrl+Shift+/ 注释已选择内容
+                移动当前行
+                    Ctrl + Shift + ↑/↓ 移动当前行
+                合并
+                    Ctrl + J 把当前选中区域合并为一行
+                删除
+                    Shift+Tab 去除缩进
+                    Ctrl+Shift+K 删除整行
+                    Ctrl+K Backspace 从光标处删除至行首
+                    Ctrl+KK 从光标处删除至行尾
+                换词
+                    Ctrl+T 词互换
+                折叠
+                    Ctrl+K+T 折叠属性
+                    Ctrl+K+0 展开所有
+                    Ctrl+Shift+[ 折叠代码
+                    Ctrl+Shift+] 展开代码
+                改变格式
+                    Ctrl+K+U 改为大写
+                sublime选择
+                    选词
+                        Ctrl+D 选词 （反复按快捷键，即可继续向下同时选中下一个相同的文本进行同时编辑）
+                    选行
+                        Ctrl+L 选择整行（按住-继续选择下行）
+                    选横向多行
+                        Ctrl+Shift+L 鼠标选中多行（按下快捷键），即可同时编辑这些行
+                    选竖向多行
+                        Shift+鼠标右键（或使用鼠标中键）可以用鼠标进行竖向多行选择
+                    随机选择
+                        Ctrl+鼠标左键 可以同时选择要编辑的多处文本
+                    当前
+                        Ctrl + Shift + ←/→ 进行逐词选择
+                        Ctrl + Shift + Space    快速选择当前作用域（Scope）的内容
+                    结构
+                        Ctrl + Shift + J    快速选择同缩进的内容
+                         Ctrl + Shift + M    快速选择括号间的内容
+                        Ctrl+Shift+A  选择光标位置父标签对儿
+            sublime通用快捷键
+                Ctrl+Shift+P 打开命令面板
+                c+·调出控制台
+                alt调出菜单栏
+                c+b/c+k打开关闭侧边栏
+            sublime查找和替换
+                跳转查找关键字位置
+                切换模式 进行替换
+                ctrl+shift+F 在文件夹内查找
+            sublime窗口快捷键
+                ctrl+shift+n新建窗口
+                ctrl+n新标签
+                ctrl+w关闭标签
+                    Alt+. 闭合当前标签
+                ctrl+shift+t恢复上个关闭的标签
+                Ctrl+PageDown 、Ctrl+PageUp 文件按开启的前后顺序切换
+                跳转
+                    ctrl+tal/ctrl+1跳转页面
+            sublime屏幕快捷键
+                全屏
+                    f11普通全屏
+                    shift+f11无干扰全屏
+                左右分屏
+                上下分屏
+                上下左右分屏
+                取消分屏
+            sublime跳转快捷键
+                ctrl+p跳转到指定文件
+                ctrl+R跳转到指定符号
+                ctrl+G跳转到指定行号
+                ：跳转到指定关键字
+            sublime文件操作快捷键
+                ctrl+s保存文件
+                ctrl+shift+s另存为文件
+        sublime插件
+            通用
+                ClipboardHistory剪贴板历史
+                Side​Bar​Enhancements侧栏菜单扩展
+                    快捷键配置
+            补全
+                Sublime​Code​Intel 代码补全
+                DocBlockr 注释补全
+                    使用方法
+                AutoFileName选择引用文件
+            格式
+                Sublime​Linter语言拼写检查
+                bracketHighlighter 括号标亮
+                JsForma格式化代码
+                Alignment变量自动对齐
+                    快捷键配置
+                Trailing spaces删除空格
+                CSS Format  代码格式化
+                HTML-CSS-JS Prettify
+            颜色
+                color Picker调色盘
+                colorHighlighter插件
+                    使用方法
+                        右键choose color
+            编码
+                ConvertToUTF8增加更多的编码
+            前端
+                LiveStyle可视化开发  
+                LiveReloud网页实时自动更新
+                    chrome浏览器也要安装对应插件
+                View In Browser浏览器打开文件
+                    功能
+                    打开文件方法
+                    1.换其他种浏览器打开
+                    2.写入以下代码
+                Tag标签的操作
+            终端
+                Terminal
+            框架
+                SublimeTmpl快速生成文件模板
+                    文件模板位置
+                    文件模板可修改
+            主题
+                Theme-Soda 主题效果
+                    亮主题
+                    暗主题
+                Theme-Flatland主题效果
+                Theme-Nexus主题效果
+        sublime命令
+            list Packages插件列表
+                功能
+            remove package移除插件
+        Emmet前端开发神器
+            指令要求
+                不要有空格
+            指令
+                HTML指令
+                    ！生成文本初始结构
+                    运算符
+                        ()生成分组
+                        $自增符号
+                            改变基数方向
+                            改变基数值
+                        *乘法符号
+                        +加法符号
+                    兄弟
+                        >生成后代
+                        ^生成上级元素
+                    属性
+                        # id属性
+                        .class类属性
+                        [attr]生成自定义属性
+                    {}文本
+                    例子
+                        例子生成列表
+                        Подтема
+                CSS指令
+                    属性
+            指令使用
+    sublime的使用
+        安装插件的方法
+            1.安装package contro：复制代码
+            2.打开控制面板，输入PackageControl
+            3.选择Package Control，输入要安装的插件
+        手动安装插件方法

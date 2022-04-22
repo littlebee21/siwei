@@ -1,0 +1,952 @@
+模板
+    mysql优化目的
+        高并发
+            数据不一致问题
+            确保事务执行的正确性
+                锁
+                    表级锁
+                        更适合于以查询为主，只有少量按索引条件更新数据的应用，如OLAP系统
+                    行级锁
+                        适合于有大量按索引条件并发更新少量不同数据，同时又有并发查询的应用
+                        如一些在线事务处理（OLTP）系统
+                    MySQL的表级锁
+                        有两种模式
+                        表共享读锁（Table Read Lock）
+                            lock table 表名 read
+                        表独占写锁（Table Write Lock）
+                            lock table 表名 write
+                        总结
+                            读操作，不会阻塞其他用户对同一表的读请求
+                            读操作，不会阻塞当前session对表读，当对表进行修改会报错
+                            lock read: 可以查询锁定表中的记录，但更新或访问其他表都会提示错误
+                            写操作，则会阻塞其他用户对同一表的读和写操作
+                            写操作，当前session可以对本表做CRUD,但对其他表进行操作会报错
+                    InnoDB引擎
+                        支持行锁
+                        共享锁又称：读锁
+                            select  *  from 表 where  条件  lock in share mode
+                        排它锁又称：写锁
+                            select *  from 表  where 条件 for update
+                        注意
+                            1.两个事务不能锁同一个索引。
+                            2.insert ，delete ， update在事务中都会自动默认加上排它锁。
+                            3.行锁必须有索引才能实现，否则会自动锁全表，那么就不是行锁了。
+                事务
+                    cmd
+                        show engines;
+                        show variables like '%storage_engine%';
+                        Create table .... type=InnoDB；
+                        Alter table table_name type=InnoDB;
+                    4个属性：原子性、一致性、隔离性、持久性
+                    隔离级别：
+                        未提交读（READ UNCOMMITED）脏读
+                            set SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+                        已提交读 （READ COMMITED）不可重复读
+                        可重复读（REPEATABLE READ）
+                            幻读
+                                不可重复读侧重于修改，幻读侧重于新增或删除
+                                解决不可重复读的问题只需锁住满足条件的行，
+                解决幻读需要锁表
+                            默认的事务隔离级别
+                        可串行化（SERIALIZABLE）
+                    总结
+                        事务隔离级别为可重复读时，
+                        如果有索引（包括主键索引）的时候，以索引列为条件更新数据，
+                        会存在间隙锁间、行锁、页锁的问题，从而锁住一些行；
+                        如果没有索引，更新数据时会锁住整张表
+                    语法
+                        开启
+                            1、begin 
+                            2、START TRANSACTION（推荐）
+                            3、begin work
+                        提交
+                            commit
+                        回滚
+                            rollback
+                        还原点
+                            savepoint
+        高可用
+            实现数据库在线升级
+            实现数据库高窟用和故障切换
+        高性能
+            利用备库的备份来减少主库的负载
+        安全问题
+            MySQL 及 SQL 注入
+        减少数据冗余
+    分布式优化
+        mysql的复制
+        高可用架构优化
+            2.3.1. MHA+多节点集群
+            2.3.2. zookeeper+proxy
+            2.4.1. SAN共享储存
+            2.4. 共享存储
+                2.4.2. DRBD磁盘复制
+            2.5. 分布式协议
+                2.5.1. MySQL cluster
+                2.5.2. Galera
+                2.5.3. POAXS
+        分库分表
+    mysql单机优化
+        锁优化
+        sql优化和使用索引
+        系统配置服务层优化
+            CentOs系统参数优化
+                推荐<<Liunx性能优化>> 书籍
+                内核相关的参数/etc/sysctl.conf
+                    net.core.somaxconn=65535 
+                        每个端口最大的监听队列, 通常我们设置为2048或者更大的值,保证不会因为监听队列限制造成阻塞 
+                    net.core.netdev_max_backlog=65535
+                        每个网络接口接收数据包的速率比内核处理数据包的速率快的时候, 允许被发送到数据包队列中的最大数目
+                    net.core.tcp_max_syn_backlog=65535
+                        还未获得连接的请求可保存在队列中的最大数目, 对于超高这个数值的连接通常会被抛弃
+                    以下设置处于等待状态队列中的连接的处理, 通常将值调小,会加快tcp处理连接的回收速度 , 避免tcp连接被沾满导致无法连接
+                    net.ipv4.tcp_fin_timeout=10
+                        设置超时timeout的时间
+                    net.ipv4.tcp_tw_reuse=1
+                    net.ipv4.tcp_tw_recycle=1
+                    以下这些配置j减少失效链接所占用的TCP系统资源的数量,加快资源回收效率
+                    net.ipv4.tc_keepalive_time=120
+                        发送tcp连接探测时间的间隔, 用于确定tcp连接是否有效, 心跳
+                    net.ipv4.tcp_keepalive_intvl=30
+                        未获得响应时重发该tcp联接的时间间隔
+                    net.ipv4.tcp_keepalive_probes=3
+                        表示认定tcp连接之前,最多发送多少个失效验证
+                    以下这些配置决定了数据库连接接受和发送缓冲区大小的默认值和最大值, 通常将这些值设置的大一些
+                    net.core.wmem_default=87380
+                    net.core.wmem_max=16777216
+                    net.core.rmem_default=87380
+                    net.core.rmem_max=16777216
+                    kernel.shmmax=4294967295
+                        共享内存大小
+                        注意: 这个参数应该设置的足够大,一便能够在一个共享内存段下容纳下整个InnoDB缓冲池的大小
+                        这个值的大小, 对于64位系统, 可取的最大值为物理内存值-1byte, 建议设置为大于物理内存的一半
+                        一般取值为大于InnoDb缓冲池的大小即可, 也可以取物理内存-1byte
+                    vm.swappiness=0
+                        内存swap分区 , 这个参数当内存不足时会对系统性能产生明显的影响
+                        Linux系统内存交换区, 在linux安装时都会有一个系统交换区, 在内存不足时系统会讲部分内存数据保存到该缓冲区,实质上就是保存为磁盘I/O的文件系统内, 这样为了保证系统可用,但是文件系统I/O对于内存的速度是远远不够的, 造成性能急剧下降
+                        可以通过 free -m 查看该分区的使用
+                        尽量关闭该分区的使用;
+            Buffer Pool
+                提高Buffer容量
+                手动内存预热
+                自动内存预热
+            降低磁盘IO
+                设置 Redo Log 大小
+                    innodb_log_ﬁle_size 设置成 innodb_buﬀer_pool_size * 0.25
+                关闭部分与数据不相关的日志
+                更改 Force Log at Commit 机制
+            内存参数
+                线程独享
+                    sort_buffer_size
+                    join_buffer_size
+                    read_buffer_size
+                    read_rnd_buffer_size
+                线程共享
+                    innodb_buffer_pool_size
+                    key_buffer_size
+                    tmp_table_size
+                    max_head_table_size
+            事务日志
+                innodb_log_file_size
+                innodb_log_files_in_group
+                innodb_log_buffer_size
+                innodb_flush_log_at_trx_commit
+            IO
+                innodb_flush_method = O_DIRECT
+                innodb_file_per_table = 1
+                innodb_doublewrite = 1
+                delay_key_write
+                innodb_read_io_threads
+                innodb_io_capacity
+                innodb_flush_neighbors
+                sync_binlog
+            其他参数
+                expire_logs_days
+                max_allowed_packet
+                skip_name_resolve
+                read_only
+                skip_slave_start
+                sql_mode
+                max_connections
+            存储引擎
+                存储引擎之--Innodb
+                    Innodb和mysiam在存储上的比较
+                    mysql5.5_8之后版本的默认存储引擎, 原来的为mysiam 
+                    Innodb 是一种事务型的存储引擎, 是支持事务的ACID特性的
+                    Innodb的设计更适合处理大量的小事务, 而小事务多数情况下会被正常的提交,很少会出现回滚
+                    Innodb的主键是聚集索引
+                     Innodb 数据存储方式, 他有表空间的概念,表中的数据是存储在表空间中的
+                        相关参数配置
+                        innodb_file_per_table
+                            决定innodb的表数据存储在什么样的表空间中
+                        如果配置值为ON
+                            为每个Innodb表建立一个扩展名为idb的数据文件, 
+            和一个扩展名为.frm的文件记录表结构
+                        如果配置值为OFF
+                            会把数据存储在共享表空间 ibdataX (X代表1,2,3,...序列), 创建数据库只会生成一个frm文件 
+                        具体的数据设定可以通过命令查看
+                            show variables like 'innodb_file_per_table';
+                            innodb_file_per_table    |	ON   默认是ON
+                        修改该配置
+                            set global innodb_file_per_table=off
+                            innodb_file_per_table     |  OFF
+                    阻塞和死锁
+                        阻塞
+                            是因为不同锁之间竞争相同资源的关系, 一个事务中的锁需要等待另一个事务中的锁释放相关的资源 , 对同一数据表锁/行锁的释放
+                            阻塞通常是因为资源不足造成的, 如事务的实行时间较长, 使得资源长时间的不到释放, 如慢查询 或者是同一服务的大量并发, 集中获取相同数据表锁/行锁等
+                            例如数据备份过程中可能会有大量的数据库表锁造成等...
+                        死锁
+                            两个或两个以上的事务在执行过程中,相互或者循环占用了对方等待的资源,而都得不到执行的一种状态, 而产生一种异常
+                            数据库系统会自动发现, 并且在多个死锁的事务中,选择出一种资源占用最少的事务来进行回滚操作, 使得其他事务正常运行, 所以说死锁是可以有系统自动处理的, 如果只是有少扫量的死锁并不会对系统造成影响,只要在应用程序中发现死锁,并进行处理就可以了
+                            但是如果一个系统中频繁出现了大量的死锁,就需要留意了,通常情况死锁可以在多个事务中按相同的  顺序访问  所需要的资源来解决,也可以通过增减相关的索引来解决
+                    innodb 状态检查
+                        show engine innodb status 
+                            包含了一些平均值的统计信息, 该平均值是自上次输出结果后生成的统计数据
+                            需要在两次输出时间间隔少30s左右的时间, 以便使得两次统计结果处于两次不同的统计时间周期结果, 才有比较价值
+                            不同版本的数据也会有一些不同
+                            统计信息包括: 
+                                INNODB MONITOR OUTPUT
+                                    Per second averages calculated from the last 12 seconds
+                                BACKGROUND THREAD
+                                    srv_master_thread loops: 12 srv_active, 0 srv_shutdown, 66052 srv_idle
+                        srv_master_thread log flush and writes: 66064
+                                                        信号量SEMAPHORES
+                                                            OS WAIT ARRAY INFO: reservation count 36
+                        OS WAIT ARRAY INFO: signal count 36
+                        RW-shared spins 0, rounds 44, OS waits 22
+                        RW-excl spins 0, rounds 30, OS waits 1
+                        RW-sx spins 0, rounds 0, OS waits 0
+                        Spin rounds per wait: 44.00 RW-shared, 30.00 RW-excl, 0.00 RW-sx
+                                                        事务TRANSACTIONS
+                                                            ------------
+                        Trx id counter 369452
+                        Purge done for trx's n:o < 369422 undo n:o < 0 state: running but idle
+                        History list length 3
+                        LIST OF TRANSACTIONS FOR EACH SESSION:
+                        ---TRANSACTION 281475157855744, not started
+                        0 lock struct(s), heap size 1136, 0 row lock(s)
+                        ---TRANSACTION 281475157854872, not started
+                        0 lock struct(s), heap size 1136, 0 row lock(s)
+                        ---TRANSACTION 281475157854000, not started
+                        0 lock struct(s), heap size 1136, 0 row lock(s)
+                        --------
+                                                        FILE I/O
+                                                            I/O thread 0 state: wait Windows aio (insert buffer thread)
+                        I/O thread 1 state: wait Windows aio (log thread)
+                        I/O thread 2 state: wait Windows aio (read thread)
+                        I/O thread 3 state: wait Windows aio (read thread)
+                        I/O thread 4 state: wait Windows aio (read thread)
+                        I/O thread 5 state: wait Windows aio (read thread)
+                        I/O thread 6 state: wait Windows aio (write thread)
+                        I/O thread 7 state: wait Windows aio (write thread)
+                        I/O thread 8 state: wait Windows aio (write thread)
+                        I/O thread 9 state: wait Windows aio (write thread)
+                        Pending normal aio reads: [0, 0, 0, 0] , aio writes: [0, 0, 0, 0] ,
+                        ibuf aio reads:, log i/o's:, sync i/o's:
+                        Pending flushes (fsync) log: 0; buffer pool: 0
+                        870 OS file reads, 182 OS file writes, 88 OS fsyncs
+                        0.00 reads/s, 0 avg bytes/read, 0.00 writes/s, 0.00 fsyncs/s
+                                                        INSERT BUFFER AND ADAPTIVE HASH INDEX
+                                                            Ibuf: size 1, free list len 0, seg size 2, 0 merges
+                        merged operations:
+                        insert 0, delete mark 0, delete 0
+                        discarded operations:
+                        insert 0, delete mark 0, delete 0
+                        Hash table size 34679, node heap has 2 buffer(s)
+                        Hash table size 34679, node heap has 0 buffer(s)
+                        Hash table size 34679, node heap has 0 buffer(s)
+                        Hash table size 34679, node heap has 0 buffer(s)
+                        Hash table size 34679, node heap has 0 buffer(s)
+                        Hash table size 34679, node heap has 0 buffer(s)
+                        Hash table size 34679, node heap has 0 buffer(s)
+                        Hash table size 34679, node heap has 2 buffer(s)
+                        0.00 hash searches/s, 0.00 non-hash searches/s
+                                                        LOG
+                                                            Log sequence number 101763163
+                        Log flushed up to   101763163
+                        Pages flushed up to 101763163
+                        Last checkpoint at  101763154
+                        0 pending log flushes, 0 pending chkp writes
+                        59 log i/o's done, 0.00 log i/o's/second
+                                                        BUFFER POOL AND MEMORY
+                                                            Total large memory allocated 137297920
+                        Dictionary memory allocated 221690
+                        Buffer pool size   8192
+                        Free buffers       7347
+                        Database pages     841
+                        Old database pages 330
+                        Modified db pages  0
+                        Pending reads      0
+                        Pending writes: LRU 0, flush list 0, single page 0
+                        Pages made young 0, not young 0
+                        0.00 youngs/s, 0.00 non-youngs/s
+                        Pages read 800, created 41, written 105
+                        0.00 reads/s, 0.00 creates/s, 0.00 writes/s
+                        No buffer pool page gets since the last printout
+                        Pages read ahead 0.00/s, evicted without access 0.00/s, Random read ahead 0.00/s
+                        LRU len: 841, unzip_LRU len: 0
+                        I/O sum[0]:cur[0], unzip sum[0]:cur[0]
+                                                        ROW OPERATIONS
+                                                            0 queries inside InnoDB, 0 queries in queue
+                        0 read views open inside InnoDB
+                        Process ID=6412, Main thread ID=3348, state: sleeping
+                        Number of rows inserted 13, updated 1, deleted 0, read 330
+                        0.00 inserts/s, 0.00 updates/s, 0.00 deletes/s, 0.00 reads/s
+                                    存储引擎之--CSV
+                                        数据存储以明文文件来存储数据
+                                            以csv文件存储数据,可以直接打开查看并修改存储的数据
+                                            所有的列都是不能为null的
+                                            不支持索引 , 不适合大表,不适合在线处理OLTP
+                                            可以直接对数据文件直接编辑, 而非二进制文件
+                                        .CSV文件 存储表内容 (明文)
+                                        .CSM文件 存储表的源数据和表状态和数据量
+                                        .frm文件 存储表结构信息
+                                        案例
+                                            create table mycsv (id int not null , c1 varchar(10) not null, c2 varchar(20) not null) engine=csv;
+                                            insert into mycsv (id , c1 , c2 ) values (1, 'aaa', "AAA");
+                                            打开文件内容:   1,"aaa","AAA"
+                                    存储引擎之--archive
+                                        文件系统存储特点
+                                            以zlib对表数据进行压缩存储, 磁盘i/o更少
+                                            更加节约磁盘空间
+                                                几个T的innodb表数据,在archive存储引擎中, 可能仅需要几百M的大小
+                                            数据存储在ARZ为后缀的文件, 表结构依然存储在.frm文件
+                                            只支持 insert 和 select 操作
+                                            只允许在自增ID列建立索引 , 自增列必须为主键
+                                            案例:
+                                                create table myarchive (id int primary key auto_increment not null , c1 varchar(10) , c2 varchar(20) ) engine = archive;
+                                                insert into myarchive (c1, c2) values ("aaa", "AAA"), ("bbb", "BBB")  ;
+                                                select * from myarchive;
+                                                    1	aaa	AAA
+                    2	bbb	BBB
+                            delete from  myarchive where id =1;
+                                 W (1): Table storage engine for 'myarchive' doesn't have this option
+                            update myarchive set c1 ="updata" where  id =1;
+                                 W (1): Table storage engine for 'myarchive' doesn't have this option
+                            create index idx_c1 on myarchive(c1);
+                                 W (1): Too many keys specified; max 1 keys allowed
+                            show index from myarchive;
+                                myarchive	0	PRIMARY	1      id
+                        使用场景: 
+                            日志和数据采集类应用 , 仅限于数据无法修改的情况
+                存储引擎之-- Federated
+                    特点: 
+                        提供了访问远程mysql服务器上表的方法
+                        本地并不存储数据,数据全部存储在远程服务器上
+                        本地需要保存结构和远程服务器的连接信息
+                        默认禁止, 不常用
+                            show engines;
+                                ￼
+                    如何使用:
+                        默认禁止, 启用需要在启动时增加fedrated参数
+                            在mysql.conf 中添加  federated=1 , 重启服务
+                            mysql://user_name[:passord]@host_name[:port_num]/db_name/tbl_name
+                存储引擎之--MRG_MYISAM
+                如何选择正确的存储引擎
+                    事务
+                        如果需要事务就使用Innodb
+                    备份
+                        选择可以在线热备的, 只有Innodb有在线热备方案
+                        mysqlDump 并不算是一种在线热备方案, 因为他执行的是一种逻辑备份,另外为了保证数据一致性,必须要对备份的数据进行加锁
+                    崩溃恢复
+                        相对而言 myisam 崩溃后数据发生损坏的概率要比innodb高很多, 而且恢复更慢
+                    存储引擎本身的特性
+                        依赖索引进行优化,就需要使用Innodb
+                    除非万不得以, 就不要混合使用多种存储引擎
+                        混合使用,在一个事务中对两种存储引擎的表进行了操作, 如果事务出现回滚,那么只有innodb存储引擎的表会执行回滚操作; 而myisam的表是无法进行回滚的;
+        数据库表结构
+            数据库设计对性能的影响
+                过分的反范式化的设计
+                    表建立太多的列
+                        适当的对标进行拆分
+                过分的范式化造成太多的表关联
+                    将表拆分为太多的关联表
+                        尽管mysql要求的关联表限制是61个之多
+                但是通常要保持关联10个以内
+                如果关联的表过多,考虑将表进行合并
+                OLTP环境中使用不恰当的分区表
+                    分区表可以把一个大表从物理存储上按照分区键将表分成若干个小表
+                    分区表和分库分表是不同的
+                        分区表是在同一个数据库实例下进行的,而在物理存储上分成多个小表, 在使用时逻辑上是一个表
+                        而分库分表不只是在物理存储上进行了拆分,在逻辑上也是拆分成多个表, 拆分后的表,通常情况下是不在同一个数据实例下的
+                        在使用分区表的时候, 分区键的选择时十分关键的, 如果不合理的分区, 就会造成在数据库查询中跨多个分区,这样反而会降低数据的性能
+                使用外键保证数据库的完整性
+                    对使用外键的表进行数据修改的时候,mysql都要对外键约束进行检查,这就带来了额外的锁的开销,降低了修改效率
+                    另外使用外键对数据库进行备份,恢复或者是对数据库进行归档,维护时也会产生问题
+                        不能使用truncate table 这样的语句 快速对使用外键的表进行清空操作,只能使用delete来进行, 这样在数据维护过程中对于大表进行清理的复杂度就会很高
+            数据库结构设计的步骤: 
+                1, 全面了解产品设计的存储要求
+                    存储数据类型要求
+                     存储的扩展需求
+                    数据处理需求
+                    数据的安全性和完整性
+                2. 设计数据的逻辑存储结构
+                    数据实体之间的逻辑关系,
+                    解决数据冗余问题
+                    和数据维护异常
+                3. 根据所适用的数据的特点进行表结构的设计
+                4. 数据类型的设计: 
+                    关系型数据库
+                        oracle, sqlServer, mysql, postgressSql
+                    非关系性数据库
+                        mongo, Redis, Hadoop
+                    存储引擎
+                        innodb
+                5. 根据实际需求, 对数据库索引, 存储结构进行优化
+            数据库设计三范式
+            反范式化设计:
+                是为了性能和读取效率考虑,而适当对数据设计范式进行违反, 如允许存在少量的冗余, 换句话说就是使用空间来换时间;
+                范式化的优缺点
+                    优点
+                        可以尽量减少数据冗余
+                        范式化的更新操作比反范式化更快
+                        范式化的表通常比反范式化的小
+                    缺点;
+                        对于查询需要多多个表进行关联
+                        跟难进行索引优化
+                反范式化的优缺点
+                    优点
+                        可以减少表的关联 , 对于不需要关联的表, 最差的情况就是全包扫描, 而全表扫描总是比关联操作要好很多,  因为 全表扫描多数是顺序的I/O, 而 关联操作情况是随机I/O
+                        可以更好的进行索引优化, 如果我们查询的列在一张表中,就可以使用覆盖索引进行优化, 如果查找的列在多张表中就无法使用这种优化方式了
+                    缺点
+                        存在数据冗余及数据维护异常
+                        对数据的修改需要更多的成本,需要修改多个表
+            数据库物理设计:
+                定义数据库, 表, 字段 的命名规范
+                    可读性原则, 如使用_来区分单词, 尽量不使用大小写区分
+                    表意性原则 , 达到简明知意, 注意使用英文或者拼音二选一,不要混用
+                    命名长度, 尽量不使用缩写, 如果全名过长, 使用简写,要在说明中明确
+                选择合适的存储引擎
+                为表中内的字段选择合适的数据类型
+                    1. 当一个列可以选择多种数据类型时, 应该优先考虑数字类型, 其次是日期或者二进制类型, 最后是字符类型, 对于同级别的数据类型, 应该优先选择占用空间小的数据类型
+                建立表数据的结构
+            数据过多进行分库分表
+        硬件优化
+            硬件的影响因素
+                磁盘
+                    传统机器磁盘
+                        使用多 , 价格低, 速度慢
+                            读取过程(机械式) 
+                                1, 移动磁头到磁盘表面上的正确位置磁道
+                                2,等待磁盘选准,使得所需的数据在磁头之下
+                                3,等待磁盘转动,扫描磁道内的数据
+                            如何选取磁盘
+                                1,磁盘容量
+                                    磁盘盘面的多少,磁道内的数据密度
+                                2.传输速度
+                                    磁盘转速度 
+                                3.访问时间
+                                    磁道调节和 通常会缓存一次读取 4k字节 数据
+                                4.主轴转速
+                                    15000r/min 是最好的啦
+                                3.物理尺寸
+                    使用RAID增强传统机器硬盘的性能
+                        RAID 10   RAID 01 RAID5 RAID6
+                            通过数据的多区段读取, 来提高性能
+                    使用固态存储SSD和PCIe卡
+                        相比机械磁盘,固态磁盘有更好的随机读写性能, 逻辑存储单元
+                        相比机械磁盘,固态磁盘能更好的支持并发
+                        相比于机械磁盘,固态磁盘, 有较短的使用寿命 ,每次写入之前都会对数据存储区进行擦除操作
+                        价格较高
+                        SSD 使用SATA接口
+                            可以替换传统磁盘,不需任何改变, 注意需要支持SATA3协议接口
+                            SSD也可以使用RAID技术
+                    使用网络存储NAS和SAN
+                        是两种外部文件存储设备加载到服务器的方法
+                        SAN可作为设备使用 , 直接通过光纤接口连接到服务器, 服务可以将其当做硬盘使用 
+                            1.大量顺序读写, 适合大文件, 视频,音频,压缩包...
+                            2. 对于随机读写较慢, 甚至还不如RAID磁盘
+                            3.缓存和I/O合并
+                        NAS 作为网络服务使用, 通过网络文件协议如NFS或SMB连接到服务器
+                            存在网络传输延迟
+                        网络存储的总体上并不适合mysql的随机存取特性,并不适合直接作为数据库存储使用
+                            通常用来作为数据库备份来使用
+                            网络的异地存储对于数据安全有优势
+                CPU
+                    高并发使用多核
+                    密集运算,负载sql 使用高频
+                    一定要在64位的CPU架构运行64位的系统
+                内存
+                    选择主板能支持的最高频率的内存
+                    内存的大小对性能影响很大
+                        足够的内存可以大量的随机I/O处理为顺序I/O 
+                        内存大可以很好的换存数据, 把多次写合并为一次写操作
+                IO子系统
+                    PCIE  > SSD > RAID > 机械磁盘 > SAN
+                文件系统的影响
+                    与操作系统有关
+                    window
+                        FAT
+                            支持4G以上的单文件传输
+                        NTFS (系统分区必须使用)
+                    Linux
+                        支持多种文件系统
+                        Ext3/ ext4  挂载系统参数 etc/fstab
+                            data=writeback|ordered|journal
+                                不同的日志策略 
+                                writeback 
+                                    源数据写入和数据写入并不是同步写入的, 速度最快, Innodb有自己的事务日志, 这个选项以足够
+                                ordered
+                                    只会记录源数据, 但提供了一致性的保证,在写源数据之前会先写数据, 保证了数据一致, 比writeback稍慢, 如果出现崩溃会更加安全
+                                journal
+                                    提供了原子日志的行为,在数据下入到最终位置之前,将数据记录到日志中, 改选向极大的考虑了数据的安全, 但是Innodb也有自己的事务日志, 因此该选项通常不使用
+                            noatime, nodiratime
+                                用于禁止记录文件的访问时间和读取时间, 可以减少一些写的操作,系统在读写数据的过程中, 通常该时间也不会用到,可以禁止
+                            /dev/sda1/ext4  noatime,nodiratime,data=writeback 1 1
+                                一个完整的fstab文件的配置 案例
+                         xfs 
+            网络性能的影响
+                通常web服务器和数据库服务器也是通过网络连接的
+                如果我们有50台服务器同时向数据库服务器请求2M的数据
+                即使是内网连接的千兆网络也几乎满载
+            操作系统的影响
+                大小写问题
+                    mysql本身支持多种操作系统
+                    通常注意mysql的scame的存储通常为目录
+                    在不同的操作系统下会有大小写问题
+                    可以配置数据库强制数据库名和表明使用小写
+                windows
+                    支持NTF 
+                    大小写不敏感
+                Linux
+                    ext3 /ext4 / xfs
+                    大小写敏感
+                FreeBSD 
+                    旧版本支持mysql不是很好, 推荐使用最新版的
+                Solaris
+                    通常在Sun公司的服务器上使用, 以稳定系著称,良好的多线程性能, 不易用
+                Ubuntu
+                    通常作为桌面版使用
+                        不推荐作为服务器
+                centOS 主推
+                    RedHat 的主版本免费发行版
+                oracle 发行版的linux
+    操作caution
+        尽量避免数据维护中出现更新,插入和删除异常
+    优化使用的工具
+        如何对系统性能进行测量
+            基准测试
+                基准测试是一种测量和评估软件性能指标的活动, 用于建立某个时刻的性能基准,
+以便当系统发生硬件变化时重新进行相同的基准测试以评估变化对性能的影响
+                基准测试时针对系统设置的一种压力测试
+                基准测试与压力测试的不同
+                    基准测试: 直接 ,简单, 易于比较, 不涉及业务逻辑
+                    用户独立评估系统通用性指标
+                    通常取系统的下限 和上限指标, 保证系统的有效使用要求
+                    压力测试是对真实的业务数据,使用场景进程模拟测试
+                    以获得真实情况下系统的承载能力
+                    通常获取的是系统的上限, 保证系统的最大功能
+                基准测试的目的:
+                    建立mysql服务器的性能基准线
+                    模拟系统更高的负载,以找出系统的扩展瓶颈
+                    测试不同硬件, 软件和操作系统配置下的适用能力和表现
+                    保证对新的硬件设备要求的配置支持
+                如何进行基准测试
+                    从系统的入口进行测试如web前端 手机app等
+                        能够测试整个系统的性能,包括web服务器缓存,数据库, 操作系统等配置的综合表现
+                        能够反映出系统中各个组件接口间的性能问题,体现出真实性能状况
+                        缺点: 测试设计复杂, 消耗时间长
+                    单独对mysql进行基准测试
+                        例如我们只调整的mysql服务的硬件, 升级mysql版本,调整了数据表结构, 优化了部分sql
+                        测试简单, 所消耗的时间段
+                        缺点: 无法全面的反应整个系统的性能基准线
+                常见的指标:
+                    单位时间内所处理的事务数(TPS)
+                    单位时间内所处理的查询数(QPS)
+                    响应时间
+                    平均响应时间, 最小响应时间, 最大响应时间, 各个时间所占百分比
+                    并发量: 同时处理的查询请求数量
+                        注意web服务的并发量布不等于mysql服务的并发量
+                设计和规划基准测试
+                    测试类型
+                        对整个系统还是某一组件测试
+                        使用什么样的数据
+                    准备基准测试以及数据收集脚本
+                        cpu使用率 , I/O , 网络流量 , 状态和计数器信息
+                            # mysql命令行的位置
+MYSQL=/usr/local/mysql/bin/mysql
+
+# 输出当前mysql的配置项信息
+$MYSQL -e "show global variables " >> msyql-variables
+
+while test -e  $RUNFILE; do
+		file-$(date +%F_%I)
+		sleep=$(date +%s,%N | awk '{print $ - ($1 % 5)}' )
+		sleep $sleep
+		ts="$(date + 'TS %s.%N %F %T')"
+		loadavg="$(uptime)"
+		echo "$ts $loadavg" >> $PREFIX-${file}-status
+		$MYSQL -e "show global statue " >> $PREFIX-${file}-status &
+		echo "$ts $loadavg" >> $PREFIX-${file}-innodbstatus
+		$MYSQL -e "show engine innodbstatus status" >> $PREFIX-${file}-innodbstatus &
+		echo "$ts  $loadavg " >> $PREFIX-${file}-processlist
+		$MYSQL -e "show full processlist\G" >> $PREFIX-${file}-processlist &
+		echo $ts
+  
+done
+ehco Exiting because $RUNFILE does not exists
+                    基准测试工具:
+                        mysqlslap : mysql5.1之后自带的工具
+                            可以模拟服务器负载, 并输出相关统计数据
+                            可以指定也可自动生成查询语句
+                            常用参数
+                                通过mysqlslap  --help 查看所有的参数
+                                --auto-generate-sql 
+                                    是否自动生成sql脚本
+                                --auto-generate-sql-add-autoincrement
+                                    指定生成的表中增加自增
+                                --auto-generate-sql-write-type
+                                    指定测试中使用的查询类型
+                                --auto-gennerate-sql-write-number
+                                    执行初始化数据是生成的数据量
+                                --concurrent
+                                    指定并发线程的数量
+                                --engine
+                                    指定要测试的存储引擎, 可以使用逗号分隔多个存储引擎
+                                --no-drop
+                                    指定不清理测试数据
+                                --iterations
+                                    指定测试数据运行的次数
+                                --number-of-queries
+                                    指定每个线程执行的查询数量
+                                --debug-info
+                                    指定额外的内存即cpu统计信息
+                                --number-int-cols
+                                    指定测试表中的INT类型列的数量
+                                --number-char-cols
+                                    指定测试表中包含的varchar类型的数量
+                                --create-schema
+                                    指定了用于执行测试脚本的数据库的名字
+                                --query
+                                    用于指定自定义sql的脚本
+                                --only-print
+                                    并不运行测试脚本,而是把生成脚本打印出来
+                                使用示例:
+                                     mysqlslap.exe  --concurrency=1,50,100,200 --iterations=3 --number-int-cols=5 --number-char-cols=5 --auto-generate-sql --auto-generate-sql-add-autoincrement --engine=myisam,innodb --number-of-queries=10 --create-schema=sbtest --user=root --password=root
+                        基准测试工具之--sysbench
+                            第三方需要下载安装
+                                官网: http://semver.org/
+git网址: https://github.com/akopytov/sysbench#installing-from-binary-packages
+                                源码包安装
+                                    .autogen.sh
+                                    ./configure  --with-mysql-includes=/usr/local/mysql/include/  \
+--width-mysql-libs=/usr/local/mysql/lib/
+                                    make  && make  install
+                                二进制包安装
+                                    curl -s https://packagecloud.io/install/repositories/akopytov/sysbench/script.rpm.sh | sudo bash
+sudo yum -y install sysbench
+                            常用参数
+                                --max-time
+                                    指定最大测试时间
+                                --report-interval
+                                    指定间隔时间数据一次统计信息
+                                --mysql-user
+                                    指定执行测试mysql用户
+                                --mysql-passwor
+                                    指定执行测试的用户密码
+                            常用操作
+                                cleanup
+                                    用于清理测试数据
+                                prepare 
+                                    用于基准测试数据
+                                run
+                                    用户实际进行测试
+        msyql的二进制日志
+            mysql服务层日志(与存储引擎无关) : 二进制日志, 慢查日志, 通用日志
+                二进制日志
+                    记录了所有对mysql数据库的修改事件 包括增删改查事件和对表结构的修改事件
+另外, 在binlog中记录的日志都是已经成功执行了的日志信息, 对于出错的或者成功回滚的日志是不会出现在二进制日志中的
+                    mysql 提供了mysqlbinlog命令工具对二进制日志进行查看
+                    日志格式
+                        mysql有三种日志格式, 可以使用 show  variables like 'binlog_format'   
+来查看当前的日志格式
+                        基于段的格式 binlog_format=STATEMENT  (5.7版本之前默认使用)
+                            这种格式的日志我们在使用mysqlbinlog命令工具来查看二进制日志时是不需要额外参数的
+就可清楚的从二进制日志中查看我们执行的sql语句, 这些sql 就是在主库上执行一遍, 直接通过二进制日志发送到从库, 再次执行相同的sql, 存储的数据是基于各自sql的解析执行结果的, 而非基于row的复制那样, 是基于对主库执行结果值的传输
+                            优点
+                                该格式记录的每一个事件执行的sql语句, 不需要记录每一行的具体变化, 减少日志记录相对较小, 节约磁盘及网络I/O
+                                但是日志量的大小还决定sql的复杂程度, 例如: 只对一条记录修改或者插入 row格式所产生的日志量小于段产生的日志量
+                                并不强求主从数据库的表定义完全相同
+                                相比于基于行的复制, 复制方式更加灵活
+                            缺点
+                                对于非确定性事件, 无法保证主从复制数据的一致性
+                                    同样是直接记录sql所造成的的, 由于为了让这些语句能够在从服务器上正确的执行
+就必须要记录每一条sql语句在执行过程中的上下文信息, 以保证语句在从服务器上执行的结果与主服务器相同,  但是对于特定的函数 如 UUID(), user()这样的非确定性函数还是无法复制.如果在复制是使用了这样的函数,有可能造成主从服务器上的数据的不一致,从而造成终端复制链路
+                                对于存储过程, 触发器, 自定义函数进行的修改也可能造成数据不一致
+                                相比基于行的复制,,方式在从上执行时需要更多的行锁
+                            实践
+                                5.7版本之后默认是基于row的日志格式
+                                    Variable_name	Value
+binlog_format	ROW
+                                修改为基于段的格式
+                                    set session binlog_format=statement
+                                        Variable_name	Value
+binlog_format	STATEMENT
+                                查看配置配置项 log_bin 是否为 ON
+                                    如果不是,需要重启, 并在命令行中添加 --log_bin=1 或者在配置文件中添加
+                                启动后, 查看日志信息
+                                    show binary logs ;
+                                        +----------+-----------+
+| Log_name | File_size |
++----------+-----------+
+| 1.000001 |       320 |
++----------+-----------+
+                                刷新日志
+                                    flush logs; 
+                                        再次查看: show binary logs
+                                            +----------+-----------+
+| Log_name | File_size |
++----------+-----------+
+| 1.000001 |       359 |
+| 1.000002 |       355 |
++----------+-----------+
+                                生产的binlog日志被默认保存在: 
+/var/lib/mysql/ 路径下
+                                    使用mysqlbinlog命令直接查看日志
+                                        mysqlbinlog 1.000001
+                        基于行的复制binlog_format=row(5.7之后默认使用)
+                            主库数据库所适用的二进制日志的类型是row格式RBR:
+在主从同步时,传输到从服务器上的二进制日志就是主数据对于某一行数据所做的修改后的结果数据值的记录,从库所做的就是将主库更新的结果值更新到从库的表中,  而不是基于段的复制那样, 仅仅是将SQL语句在从库上再次执行一遍
+                            优点
+                                可以应用于任何SQL的复制包括非确定性函数, 存储过程等
+                                可以减少从服务器数据库锁的使用
+                                对于主从复制的数据一致性更加有保证
+                                对于每一行数据的修改,比基于段复制的效率高
+                                row 的复制,详细记录的数据前后的值信息,对于误操作,修改了数据, 而有没有有效备份时, 可以分析二进制日志对记录中的数据修改进行反向操作处理, 来达到恢复数据库的目的
+                            缺点
+                                要求主从数据库的表结构必须要一致, 否则可能会中断复制
+                                无法在从库上单独执行触发器, 因为没有执行sql语句
+                                记录的日志量大:  binlog_row_image=[FULL|MINIMAL|NOBLOB]
+                        混合模式(建议选择): binlog_format=MIXED(mysql8 mariadb10 默认)
+                            根据sql语句有系统决定在基于段和基于行的日志格式中进行选择
+                            数量的大小有所执行的sql语句决定
+                        msyql 复制的工作方式
+                            1. 首先要开启二进制日志, 默认数据库是没有开启的, 修改后需要重启, 因此在首次配置时就要打开
+查看配置是否打开:  show variables like 'log_bin'; 默认是OFF
+配置文件设置:  log_bin=[name]  该名字会作为生成binlog日志的文件前缀 [name].000001 
+要查看生成的binlog日志可以使用mysql_home/bin/mysqlbinlog   [name].00001 
+                            2. 主库将变更写入到二进制日志 
+                            3. 从库读取主库的二进制日志变更写入到中继日志relay_log中,
+                            4. 日志传输过程: 要在从库上启动一个工作I/O线程, 会根据网络配置, 跟主库建立一个普通的客户端连接, 而在主库会启动一个转储线程binlogdump, 从库通过与该线程建立连接,读取主库上的二进制日志, 但是从库并非不断的请求数据, 当他的数据达到和主库的数据一致时, 从库的工作线程会进入sleep状态, 知道主库发出信号,通知其又有了新的数据更新, 才会重启工作线程, 进行日志传输, 解析和数据更新同步操作;
+                                基于日志点的复制
+                                基于GTID的复制
+                            5. 在从库上重放relay_log 中的日志
+                                基于行的日志是在从库上重新执行记录的sql语句
+                                基于行的日志是在从库上直接应用对主库上对数据库进行的修改记录数据
+                        配置mysql 复制
+                            基于日志点的复制配置步骤
+                                在主DB服务器上建立复制账号: CREATE  USER 'repl'  @ 'IP段' indetified by 'passWord'
+                                对账号进行授权:  GRANT REPLICATION SLAVE ON *.* TO 'repl' @ 'IP段'
+                                配置主库数据服务器: 
+                                    bin_log=mysql-bin
+                                        开启二进制日志(默认非开启) . 另外对于二进制日志的写入目录要有write权限
+                                    server_id=100
+                                        server_id值必须是唯一的
+                                配置从库数据服务器
+                                    relay_log=mysql-relay-bin
+                                        指定中继日志的名字,注意,这个配置要在配置文件明确配置唯一值, 因为默认开启二进制日志记录后, 该值为主机的名字, 如果不配置, 后期由于主机名修改, 从服务器重启后主从复制中继日志修改,导致复制链路失败的风险
+                                    log_slave_update=on [可选]
+                                        改配值是对于将该从库服务器作为其他从库主从复制链路服务器时, 必须配置
+                                    read_only=on [可选]
+                                        安全配置, 阻止任何没有super权限的用户对于开启了改选的数据库进行写操作
+                                初始化从服务器数据
+                                    开启赋值链路之前, 需要将主库中的数据拷贝到从库中
+                                        对于已经运行一段时间的数据, 该步骤必须要做, 以避免多个数据通过二进制日志文件来备份的过程
+                                    备份数据的工具:
+                                        mysqldump --master-data=2 --single-transaction
+                                            这是mysql官方提供的数据库备份工具, 他使用逻辑备份, 将数据库中所有的对象存储为一个sql文件, 为了保证一致性, 该工具对Innodb存储引擎的包进行备份时需要加 --single-transaction参数, 要对混合存储引擎的数据库备份需要添加--locak-all-talbe 参数,  可以看出, 该工具对于数据库备份过程中需要对数据表进行加锁, 会影响数据库的并发性 ,  对于使用频繁的系统, 该备份方式会对数据库造成大量的阻塞
+另一重要参数  --master-data  用于记录在备份时主库当前的二进制文件, 和二进制文件记录的偏移量信息, 只有记录了这两个值,我们才可以在从库上使用 change-master-to命令启动主从复制的链路
+                                        xtrabackup --slave-info
+                                            这是第三方公司提供的对于msyql数据库的热备工具, 对于全部使用Innodb存储引擎的数据库来说, 该方案是一种最好的备份方式,  Innodb存储引擎能够保证在备份是不阻塞数据的操作;  而对于非Innodb存储引擎的表进行备份时, 同样会对表进行锁操作, 因此建议只使用Innodb存储引擎
+参数--slave-info 同样是为了记录主库的二进制日志记录点
+                                    启动复制链路
+                                        CHANGE MASTER  TO MASTER_HOST='master_host_ip',
+                    MASTER_USER='repl',
+                    MASTER_PASSWORD='PassWord',
+                    MASTER_LOG_FILE='mysql_log_file_name',  --该配置项可以通过备份文件中找到all.sql
+                    MASTER_LOG_POS=4;
+                                    实践:
+                                        1. 主库创建用户
+                                            create user repl@'192.168.0.%' identified by '123456';
+                                        2. 授权
+                                            grant replication slave on *.* to repl@'192.168.0.%';
+                                        3. 配置主库的参数
+                                            server-id=1
+log_bin=/home/mysql/sql_log/mysql-bin
+                                                从库的参数
+                                                    server-id=2
+log_bin=/var/lig/mysql/
+relay_log=/home/mysql/slq_log/mysqld-relay-bin
+                                        4. 备份主库
+                                            全库备份: msyqldump --single-transaction  --master-data --triggers  --routines  -all-databases >> all.sql
+                                                如果数据库版本不一致的话, 不要备份全部数据库, 因为系统库可能不兼容
+注意生成备份文件中文件偏移记录: 信息 要先包垓心, 需要命令行中包含 ----master-data 选项
+CHANGE MASTER TO MASTER_LOG_FILE='1.000003', MASTER_LOG_POS=1661;
+                                            指定表进行备份 : mysqldump --user=admin_backup --password --lock-tables   --master-data \
+--databases birdwatchers --tables humans > birdwatchers-humans.sql
+                                        5.拷贝备份file 到从库, 进行数据初始化
+                                            scp all.sql   root@192.168.0.3:/root
+                                                从库从备份文件恢复数据
+                                                    mysql  -u root -p  < /root/all.sql
+                                        6
+                                    基于日志点的复制
+                                        优点
+                                            是mysql最早支持的复制技术, bug相对较少
+                                            对sql查询没有任何限制
+                                            故障处理比较容易
+                                        缺点
+                                            故障转移时重新获取新的主日志点信息比较困难
+                            基于GDIT的复制(5.6开始支持)
+                                与基于日志点的复制不同
+                                    基于日志点的复制, 需要定义好二进制日志的偏移量进行增量复制
+                                    如果指定错误的偏移量会造成数据遗漏或者重复
+                                    基与GDIT的复制, 从服务器会通知主服务器, 从库已执行事务的GDIT值
+                                    主库会将所有没有在主库上执行复制的GDIT值附送到从库上
+                                    基于GDIT的事务能够保证只在指定的从库上执行一次复制
+                                GDIT 是什么?
+                                    GDIT即mysql全局事务Id, 其保证每一个在主库上提交的事务在主从复制集群中可以生成一个唯一的ID, 有两部分组成
+                                    GDIT=source_id:transaction_id
+                                        sorce_id就是执行事务主库的serverUUID, 该值是在mysql首次启动时自动生成的
+保存在masql的数据目录中auto.conf 文件内 , 保证每个mysql实例的uuid唯一
+                                        transaction_id 是事务的一个执行序列号, 从1 开始累增, mysql保证每个事务与transaction_id有一对一的关系
+                                    基于GDID的主从复制
+                                        1, 在主库上建立复制账号
+                                            注意,一定不要在其他的从服务器建立相同的账号
+                                            create user repl@'192.168.0.%' identified by '123456';
+                                        2.对账号进行授权
+                                            grant replication slave on *.* to repl@'192.168.0.%';
+                                        3.配置主库数据库
+                                            bin_log=/usr/local/mysql/log/mysql-bin
+                                                都已基于二进制日志的复制, 及因该选项必须,  这里将日志目录和数据目录分开是一个很好的习惯, 如果包数据目录和日志目录房子不同的磁盘分区就更好, 减少磁盘I/O的独立性
+同时可以避免日志的增长把数据目录沾满的情况
+                                            server_id=100 
+                                                保证唯一, msyql5.6 版本之后, 会自动生成server_uuid来代替该值的作用,但是该值也推荐设置好
+                                            gdit_mode=on
+                                                决定是否启动GDIT的复制模式, 启动后, 在每个事物的日志中都会记录GDIT标识符 
+                                            enforce-gdit-consiste
+                                                强制GDIT一致性, 用于保证启动gdit后,事物的安全
+                                                    但是该参数会对使用msyql带来一些变化, 
+一下命令不能使用, 否则会报错
+                                                    create table .. select from   从查询创建表语句
+                                                    在事务中使用create temporary table 建立临时表 使用关联更新事务表和非事务表的
+                                            log-slave-updates=on(5.7版本之后默认启动)
+                                                在从服务器中记录主服务器传递过来的日志
+                                        4. 配置从服务器db
+                                            log-slave-update=on
+                                            read_only=on [可选]
+                                                安全配置, 阻止任何没有super权限的用户对于开启了改选的数据库进行写操作
+                                            master_info_repository=TABLE
+                                                这两个参数决定了从服务器与主服务器连接的信息,与中间日志的存储方式,
+默认是存储在文件中, 同过这两个配值,可以将这些信息记录到对应的表中
+                                            relay_log_info_repository=TABLE
+                                                这两个表使用的是Innodb存储引擎, 当初数据库崩溃时, 可以这两个表的信息进行恢复,
+以保证同步逻辑可以从正确的位置重新同步数据
+                                        5.初始化从库的数据
+                                            msyqldump  --master-data=2  --single-transaction
+                                            xtarbackup  --slave-info
+                                            基于gdit的备份时, 不是记录备份时的二进制日志的文件名和偏移量了
+而是备份时最后的事务的GDIT值
+                                        6.启动基于GDIT的复制
+                                            CHANGE MASTER  TO MASTER_HOST='${master_host_ip}',
+      MASTER_USER='${user}',
+      MASTER_PASSWORD='${password}',
+      MASTER_AUTO_POSITION=1
+                                        7. 启动从库, start slave;
+                                    基于GDIT复制的优缺点
+                                        优点
+                                            可以很方便的进行故障转移, 有全局事务id ,减少事务丢失
+                                            从库不会丢失主库上的任何修改, 这是建立在主库二进制日志不会被删除的情况下, 如果在备份之前, 删除了主库的二进制日志记录, 那一样会丢失数据
+                                        缺点
+                                            故障处理比较复杂
+                                                例如对于在从库上重现的重复主键的错误, 基于日志点的复制在保证主从数据没有差异的情况下,直接跳过这个错误即可,  在基于gdit的复制中不能这么简单的处理, 必须要使用在从库上插入空事务的方式才能跳过这种错误
+                                            对执行的sql有一定的限制
+                            如何选择正确的复制模式:
+                                1. 考虑所选则mysql版本
+                                    5.6版本之前,不建议使用基于gdit的复制
+                                2. 考虑复制架构和主从切换的方式
+                                    gdit方式使用更加方便, 不必为从库的二进制日志的偏移量担心,  这在基于日志点的复制中, 如果主库崩溃,而不能正确的在其他从库中正确的选择出新的主库的二进制日志偏移量, 那么很有可能重新部署整个集群的风险 , 依此考虑, 更推荐使用gdit的方式
+                                3. 考虑所适用的高可用管理组件
+                                    MM的高可用就仅支持基于日志点的复制模式, 而 MHA 就同时支持两种复制方式
+                                4. 对应用的支持程度
+                                    基于日志点的方式通用性更强, gdit的方式会有一些限制, 是否为影响应用的实际需求
+                            msyql的主从复制拓扑结构
+                                一主多从的复制
+                                    优点: 
+                                        配置简单
+                                            可以非常方便的比较每个从库的复制事件在主库二进制日志中的位置, 例如要求主库进行有计划的停机维护时, 可以利用这种特性方便的进行主从切换, 可以先把主库设定为只读, 当所有的从库都同步完主库的数据后, 从多个从库中选择一个作为主库, 来直接进行切换就可以, 因为此时所有的从主库读取的数据都是一样的 
+                                        可以用多个从库分担读负载
+                                            由于从库都和主库直接相连, 各个从库的延迟几乎相同, 与从库级联的架构相比, 可以不必担心程序连接到各个从库数据不一致的问题, 当然, mysql主从复制是异步的, 并不能完全保证任意时间点都是完全的一致, 但是从网络架构上是尽可能的一致;
+                                    用途
+                                        为不同的业务使用不同的从库
+                                            可以根据不同的业务特点, 使用不同的存储引擎, 例如对于前后台的查询的差异分别制定不同的从库, 可以方便的进行基于不同类型的索引优化, (前台多基于小数据量的随机查询多, 对于查询的时间要求较高, 后台统计类的业务对于大数据量的计算结果要求多, 同时对查询时间不是很敏感), 同时可以避免后台的查询影响到前台查询的效率
+                                        将一台从库放到远程IDC, 用作灾备恢复
+                                        分担主库的读负载
+                                            但是不能对主库的写负载进行分担, 要想分担主库的写负载, 唯一的方式是对主库进行分库分操作, 把拆分后的数据分别放在不同的物理服务器数据库上;
+                                主-主架构
+                                    主备复制: 是只有一个库对外提供服务, 另个在主库失效后才作为主库提供服务(较常用)
+                                        只有一台服务器对外提供服务
+                                        一台服务器处于只读状态并且只作为热备使用
+                                        在对外提供服务的主库出现故障或是计划性的维护时才会进行切换
+                                        使原来的备库称为主库, 而原来的备库会成为新的备库
+                                        并处理只读或者是下线状态, 维护完成后重新上线
+                                        注意事项:
+                                            确保两台服务器上的初始化数据相同
+                                            确保两台服务器上已经启用binlog并且有不同的sever_id
+                                            在两台服务器上启用log_slave_updates参数
+                                            初始化备库上启用read_only
+                                    主主复制: 是两个库同时对外提供服务(不常用)
+                                        该模式并不是很好的架构模式, 注意事项:
+                                        产生数据冲突而造成复制链路的终端
+                                        一旦出现冲突, 需要人工处理, 需要耗费大量的时间, 很容易造成数据丢失
+                                        两个主中所操作的表最好能够分开
+                                        两个库的参数控制自增Id的生成 时  设置步长为 2
+                                            auto_increment_increment = 2  步长值
+                                            auto_increment_offset=1|2  自增起始值
+                            主从服务性能优化
+                                影响主从复制延迟的因素
+                                    主库写入二进制日志的时间
+                                        控制主库事务的大小, 分割大事务
+                                    二进制日志传输的时间
+                                        传输的日志的多少对时间影响较大
+                                        使用MIXED日志格式或者设置set binlog_row_image=minimal
+                                    默认情况下从库只有一个sql线程, 主库上并发的修改在从库上变成了串行处理
+                                        使用多线程复制(mysql5.6之后新更能)
+                                            一个从服务器线程只能处理一个mysql数据库上的记录存放, 当我们mysql实例中只有一个数据库,或者事务中绝大多数操作都集中与一个数据库上时,该方式就显得有些鸡肋, 有可能性能还不如单线程的情况, 为了解决该问题, mysql5.7 可以按照逻辑时钟的方式来分配sql线程
+                                        如何配置多线程复制
+                                            1. 停止从库链路复制
+                                                stop slave;  
+                                            2. 为从库配置并发线程为链路时钟的方式, 默认database
+                                                set global slave_parallel_type='logical_clock';
+                                            3. 设置复制线程的数量, 默认是0
+                                                set global  slave_parallel_workers=4;
+                                            4. 恢复链路复制
+                                                start slave;
+                                复制常见问题:
+                                    由于数据损坏或者丢失所引起的主从复制错误
+                                        主库或从库意外宕机引起的错误
+                                            跳过二进制日志事件
+                                            注入空事务的方式先恢复中断的复制链路
+                                            在使用其他方法对比修复主从服务器上的数据
+                                        主库上的二进制日志损坏
+                                            主库每次重启都会重新生成一个二进制日志文件, 而前一个二进制日志文件可能会由于意外关闭而被破坏,  我们只能通过change master 命令来重新制定主库的同步日志, 这样会有数据丢失, 引起主从数据不一致, 需要后期进行数据对比和校验
+                                        备库上的中继日志的损坏
+                                            只要主库的二进制日志没有删除, 从库中继日志损害比主库的易处理, 只需要使用change master 命令指定从库的i/o线程重新从损坏的位置同步数据即可
+                                    在从库上进行数据修改造成的主从复制错误
+                                        在从库上设置read_only 来避免
+                                    多个从服务器上出现不唯一的server_id 或server_uuid
+                                        非常不易发现, 因为server_uuid是记录在数据目录中的auto.conf文件中, 
+                                        这个文件一旦存在, mysql启动时就不会再重新生成了, 所以从库文件拷贝是需要注意
+                                        相同server_id的从服务器可能会遗漏数据, 主库无法确认复制的唯一性
+                                    从服务器max_allow_packet 设置引起的主从复制错误
+                                        主库获取到不同的最大允许日志包不一致, 很有可能造成从库连接失败, 复制错误, 无限重启等问题
+                                msyql 复制无法解决的问题
+                                    分担主数据库的写负载
+                                    自动进行故障转移以及主从切换, 需要额外的组件
+                                    不提供读写分离的功能, 需要额外的组件
+                            msyql 高可用方案: 
+                                子主题
+            mysql存储引擎层日志: Innodb 的重做日志, 回滚日志
+    优化底层原理
+        mysql优化底层原理
+        mysql索引的原理
+            原理：B+树

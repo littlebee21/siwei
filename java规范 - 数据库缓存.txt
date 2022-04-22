@@ -1,0 +1,113 @@
+java规范 - 数据库缓存
+    适合使用缓存的业务
+        基本不变的用户数据，缓存起来
+    缓存整合使用
+        SpringCache
+            1) 导入依赖
+                    org.springframework.boot    spring-boot-starter-cache
+            2) 自定义配置
+                指定缓存类型并在主配置类上加上注解@EnableCaching
+                spring:  cache:  #指定缓存类型为redis    type: redis    redis:      ///指定redis中的过期时间为1h      time-to-live: 3600000
+                默认使用jdk进行序列化，自定义序列化方式需要编写配置类
+                @Configurationpublic class MyCacheConfig {    @Bean    public org.springframework.data.redis.cache.RedisCacheConfiguration redisCacheConfiguration(            CacheProperties cacheProperties) {        CacheProperties.Redis redisProperties = cacheProperties.getRedis();        org.springframework.data.redis.cache.RedisCacheConfiguration config = org.springframework.data.redis.cache.RedisCacheConfiguration                .defaultCacheConfig();        //指定缓存序列化方式为json        config = config.serializeValuesWith(                RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));        //设置配置文件中的各项配置，如过期时间        if (redisProperties.getTimeToLive() != null) {            config = config.entryTtl(redisProperties.getTimeToLive());        }        if (redisProperties.getKeyPrefix() != null) {            config = config.prefixKeysWith(redisProperties.getKeyPrefix());        }        if (!redisProperties.isCacheNullValues()) {            config = config.disableCachingNullValues();        }        if (!redisProperties.isUseKeyPrefix()) {            config = config.disableKeyPrefix();        }        return config;    }}
+            3) 自定义序列化原理
+                缓存使用
+                  //调用该方法时会将结果缓存，缓存名为category，key为方法名//表示该方法的缓存被读取时会加锁@Cacheable(value = {"category"},key = "#root.methodName",sync = true)    public Map> getCatalogJsonDbWithSpringCache() {        return getCategoriesDb();    }//调用该方法会删除缓存category下的所有cache    @Override    @CacheEvict(value = {"category"},allEntries = true)    public void updateCascade(CategoryEntity category) {        this.updateById(category);        if (!StringUtils.isEmpty(category.getName())) {            categoryBrandRelationService.updateCategory(category);        }    }
+                第一个方法缓存结果后
+                第二个方法调用清除缓存后
+            4) Spring-Cache的不足之处
+                1）、读模式
+                缓存穿透：查询一个null数据。解决方案：缓存空数据，可通过spring.cache.redis.cache-null-values=true
+                缓存击穿：大量并发进来同时查询一个正好过期的数据。解决方案：加锁 ? 默认是无加锁的;
+                使用sync = true来解决击穿问题
+                缓存雪崩：大量的key同时过期。解决：加随机时间。加上过期时间
+                2)、写模式：（缓存与数据库一致）
+                a、读写加锁。
+                b、引入Canal,感知到MySQL的更新去更新Redis
+                c 、读多写多，直接去数据库查询就行
+                3）、总结：
+                常规数据（读多写少，即时性，一致性要求不高的数据，完全可以使用Spring-Cache）：
+                写模式(只要缓存的数据有过期时间就足够了)
+                特殊数据：特殊设计
+        springredistemplate
+            jedis
+            letture
+        Redisson
+            (1) 环境搭建
+                导入依赖
+                    org.redisson    redisson    3.13.4
+                开启配置
+                @Configurationpublic class RedissonConfig {    @Bean    public RedissonClient redissonClient(){        Config config = new Config();        config.useSingleServer().setAddress("redis://192.168.56.102:6379");        RedissonClient redisson = Redisson.create(config);        return redisson;    }}
+            (2) 可重入锁（Reentrant Lock）
+                 public MapString, ListCatalog2Vo>> getCatalogJsonDbWithRedisson() {        MapString, ListCatalog2Vo>> categoryMap=null;        RLock lock = redissonClient.getLock("CatalogJson-Lock");        lock.lock();        try {            Thread.sleep(30000);            categoryMap = getCategoryMap();        } catch (InterruptedException e) {            e.printStackTrace();        }finally {            lock.unlock();            return categoryMap;        }    }
+                如果负责储存这个分布式锁的Redisson节点宕机以后，而且这个锁正好处于锁住的状态时，这个锁会出现锁死的状态。为了避免这种情况的发生，所以就设置了过期时间，但是如果业务执行时间过长，业务还未执行完锁就已经过期，那么就会出现解锁时解了其他线程的锁的情况。
+                所以Redisson内部提供了一个监控锁的看门狗，它的作用是在Redisson实例被关闭前，不断的延长锁的有效期。默认情况下，看门狗的检查锁的超时时间是30秒钟，也可以通过修改Config.lockWatchdogTimeout来另行指定。
+                在本次测试中CatalogJson-Lock的初始过期时间TTL为30s，但是每到20s就会自动续借成30s
+                另外Redisson还通过加锁的方法提供了leaseTime的参数来指定加锁的时间。超过这个时间后锁便自动解开了。不会自动续期！
+                // 加锁以后10秒钟自动解锁// 无需调用unlock方法手动解锁,如果要手动解锁一定要确保业务执行时间小于锁的失效时间lock.lock(10, TimeUnit.SECONDS);​// 尝试加锁，最多等待100秒，上锁以后10秒自动解锁boolean res = lock.tryLock(100, 10, TimeUnit.SECONDS);if (res) {   try {     ...   } finally {       lock.unlock();   }}
+            (3) 读写锁（ReadWriteLock）
+                    @GetMapping("/read")    @ResponseBody    public String read() {        RReadWriteLock lock = redissonClient.getReadWriteLock("ReadWrite-Lock");        RLock rLock = lock.readLock();        String s = "";        try {            rLock.lock();            System.out.println("读锁加锁"+Thread.currentThread().getId());            Thread.sleep(5000);            s= redisTemplate.opsForValue().get("lock-value");        }finally {            rLock.unlock();            return "读取完成:"+s;        }    }​    @GetMapping("/write")    @ResponseBody    public String write() {        RReadWriteLock lock = redissonClient.getReadWriteLock("ReadWrite-Lock");        RLock wLock = lock.writeLock();        String s = UUID.randomUUID().toString();        try {            wLock.lock();            System.out.println("写锁加锁"+Thread.currentThread().getId());            Thread.sleep(10000);            redisTemplate.opsForValue().set("lock-value",s);        } catch (InterruptedException e) {            e.printStackTrace();        }finally {            wLock.unlock();            return "写入完成:"+s;        }    }
+                写锁会阻塞读锁，但是读锁不会阻塞读锁，但读锁会阻塞写锁
+                总之含有写的过程都会被阻塞，只有读读不会被阻塞
+                上锁时在redis的状态
+            (4) 信号量（Semaphore）
+                信号量为存储在redis中的一个数字，当这个数字大于0时，即可以调用acquire()方法增加数量，也可以调用release()方法减少数量，但是当调用release()之后小于0的话方法就会阻塞，直到数字大于0
+                @GetMapping("/park")@ResponseBodypublic String park() {    RSemaphore park = redissonClient.getSemaphore("park");    try {        park.acquire(2);    } catch (InterruptedException e) {        e.printStackTrace();    }    return "停进2";}​@GetMapping("/go")@ResponseBodypublic String go() {    RSemaphore park = redissonClient.getSemaphore("park");    park.release(2);    return "开走2";}
+            (5) 闭锁（CountDownLatch）
+                可以理解为门栓，使用若干个门栓将当前方法阻塞，只有当全部门栓都被放开时，当前方法才能继续执行。
+                以下代码只有offLatch()被调用5次后 setLatch()才能继续执行
+                    @GetMapping("/setLatch")    @ResponseBody    public String setLatch() {        RCountDownLatch latch = redissonClient.getCountDownLatch("CountDownLatch");        try {            latch.trySetCount(5);            latch.await();        } catch (InterruptedException e) {            e.printStackTrace();        }        return "门栓被放开";    }​    @GetMapping("/offLatch")    @ResponseBody    public String offLatch() {        RCountDownLatch latch = redissonClient.getCountDownLatch("CountDownLatch");        latch.countDown();        return "门栓被放开1";    }
+                闭锁在redis的存储状态
+    使用缓存的
+        nginx
+        mybatis
+    缓存种类
+        1. 本地缓存
+            category brand product使用本地缓存
+        1. 本地缓存
+            1) 使用hashmap本地缓存
+                    //测试本地缓存，通过hashmap    private MapString,Object> cache=new HashMap();​    public MapString, ListCatalog2Vo>> getCategoryMap() {          MapString, ListCatalog2Vo>> catalogMap = (MapString, ListCatalog2Vo>>) cache.get("catalogMap");        //如果没有缓存，则从数据库中查询并放入缓存中        if (catalogMap == null) {            catalogMap = getCategoriesDb();            cache.put("catalogMap",catalogMap);        }        return catalogMap;    }
+            2) 整合redis进行测试
+                导入依赖
+                                   org.springframework.boot            spring-boot-starter-data-redis        
+                配置redis主机地址
+                spring:  redis:    host: #    port: 6379
+                使用springboot自动配置的RedisTemplate优化菜单获取业务
+                        ValueOperationsString, String> ops = stringRedisTemplate.opsForValue();        String catalogJson = ops.get("catalogJson");        if (catalogJson == null) {            MapString, ListCatalog2Vo>> categoriesDb = getCategoriesDb();            String toJSONString = JSON.toJSONString(categoriesDb);            ops.set("catalogJson",toJSONString);            return categoriesDb;        }        MapString, ListCatalog2Vo>> listMap = JSON.parseObject(catalogJson, new TypeReferenceMapString, ListCatalog2Vo>>>() {});        return listMap;
+                内存泄漏及解决办法
+                当进行压力测试时后期后出现堆外内存溢出OutOfDirectMemoryError
+                产生原因：
+                1)、springboot2.0以后默认使用lettuce操作redis的客户端，它使用通信
+                2)、lettuce的bug导致netty堆外内存溢出
+                解决方案：由于是lettuce的bug造成，不能直接使用-Dio.netty.maxDirectMemory去调大虚拟机堆外内存
+                1)、升级lettuce客户端。 2）、切换使用jedis
+            5) 锁时序问题
+                在上述方法中，我们将业务逻辑中的确认缓存没有和查数据库放到了锁里，但是最终控制台却打印了两次查询了数据库。这是因为在将结果放入缓存的这段时间里，有其他线程确认缓存没有，又再次查询了数据库，因此我们要将结果放入缓存也进行加锁
+                优化代码逻辑后
+                public MapString, ListCatalog2Vo>> getCategoryMap() {    ValueOperationsString, String> ops = stringRedisTemplate.opsForValue();        String catalogJson = ops.get("catalogJson");        if (StringUtils.isEmpty(catalogJson)) {            System.out.println("缓存不命中，准备查询数据库。。。");            synchronized (this) {                String synCatalogJson = stringRedisTemplate.opsForValue().get("catalogJson");                if (StringUtils.isEmpty(synCatalogJson)) {                    MapString, ListCatalog2Vo>> categoriesDb= getCategoriesDb();                    String toJSONString = JSON.toJSONString(categoriesDb);                    ops.set("catalogJson", toJSONString);                    return categoriesDb;                }else {                    MapString, ListCatalog2Vo>> listMap = JSON.parseObject(synCatalogJson, new TypeReferenceMapString, ListCatalog2Vo>>>() {});                    return listMap;                }            }        }        System.out.println("缓存命中。。。。");        MapString, ListCatalog2Vo>> listMap = JSON.parseObject(catalogJson, new TypeReferenceMapString, ListCatalog2Vo>>>() {});        return listMap;}
+                优化后多线程访问时仅查询一次数据库
+            1) 本地缓存面临问题
+                当有多个服务存在时，每个服务的缓存仅能够为本服务使用，这样每个服务都要查询一次数据库，并且当数据更新时只会更新单个服务的缓存数据，就会造成数据不一致的问题
+                所有的服务都到同一个redis进行获取数据，就可以避免这个问题
+        2. 分布式缓存
+            2) 分布式锁
+                当分布式项目在高并发下也需要加锁，但本地锁只能锁住当前服务，这个时候就需要分布式锁
+            3) 分布式锁的演进
+                基本原理
+                我们可以同时去一个地方“占坑”，如果占到，就执行逻辑。否则就必须等待，直到释放锁。“占坑”可以去redis，可以去数据库，可以去任何大家都能访问的地方。等待可以自旋的方式。
+                阶段一
+                    public MapString, ListCatalog2Vo>> getCatalogJsonDbWithRedisLock() {        //阶段一        Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent("lock", "111");        //获取到锁，执行业务        if (lock) {            MapString, ListCatalog2Vo>> categoriesDb = getCategoryMap();            //删除锁，如果在此之前报错或宕机会造成死锁            stringRedisTemplate.delete("lock");            return categoriesDb;        }else {            //没获取到锁，等待100ms重试            try {                Thread.sleep(100);            } catch (InterruptedException e) {                e.printStackTrace();            }            return getCatalogJsonDbWithRedisLock();        }    }​public MapString, ListCatalog2Vo>> getCategoryMap() {        ValueOperationsString, String> ops = stringRedisTemplate.opsForValue();        String catalogJson = ops.get("catalogJson");        if (StringUtils.isEmpty(catalogJson)) {            System.out.println("缓存不命中，准备查询数据库。。。");            MapString, ListCatalog2Vo>> categoriesDb= getCategoriesDb();            String toJSONString = JSON.toJSONString(categoriesDb);            ops.set("catalogJson", toJSONString);            return categoriesDb;        }        System.out.println("缓存命中。。。。");        MapString, ListCatalog2Vo>> listMap = JSON.parseObject(catalogJson, new TypeReferenceMapString, ListCatalog2Vo>>>() {});        return listMap;    }
+                问题： 1、setnx占好了位，业务代码异常或者程序在页面过程中宕机。没有执行删除锁逻辑，这就造成了死锁
+                解决：设置锁的自动过期，即使没有删除，会自动删除
+                阶段二
+                   public Map> getCatalogJsonDbWithRedisLock() {        Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent("lock", "111");        if (lock) {            //设置过期时间            stringRedisTemplate.expire("lock", 30, TimeUnit.SECONDS);            Map> categoriesDb = getCategoryMap();            stringRedisTemplate.delete("lock");            return categoriesDb;        }else {            try {                Thread.sleep(100);            } catch (InterruptedException e) {                e.printStackTrace();            }            return getCatalogJsonDbWithRedisLock();        }    }
+                问题： 1、setnx设置好，正要去设置过期时间，宕机。又死锁了。 解决： 设置过期时间和占位必须是原子的。redis支持使用setnx ex命令
+                阶段三
+                public Map> getCatalogJsonDbWithRedisLock() {    //加锁的同时设置过期时间，二者是原子性操作    Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent("lock", "1111",5, TimeUnit.SECONDS);    if (lock) {        Map> categoriesDb = getCategoryMap();        //模拟超长的业务执行时间        try {            Thread.sleep(6000);        } catch (InterruptedException e) {            e.printStackTrace();        }        stringRedisTemplate.delete("lock");        return categoriesDb;    }else {        try {            Thread.sleep(100);        } catch (InterruptedException e) {            e.printStackTrace();        }        return getCatalogJsonDbWithRedisLock();    }}
+                问题： 1、删除锁直接删除？？？ 如果由于业务时间很长，锁自己过期了，我们直接删除，有可能把别人正在持有的锁删除了。 解决： 占锁的时候，值指定为uuid，每个人匹配是自己的锁才删除。
+                阶段四
+                 public Map> getCatalogJsonDbWithRedisLock() {        String uuid = UUID.randomUUID().toString();        ValueOperations ops = stringRedisTemplate.opsForValue();     //为当前锁设置唯一的uuid，只有当uuid相同时才会进行删除锁的操作        Boolean lock = ops.setIfAbsent("lock", uuid,5, TimeUnit.SECONDS);        if (lock) {            Map> categoriesDb = getCategoryMap();            String lockValue = ops.get("lock");            if (lockValue.equals(uuid)) {                try {                    Thread.sleep(6000);                } catch (InterruptedException e) {                    e.printStackTrace();                }                stringRedisTemplate.delete("lock");            }            return categoriesDb;        }else {            try {                Thread.sleep(100);            } catch (InterruptedException e) {                e.printStackTrace();            }            return getCatalogJsonDbWithRedisLock();        }    }
+                问题： 1、如果正好判断是当前值，正要删除锁的时候，锁已经过期，别人已经设置到了新的值。那么我们删除的是别人的锁 解决： 删除锁必须保证原子性。使用redis+Lua脚本完成
+                阶段五-最终形态
+                 public MapString, ListCatalog2Vo>> getCatalogJsonDbWithRedisLock() {        String uuid = UUID.randomUUID().toString();        ValueOperationsString, String> ops = stringRedisTemplate.opsForValue();        Boolean lock = ops.setIfAbsent("lock", uuid,5, TimeUnit.SECONDS);        if (lock) {            MapString, ListCatalog2Vo>> categoriesDb = getCategoryMap();            String lockValue = ops.get("lock");            String script = "if redis.call(\"get\",KEYS[1]) == ARGV[1] then\n" +                    "    return redis.call(\"del\",KEYS[1])\n" +                    "else\n" +                    "    return 0\n" +                    "end";            stringRedisTemplate.execute(new DefaultRedisScriptLong>(script, Long.class), Arrays.asList("lock"), lockValue);            return categoriesDb;        }else {            try {                Thread.sleep(100);            } catch (InterruptedException e) {                e.printStackTrace();            }            return getCatalogJsonDbWithRedisLock();        }    }
+                保证加锁【占位+过期时间】和删除锁【判断+删除】的原子性。更难的事情，锁的自动续期

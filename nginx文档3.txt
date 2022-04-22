@@ -1,0 +1,385 @@
+模板
+    概念
+        正反向代理的区别
+            什么是正向代理
+                正向代理类似一个跳板机，代理访问外部资源
+                举例说明
+                    客户端必须设置正向代理服务器，当然前提是要知道正向代理服务器的IP地址，还有代理程序的端口。
+                正向代理总结
+                    正向代理 是一个位于客户端和原始服务器(origin server)之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)
+                    然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端必须要进行一些特别的设置才能使用正向代理。
+                正向代理的用途
+                    （1）访问原来无法访问的资源，如google
+                    （2） 可以做缓存，加速访问资源
+                    （3）对客户端访问授权，上网进行认证
+                    （4）代理可以记录用户访问记录（上网行为管理），对外隐藏用户信息
+            什么是反向代理
+                反向代理总结
+                    初次接触方向代理的感觉是，客户端是无感知代理的存在的，反向代理对外都是透明的，
+                    访问者者并不知道自己访问的是一个代理。因为客户端不需要任何配置就可以访问。
+                反向代理过程
+                    反向代理（Reverse Proxy）实际运行方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器
+                    从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。
+                反向代理作用
+                    （1）保证内网的安全，可以使用反向代理提供WAF功能，阻止web攻击
+                    （2）负载均衡，通过反向代理服务器来优化网站的负载
+        负载均衡
+            七层(upstream)
+                round robin
+                ip hash
+                url hash
+                weight
+                fair(第三方)
+            四层(Nginx PLUS)
+    nginx的使用
+        nginx安装
+            windows下的nginx
+                使用nginx+tomcat实现集群
+                Windows下Nginx的启动、停止等命令
+                window版nginx部署实践
+            安装java的环境
+                卸载与安装jdk1.8
+                安装mysql数据库
+                安装tomcat服务器
+            nginx的安装与配置
+                Nginx Linux详细安装部署教程
+                编译安装nginx 1.8.1 及配置
+            nginx安装及常见问题
+                安装准备
+                安装Nginx
+            在Docker环境下的安装
+                下载nginx的docker镜像
+                从容器中拷贝nginx配置
+                使用docker命令启动
+            1.6 部署模式
+                1.6.1 yum部署
+                1.6.2 二进制部署
+        按目录划分项目
+    配置
+        存储功能
+            nginx缓存
+                指定缓存位置
+                指定哪些请求被缓存
+                指定缓存有效期
+                指定哪些请求不被缓存
+            缓存及Gzip的配置
+                nginx的缓存配置教程
+                    Nginx缓存原理及配置
+                静态资源缓存配置
+                资源压缩配置
+            动静分离
+                静态资源(动态资源)
+                    跨域访问
+                    防盗链
+                    伪静态
+                动态资源(tomcat,php-fpm)
+                动静分离的两种方式
+                    mvvm模式的交互
+                端口转发配置
+            日志的配置及切割
+                Nginx日志格式
+                Nginx日志分隔
+                日志常用内置参数
+                子主题
+                    1.Nginx的main日志格式设置
+                    2.设置日志分隔脚本
+                    3. crontab设置定时作业
+        隔离通信
+            nginx的https配置
+                https配置加强信息传输安全
+                    nginx使用ssl模块配置支持HTTPS访问
+                信息传输安全概念
+                HTTPS简介
+                openssl生成证书
+                Nginx.conf配置证书
+            路径相关操作
+                反向代理
+                    DNS域名解析过程
+                        DNS将域名解析为真实ip地址和端口号
+                        查找浏览器DNS缓存
+                        查找本地host文件(ip与域名的关系)
+                        访问nginx服务器地址
+                        从网络运营商获取对应的IP地址
+                    反向代理的配置
+                        当客户端访问www.itmayiedu.com,监听端口号为80直接跳转到真实ip服务器地址 127.0.0.1:8081
+                    外网映射工具
+                        外网映射的作用
+                            在做微信开发或者是对接第三方支付接口时，回调接口可能需要外网访问。
+                        外网映射的工具
+                            natapp、ngrok
+                    反向代理跳转地址
+                        抓包分析反向代理跳转地址
+                跨域问题网关配置
+                    跨域的由来
+                        跨域属于浏览器的问题，不是服务器的问题
+                    跨域的解决方案
+                        1.使用jsonp解决网站跨域 
+                            不支持post请求，代码书写比较复杂
+                        2.使用HttpClient内部转发
+                            前端Q向后端B发送请求，Q先请求后端A，后端A请求后端B,获取数据后响应前端Q
+                        3.使用设置响应头允许跨域
+                            response.setHeader(&amp;quot;Access-Control-Allow-Origin&amp;quot;, &amp;quot;*&amp;quot;)
+                        4.基于Nginx搭建企业级API接口网关
+                            原理：保证域名和端口号是相同的，根据不同项目名称使用nginx转发到真实服务器地址
+                        5.使用Zuul搭建微服务API接口网关
+                    cors方案用法
+                    简单请求与复杂请求
+                location规则：跳转
+                    匹配方式
+                        ~ 表示执行一个正则匹配，区分大小写
+                        ~* 表示执行一个正则匹配，不区分大小写
+                        ^~ 表示普通字符匹配。使用前缀匹配。如果匹配成功，则不再匹配其他location。
+                        = 进行普通字符精确匹配。也就是完全匹配。
+                        / 通用匹配, 如果没有其它匹配,任何请求都会匹配到
+                        !~区分大小写不匹配正则
+                        !~*不区分大小写不匹配的正则
+                    匹配规则
+                        1、nginx先按字符串前缀的形式查找匹配的location，选中并记住匹配度最长的那个location。 
+                        2、如果被选中的location使用了“=”修饰符，则将当前选中结果作为最终结果，停止继续查找； 
+                        3、如果被选中的location使用了“^~”修饰符，则将当前选中结果作为最终结果，停止继续查找； 
+                        4、如果被选中的location未使用“=”或“^~”修饰符，则继续查找，执行步骤5； 
+                        5、然后，再按照正则的定义顺序查找匹配的location，选中第一个符合要求的正则location。
+                    常用指令
+                        root
+                        index
+                        default_type
+                        alias
+                        valid_referers
+                        return
+                        rewrite
+                        proxy_pass
+                    if指令
+                    内置变量
+                Rewrite 重定向
+                    3.3.1 模块语法
+                        if指令
+                        set指令
+                        break指令
+                        return指令
+                        rewrite_log指令
+                    3.3.2 指令案例
+                        rewrite flag介绍
+                        域名重定向
+                            临时重定向
+                            永久重定向
+                        break与last
+                            break案例
+                            last案例
+                        自动跳转HTTPS
+                        判断文件
+                    3.3.3 防盗链
+                        web防盗链
+                        防盗链
+                    rewrite的使用
+                        URL重写场景
+                        rewrite语法格式
+                        regex 常用正则表达式
+                        rewrite过程
+                URL的重写与配置
+                    使用正则匹配请求的url，根据定义的规则进行重写和改变，需ngx_http_rewrite_module模块来支持url重写功能
+                    可重写的功能
+                        可重写变量和含义
+                    重写的语法
+                        判断IP地址来源
+                            如果访问的ip地址为192.168.5.165,则返回403
+                        限制浏览器访问
+                            不允许谷歌浏览器访问 如果是谷歌浏览器返回500
+                    URL重写场景
+                    rewrite语法格式
+                    regex 常用正则表达式
+                    rewrite过程
+            限流
+                实现
+                    limit_conn_zone
+                    limit_req_zone
+                    ngx_http_upstream_module
+                算法
+                    令牌桶
+                    漏桶
+            负载均衡
+                4种负载方式
+                    3.4.1 HTTP反向代理
+                        配置参数
+                        单台服务
+                        指定location
+                        缓存服务
+                            压力测试
+                            缓存配置
+                            文件校验
+                        高级应用
+                            配置参数
+                            多台web
+                            IP透传
+                            动静分离
+                    3.4.2 负载均衡（proxy）
+                        配置参数
+                        负载案例
+                            redis
+                            mysql
+                    3.4.3 FsatCGI
+                        配置指令
+                        配置示例
+                            Nginx&amp;&amp;php-fpm
+                                同环境
+                                异环境
+                        tengine
+                            配置文件
+                            concat模块
+                            DSO模块
+                    3.4.4 健康检查（check）
+                负载均衡
+                    服务集群的问题
+                    负载均衡的配置
+                        upstream和location配置
+                    负载均衡的方式
+                        upstream表示负载服务器池，定义名字为backend_server的服务器池
+                        url_hash
+                            upstream webhost {server 192.168.0.5:6666 ;server 192.168.0.7:6666 ;hash $request_uri;}
+                                此方法按访问url的hash结果来分配请求,使每个url定向到同一个后端服务器,可以进一步提高后端缓存服务器的效率
+                        ip_hash
+                            upstream webhost {ip_hash;server 192.168.0.5:6666 ;server 192.168.0.7:6666 ;}
+                                每个请求按访问IP的hash结果分配,这样来自同一个IP的访客固定访问一个后端服务器,有效解决了动态网页存在的session共享问题
+                        权重
+                            upstream webhost {server 192.168.0.5:6666 weight=2;server 192.168.0.7:6666 weight=3;}
+                        轮询
+                            upstream webhost {server 192.168.0.5:6666 ;server 192.168.0.7:6666 ;}
+                    负载均衡故障转移
+                        负载均衡的故障转移配置
+                            proxy_connect_timeout 1s;
+                                nginx与后端服务器连接的超时时间_发起握手等候响应超时时间
+                            proxy_send_timeout 1s;
+                                nginx发送给上游服务器(真实访问的服务器)超时时间
+                            proxy_read_timeout 1s;
+                                nginx接受上游服务器(真实访问的服务器)超时时间
+        Nginx
+            虚拟主机配置应用
+                nginx虚拟主机作用
+                    将一台服务器，拆封多个网站部署
+                nginx虚拟主机配置
+                    nginx 配置虚拟主机的三种方法
+                    基于域名的虚拟主机
+                        #当客户端访问www.itmayiedu.com,监听端口号为80,直接跳转到data/www目录下文件
+                        #当客户端访问bbs.itmayiedu.com,监听端口号为80,直接跳转到data/bbs目录下文件
+                    基于端口的虚拟主机
+                        #当客户端访问www.itmayiedu.com,监听端口号为8080,直接跳转到data/www目录下文件
+                        #当客户端访问www.itmayiedu.com,监听端口号为8081,直接跳转到data/bbs目录下文件
+            keepalived的配置
+                nginx高可用概述
+                安装Keepalived
+                配置抢占式模式
+    ngnix原理及配置
+        优点
+            高并发
+                IO多路复用epoll
+            轻量级
+                功能模块少
+                代码模块化
+            CPU亲和(affinity)
+            nginx支持的语言
+        2.基本模型
+            衍生应用
+                Openresty
+                Kong
+                Tengine
+            Nginx与LUA开发
+                WAF
+            常见HTTP服务器
+                Apache Webserver - Apache基金会
+                 IIS - 微软
+                 Nginx - Nginx
+                 GWS - Google
+                Lighthttpd
+                2.1 Nginx与Apache
+                    2.1.1 Apache
+                        prefork模型
+                        work模型
+                        event模型
+                    2.1.2 Nginx
+                        高性能模型
+            3.nginx进程模型
+                进程模式
+                    好处
+                    对并发的支持
+                        异步非阻塞方式
+                模型及基本概念
+                    主进程(master)  1
+                    工作进程(worker) N
+                    缓存加载器进程(cache loader) 1
+                    缓存管理器进程(cache manager) 1
+                发送信号方式 kiil -s [信号名] [master进程id]
+                    TERM, INT
+                    QUIT
+                    HUP
+                    USR1        
+                    USR2        
+                    WINCH       
+                进程间通信
+            2.3 网路I/O模型
+                2.3.1 同步阻塞IO(blocking IO)
+                2.3.2 同步非阻塞IO(nonblocking IO)
+                2.3.3 IO多路复用(IO multipexing)
+                2.3.4 信号驱动式IO(signal-driven IO)
+                2.3.5 异步非阻塞(asynchronous IO)
+                2.3.6 横向IO对比
+                2.3.7 常用模型
+                2.3.8 MMAP
+    nginx组成
+        目录结构
+            Conf 配置文件
+            Html 网页文件
+            Logs 日志文件
+            Sbin 二进制程序
+        1 [root@www ~]# tree /application/nginx/
+         2 /application/nginx/
+         3 |-- client_body_temp
+         4 |-- conf
+            #这是Nginx所有配置文件的目录，极其重要
+         5 |   |-- fastcgi.conf
+            #fastcgi相关参数的配置文件
+         6 |   |-- fastcgi.conf.default
+            #fastcgi.conf的原始备份
+         7 |   |-- fastcgi_params
+            #fastcgi的参数文件
+         8 |   |-- fastcgi_params.default
+         9 |   |-- koi-utf
+        10 |   |-- koi-win
+        11 |   |-- mime.types
+            #媒体类型，
+        12 |   |-- mime.types.default
+        13 |   |-- nginx.conf
+             　　　　　　　　　　　　 #这是Nginx默认的主配置文件
+        14 |   |-- nginx.conf.default
+        15 |   |-- scgi_params
+             　　　　　　　　　　　 #scgi相关参数文件，一般用不到
+        16 |   |-- scgi_params.default
+        17 |   |-- uwsgi_params
+               　　　　　　  #uwsgi相关参数文件，一般用不到
+        18 |   |-- uwsgi_params.default
+        19 |   `-- win-utf
+        20 |-- fastcgi_temp
+               　　　　　　　　#fastcgi临时数据目录
+        21 |-- html
+        23 |   |--50x.html
+             #     错误页面优雅替代显示文件，例如：出现502错误时会调用此页面
+                  #这是Nginx默认的日志路径，包括错误日志及访问日志
+            24          #     error_page   500502503504  /50x.html；
+        25 |   `-- index.html
+               #     默认的首页文件，首页文件名字是在nginx.conf中事先定义好的。
+        26 |-- logs
+        27 |   |-- access.log
+              #     这是Nginx的默认访问日志文件
+                使用tail -f access.log，可以实时观看网站用户访问情况信息
+        28 |   |-- error.log
+              #     这是Nginx的错误日志文件，如果Nginx出现启动故障等问题，一定要看看这个错误日志
+        29 |   `-- nginx.pid
+              #     Nginx的pid文件，Nginx进程启动后，会把所有进程的ID号写到此文件
+        30 |-- proxy_temp
+               #临时目录
+        31 |-- sbin
+              #这是Nginx命令的目录，如Nginx的启动命令nginx
+        32 |   `-- nginx
+              #Nginx的启动命令nginx
+        33 |-- scgi_temp
+              #临时目录
+        34 `-- uwsgi_temp
+              #临时目录

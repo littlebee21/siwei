@@ -1,0 +1,35 @@
+工具 - 文档
+    doc工具
+        现在：openOffice
+        永中office
+        wps
+        word
+        Microsoft Office。
+    
+    pdf工具
+        现在：Sumatra PDF :
+        FoxitPDFReader： 
+            没有书签搜索功能
+            书签栏展开困难：鼠标配合F1按键的方式进行展开
+            书签不能自动跳转到位置
+
+        万兴阅读器： 没有搜索标亮功能
+        PDF-Viewer 没有搜索标亮功能
+        PDF-XChange Viewer： 没有搜索标亮
+
+        Adobe Acrobat DC: 收费
+        Microsoft Edge：目录格式不是很好
+        chrome ：目录格式不是很好
+                        
+
+        文档工具
+        文库下载器使用方法.docx
+        豆丁和百度文库下载工具
+        PDF转换软件
+        ┃  ┃  ┃  ┣━solidconverter.exe
+        ┃  ┃  ┃  ┣━安装方法.doc
+        百度网盘目录生成工具
+        FreePic2Pdf.1395217315.zip
+    文档搜索工具
+        anytxt  txt md
+        docfetcher pdf

@@ -1,0 +1,81 @@
+mybatis
+    安装
+        从 XML 中构建 SqlSessionFactory
+        不使用 XML 构建 SqlSessionFactory
+        从 SqlSessionFactory 中获取 SqlSession
+        探究已映射的 SQL 语句
+        作用域（Scope）和生命周期
+            SqlSessionFactoryBuilder
+            SqlSessionFactory
+            SqlSession
+            映射器实例
+    xml配置
+        属性（properties）
+设置（settings）
+类型别名（typeAliases）
+类型处理器（typeHandlers）
+处理枚举类型
+对象工厂（objectFactory）
+插件（plugins）
+环境配置（environments）
+数据库厂商标识（databaseIdProvider）
+映射器（mappers）
+    xml映射文件
+        select
+        insert, update 和 delete
+        sql
+        参数
+            字符串替换
+        映射
+            结果映射
+            高级结果映射
+            结果映射（resultMap）
+            id & result
+            支持的 JDBC 类型
+            构造方法
+            关联
+                关联的嵌套 Select 查询
+                关联的嵌套结果映射
+                关联的多结果集（ResultSet）
+            集合
+                集合的嵌套 Select 查询
+                集合的嵌套结果映射
+                集合的多结果集（ResultSet）
+            鉴别器
+        自动映射
+        缓存
+            使用自定义缓存
+            cache-ref
+    动态sql
+        if
+        choose、when、otherwise
+        trim、where、set
+        foreach
+        script
+        bind
+        多数据库支持
+        动态 SQL 中的插入脚本语言
+    javaAPI
+        目录结构
+        SqlSession
+            SqlSessionFactoryBuilder
+            SqlSessionFactory
+            SqlSession
+                语句执行方法
+                设置预处理语句
+                立即批量更新方法
+                事务控制方法
+                本地缓存
+                确保 SqlSession 被关闭
+                使用映射器
+                映射器注解
+                映射注解示例
+    sql语言构建器
+        问题
+解决方案
+SQL 类
+SqlBuilder 和 SelectBuilder (已经废弃)
+    补充
+        补充：嵌套查询和嵌套结果的区别
+        mapper文件的格式
+    日志

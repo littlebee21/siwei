@@ -1,0 +1,39 @@
+elasticsearch 面试
+    主题
+        1、elasticsearch 读取数据
+        2、您能解释一下X-Pack for Elasticsearch的功能和重要性吗？
+        6、解释一下 Elasticsearch Node？
+        7、在安装Elasticsearch时，请说明不同的软件包及其重要性？
+        11、能列出 10 个使用 Elasticsearch 作为其搜索引擎或数据库的公司吗？
+        12、解释一下Elasticsearch Cluster？
+        13、elasticsearch 索引数据多了怎么办，如何调优，部署
+        14、对于GC方面，在使用Elasticsearch时要注意什么？
+        15、是否了解字典树？
+        17、可以列出X-Pack API 吗？
+        18、Elasticsearch 对于大数据量（上亿量级）的聚合如何实现？
+        19、elasticsearch 冷热分离
+        20、介绍下你们电商搜索的整体技术架构
+        22、如何在 Elasticsearch中 搜索数据？
+        23、Elasticsearch的 文档是什么？
+        24、ElasticSearch中的倒排索引是什么？
+        25、介绍一下你们的个性化搜
+        elasticsearch是如何实现master选举的？
+    集群
+        3、Elasticsearch 中的节点（比如共 20 个），其中的 10 个选了一个master，另外 10 个选了另一个 master，怎么办？
+        你之前公司的ElasticSearch集群，一个Node一般会分配几个分片？
+    使用
+        10、elasticsearch 的 document设计
+        8、Elasticsearch在部署时，对Linux的设置有哪些优化方法
+        21、详细描述一下Elasticsearch搜索的过程？
+        Beats 如何与 Elasticsearch 结合使用？
+        解释一下 Elasticsearch 的 分片？
+        精准匹配检索和全文检索匹配检索的不同？
+        当前可以下载的稳定的elasticsearch
+        您能解释一下 Elasticsearch 中的 Explore API 吗？
+    主题
+        9、请解释有关 Elasticsearch的 NRT？
+    组成
+        4、解释一下 Elasticsearch集群中的 索引的概念 ？
+        5、你可以列出 Elasticsearch 各种类型的分析器吗？
+    属性
+        为什么elasticsearch是近实时的

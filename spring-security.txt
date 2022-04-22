@@ -1,0 +1,58 @@
+spring security
+    使用目的
+        攻击防护
+        授权
+        认证
+            支持验证方式
+                HTTP 基本认证、
+                HTTP 表单验证、
+                HTTP 摘要认证、
+                OpenID
+                LDAP
+                等。
+    机制
+        四种登录密码
+            使用默认用户和随机生成的密码登录
+            使用yaml文件定义的用户名、密码登录
+            使用代码中指定的用户名、密码登录
+            使用数据库的用户名、密码登录
+                添加依赖
+                添加数据库配置
+                配置spring-security认证和授权
+                配置自定义UserDetailsService来进行验证
+                配置JPA中的UserRepository
+                添加数据库数据
+        获取登录信息
+        Spring Security 核心组件
+            初始化
+            上下文
+                SecurityContext
+                SecurityContextHolder
+            认证
+                Authentication
+                    Authentication表示当前的认证情况，可以获取的对象有：
+                    UserDetails：获取用户信息，是否锁定等额外信息。
+                    Credentials：获取密码。
+                    isAuthenticated：获取是否已经认证过。
+                    Principal：获取用户，如果没有认证，那么就是用户名，如果认证了，返回UserDetails。
+                UserDetailsService
+                UserDetails
+                AuthenticationManager
+            授权
+                AuthenticationProvider
+                GrantedAuthority
+                    对认证主题的应用层面的授权
+            PasswordEncoder
+    原理
+        Servlet Filter Chain：Serverl过滤器链
+        DelegatingFilterProxy：Spring Filter代理类，将功能委托给 FilterChainProxy
+        FilterChainProxy：匹配请求，执行 SecurityFilterChain 中的过滤器
+        SecurityFilterChain：包含一组Filter
+    spring security session 无状态支持权限控制(前后分离)
+        添加依赖
+        创建工具类JWTProvider
+        创建登录成功，登出成功处理器
+        设置登录、登出、取消csrf防护
+        使用JWT集成spring-security
+        MySecurityConfiguration代码
+        使用注解对方法进行权限管理

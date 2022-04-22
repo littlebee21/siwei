@@ -1,0 +1,22 @@
+V3.5 版本的固件库
+    Libraries：驱动库的源代码
+        CMSIS内核
+            coresupport文件夹
+                core_cm3.c
+                core_cm3.h内核寄存器映射
+                     “stdint.h”
+            devicesupport文件夹
+                startup/arm启动文件
+                Stm32f10x.h外设寄存器映射
+                system_stm32f10x.c时钟配置文件
+        STM32F10x_StdPeriph_Driver 外设文件夹
+            misc.c 对内核文件
+    Project ：驱动库写的例子和模板
+        STM32F10x_StdPeriph_Template
+            stm32f10x_it.c中断服务函数
+            system_stm32f10x.c
+            stm32f10x_it.h
+            stm32f10x_conf.h统一管理头文件
+    Utilities 没用
+     stm32f10x_stdperiph_lib_um.chm： 库帮助文档
+    使用库开发

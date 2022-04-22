@@ -1,0 +1,207 @@
+主题
+    自定义模板参数转JSON字符串测试
+        │  ParamToJsonTest.ftl
+    前端
+        ├─Ant Design Vue
+            │      ${moduleName}[js](VueAPI).ftl    
+            │      ${tableUpperCamelCase}Add[vue].ftl
+            │      ${tableUpperCamelCase}Detail[vue].ftl
+            │      ${tableUpperCamelCase}Edit[vue].ftl
+            │      ${tableUpperCamelCase}List[vue].ftl
+            │      jsonParams.json
+            │      jsonParams_VueAPI.json
+    数据库中间件
+        ├─ElasticSearch
+            │      ${tableUpperCamelCase}Condition[java].ftl
+            │      ${tableUpperCamelCase}Controller[java].ftl
+            │      ${tableUpperCamelCase}ServiceImpl[java].ftl
+            │      ${tableUpperCamelCase}Service[java].ftl
+            │      ${tableUpperCamelCase}[java].ftl
+            │      jsonParams.json
+        ├─MongoDB
+            │      ${tableUpperCamelCase}Condition[java].ftl
+            │      ${tableUpperCamelCase}Controller[java].ftl
+            │      ${tableUpperCamelCase}ServiceImpl[java].ftl
+            │      ${tableUpperCamelCase}Service[java].ftl
+            │      ${tableUpperCamelCase}[java].ftl
+            │      jsonParams.json
+        ├─MyBatis
+            │      ${tableUpperCamelCase}Condition[java].ftl
+            │      ${tableUpperCamelCase}Controller[java].ftl
+            │      ${tableUpperCamelCase}Mapper[java].ftl
+            │      ${tableUpperCamelCase}Mapper[xml].ftl
+            │      ${tableUpperCamelCase}ServiceImpl[java].ftl
+            │      ${tableUpperCamelCase}Service[java].ftl
+            │      ${tableUpperCamelCase}[java].ftl
+            │      jsonParams.json
+        ├─MyBatis Plus
+            │      ${tableUpperCamelCase}Condition[java].ftl
+            │      ${tableUpperCamelCase}Controller[java].ftl
+            │      ${tableUpperCamelCase}Mapper[java].ftl
+            │      ${tableUpperCamelCase}Mapper[xml].ftl
+            │      ${tableUpperCamelCase}ServiceImpl[java].ftl
+            │      ${tableUpperCamelCase}Service[java].ftl
+            │      ${tableUpperCamelCase}[java].ftl
+            │      jsonParams.json
+        ├─数据模型
+            │      ${lowerNoPrefixName}[cpp](C++).ftl
+            │      ${lowerNoPrefixName}[go](Golang).ftl
+            │      ${lowerNoPrefixName}[py](Python).ftl
+            │      ${lowerNoPrefixName}[rs](Rust).ftl
+            │      ${tableUpperCamelCase}(Objective-C)[h].ftl
+            │      ${tableUpperCamelCase}(Objective-C)[m].ftl
+            │      ${tableUpperCamelCase}Entity[java](JPA).ftl
+            │      ${tableUpperCamelCase}VO[java].ftl
+            │      ${tableUpperCamelCase}[cs](C#).ftl
+            │      ${tableUpperCamelCase}[java](Android).ftl
+            │      ${tableUpperCamelCase}[java](ElasticSearch).ftl
+            │      ${tableUpperCamelCase}[java](Lombok).ftl
+            │      ${tableUpperCamelCase}[java](MethodChaining).ftl
+            │      ${tableUpperCamelCase}[java](MongoDB).ftl
+            │      ${tableUpperCamelCase}[java](MyBatisPlus).ftl
+            │      ${tableUpperCamelCase}[kt](Kotlin).ftl
+            │      ${tableUpperCamelCase}[swift](Swift).ftl
+            │      JavaBeanGetterSetter[java].ftl
+        └─某项目框架前后端模板示例
+            ${tableLowerCamelCase}Mapper[xml].ftl
+            ${tableLowerCamelCase}[jsp].ftl
+            ${tableLowerCamelCase}[js].ftl
+            ${tableUpperCamelCase}Controller[java].ftl
+            ${tableUpperCamelCase}Entity[java].ftl
+            ${tableUpperCamelCase}Service[java].ftl
+            ${tableUpperCamelCase}VO[java].ftl
+            jsonParams.json
+        生成mybatis mapper（小写）
+            │  ${tableLowerCamelCase}Mapper[xml].ftl
+    数据库
+        根据数据库表结构生成JSON随机数据
+            ├─RandomData
+                │      ${tableUpperCamelCase}RandomJSON[json].ftl
+                │      ${tableUpperCamelCase}RandomXML[xml].ftl
+                │      RandomBatchInsert[sql].ftl
+                │      RandomStandardInsert[sql].ftl
+        ├─SQL
+            用于清空数据库表数据SQL
+                │      ClearTableData[sql].ftl
+            生成修改数据库表和字段注释
+                │      ModifyTableRemark[sql].ftl
+        数据库文档
+            ├─DbWord
+                │      dbTable.ftl
+                │      dbWord[docx].ftl
+                │      dbWord[doc].ftl
+                │      数据库设计XML模板.xml
+                │      数据库设计模板.doc
+        数据库Excel
+            ├─DbExcel
+                │      dbExcel[xls].ftl
+                │      数据库设计XML模板.xml
+                │      数据库设计模板.xlsx
+        数据库定义
+            ├─DDL
+                │      DB2_DDL[sql].ftl
+                │      MySQL_DDL[sql].ftl
+                │      Oracle_DDL[sql].ftl
+                │      PostgreSQL_DDL[sql].ftl
+                │      SQLServer_DDL[sql].ftl
+        数据导出
+            ├─Export
+                │      ${tableUpperCamelCase}ToJSON[json](平级表).ftl
+                │      ${tableUpperCamelCase}ToXML[xml](平级表).ftl
+                │      DictConstant[java](父子表).ftl
+                │      DictSql[sql](父子表).ftl
+                │      SqlExportExcel[xls](平级表).ftl
+                │      SqlExportSql[sql](平级表).ftl
+                │      TableToBatchInsert[sql](平级表).ftl
+                │      TableToStandardInsert[sql](平级表).ftl
+    │  └─SpringBoot
+        │      │  crebas.sql
+        │      │  pom[xml].ftl
+        │      │  readme.txt
+        │      │  不分模块JSON参数配置.json
+        │      │  不分模块增量更新JSON参数配置.json
+        │      │  分模块JSON参数配置.json
+        │      │
+        │      ├─src
+        │      │  ├─main
+        │      │  │  ├─java
+        │      │  │  │  │  ${appNameUpperCamelCase}Application[java].ftl
+        │      │  │  │  │
+        │      │  │  │  ├─common
+        │      │  │  │  │  ├─controller
+        │      │  │  │  │  │      BaseController[java].ftl
+        │      │  │  │  │  │
+        │      │  │  │  │  ├─exception
+        │      │  │  │  │  │      BizException[java].ftl
+        │      │  │  │  │  │      ExceptionHandlerAdvice[java].ftl
+        │      │  │  │  │  │
+        │      │  │  │  │  ├─model
+        │      │  │  │  │  │      BaseBean[java].ftl
+        │      │  │  │  │  │      BaseCondition[java].ftl
+        │      │  │  │  │  │      BasePagingCondition[java].ftl
+        │      │  │  │  │  │      OverrideBeanMethods[java].ftl
+        │      │  │  │  │  │      Paging[java].ftl
+        │      │  │  │  │  │      Result[java].ftl
+        │      │  │  │  │  │
+        │      │  │  │  │  ├─service
+        │      │  │  │  │  │      RedisService[java].ftl
+        │      │  │  │  │  │
+        │      │  │  │  │  └─util
+        │      │  │  │  │          Assert[java].ftl
+        │      │  │  │  │
+        │      │  │  │  ├─configuration
+        │      │  │  │  │      AsyncThreadPoolConfiguration[java].ftl
+            异步线程池的配置
+        │      │  │  │  │      CorsConfig[java].ftl
+            跨域的配置模板
+        │      │  │  │  │      MybatisPlusConfiguration[java].ftl
+            mybatisplus的配置
+        │      │  │  │  │      RedisConfiguration[java].ftl
+            redis配置的模板
+        │      │  │  │  │
+        │      │  │  │  ├─controller
+        │      │  │  │  │      ${tableUpperCamelCase}Controller[java].ftl
+        │      │  │  │  │
+        │      │  │  │  ├─mapper
+        │      │  │  │  │      ${tableUpperCamelCase}Mapper[java].ftl
+        │      │  │  │  │
+        │      │  │  │  ├─model
+        │      │  │  │  │  │  ${tableUpperCamelCase}[java].ftl
+        │      │  │  │  │  │
+        │      │  │  │  │  └─condition
+        │      │  │  │  │          ${tableUpperCamelCase}Condition[java].ftl
+        │      │  │  │  │
+        │      │  │  │  └─service
+        │      │  │  │          ${tableUpperCamelCase}Service[java].ftl
+            生成模板内容
+                分页查询
+                根据主键ID查询
+                保存
+                批量保存
+                根据主键ID删除
+                根据主键ID集合批量删除
+                创建索引
+                映射索引字段类型
+                删除索引
+        │      │  │  │
+        │      │  │  └─resources
+        │      │  │      │  application[yml].ftl
+        │      │  │      │  logback-spring[xml].ftl
+            日志的配置
+        │      │  │      │  smart-doc[json].ftl
+            api文档的配置
+        │      │  │      │
+        │      │  │      └─mapper
+        │      │  │              ${tableUpperCamelCase}Mapper[xml].ftl
+        │      │  │
+        │      │  └─test
+        │      │      └─java
+        │      │              ${tableUpperCamelCase}ServiceTest[java].ftl
+        │      │
+        │      └─TestCode
+        │          └─redis
+        │                  AreaService.java
+        │                  AreaServiceTest.java
+    ├─Swagger
+        │      SwaggerParamToJsonTest.ftl
+        │      VueAPI[js].ftl

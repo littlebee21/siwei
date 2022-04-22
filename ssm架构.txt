@@ -1,0 +1,77 @@
+ssm架构
+    容器原理图  依赖关系
+        tomcat
+        servlet
+        springmvc
+        spring
+    SSM配置
+        Ⅰ： web.xml
+            Servlet
+                ② SpringMVC前端控制器 DispatcherServlet
+                    作用：拦截相应的请求交给 spring mvc 处理。注意：默认 spring mvc 会从 WEB-INF 下去加载 [servlet 的 name]-servlet.xml 这个主配置文件。 如果我们不喜欢把主配置文件放到这个地方，我们可以通过手动来指定 springMVC 主配置文件的位置和名称。
+            Filter
+                ③ Web字符编码过滤器 CharacterEncodingFilter 
+                    作用：配置该过滤器拦截所有的资源并设置好编码格式，用来防止中文乱码问题。注意：该过滤器一定要配置在其他过滤器之前，以最先生效
+                ④ 隐藏过滤器 HiddenHttpMethodFilter
+                    作用： 解决Restful 的 Deleter/Update 请求
+            Listener
+                ① Spring核心监听器 ContextLoaderListener
+                    在 tomcat 启动的时候，创建 spring 的工厂类对象，把工厂类对象绑定到 tomcat 的上下文中，以前写 java 项目第一步都是创建 spring 的工厂类对象。而在运行 web 项目时还是需要 Spring 的工厂类对象，所以 spring 就为我们提供了这个监听器来在 tomcat 启动的时候来实现这些代码。注意：默认 spring 会从 WEB-INF 目录下加载 applicationContext.xml 作为 spring 的主配置文件，如果我们不喜欢把主配置文件放到这个地方，我们可以通过手动来指定 Spring 主配置文件的位置和名称。
+                0： 显式制定Spring配置文件 路径/名称
+                    这是因为如果我们有配置ContextLoaderListener, Spring会去web.xml中看我们是否有定义contextConfigLocation这个参数，如果有则Spring容器(Bean工厂)会把定义在该xml文件中的bean加载到容器中，那如果没有定义contextConfigLocation参数，Spring会怎么办？web服务器启动的时候会不会报错呢？Spring有一个概念就是约定优于配置，也就是说，即使你没有显示定义xml文件的位置，Spring容器会到一个约定的地方去找该文件，如果找不到就要报FileNotFoundException了，我们来看看下面代码段："/WEB-INF/applicationContext.xml" 就是默认的文件地址了，如果你使用了Spring MVC，肯定要到web.xml里面定义DispatcherServlet        dispatcherServlet        org.springframework.web.servlet.DispatcherServlet    这个时候如果你没有显示配置contextConfigLocation参数的话，Spring会到该默认路径下加载配置文件"WEB-INF/dispatcherServlet-servlet.xml", 如果不存在就报异常。以上源码存在于XmlWebApplicationContext.
+        Ⅱ： SpringMVC.xml
+            ① 启用Spring常用注解
+                一般来说，像@Resource 、@ PostConstruct、@Autowired这些注解在自动注入还是比较常用，所以如果总是需要按照传统的方式一条一条配置显得有些繁琐和没有必要，于是spring给我们提供的简化配置方式，自动帮你完成声明。
+            ② 组件扫描 context:component-scan
+                用于 指定/排除 需要扫描的包/类对于Controller层，通常只识别Controller包中的@Controller注解的类
+            ③ bean
+                视图解析器 InternalResourceViewResolver
+                    作用：存放在 / WEB-INF / 下面的内容是不能直接通过 request 请求的方式请求到的，为了安全性考虑，我们通常会把 jsp 文件放在 WEB-INF 目录下，而 InternalResourceView 在服务器端跳转的方式可以很好的解决这个问题（见下）。InternalResourceViewResolver 会把返回的视图名称都解析为 InternalResourceView 对象，InternalResourceView 会把 Controller 处理器方法返回的模型属性都存放到对应的 request 属性中，然后通过 RequestDispatcher 在服务器端把请求 forword 重定向到目标 URL。比如在 InternalResourceViewResolver 中定义了 prefix=/WEB-INF/views/，suffix=.jsp，然后请求的 Controller 处理器方法返回的视图名称为 test，那么这个时候 InternalResourceViewResolver 就会把 test 解析为一个 InternalResourceView 对象，先把返回的模型属性都存放到对应的 HttpServletRequest 属性中，然后利用 RequestDispatcher 在服务器端把请求 forword 到 / WEB-INF/views/test.jsp。
+            ④ 标准配置： 注解驱动 ， 服务器默认处理器
+        Ⅲ： MyBatis.xml
+            别名 
+                typeAliases> package name="com.ryze.bean"
+            驼峰命名 
+                settings> setting name="mapUnderscoreToCamelCase" value="true"将下划线映射成驼峰
+            分页插件
+                plugs> plug interceptor="com.github.pagehelper.PageInterceptor"
+        Ⅳ： applicationContext.xml
+            ① 组件扫描 
+                context:component-scan 该配置中只扫描非Controller层
+            ② Spring 相关配置：配置和业务逻辑有关的，主要是数据库方面
+                2.1 数据库控制
+                    2.1.1 加载数据库配置文件 路径/名称
+                        context:property-placeholder> location="classpath:DB/db.properties"
+                    2.1.2 配置数据源
+                        德鲁伊数据源为例： bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource"                                      > property name="driverClassName" value="${jdbc.driver}"
+                    2.1.3 事物控制
+                        2.1.3.1 事务管理器
+                            bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"                > property name="dataSource" ref="druidDataSource"
+                        2.2.3.2. 注解驱动
+            ③ 整合MyBatis 
+                3.1 配置SqlSession
+                    3.1.1 SqlSession(工厂)
+                        bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">property name="dataSource"             // 指定数据源>property name="configLocation"       // 指定MyBatis配置文件 路径/名称>property name="mapperLocations"   // 指定Mapper映射文件 路径/名称
+                    3.1.2 SqlSessionTemplate 批处理
+                        bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"> constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" // 构造器传入会话工厂> constructor-arg name="executorType" value="SIMPLE"                     // 构造器设置执行类型：简单
+                            List warnings = new ArrayList();        boolean overwrite = true;        //指定逆向工程配置文件        File configFile = new File("GeneratorConfig.xml");        ConfigurationParser cp = new ConfigurationParser(warnings);        Configuration config = cp.parseConfiguration(configFile);        DefaultShellCallback callback = new DefaultShellCallback(overwrite);        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);        myBatisGenerator.generate(null);
+                3.2 配置映射器扫描器
+                    bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">property name="basePackage" value="com.ryze.bean.mapper" // 扫描所有的dao接口的实现，为映射器接口文件设置基本的包路径，加入到IOC容器中配置映射器扫描器，在所设置的包下, 将生成的接口生成动态代理实现类MapperFactoryBean, 并由spring容器管理
+        Ⅴ: MyBatis逆向工程配置 GeneratorConfig.xml 
+        log4j.properties
+        pom.xml
+        SSM配置代码
+            web.xml
+            SpringMVC.xml
+            MyBatis.xml
+            applicationContext.xml
+             GeneratorConfig.xml 
+                逆向工程生成代码：
+            log4j.properties
+                # +======================================================================+#log4j.rootLogger=${log4j.log.level},${log4j.log.target}log4j.addivity.org.apache=true# +======================================================================+## | [target] - Console# +----------------------------------------------------------------------+#log4j.appender.CONSOLE=org.apache.log4j.ConsoleAppenderlog4j.appender.CONSOLE.Threshold=${log4j.log.level}log4j.appender.CONSOLE.Encoding=${log4j.log.encoding}log4j.appender.CONSOLE.Target=System.outlog4j.appender.CONSOLE.layout=${log4j.log.layout}log4j.appender.CONSOLE.layout.ConversionPattern=${log4j.log.layout.pattern}# +======================================================================+## | [target] - FILE# +----------------------------------------------------------------------+#log4j.appender.FILE=org.apache.log4j.RollingFileAppenderlog4j.appender.FILE.Threshold=${log4j.log.level}log4j.appender.FILE.Encoding=${log4j.log.encoding}log4j.appender.FILE.File=${log4j.log.dir}/runtime.loglog4j.appender.FILE.Append=truelog4j.appender.FILE.MaxFileSize=2048KBlog4j.appender.FILE.MaxBackupIndex=10log4j.appender.FILE.layout=${log4j.log.layout}log4j.appender.FILE.layout.ConversionPattern=${log4j.log.layout.pattern}# +======================================================================+## | log4j config# +----------------------------------------------------------------------+#log4j.log.dir=logs/#log4j.log.level=ALL,TRACE,DEBUG,INFO,WARN,ERROR,FATAL,OFFlog4j.log.level=DEBUG#log4j.log.target=CONSOLE,FILE,DATABASE,EMAIL,SOCKETlog4j.log.target=CONSOLE,FILElog4j.log.encoding=UTF-8log4j.log.layout=org.apache.log4j.PatternLayoutlog4j.log.layout.pattern=[%d %r] [%-5p] [%t] [%l] [%m]%n# +======================================================================+#
+                    4.0.0    com.ryze    ssm-crud    1.0-SNAPSHOT                                org.springframework            spring-webmvc            5.2.12.RELEASE                                            org.springframework            spring-jdbc            5.2.12.RELEASE                                            org.springframework            spring-aspects            5.2.12.RELEASE                                            org.mybatis            mybatis            3.4.6                                            org.mybatis            mybatis-spring            2.0.5                                            com.alibaba            druid            1.1.23                                            mysql            mysql-connector-java            5.1.47                                            jstl            jstl            1.2                                            javax.servlet            javax.servlet-api            3.1.0            provided                                            junit            junit            4.12            test                                            org.mybatis.generator            mybatis-generator-core            1.4.0                                          com.github.pagehelper            pagehelper            5.0.4                            com.github.jsqlparser            jsqlparser            0.9.6                            org.testng            testng            RELEASE            test                                    org.apache.logging.log4j            log4j-api            2.0.2                            org.apache.logging.log4j            log4j-core            2.0.2                    
+            pom.xml
+        SSM目录
+        user表
+       开启指定事务管理器的注解事务
+    com.github.jsqlparser            jsqlparser            0.9.6            -->

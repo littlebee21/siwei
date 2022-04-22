@@ -1,0 +1,24 @@
+工作区 - 缓存检索
+
+2，需要检索进行切换：类似缓存：
+        将刚检索到的内容保存，回头使用；
+        本地
+            find history：grep fzf/使用命令自动保存
+            snipaste，tmpdoc tmpcode：剪切板
+            如何整理：按照时间顺序进行排序就好了daylog
+        在线：
+            ontab + seachall
+            history 没有关闭的文档，没有关闭的网页：  
+
+
+
+子解决方案：
+    缓存保存：
+    snipaste：保存再picmind中，手动保存
+    tmpdoc：保存在daylog中，自动保存
+
+
+    缓存删除：
+    history 自动清除
+    snipaste 搜索关键字进行删除
+    tmpdoc,tmpcode 整个文件夹清除,搜索关键字清除

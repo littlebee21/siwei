@@ -1,0 +1,92 @@
+日志
+    日志的使用
+        日志收集
+            logback - logstash-elastic -ki
+    日志组成
+        日志级别
+            error：错误日志，指比较严重的错误，对正常业务有影响，需要运维配置监控的；
+            warn：警告日志，一般的错误，对业务影响不大，但是需要开发关注；
+            info：信息日志，记录排查问题的关键信息，如调用时间、出参入参等等；
+            debug：用于开发DEBUG的，关键逻辑里面的运行时数据；
+            trace：最详细的信息，一般这些信息只记录到日志文件中。
+        定制日志的格式
+            %d{HH:mm:ss.SSS}——日志输出时间
+            %thread——输出日志的进程名字，这在Web应用以及异步任务处理中很有用
+            %-5level——日志级别，并且使用5个字符靠左对齐
+            %logger- ——日志输出者的名字
+            %msg——日志消息
+            %n——平台的换行符
+        Java日志组件
+            记录型日志框架
+                Log4j
+                    Ceki创建
+                    properties, xml
+                        Logger
+                        appender
+                        Layout
+                Log4j2
+                    不兼容Log4j
+                    Apache怕被Logback反超，重写了Log4j 1.x,成立新项目Log4j2
+                    具有Logback所有特性
+                JUL:Java util Logging
+                    jdk-logging
+                    jdk1.4后，新增jul对抗Log4j
+                    java.util.logging.Logger
+                    通过handler完成实际的日志输出
+                    配置文件：logging.properties
+                Logback
+                    是slf4j-api天然实现，不需要桥接包
+                    配置文件logback.xml，也支持groovy方式
+            门面型日志框架
+                JCL: (Apache/Jakarta) Commons Logging
+                    jcl默认配置：Log4j < jul < jcl内部SimpleLog
+                        org.apache.commons.logging.impl.Log4JLogger
+                        org.apache.commons.logging.impl.Jdk14Logger
+                        org.apache.commons.logging.impl.SimpleLog
+                    程序运行时，动态查找具体的日志实现
+                    配置文件:commons-logging.properties
+                Slf4j: 同Logback同一个作者 Ceki
+                    Ceki觉得jcl不好用，就又新写了Slf4j
+                    编译器动态绑定到具体日志实现
+            使用场景
+                JCL+Log4j
+                    使用JCL api进行日志打点，底层使用Log4j输出，日志输出依赖log4j配置文件；此外还需要在commons-logging.properties配置中显示指定与log4j的绑定关系
+                JCL+jcl-over-Slf4j
+                    jcl-over-slf4j包里所有类的根路径为org.apache.commons.logging,相当于重写commons-logging包的代价实现对JCL的桥接
+                    commons-logging和jcl-over-slf4j包肯定不能共存
+                Log4j+log4j-over-slf4j
+                    Log4j包和log4j-over-slf4j包不能共存
+                Log4j2+log4j-to-Slf4j
+                    理论上来说，log4j-to-slf4j和log4j-core包不能共存；实际上，是可共存的：Log4j2加载provider时采用了优先级策略，一般log4j-to-slf4j优先级高于log4j-core
+                    logj-to-slf4j也是log4j-api的实现
+                    提供llog4j2实现的依赖包中，都有META-INF/log4j-provider.properties
+                log4j2整合日志输出
+                    JUL整合到log4j2输出
+                        log4j-jul
+                        继承重写LogManager
+                    JCL整合到Log4j2输出
+                        log4j-jcl
+                    Log4j整合到Log4j2输出
+                        log4j-1.2-api
+                            覆写Log4j 1.x api方式来实现的
+                        Log4j-1.2-api和log4j存在包冲突问题，使用Log4j-1.2-api的话，必须把classpath下所有Log4j 1.x的包清理掉
+                    Slf4j整合到Log4j2输出
+                        org.apache.logging.log4j:log4j-slf4j-impl:2.6.2
+                        log4j-slf4j-impl基于log4j2实现了slf4j的接口
+                        确保classpath下log4j-slf4j-impl和log4j-to-slf4j不要功勋
+            日志打点API绑定实现
+                slf4j → logbackslf4j → slf4j-log4j12 → log4jslf4j → log4j-slf4j-impl → log4j2slf4j → slf4j-jdk14 → julslf4j → slf4j-jcl → jcljcl → juljcl → log4jlog4j2-api → log4j2-corlog4j2-api → log4j-to-slf4j → slf4j
+    原理
+        日志门面
+            1. 总是使用Log Facade，而不是具体Log Implementation
+        如何进行日志系统转换？
+        从日志框架转向SLF4J
+        从SLF4J转向具体的日志框架
+    日志系统
+        常用框架
+            SLF4J+JDKLog
+            SLF4J+LOG4J
+            SLF4J+LogBack
+            LogBack日志框架
+            JUL、LOG4J1、LOG4J2、LOGBACK是日志实现框架，而JCL、SLF4J是日志实现门面
+            日志技术框架一览

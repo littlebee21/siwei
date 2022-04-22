@@ -1,0 +1,39 @@
+cmder使用
+配置：
+    没必要，配置环境变量
+    没必要：
+        默认主题 ： monoka 将深红色变浅色
+        选择：badum
+        还行：terminal app
+    设置默认终端：wsl
+
+
+缩小一个号字体
+切换主题风格：使用linux风格
+设置开始启动wsl
+设置中文UTF8
+去除中文文字重叠
+
+
+快捷键
+    1，新建tab
+        ctrl+T
+        shift + alt + 1 新建cmd
+        shift + alt + 2 新建powershell
+    1，设置：新建窗口  ctrl+alt+t使用windows的快捷键设置
+
+    2，切换wab ctrl+tab
+    2，唤醒cmder ctrL+1
+
+    3，关闭alt + F4
+    4, ctrl shift cv
+
+    5，设置分屏快捷键：
+    
+
+
+背景实心的是文件夹
+
+
+
+shell

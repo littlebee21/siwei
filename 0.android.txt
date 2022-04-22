@@ -1,0 +1,192 @@
+0.android
+android
+    android的开发环境
+        Android Studio
+            子主题
+        ADT： (android development tools)安卓开发工具
+        SDK：(software development kit)软件开发工具包,就是安卓系统,平台架构等的工具集合,如adb.exe
+        调试
+            DDMS：(dalvik debug monitor service)安卓调试工具
+            adb：安卓调试桥,在sdk的platform-tools目录下,功能很多,命令行必备
+        工具
+            DX工具：将.class转换成.dex文件
+            AAPT：(android asset packing tool),安卓资源打包工具
+            R.java文件：由aapt工具根据App中的资源文件自动生成,可以理解为资源字典
+            AndroidManifest.xml：app包名 + 组件声明 + 程序兼容的最低版本 + 所需权限等程序的配置文件
+    android组成
+        ADB命令行
+        虚拟机
+            Dalvik： Android特有的虚拟机,和JVM不同,Dalvik虚拟机非常适合在移动终端上使用!
+            AVD： (android virtual machine):安卓虚拟设备,就是安卓的模拟器
+    Android基础
+    布局
+        App的主题、资源
+            换肤
+            资源压缩
+        自定义View
+            View、ViewGroup绘制流程
+            自定义View的效率问题
+            Window、Activity、DecorView、RootView之间的关系
+            动画
+                帧动画
+                属性动画
+                矢量动画
+                Lottie
+        Fragment
+            Fragment 设计的初衷
+                解决多屏适配的问题
+            关键生命周期、状态管理、懒加载
+            添加 Fragment 的方式
+            相关的类
+                FragmentManager
+                FragmentTransaction
+            Fragment数据传输方式
+                Fragment 与 Activity 之间的数据交互方式
+                Fragment 之间的数据交互方式
+                Fragment嵌套
+        官方控件的理解
+            ListView/RecyclerView
+            Dialog/Popup
+            ConstraintLayout
+            Toolbar/StatusBar
+            ViewPager/ViewPager2
+            WebView
+            Android中常用的布局，如何做UI适配
+            Jetpack
+                LIfeCycle
+                ViewModel
+                LiveData
+                Databinding
+    主题
+        Android 消息机制
+            Handler
+            Looper
+            MessageQueue
+            postDelayed的实现
+        Android 事件处理机制
+            事件的分发流程
+            事件的消费流程
+            事件冲突的解决方案
+        多进程、多线程
+            多进程
+                Linux IPC
+                    管道
+                    socket
+                    信号量
+                    消息队列
+                    共享内存
+                Android 
+                    Binder
+                    Intent
+                    共享文件
+                    AIDL
+                    ContentProvider
+                    Socket
+            多线程
+                线程同步
+                线程池
+    四大组件
+        Activity
+            为什么会有Activity？
+            生命周期方法
+            启动模式和任务栈的管理
+                standard、singleTop、singleInstance、singleTask
+                应用场景
+                    intent filter
+                        main
+                        category
+                Intent  flag
+                    NEW TASK
+                    CLEAR TOP
+                    SINGLE TOP
+                task affinity
+            Activity启动流程
+                首次启动：首次安装该 App 时的启动事件
+                热启动：进程还在，从后台唤醒到前台
+                冷启动：进程不再
+            数据恢复
+                数据保存
+                数据恢复
+            横竖屏切换时，生命周期的变化
+            扩展
+                影响 Activity 启动速度的因素有哪些？如何优化 Activity 的启动速度？
+                微信、支付宝支付界面的启动方案如何设计，有哪些借鉴意义？
+                Activity 的数据恢复的其他方案有哪些（至少 3 种），这些方案各有哪些优劣？
+                LifeCycle 如何观察 Activity 的声明周期？使用了何种设计模式，阐述下核心的设计流程
+                四种启动模式，各自典型的应用场景有哪些，如果自己设计管理 Activity 的任务栈，有哪些思路可以参考？
+                从 Activity 关键生命周期方法中，如何统计一个 Activity 的用户使用时长，在做的时候，应该注意哪些问题？（类似友盟、TalkingData 这样的数据分析平台，会提供基本的应用使用数据，如果自己实现该功能，应该怎么做？）
+                Activity 、Window和 View 之间的关系
+        Service
+            定义
+                是什么
+                    可以在后台长时间执行而没有用户交互的组件
+                Service 与 Thread 的区别？
+            生命周期管理
+                主动启动
+                绑定启动
+                onCreate
+                onStartCommand
+                onBind
+                onDestory
+            分类
+                foreground
+                background
+                bound
+            派生类
+                IntentService
+                JobIntentService
+                JobService
+        BroadcastReceiver
+            应用场景
+            类型
+            注册方式
+            系统广播发送和接收的实现原理
+            本地广播发送和接收的原理
+        ContentProvider
+            系统的 ContentProvider
+            自定义 ContentProvider
+            不同版本之间从差异
+            安全问题
+    六大布局
+        1. LinearLayout线性布局
+            LinearLayout的常用XML属性及相关方法
+            LinearLayout子元素支持的常用XML属性及方法
+        2. TableLayout表格布局
+            TableLayout的常用XML属性及方法
+        3. FrameLayout帧布局
+            FrameLayout的常用XM了属性及方法
+        4. RelativeLayout相对布局
+            RelativeLayout的XML属性及相关方法说明
+            RelativeLayout.LayoutParams里只能设为boolean的XML属性
+            RelativeLayout.LayoutParams里属性值为其他UI组件ID的XML属性
+        5. Android 4.0新增的网格布局GridLayout
+            GridLayout常用的XML属性和方法说明
+            GridLayout.LayoutParams常用的XML属性和方法说明
+        6. AbsoluteLayout绝对布局
+    数据存储
+        SharePreference
+            多线程、多进程
+            异步
+            效率问题
+        SQlite
+            常用的关键字
+            sql 语法 
+            事务
+            ORM框架
+                GreenDAO
+                Room
+        文件
+            文件锁
+            多线程、多进程
+        MMKV
+            实现原理
+            效率特点
+            mmap 的原理机制
+        LruCache的原理解析
+    主题
+        基础库的理解和应用
+            Glide
+            OKHttp
+            Rxjava
+            Retrofit
+            EventBus

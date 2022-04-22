@@ -1,0 +1,35 @@
+git的使用
+    安装
+        步骤1：命令行和图形模式
+        步骤2：使用git模式
+        步骤3：检验是否安装成功
+    团队流程
+        准备：将团队项目push的权限关掉
+        创建项目
+            git branch dev组长创建分支
+        克隆项目
+            git clone git@github.com:michaelliao// 将远程仓库克隆到本地
+            git checkout -b dev origin/dev 创建本地分支
+        与团队保持同步
+            git remote -v有没有设置upstream
+            git remote add upstream 团队项目地址
+            git fetch upstream 获取团队项目最新版本
+            git merge upstream/dev将源分支（upstream/dev）合并到当前分支dev
+        push修改到自己的项目上
+            git add text/commit -m到存储库
+            git push orgin master组员推送分支/将本地仓库同步到远程仓库
+        请求合并到团队项目上
+            Pull request进入你Fork的仓库里
+            检查删除的内容
+            create pull request
+        团队项目负责人审核及同意合并请求
+            git reset --hard [banben]组员删除分支，回退版本
+            pull request查看
+            Merge pull request同意修改
+    本地仓库同步到远程仓库
+        步骤1: git init新建一个git代码仓库
+        步骤2：文件放到git init 目录
+        步骤3：git remote add origin http://****远程与本地仓库关联
+        步骤4：git add text/git commit -m text向本地仓库中添加文件
+        步骤5 ：git push -u orgin master将本地仓库上传到远程仓库
+            第一次上传的SSH警告

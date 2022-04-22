@@ -1,0 +1,26 @@
+matlab属性
+    MATLAB有两种工作方式
+    matlab的两种文件
+        ****2.命令文件****
+        ****3.程序文件****
+    matlab模板
+        ◆ Blank gui（ Default）（空白模板，默认）;
+        ◆ GUI with uicontrols（带控件对象的GUI模板）;
+        ◆ GUI with Axes and menu（带坐标轴与菜单的GU模板）;
+        ◆ Modal Question Dialog（带模式问题对话框的GU模板）。
+    matlab文件类型
+        %   ***.m文件 ： 脚本文件或者函数文件或者；
+        %   ***.mat文件：数据存储文件(二进制文件,可以ASCII码形式保存和加载，
+            %                类似于单行EXCEL表格）
+            保存mat文件
+            读取mat文件数据
+                1.matlab中可以知用load命令读取.mat文件
+                2.C语言中有API读取.mat文件，如matOpen, matClose等等
+                3.用记事本道就可以打开.mat文件，.mat文件格式是公开的，你可以自己解析里版面的内容
+                mat里面都是数据，不是程序，你load出来就完权成了。
+        %   ***.txt文件：文本文件，万能存储文件（啥都能存储）
+        %   ***.mdl文件：模型文件包（包含模型，贴图，所有动作，以及脚本等文件，较为复杂）
+        %   ***.asv文件：auto save文件，***.m文件的备份文件，可以在preference中进行设置
+        %   ***.xml文件：可扩展标记语言文件（占用空间大，但易用好操作）
+        %   ***.fig文件：用户界面窗口定义的图像文件
+        %   ***.sxl文件：simulink仿真扩展文件

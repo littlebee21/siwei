@@ -1,0 +1,124 @@
+java IO 
+    网络编程基础
+        高性能I/O
+            1 零拷贝
+                1.1 Kafka零拷贝
+                1.2 RocketMQ零拷贝
+                1.3 Netty零拷贝
+                零拷贝NIO中transferTo
+                    拷贝
+                        DMA copy
+                            direct memory access copy
+                            从硬盘拷贝到直接内存中
+                        cpu copy
+                    传统io
+                    mmap(内存映射)
+                    sendFile
+                    对比
+                        mmap适合小数据量读写，sendFile适合大文件传输
+                        mmap需要4次上下文切换，3次数据拷贝，sendFile 3次切换，2次数据拷贝
+            2 多路复用
+            3 页缓存(PageCache)
+        JDK IO
+            BIO
+                硬件结构
+                流程
+                    1.服务器端启动一个serverSocket
+                    2.客户端启动Socket对服务器进行通信，默认情况下服务器端需要对每个客户建立一个线程与之通信
+                    3.客户端发出请求后，先咨询服务器是否有线程响应，没有则等待或被拒绝
+                    4.如果有响应，客户端线程会等待请求结束后，再继续执行读取或写入数据
+                实现
+                    读取
+                        BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()))
+                    写入
+                        pw = new PrintWriter(socket.getOutputStream())pw.println("");pw.flush();
+            NIO
+                核心
+                    通道Channel
+                        BIO中是单向的，而NIO中是双向的
+                        常见
+                            FileChannel
+                                用于文件的读写
+                                read(ByteBuffer dst)从通道读取数据并放到缓冲区
+                                write(ByteBuffer src)把缓冲区的数据写到通道中
+                                transferFrom 从目标通道中复制数据到当前通道
+                                transferTo把数据从当前通道复制给目标通道
+                            DatagramChannel
+                                用于UDP的数据读写
+                            ServerSocketChannel
+                                用于TCP的读写
+                                当客户端连接上来时会生成一个scoketChannel用来读写数据
+                            SocketChannel
+                                同上
+                    缓冲区Buffer
+                    选择器Selector
+                        Netty的IO线程NioEventLoop聚合了selcetor
+                        通道没有数据读写时，会切换到另一个通道，没用上下文的切换
+                        selectNow
+                        select()
+                        select(timeout)
+                        wakeup
+                    SelectionKey
+                        OP_READ=1<<0
+                        OP_WRITE=1<<2
+                        OP_CONNECT=1<<3
+                        OP_ACCEPT=1<<4
+                        方法
+                            select()获取selector选择器
+                            channel()获取对应的通道，强转socketChannel
+                            attachment()与之相关的附件
+                            interestOps()改变监听事件
+                            4个is方法，可读，可写，可连接，可接受连接
+                    原理
+                        1.服务器端ServerSocketChannel,客户端SocketChannel   服务器端会根据客户端的连接创建对应的SocketChannel
+                        2.服务器端ServerSocketChannel和生成的SocketChannel都需要注册Selector选择器中，并且都需要设置非阻塞，服务器端注册为OP_ACCEPT事件
+                        3.selector循环监听是否有事件(selectionKey)发生，有则根据类型进行处理，处理完则从集合中移除，采用迭代器
+                            isAcceptable
+                                serverSocketChannel.accept得到socketChannel,并且设置非阻塞
+                                将socketChannel注册到selector中，读取事件
+                            isReadable
+                                获取selectionKey中的channel,强转为socketChannel,然后读取其中的数据
+                            isWritable
+                            isConnectable
+                实现
+                    Selector selector = Selector.open()
+                    client
+                        初始化
+                            SocketChannel socketChannel = SocketChannel.open();socketChannel.configureBlocking(false);
+                        连接服务器
+                            boolean connect = socketChannel.connect(new InetSocketAddress(host, port));            if (!connect) {                socketChannel.register(selector, SelectionKey.OP_CONNECT);            }
+                        工作
+                            key.isValid
+                                key.isConnectable()socketChannel.finishConnect()
+                                key.isReadable()，调用读取
+                    server
+                        初始化
+                            ServerSocketChannel serverChannel= ServerSocketChannel.open()serverChannel.configureBlocking(false);            serverChannel.socket().bind(new InetSocketAddress(port));            serverChannel.register(selector, SelectionKey.OP_ACCEPT);
+                        工作
+                            key.isValid
+                                key.isAcceptable，接收连接
+                                    ServerSocketChannel channel = (ServerSocketChannel) key.channel();                SocketChannel sc = channel.accept();                sc.configureBlocking(false);                sc.register(selector, SelectionKey.OP_READ);
+                                key.isReadable()，调用读取
+                    读取
+                    写入
+            AIO
+                实现
+                    client
+                    server
+                    读取
+                    写入
+                        byte[] bytes = msg.getBytes();        ByteBuffer writeBuffer = ByteBuffer.allocate(bytes.length);        writeBuffer.put(bytes);        writeBuffer.flip();
+                        ByteBuffer
+                            ByteBuffer.allocate
+                            如果开辟的空间比要发送的数据长度下会发生BufferOverflowException
+                            如果服务器端byteBuffer获取的长度不是byteBuffer.remaining如果小于，取出的数据会丢失一部分，大于会抛出异常BufferUnderflowException
+                        有可能无法一次性将数据写完,需要检查缓冲区中是否还有数据需要继续进行网络写 if(byteBuffer.hasRemaining()){ channel.write(byteBuffer,byteBuffer,this);}
+                    CompletionHandler
+        IO模型
+            同步
+                阻塞I/O(blockingI/O)
+                非阻塞I/O(nonblockingI/O)
+                 I/O复用(select 、poll和epoll) （I/O multiplexing)
+                信号驱动I/O （signal driven I/O (SIGIO)）
+            异步
+                异步I/O （asynchronous I/O ） 伪IO，windows IOCP

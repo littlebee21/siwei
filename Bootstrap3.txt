@@ -1,0 +1,345 @@
+    Bootstrap3
+        bootstrap功能
+    bootstrap属性
+        文件结构
+            预编译的 Bootstrap
+            Bootstrap 源代码
+        bootstrap包含使用HTML 5 文档类型（Doctype）
+        Bootstrap 3 的设计目标是移动设备优先
+        Bootstrap4 与 Bootstrap3
+    主题
+        Bootstrap 网格系统
+            Bootstrap 网格系统工作原理
+            Bootstrap 网格的基本结构
+            col-md-* 元素列宽设置
+                .col-md-offset-*偏移列
+                .col-md-push-* 和 .col-md-pull-*列排序
+                嵌套列
+            bootstrap4网络系统
+                .col- 针对所有设备
+                .col-sm- 平板 - 屏幕宽度等于或大于 576px
+                .col-md- 桌面显示器 - 屏幕宽度等于或大于 768px)
+                .col-lg- 大桌面显示器 - 屏幕宽度等于或大于 992px)
+                .col-xl- 超大桌面显示器 - 屏幕宽度等于或大于 1200px)
+        bootstrap组件
+            字体图标(Glyphicons)
+             button 按钮组
+                .btn-group 可以创建按钮组：
+                .btn-toolbar一般获得更复杂的组件。
+                btn-group dropup按钮上拉菜单
+                btn-group-vertical垂直的按钮组
+                btn-group-*按钮组组格式
+                两个button分割按钮
+                一个button  btn-group+dropdown-menu按钮下拉菜单
+            label标签
+                .label label-default 默认的灰色标签
+                .label label-primary "primary" 类型的蓝色标签
+                .label label-success "success" 类型的绿色标签
+                .label label-info "info" 类型的浅蓝色标签
+                .label label-warning "warning" 类型的黄色标签
+                .label label-danger "danger" 类型的红色标签
+            Badges徽章
+            progress表示进度条
+                .progress-bar-striped:使进度条颜色渐变
+                progress-bar:进度
+                progress-bar progress-bar-success交替的进度条
+                progress progress-striped条纹的进度条
+                progress progress-striped active动画的进度条
+                堆叠的进度条
+            网页内容结构
+                导航
+                    nav导航元素
+                        .nav-tabs表格导航或标签
+                        nav-pills 胶囊式的导航菜单
+                        nav-pills nav-stacked垂直的胶囊式导航菜单
+                        nav nav-pills nav-justified两端对齐的导航
+                        disabled禁用链接
+                        .nav-tabs class 改为 .nav-pills带有下拉菜单的胶囊
+                        .dropdown-menu下拉菜单
+                    navbar导航栏
+                        navbar-default默认的导航栏
+                            navbar-header标题
+                            navbar-brand看起来更大一号
+                            role="navigation"，有助于增加可访问性
+                        .collapse、.navbar-collapse响应式的导航栏
+                        .navbar-form 导航栏中的表单
+                        navbar-btn 导航栏中的按钮
+                        navbar-text导航栏中的文本
+                        glyphicon glyphicon-* 结合图标的导航链接
+                         .navbar-left 组件对齐方式
+                         .navbar-fixed-top固定到顶部
+                        .navbar-fixed-bottom固定到底部
+                        .navbar-static-top class静态的顶部
+                        .navbar-inverse 反色的导航栏
+                    Breadcrumbs面包屑导航
+                    Pagination分页
+                        .pager 一个简单的分页链接，链接居中对齐。
+                        .previous .pager 中上一页的按钮样式，左对齐
+                        .next  .pager 中下一页的按钮样式，右对齐
+                        .pagination 分页链接
+                        .pagination-lg更大尺寸的分页链接
+                        .pagination-sm更小尺寸的分页链接
+                        .disabled 禁用链接
+                        .active当前访问页面链接样式
+                Page Header页面标题
+                Jumbotron超大屏幕
+                Well内容凹陷显示
+                    well-lg尺寸大小
+                panel:面板
+                    panel-heading标题容器
+                    .panel-title预定义样式的标题
+                    panel-body:代表面板的内容
+                    panel-footer:代表面板的注脚
+                    带语境色彩的面板
+                        panel-primary、
+                        panel-success、
+                        panel-info、
+                        panel-warning、
+                        panel-danger
+                     .table带表格的面板
+                    带列表组的面板
+                Alerts信息提示框
+                    可取消的警告 .alert-dismissable。
+                    警告（Alerts）中的链接.alert-link 
+            列表
+                Dropdowns下拉菜单
+                    .dropup 指定向上弹出的下拉菜单
+                    .dropdown 指定下拉菜单，下拉菜单都包裹在 .dropdown 里
+                    .dropdown-menu 创建下拉菜单
+                    .dropdown-menu-right 下拉菜单右对齐
+                    .dropdown-header 下拉菜单中添加标题
+                    .disabled 下拉菜单中的禁用项
+                    .divider 下拉菜单中的分割线
+                    按钮下拉菜单
+            thumbnail缩略图
+            Media Object多媒体对象
+                media-left
+            input-group:输入控件组
+                input-group-lg、input-group-sm）来改变输入框组的大小
+                input-group-addon选框和单选插件的表单
+                .input-group-btn按钮插件
+                input-group-btn class 下拉菜单的按钮   中包裹按钮和下拉菜单即可
+                分割的下拉菜单按钮
+    主题
+        bootstrap的less组件
+            bootstrap.less      这是主要的 Less 文件。该文件中导入了一些其他的 less 文件。该文件中没有任何代码。
+            forms.less   这个 Less 文件包含了表单布局、输入框类型的样式。
+            mixins.less  这个 Less 文件让 CSS 代码可重复使用。
+            patterns.less   这个 Less 文件包含了重复的用户界面元素的 CSS 代码，
+            reset.less    这 Less 文件包含了 CSS 重置。这是 Eric Meyer 的 CSS 重置的一个更新。
+            scaffolding.less    这个 Less 文件保存了创建网格系统、结构化布局、页面模板所需的基本样式。
+            tables.less  这个 Less 文件包含了创建表格的样式。
+            type.less     这个 Less 文件下可找到排版相关的样式。标题、段落、列表、代码等的样式位于这个文件里边
+            variables.less  这个 Less 文件包含了要定制 Bootstrap 外观和感观的变量。
+    bootstrap组成
+        <meta name移动设备优先
+            device-width
+            user-scalable=no
+            initial-scale=1.0
+            maximum-scale=1.0 与 user-scalable=no
+        bootstrapCSS
+            媒体查询表
+                1.@media 媒体查询语句
+                2.Bootstrap响应实时工具
+                    每种媒体查询的变式
+                    .visible-*-block    display: block;
+                    .visible-*-inline    display: inline;
+                    .visible-*-inline-block       display: inline-block;
+                浏览器控制打印内容
+                    .visible-print-block
+                    .visible-print-inline
+                    .visible-print-inline-block 隐藏 可见
+                    .hidden-print 可见 隐藏
+            颜bootstrap色
+                .has-success:代表一个状态，输入框，字体变为绿色
+                .has-warning:黄色
+                .has-error:红色
+            bootstrap位置
+                浮动
+                    .pull-left  元素浮动到左边
+                    .pull-right 元素浮动到右边
+                    .clearfix 清除浮动
+                .center-block 设置元素为 display:block 并居中显示
+                .show  强制元素显示
+                .hidden强制元素隐藏
+                .sr-only  除了屏幕阅读器外，其他设备上隐藏元素
+                .sr-only-focusable 与 .sr-only 类结合使用，在元素获取焦点时显示(如：键盘操作的用户)
+            bootstrap背景
+                .bg-primary 表格单元格使用了 "bg-primary" 类
+                .bg-success 表格单元格使用了 "bg-success" 类
+                .bg-info  表格单元格使用了 "bg-info" 类
+                .bg-warning 表格单元格使用了 "bg-warning" 类
+                .bg-danger  表格单元格使用了 "bg-danger" 类
+            bootstrap文本p
+                span标题
+                    <span class="h1">标题一</span>
+                    .small class标题小些
+                lead引导文本
+                .text-left .text-center .text-right：文本的左中右对齐。
+                text-danger 这个 class 用来显著提醒（红色）；
+                .text-lowercase、.text-uppercase、.text-capitalize:文本的大小写，设置英文首字母大写。
+                text-primary 这个 class 用来设置文字格式为主要显示的格式（一般为蓝色）；
+                .text-muted "text-muted" 类的文本样式
+                .text-success "text-success" 类的文本样式
+                .text-info "text-info" 类的文本样式
+                .text-hide  将页面元素所包含的文本内容替换为背景图
+                特殊文本
+                    <abbr>
+                        .initialism 显示在 <abbr> 元素中的文本以小号字体展示，且可以将小写字母转换为大写字母
+                    <blockquote>
+                        .blockquote-reverse设定引用右对齐
+                        添加 <footer> 用于标明引用来源
+                        来源的名称可以包裹进 <cite>标签中
+                    pre代码
+                        .pre-scrollable  使 <pre> 元素可滚动
+                    </textarea>
+                        rows
+            bootstrap内容
+                bootstrap表单
+                    .form-control:（边框变圆滑）设置基本的样式，
+                    .form-inline:设置组件水平排列
+                        可能需要手动设置宽度
+                        一定要添加 label 标签
+                    form-horizontal水平布局的表单
+                    role="form"
+                    div
+                        .has-warning、.has-error  .has-success校验状态
+                        fieldset
+                            .form-group
+                            disabled禁用 <fieldset> 中包含的所有控件。
+                        表单控件
+                            disabled禁用状态
+                            input
+                                .form-control焦点状态
+                                .input-lg:输入框变得大一些
+                                .input-sm:输入框变得小一些
+                                input-group-addon：放置额外的内容及图标
+                                readonly 只读状态
+                                aria-describedby帮助Help text
+                                span
+                                    .help-block块级帮助文本
+                            Select
+                                使用 multiple="multiple" 允许用户选择多个选项
+                            Checkbox/Radio
+                                .radio-inline一行
+                                .checkbox-inline一行显示
+                            Textarea
+                                rows行 
+                            p
+                                .form-control-static静态控件
+                        label
+                            class="sr-only"//lable标签不显示
+                            control-label:可控制的label，可以被改变的
+                bootstrap表格
+                    .table 为任意 <table> 添加基本样式 (只有横向分隔线)
+                    .table-bordered:边框表格
+                    .table-striped:条纹状表格
+                    .table-hover:悬停变色，鼠标停留所在行，有高亮效果
+                    .table-condensed:紧凑风格
+                    .table-responsive
+                    <tr>, <th> 和 <td> 类
+                        .active 将悬停的颜色应用在行或者单元格上
+                        .success 表示成功的操作
+                        .info 表示信息变化的操作
+                        .warning 表示一个警告的操作
+                        .danger 表示一个危险的操作
+                bootstrap按钮
+                    按钮效果
+                        .btn:底色灰色边框变柔和
+                        .btn-default:默认效果简洁大方，白色
+                        .btn-success：成功，绿色
+                        .btn-primary：重要的，深蓝
+                        .btn-info：信息，浅蓝
+                        .btn-warning:报错，黄的
+                        .btn-danger:有问题，红的
+                        .btn-link:将按钮改成链接形式
+                    按钮大小
+                        .btn-lg、btn-sm:改变按钮大小
+                        .btn-lg 这会让按钮看起来比较大。
+                        .btn-sm 这会让按钮看起来比较小。
+                        .btn-xs 这会让按钮看起来特别小。
+                        .btn-block 这会创建块级的按钮，会横跨父元素的全部宽度。
+                        btn-group btn-group-justified自适应大小的按钮组
+                    按钮状态
+                        按钮元素 添加 .active class 来显示它是激活的。
+                        锚元素 添加 .active class 到 <a> 按钮来显示它是激活的。
+                    禁用状态
+                        .disabled="disables":默认不可操作
+                    按钮标签
+                    按钮组
+                        .btn-group-lg|sm|xs 来控制按钮组的大小
+                        .btn-group-vertical垂直方向的按钮可以通过
+                        .btn-group-justified 类来设置自适应大小的按钮组。
+                        btn  dropdown-toggle内嵌下拉菜单的按钮组
+                bootstrap列表
+                    无序列表
+                        .list-unstyled移除默认的列表样式
+                        .list-inline 把所有的列表项放在同一行中
+                        分页
+                            pagination:在父元素中添加表示分页
+                            pager：放置在翻页区域
+                            previous：把链接向左对齐
+                            next:把链接向右对齐
+                            eg:分页符
+                        导航
+                            nav-tabs:代表可切换的导航。
+                            nav-pills:代表胶囊导航。
+                            nav-justified：使导航垂直。
+                    定义列表
+                        .dl-horizontal该类设置了浮动和偏移，
+                bootstrap图片-形状
+                    .img-rounded:圆角
+                    .img-circle:圆形
+                    .img-thumbnail：带有边框的圆角图形
+                    img-responsive图片宽度自动适配页面宽度；
+                    .Font Awesome 图标
+                        <i class="fa fa-thumbs-up"></i>//大拇指
+                        <i class="fa fa-info-circle"></i>//感叹号
+                        <i class="fa fa-trash"></i>//垃圾桶
+                        <i class="fa fa-paper-plane"></i>//纸飞机
+                bootstrap其他
+                    .close 显示关闭按钮
+                    .caret 显示下拉式功能
+        bootstrapHTML
+            <small>，被选中的字体会变小。
+            <s>无用文本
+            <u>文本添加下划线
+            <br> 可以保留需要的样式。
+        JavaScript 插件
+            模态框（Modal
+                data 属性
+                    backdrop   背景
+                    keyboard   关闭模态框
+                    show boolean  显示模态框
+                    remote path   加载url内容
+                事件
+                    show.bs.modal 在调用 show 方法后触发。
+                    shown.bs.modal 当模态框对用户可见时触发（将等待 CSS 过渡效果完成）。
+                    hide.bs.modal 当调用 hide 实例方法时触发。
+                    hidden.bs.modal 当模态框完全对用户隐藏时触发
+                方法
+                    .modal(options) 把内容作为模态框激活。接受一个可选的选项对象。
+                    .modal('toggle') 手动切换模态框。
+                    .modal('show') 手动打开模态框。
+                    .modal('hide') 手动隐藏模态框。
+            过渡效果（Transition
+            下拉菜单（Dropdown）
+            滚动监听（Scrollspy
+                data-offset选项
+                .scrollspy('refresh')更新DOM
+                事件activate.bs.scrollspy被滚动监听激活
+            标签页（Tab)
+                tab-content 标签包裹
+                tab-pane fade淡入淡出效果
+                    .in 类第一个标签页
+                .$().tab：该方法可以激活标签页元素和内容容器
+                事件
+                    show.bs.tab标签页显示之前
+                    shown.bs.tab标签页显示之后
+            提示工具（Tooltip
+    bootstrap使用
+        Staticfile CDN 推荐
+        bootstrap的下载地址
+        编辑器插件
+            Bootstrap3 Autocomplete一般是对类名进行自动补全。
+            Bootstrap 3 Snippets

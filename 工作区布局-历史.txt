@@ -1,0 +1,20 @@
+工作区布局-历史
+
+当前2：
+输入：1，grep，anytxt，chrome，everthing，man，终端
+照搬：1，终端，vscode
+保存/关闭/切换：
+    1，在桌面的最上端：类似寄存器：
+        直观查看速度最快
+    2，在桌面的下端：类似内存：win+1                   
+        遍历用于图，速度慢
+    2，需要检索进行切换：类似缓存：
+        将刚检索到的内容保存，回头使用；
+        本地
+            find history：grep fzf/使用命令自动保存
+            snipaste：使用脚本提高命名保存速度：命名为tmp
+            tmpdoc tmpcode：剪切板
+            如何整理：按照时间顺序进行排序就好了daylog
+        在线：
+            ontab + seachall
+            history 没有关闭的文档，没有关闭的网页：  

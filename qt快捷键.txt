@@ -1,0 +1,6 @@
+1，^tab    切换已经打开的文件
+
+
+2，
+ctrl+ f 
+ctrl+ shift + f

@@ -1,0 +1,1036 @@
+模板
+    主题
+        一.云原生应用
+            2. Spring Cloud上下文：应用程序上下文服务
+                2.1.Bootstrap应用程序上下文
+                2.2.应用程序上下文层次结构
+                2.3.更改引导程序Properties的位置
+                2.4.覆盖远程Properties的值
+                2.5.自定义引导程序配置
+                2.6.自定义Bootstrap Property源
+                2.7.记录配置
+                2.8.环境变化
+                2.9.刷新范围
+                2.10.加密与解密
+                2.11.终点
+        三.Spring Cloud Netflix
+            17.netflix 外部配置：Archaius
+            19. netflix Polyglot支持Sidecar
+            20.重试失败的请求
+                20.1.退避政策
+                20.2.组态
+                20.2.1.Zuul
+            21. HTTP客户端
+            22.维护模式下的模块
+    架构组成
+        路由层
+            网关
+                十五.Spring Cloud网关 gateway
+                    110.如何包括Spring Cloud网关
+                    111.词汇表
+                        router路由
+                        predicate断言
+                        filter过滤器
+                    112.工作原理
+                    113.配置路由断言工厂和网关过滤工厂
+                        113.1.快捷方式配置
+                        113.2.完全展开的论点
+                    114.路由断言工厂
+                        114.1.路线断言工厂之后
+                        114.2.路线断言工厂之前
+                        114.3.路线断言工厂之间
+                        114.4.Cookie路线断言工厂
+                        114.5.标头路由断言工厂
+                        114.6.主机路由断言工厂
+                        114.7.方法路线断言工厂
+                        114.8.路径路线断言工厂
+                        114.9.查询路由断言工厂
+                        114.10.RemoteAddr路由断言工厂
+                        114.11.重量路线断言工厂
+                            114.11.1.修改远程地址的解析方式
+                    115.网关过滤器工厂
+                        115.1.AddRequestHeader GatewayFilter工厂
+                        115.2.AddRequestParameter GatewayFilter工厂
+                        115.3.AddResponseHeader GatewayFilter工厂
+                        115.4.DedupeResponseHeader GatewayFilter工厂
+                        115.5.Hystrix GatewayFilter工厂
+                        115.6.FallbackHeaders GatewayFilter工厂
+                        115.7.MapRequestHeader GatewayFilter工厂
+                        115.8.PrefixPath GatewayFilter工厂
+                        115.9.PreserveHostHeader GatewayFilter工厂
+                        115.10.RequestRateLimiter GatewayFilter工厂
+                            115.10.1.Redis RateLimiter
+                        115.11.重定向到GatewayFilter工厂
+                        115.12.RemoveRequestHeader GatewayFilter工厂
+                        115.13.RemoveResponseHeader GatewayFilter工厂
+                        115.14.RewritePath GatewayFilter工厂
+                        115.15.RewriteLocationResponseHeader GatewayFilter工厂
+                        115.16.RewriteResponseHeader GatewayFilter工厂
+                        115.17.SaveSession GatewayFilter工厂
+                        115.18.SecureHeaders GatewayFilter工厂
+                        115.19.SetPath GatewayFilter工厂
+                        115.20.SetRequestHeader GatewayFilter工厂
+                        115.21.SetResponseHeader GatewayFilter工厂
+                        115.22.SetStatus GatewayFilter工厂
+                        115.23.StripPrefix GatewayFilter工厂
+                        115.24.重试GatewayFilter工厂
+                        115.25.RequestSize GatewayFilter工厂
+                        115.26.修改请求正文GatewayFilter工厂
+                        115.27.修改响应主体GatewayFilter工厂
+                        115.28.默认过滤器
+                    116.全局过滤器
+                        116.1.全局过滤器和GatewayFilter的组合订购
+                        116.2.正向路由过滤器
+                        116.3.LoadBalancerClient筛选器
+                        116.4.ReactiveLoadBalancerClientFilter
+                        116.5.网络路由过滤器
+                        116.6.净写响应过滤器
+                        116.7.RouteToRequestUrl过滤器
+                        116.8.Websocket路由过滤器
+                        116.9.网关指标过滤器
+                        116.10.将交换标记为已路由
+                    117. HttpHeadersFilters
+                        117.1.转发的标题过滤器
+                        117.2.RemoveHopByHop标头过滤器
+                        117.3.XForwarded标头过滤器
+                    118. TLS / SSL
+                        118.1.TLS握手
+                    119.配置
+                        119.1.流利的Java Routes API
+                        119.2.DiscoveryClient路由定义定位器
+                            119.2.1.为DiscoveryClient路由配置断言和过滤器
+                    120. Reactor Netty访问日志
+                    121. CORS配置
+                    122.执行器API
+                        122.1.详细执行器格式
+                        122.2.检索路由过滤器
+                            122.2.1.全局过滤器
+                            122.2.2.路线过滤器
+                        122.3.刷新路由缓存
+                        122.4.检索网关中定义的路由
+                        122.5.检索有关特定路线的信息
+                        122.6.创建和删除特定路线
+                        122.7.回顾：所有端点的列表
+                    123.故障排除
+                        123.1.日志级别
+                        123.2.窃听
+                    124.开发人员指南
+                        124.1.编写自定义路线断言工厂
+                        124.2.编写自定义GatewayFilter工厂
+                        124.3.编写自定义全局过滤器
+                    125.使用Spring MVC或Webflux构建一个简单的网关
+            负载均衡
+                ribbon
+                    15. Hystrix超时和Ribbon客户
+                        15.1.如何包括Hystrix信息中心
+                        15.2.Turbine
+                            15.2.1.集群端点
+                        15.3.Turbine Stream
+                    16.客户端负载平衡器：Ribbon
+                        16.1.如何包含Ribbon
+                        16.2.自定义Ribbon客户端
+                        16.3.为所有Ribbon客户自定义默认值
+                        16.4.通过设置Properties自定义Ribbon客户端
+                        16.5.将Ribbon与Eureka一起使用
+                        16.6.示例：如何在没有Eureka的情况下使用Ribbon
+                        16.7.示例：在Ribbon中禁用Eureka
+                        16.8.直接使用Ribbon API
+                        16.9.缓存Ribbon配置
+                        16.10.如何配置Hystrix线程池
+                        16.11.如何提供Ribbon的IRule的密钥
+        发现
+            eureka
+                11.服务发现：Eureka个客户端
+                    11.1.如何包括Eureka客户
+                    11.2.向Eureka注册
+                    11.3.通过Eureka服务器进行身份验证
+                    11.4.状态页和健康指示器
+                    11.5.注册安全的应用程序
+                    11.6.Eureka的健康检查
+                    11.7.Eureka实例和客户端的元数据
+                        11.7.1.在Cloud Foundry上使用Eureka
+                        11.7.2.在AWS上使用Eureka
+                        11.7.3.更改Eureka实例ID
+                    11.8.使用EurekaClient
+                        11.8.1.没有Jersey的EurekaClient
+                    11.9.本地Netflix EurekaClient的替代产品
+                    11.10.为什么注册服务这么慢？
+                    11.11.区域
+                    11.12.刷新Eureka个客户端
+                12.服务发现：Eureka服务器
+                    12.1.如何包括Eureka服务器
+                    12.2.如何运行Eureka服务器
+                    12.3.高可用性，区域和区域
+                    12.4.独立模式
+                    12.5.同行意识
+                    12.6.何时首选IP地址
+                    12.7.保护Eureka服务器
+                    12.8.JDK 11支持
+            8. Spring Cloud AliCloud ANS
+                8.1. 如何引入 Spring Cloud AliCloud ANS
+                8.2. 使用ANS进行服务注册
+                8.3. 启动注册中心
+            九.Spring Cloud Consul
+                66.安装Consul
+                67. Consul Agent
+                68.使用Consul进行服务发现
+                    68.1.如何激活
+                    68.2.向Consul注册
+                        68.2.1.将管理注册为单独的服务
+                    68.3.HTTP运行状况检查
+                        68.3.1.元数据和Consul标签
+                        68.3.2.使Consul实例ID唯一
+                        68.3.3.将标头应用于健康检查请求
+                    68.4.查找服务
+                        68.4.1.使用Ribbon
+                        68.4.2.使用DiscoveryClient
+                    68.5.Consul目录观看
+                69.使用Consul的分布式配置
+                    69.1.如何激活
+                    69.2.客制化
+                    69.3.配置监视
+                    69.4.YAML或带有配置的Properties
+                    69.5.git2consul与配置
+                    69.6.快速失败
+                70. Consul重试
+                71. Spring Cloud Bus与Consul
+                    71.1.如何激活
+                72.带有Hystrix的断路器
+                73. Hystrix通过Turbine和Consul进行指标汇总
+            十.Spring Cloud Zookeeper
+                74.安装Zookeeper
+                75.使用Zookeeper进行服务发现
+                75.1.激活
+                75.2.向Zookeeper注册
+                75.3.使用DiscoveryClient
+                76.将Spring Cloud Zookeeper与Spring Cloud Netflix组件一起使用
+                76.1.Ribbon与Zookeeper
+                77. Spring Cloud Zookeeper和服务注册中心
+                77.1.实例状态
+                78. Zookeeper依赖项
+                78.1.使用Zookeeper依赖项
+                78.2.激活Zookeeper依赖项
+                78.3.设置Zookeeper依赖项
+                78.3.1.别名
+                78.3.2.路径
+                78.3.3.负载均衡器类型
+                78.3.4.Content-Type模板和版本
+                78.3.5.默认标题
+                78.3.6.必需的依赖关系
+                78.3.7.存根
+                78.4.配置Spring Cloud Zookeeper依赖项
+                79. Spring Cloud Zookeeper依赖性观察者
+                79.1.激活
+                79.2.注册听众
+                79.3.使用状态检查器
+                80.使用Zookeeper的分布式配置
+                80.1.激活
+                80.2.客制化
+                80.3.访问控制列表（ACL）
+            18.netflix 路由器和过滤器：Zuul
+                zuul
+                18.1.如何包含Zuul
+                18.2.嵌入式Zuul反向代理
+                    占位符
+                    路径匹配
+                    id匹配
+                18.3.Zuul Http客户端
+                次要功能
+                    18.4.Cookie和敏感标题
+                    18.5.忽略标题
+                    18.6.管理端点
+                        18.6.1.路线终点
+                        18.6.2.过滤端点
+                    18.7.勒索模式和局部Forwards：解决局部应用程序迁移
+                    18.8.通过Zuul上传文件
+                    18.9.查询字符串编码
+                    18.10.请求URI编码
+                    18.11.普通嵌入式Zuul
+                        一 @EnableZuulServer注解适用于下面过滤器
+                        二 @EnableZuulProxy注解适用于下面过滤器
+                    18.12.禁用Zuul过滤器
+                    18.13.提供路线的Hystrix后备广告
+                    18.14.Zuul超时
+                    18.15.重写Location标头
+                    18.16.启用跨源请求
+                    18.17.指标
+                    18.18.Zuul开发人员指南
+                        18.18.1.Zuul Servlet
+                        18.18.2.Zuul RequestContext
+                        18.18.3.@EnableZuulProxy与@EnableZuulServer
+                        18.18.4.@EnableZuulServer过滤器
+                        18.18.5.@EnableZuulProxy过滤器
+                        18.18.6.自定义Zuul过滤器示例
+                            如何编写前置过滤器
+                            如何编写路由过滤器
+                            如何编写帖子过滤器
+                        18.18.7.Zuul错误如何工作
+                        18.18.8.Zuul急切的应用程序上下文加载
+                拓展
+                    默认路由配置规则
+                    基于服务器名称配置
+                    传统配置
+            3. Spring Cloud Alibaba Nacos Discovery发现
+                3.1. 服务注册/发现: Nacos Discovery
+                3.2. 如何引入 Nacos Discovery 进行服务注册/发现
+                3.3. 一个使用 Nacos Discovery 进行服务注册/发现并调用的例子
+                3.4. Nacos Discovery 对外暴露的 Endpoint
+                3.5. 关于 Nacos Discovery Starter 更多的配置项信息
+        监控
+            5. Spring Cloud Alibaba Sentinel
+                5.1. Sentinel 介绍
+                5.2. 如何使用 Sentinel
+                5.3. OpenFeign 支持
+                5.4. RestTemplate 支持
+                5.5. 动态数据源支持
+                5.6. Zuul 支持
+                5.7. Spring Cloud Gateway 支持
+                5.8. Sentinel 对外暴露的 Endpoint
+                5.9. 关于 Sentinel Starter 更多的配置项信息
+            八.Spring Cloud Sleuth链路追踪
+                50.引言
+                    50.2.目的
+                        50.2.1.Zipkin的分布式跟踪
+                        50.2.2.可视化错误
+                        50.2.3.勇敢的分布式跟踪
+                        50.2.4.现场例子
+                        50.2.5.日志关联
+                        使用Logstash进行JSON Logback
+                        50.2.6.传播Span上下文
+                        trace与Span标签
+                    50.3.将侦探添加到项目中
+                        50.3.1.仅侦探（对数相关）
+                        50.3.2.通过HTTP与Zipkin一起侦听
+                        50.3.3.侦探，其中Zipkin高于RabbitMQ或Kafka
+                    50.4.覆盖Zipkin的自动配置
+                51.其他资源
+                52.特点
+                    52.1.brave简介
+                        52.1.1.追踪
+                        52.1.2.本地追踪
+                        52.1.3.自定义跨度
+                        52.1.4.隐式查找当前的Span
+                        52.1.5.RPC追踪
+                            单向跟踪
+                53.抽样：减少收集数据
+                    53.1.声明式抽样
+                    53.2.定制采样
+                    53.3.在Spring Cloud Sleuth中采样
+                54.传播
+                    54.1.传播额外的字段
+                        54.1.1.前缀字段
+                        54.1.2.提取传播的上下文
+                        54.1.3.在客户端和服务器之间共享范围ID
+                        54.1.4.实施传播
+                55.当前跟踪组件
+                56.当前Span
+                    56.1.手动设置范围
+                57.仪器仪表
+                58. Span生命周期
+                    58.1.创建并完成spans
+                    58.2.连续跨度
+                    58.3.使用显式父级创建Span
+                59.命名spans
+                    59.1.@SpanName注释
+                    59.2.toString()方法
+                60.使用Annotations管理跨度
+                    60.1.基本原理
+                    60.2.创建新的跨度
+                    60.3.连续跨度
+                    60.4.进阶标签设定
+                        60.4.1.定制提取器
+                        60.4.2.为值解析表达式
+                        60.4.3.使用toString()方法
+                61.定制
+                    61.1.定制者
+                    61.2.HTTP
+                    61.3.TracingFilter
+                    61.4.RPC
+                    61.5.定制服务名称
+                    61.6.自定义报告的跨度
+                    61.7.主机定位器
+                62.将跨度发送到Zipkin
+                63. Zipkin stream Span消费者
+                64.整合
+                    64.1.开放追踪
+                    64.2.可运行和可调用
+                    64.3.Hystrix
+                        64.3.1.自定义并发策略
+                        64.3.2.手动指令设定
+                    64.4.RxJava
+                    64.5.HTTP整合
+                        64.5.1.HTTP过滤器
+                        64.5.2.处理程序拦截器
+                        64.5.3.异步Servlet支持
+                        64.5.4.WebFlux支持
+                        64.5.5.Dubbo RPC支持
+                    64.6.HTTP客户端集成
+                        64.6.1.同步休息模板
+                        64.6.2.异步休息模板
+                            多个异步休息模板
+                        64.6.3.WebClient
+                        64.6.4.特拉弗森
+                        64.6.5.Apache HttpClientBuilder和HttpAsyncClientBuilder
+                        64.6.6.净值HttpClient
+                        64.6.7.UserInfoRestTemplateCustomizer
+                    64.7.Feign
+                    64.8.gRPC
+                        64.8.1.变体1
+                            依存关系
+                            服务器检测
+                            客户端工具
+                        64.8.2.变体2
+                    64.9.异步通讯
+                        64.9.1.@Async带注释的方法
+                        64.9.2.@Scheduled带注释的方法
+                        64.9.3.Executor，ExecutorService和ScheduledExecutorService
+                        定制执行者
+                    64.10.讯息传递
+                        64.10.1.Spring Integration和Spring Cloud Stream
+                        64.10.2.Spring RabbitMq
+                        64.10.3.Spring Kafka
+                        64.10.4.Spring JMS
+                    64.11.Zuul
+                    64.12.项目Reactor
+                65.运行示例
+                扩展
+        服务层：生产消费
+            定时调度 Spring Cloud AliCloud SchedulerX
+                11.1. 如何引入 Spring Cloud AliCloud SchedulerX
+                11.2. 启动SchedulerX任务调度
+                11.3. 编写一个简单任务
+                11.4. 对任务进行调度
+                11.5. 生产环境使用
+            手动调度.Spring Cloud OpenFeign
+                1. 声明式REST客户：Feign
+                    主要功能
+                        1.1. 如何引入 Feign
+                        1.2. 覆盖Feign默认值
+                        1.3. 超时处理
+                        1.4. 手动创建Feign客户端
+                        1.5. Feign Spring Cloud 断路器
+                        1.6. Feign Spring Cloud 断路器熔断
+                    避坑
+                        1.7. Feign 和 @Primary 注入的优先级
+                        1.8. Feign 支持继承
+                    次要功能
+                        1.9. Feign 请求/响应 压缩
+                        1.10. Feign 日志
+                        1.11. Feign Capability 支持
+                        1.12. Feign metrics
+                        1.13. Feign @QueryMap support
+                        1.14. HATEOAS support
+                        1.15. Spring @MatrixVariable Support 变量名和路径段占位符
+                        1.16. Feign CollectionFormat support格式变化
+                        1.17. Reactive Support客户端
+                        1.18. Spring Data Support
+                        1.19. Spring @RefreshScope Support
+                2. 配置属性
+                License
+            熔断  hystrix
+                13.断路器：Hystrix个客户
+                    13.1.如何包含Hystrix
+                    13.2.传播安全上下文或使用Spring范围
+                    13.3.健康指标
+                    13.4.Hystrix指标流
+                14.断路器：Hystrix仪表板
+            综合
+                3. Spring Cloud Commons：通用抽象
+                    3.1.@EnableDiscoveryClient
+                        3.1.1.健康指标
+                        3.1.2.订购DiscoveryClient实例
+                    3.2.服务注册
+                        3.2.1.ServiceRegistry自动注册
+                            ServiceRegistry自动注册Events
+                        3.2.2.服务注册表执行器端点
+                    3.3.Spring RestTemplate作为负载均衡器客户端
+                    3.4.Spring WebClient作为负载均衡器客户端
+                        3.4.1.重试失败的请求
+                    3.5.多个RestTemplate对象
+                    3.6.多个WebClient对象
+                    3.7.Spring WebFlux WebClient作为负载均衡器客户端
+                        3.7.1.Spring具有响应式负载均衡器的WebFlux WebClient
+                        3.7.2.Spring WebFlux WebClient，带有非反应式负载均衡器客户端
+                        3.7.3.传递自己的负载均衡客户端配置
+                    3.8.忽略网络接口
+                    3.9.HTTP客户端工厂
+                    3.10.启用的功能
+                        3.10.1.功能类型
+                        3.10.2.声明功能
+                    3.11.Spring Cloud兼容性验证
+            配置
+                二.Spring Cloud Config
+                    4.快速入门
+                        4.1.客户端使用
+                    5. Spring Cloud Config服务器
+                        5.1.环境Repository：配置
+                            5.1.1.Git后端
+                                跳过SSL证书验证
+                                设置HTTP连接超时
+                                Git URI中的占位符
+                                模式匹配和多个Repositories
+                                认证方式
+                                使用AWS CodeCommit进行身份验证
+                                使用属性进行Git SSH配置
+                                Git搜索路径中的占位符
+                                强制拉动Git Repositories
+                                删除Git Repositories中未跟踪的分支
+                                Git刷新率
+                            5.1.2.版本控制后端文件系统使用
+                            5.1.3.文件系统后端
+                            5.1.4.Vault后端
+                                多个Properties来源
+                            5.1.5.通过代理访问后端
+                            5.1.6.与所有应用程序共享配置
+                                基于文件的Repositories
+                                Vault服务器
+                                CredHub服务器
+                            5.1.7.JDBC后端
+                            5.1.8.CredHub后端
+                                OAuth 2.0
+                            5.1.9.复合环境Repositories
+                                定制复合环境Repositories
+                            5.1.10.Property覆盖
+                        5.2.健康指标：
+                        5.3.安全
+                        5.4.加密与解密
+                        5.5.密钥管理
+                        5.6.创建密钥库进行测试
+                        5.7.使用多个按键和按键旋转
+                        5.8.提供加密的Properties
+                    6.提供其他格式：配置格式
+                    7.提供纯文本
+                    8.嵌入配置服务器：嵌入另一个应用程序
+                    9.推送通知和Spring Cloud Bus
+                    10. Spring Cloud Config客户端
+                        10.1.配置第一个引导程序
+                        10.2.发现第一引导
+                        10.3.快速配置客户端失败
+                        10.4.配置客户端重试
+                        10.5.查找远程配置资源
+                        10.6.为配置服务器指定多个URL
+                        10.7.配置超时
+                        10.8.安全
+                            10.8.1.健康指标
+                            10.8.2.提供自定义的RestTemplate
+                            10.8.3.Vault
+                        10.9.Vault中的嵌套键
+                    扩展
+                        springcloud实现自动刷新
+                            configserver+springbus 动态更新
+                4. Spring Cloud Alibaba Nacos Config配置中心
+                    4.1. 如何引入 Nacos Config 进行配置管理
+                    4.2. 快速开始
+                    4.3. 基于 DataId 为 yaml 的文件扩展名配置方式
+                    4.4. 支持配置的动态更新
+                    4.5. 支持profile粒度的配置：多环境
+                    4.6. 支持自定义 namespace 的配置
+                    4.7. 支持自定义 Group 的配置
+                    4.8. 支持自定义扩展的 Data Id 配置
+                    4.9. 配置的优先级
+                    4.10. Nacos Config 对外暴露的 Endpoint
+                    4.11. 完全关闭 Nacos Config 的自动化配置
+                    4.12. 关于 Nacos Config Starter 更多的配置项信息
+                    拓展
+                        动态刷新
+            权限
+                十一.Spring Cloud Security
+                    81.快速入门
+                        81.1.OAuth2单点登录
+                        81.2.OAuth2受保护的资源
+                    82.更多细节
+                        82.1.单点登录
+                        82.2.令牌中继
+                            82.2.1.Spring Cloud网关中的客户端令牌中继
+                            82.2.2.客户令牌中继
+                            82.2.3.Zuul代理中的客户端令牌中继
+                            82.2.4.资源服务器令牌中继
+                    83.配置Zuul代理的下游身份验证
+                十二.Spring Cloud for Cloud Foundry
+                    84.发现
+                    85.单点登录
+            6. Spring Cloud Alibaba Dubbo
+            10. Spring Cloud AliCloud OSS
+                10.1. 如何引入 Spring Cloud AliCloud OSS
+                10.2. 如何使用 OSS API
+                10.3. 与 Spring 框架的 Resource 结合
+                10.4. 采用 STS 授权
+                10.5. 更多客户端配置
+        通信
+            五. Spring Cloud Stream
+                子主题
+                    24. Spring的数据集成之旅简史
+                    25.快速入门
+                        25.1.使用Spring Initializr创建示例应用程序
+                        25.2.将项目导入到IDE中
+                        25.3.添加消息处理程序，构建并运行
+                    26. 2.0中有什么新功能？
+                        26.1.新功能和组件
+                        26.2.显着增强
+                        26.2.1.执行器和Web依赖性现在都是可选的
+                        26.2.2.内容类型协商的改进
+                        26.3.显着的弃用
+                        26.3.1.Java序列化（Java本机和Kryo​​）
+                        26.3.2.不推荐使用的类和方法
+                    27.简介Spring Cloud Stream
+                28.主要概念
+                    28.1.应用模式
+                        28.1.1.胖子
+                    28.2.Binder抽象
+                    28.3.持久的发布-订阅支持
+                    28.4.消费群体
+                    28.5.消费者类型
+                        28.5.1.耐用性
+                    28.6.分区支持
+                29.编程模型
+                    29.1.目的地Binders
+                    29.2.目标绑定
+                    29.3.生产和消费信息
+                        29.3.1.Spring Integration支持
+                        29.3.2.使用@StreamListener注释
+                        29.3.3.使用@StreamListener进行基于内容的路由
+                        29.3.4.Spring Cloud功能支持
+                            功能组成
+                        29.3.5.使用轮询的消费者
+                            总览
+                            处理错误
+                    29.4.错误处理
+                        29.4.1.应用错误处理
+                        29.4.2.系统错误处理
+                            删除失败的消息
+                            DLQ-死信队列
+                            重新排队失败的消息
+                        29.4.3.重试模板
+                    29.5.反应式编程支持
+                        29.5.1.基于Reactor的处理程序
+                        29.5.2.反应源
+                30. Binders
+                    30.1.生产者和消费者
+                    30.2.Binder SPI
+                    30.3.Binder检测
+                        30.3.1.类路径检测
+                    30.4.类路径上的多个Binders
+                    30.5.连接到多个系统
+                    30.6.绑定可视化和控制
+                    30.7.Binder配置Properties
+                31.配置选项
+                    31.1.绑定服务Properties
+                    31.2.绑定Properties
+                        31.2.1.通用绑定Properties
+                        31.2.2.消费者Properties
+                        31.2.3.生产者Properties
+                    31.3.使用动态绑定的目的地
+                32.内容类型转换
+                    32.1.运作
+                        32.1.1.内容类型与参数类型
+                        32.1.2.讯息转换器
+                    32.2.提供的MessageConverters
+                    32.3.用户定义的消息转换器
+                33.schema 注册表服务器支持
+                    33.1.Schema注册客户端
+                        33.1.1.Schema注册机构客户Properties
+                    33.2.Avro Schema注册客户端消息转换器
+                        33.2.1.Avro Schema注册表消息转换器Properties
+                    33.3.Apache Avro消息转换器
+                    33.4.支持Schema的转换器
+                    33.5.Schema注册服务器
+                        33.5.1.Schema Registry Server API
+                            注册新的Schema
+                            通过主题，格式和版本检索现有的Schema
+                            通过主题和格式检索现有的Schema
+                            通过ID检索现有的Schema
+                            按主题，格式和版本删除Schema
+                            按ID删除Schema
+                            按主题删除Schema
+                        33.5.2.使用Confluent的Schema注册表
+                    33.6.Schema注册和解决
+                        33.6.1.Schema注册流程（序列化）
+                        33.6.2.Schema解析过程（反序列化）
+                34.应用程序间通信
+                    34.1.连接多个应用程序实例
+                    34.2.实例索引和实例计数
+                    34.3.分区
+                    34.3.1.配置输出绑定以进行分区
+                    34.3.2.配置输入绑定以进行分区
+                35.测试
+                    35.1.禁用测试Binder自动配置
+                36.bingder健康指标
+                37.micrometer指标发射器
+                38.示例
+                    38.1.在CloudFoundry上部署流应用程序
+            7. Spring Cloud Alibaba RocketMQ Binder
+                7.1. RocketMQ 介绍
+                7.2. RocketMQ 基本使用
+                7.3. Spring Cloud Stream 介绍
+                7.4. 如何使用 Spring Cloud Alibaba RocketMQ Binder #
+                7.5. Spring Cloud Alibaba RocketMQ Binder 实现
+                7.6. MessageSource 支持
+                7.7. 配置选项
+                7.8. 阿里云 MQ 服务
+            39. Apache Kafka Binder
+                39.1.用法
+                39.2.Apache Kafka Binder概述
+                39.3.配置选项
+                39.3.1.Kafka Binder Properties
+                39.3.2.Kafka消费者Properties
+                39.3.3.Kafka生产者Properties
+                39.3.4.用法示例
+                示例：将autoCommitOffset设置为false并依靠手动进行
+                示例：安全配置
+                示例：暂停和恢复使用方
+                39.4.错误通道
+                39.5.Kafka指标
+                39.6.Dead-Letter主题处理
+                39.7.用Kafka Binder进行分区
+            40. Apache Kafka流Binder
+                40.1.用法
+                40.2.Kafka流Binder概述
+                40.2.1.流DSL
+                40.3.配置选项
+                40.3.1.Kafka流Properties
+                40.3.2.TimeWindow属性：
+                40.4.多个输入绑定
+                40.4.1.多个输入绑定作为接收器
+                40.4.2.多个输入绑定作为处理器
+                40.5.多个输出绑定（又名分支）
+                40.6.讯息转换
+                40.6.1.出站序列化
+                40.6.2.入站反序列化
+                40.7.错误处理
+                40.7.1.处理反序列化异常
+                40.7.2.处理非反序列化异常
+                40.8.国营商店
+                40.9.互动查询
+                40.10.访问基础的KafkaStreams对象
+                40.11.状态清理
+            41. RabbitMQ Binder
+                41.1.用法
+                41.2.RabbitMQ Binder概述
+                41.3.配置选项
+                41.3.1.RabbitMQ Binder Properties
+                41.3.2.RabbitMQ消费者Properties
+                41.3.3.高级侦听器容器配置
+                41.3.4.Rabbit生产者Properties
+                41.4.重试RabbitMQ Binder
+                41.4.1.放在一起
+                41.5.错误通道
+                41.6.Dead-Letter队列处理
+                41.6.1.非分区目的地
+                41.6.2.分区目的地
+                republishToDlq=false
+                republishToDlq=true
+                41.7.用RabbitMQ Binder分区
+            七.Spring Cloud Bus
+                42.快速入门
+                43. Bus端点
+                43.1.Bus刷新端点
+                43.2.Bus环保端点
+                44.寻址实例
+                45.解决服务的所有实例
+                46.服务ID必须唯一
+                47.定制消息代理
+                48.追踪Bus Events
+                49.广播自己的Events
+                49.1.在自定义包中注册事件
+            12. Spring Cloud AliCloud SMS异步整合
+                12.1. 如何引入 Spring Cloud AliCloud SMS
+                12.2. 如何使用 SMS API
+                12.3. SMS Api 的高级功能
+        不常用
+            十四. Spring Cloud Vault
+                100.快速入门
+                101.客户端使用
+                101.1.认证方式
+                102.认证方式
+                102.1.令牌认证
+                102.2.AppId验证
+                102.2.1.自定义用户ID
+                102.3.AppRole身份验证
+                102.4.AWS-EC2身份验证
+                102.5.AWS-IAM身份验证
+                102.6.Azure MSI身份验证
+                102.7.TLS证书认证
+                102.8.隔间认证
+                102.9.GCP-GCE认证
+                102.10.GCP-IAM认证
+                102.11.Kubernetes认证
+                103.秘密后端
+                103.1.通用后端
+                103.2.版本化键值后端
+                103.3.Consul
+                103.4.RabbitMQ
+                103.5.AWS
+                104.数据库后端
+                104.1.数据库
+                104.2.阿帕奇Cassandra
+                104.3.MongoDB
+                104.4.的MySQL
+                104.5.PostgreSQL的
+                105.配置PropertySourceLocator行为
+                106.服务注册表配置
+                107. Vault客户端快速失败
+                108. Vault客户端SSL配置
+                109.租赁生命周期管理（续订和撤销）
+            十三.Spring Cloud Contract
+            9. Spring Cloud AliCloud ACM
+                9.1. 如何引入 Spring Cloud AliCloud ACM
+                9.2. 使用 ACM 进行配置管理
+                9.3. 更改配置文件扩展名
+                9.4. 动态更新
+                9.5. Profile 粒度的配置
+                9.6. 自定义配置中心超时时间
+                9.7. 自定义 Group 的配置
+                9.8. 共享配置
+                9.9. Actuator 监控
+            13. Spring Cloud Alibaba Sidecar
+                13.1. 术语
+                13.2. Why or Why not?
+                13.3. 原理
+                13.4. 要求
+                13.5. 使用示例
+                13.6. Alibaba Sidecar优缺点分析
+    十六.Spring Cloud功能
+        128.构建和运行功能
+        129.功能目录和灵活的功能签名
+            129.1.Java 8功能支持
+            129.2.Kotlin Lambda支持
+        130.独立的Web应用程序
+        131.独立流应用程序
+        132.部署打包功能
+        133.功能性Bean定义
+            133.1.将功能与传统的Bean定义进行比较
+            133.2.测试功能应用
+            133.3.功能性Bean声明的局限性
+        134.动态编译
+        135.无服务器平台适配器
+            135.1.AWS Lambda
+            135.1.1.介绍
+            135.1.2.有关JAR布局的注意事项
+            135.1.3.上载
+            135.1.4.Platfom的特定功能
+                HTTP和API网关
+        135.2.Azure功能
+            135.2.1.有关JAR布局的注意事项
+            135.2.2.建立
+            135.2.3.运行示例
+        135.3.Apache Openwhisk
+            135.3.1.快速开始
+    十七.Spring Cloud Kubernetes
+        136.为什么需要Spring Cloud Kubernetes？
+        137. Starters
+        138. Kubernetes的DiscoveryClient
+        139. Kubernetes本机服务发现
+        140. Kubernetes PropertySource实现
+        140.1.使用ConfigMapPropertySource
+        140.2.秘密PropertySource
+        140.3.PropertySource重新加载
+        141. Ribbon在Kubernetes中发现
+        142. Kubernetes生态系统意识
+        142.1.Kubernetes配置文件自动配置
+        142.2.Istio意识
+        143.豆荚健康指标
+        144. Leader选举
+        145. Kubernetes内部的安全配置
+        145.1.命名空间
+        145.2.服务帐号
+        146.服务注册中心的实施
+        147.范例
+        148.其他资源
+        149.建筑
+        149.1.基本编译和测试
+        149.2.文献资料
+        149.3.使用代码
+        149.3.1.使用m2eclipse导入eclipse
+        149.3.2.不使用m2eclipse导入eclipse
+        150.贡献
+        150.1.签署贡献者许可协议
+        150.2.行为守则
+        150.3.规范和内务守则
+        150.4.Checkstyle
+        150.4.1.Checkstyle配置
+        150.5.IDE设置
+        150.5.1.Intellij IDEA
+    十八.Spring Cloud GCP
+        151.引言
+        152.依赖性管理
+        153.入门
+        153.1.Spring Initializr
+        153.1.1.GCP支持
+        153.1.2.GCP讯息
+        153.1.3.GCP储存
+        153.2.代码示例
+        153.3.代码挑战
+        153.4.入门指南
+        154. Spring Cloud GCP核心
+        154.1.专案编号
+        154.2.证书
+        154.2.1.范围
+        154.3.环境
+        154.4.Spring Initializr
+        155.Google Cloud Pub / Sub
+        155.1.发布/订阅操作和模板
+        155.1.1.发布到主题
+        JSON支持
+        155.1.2.订阅订阅
+        155.1.3.从订阅中提取消息
+        155.2.发布/订阅管理
+        155.2.1.创建一个话题
+        155.2.2.删除主题
+        155.2.3.列出主题
+        155.2.4.创建订阅
+        155.2.5.删除订阅
+        155.2.6.列表订阅
+        155.3.组态
+        155.4.示例
+        156. Spring资源
+        156.1.谷歌云存储
+        156.1.1.设置内容类型
+        156.2.组态
+        156.3.示例
+        157. Spring JDBC
+        157.1.先决条件
+        157.2.Spring Boot Google Cloud SQL入门
+        157.2.1.DataSource创建流程
+        157.2.2.故障排除技巧
+        连接问题
+        像c.g.cloud.sql.core.SslSocketFactory : Re-throwing cached exception due to attempt to refresh instance information too soon after error这样的错误
+        PostgreSQL：java.net.SocketException: already connected问题
+        157.3.示例
+        158. Spring Integration
+        158.1.Cloud Pub / Sub的通道适配器
+        158.1.1.入站通道适配器
+        158.1.2.出站通道适配器
+        158.1.3.标头映射
+        158.2.示例
+        158.3.Google Cloud Storage的通道适配器
+        158.3.1.入站通道适配器
+        158.3.2.入站流媒体通道适配器
+        158.3.3.出站通道适配器
+        158.4.示例
+        159. Spring Cloud Stream
+        159.1.总览
+        159.2.组态
+        159.2.1.生产者目标配置
+        159.2.2.消费者目的地配置
+        159.3.示例
+        160. Spring Cloud Sleuth
+        160.1.追踪
+        160.2.Spring Boot Stackdriver Trace入门
+        160.3.覆盖自动配置
+        160.4.与记录集成
+        160.5.示例
+        161. Stackdriver记录
+        161.1.Web MVC拦截器
+        161.2.登录支持
+        161.2.1.通过API记录
+        161.2.2.通过控制台登录
+        161.3.示例
+        162. Spring Cloud Config
+        162.1.组态
+        162.2.快速开始
+        162.3.在运行时刷新配置
+        162.4.示例
+        163. Spring Data Cloud Spanner
+        163.1.组态
+        163.1.1.Cloud Spanner设置
+        163.1.2.Repository设置
+        163.1.3.自动配置
+        163.2.对象映射
+        163.2.1.建设者
+        163.2.2.表
+        表名的SpEL表达式
+        163.2.3.主键
+        163.2.4.列
+        163.2.5.嵌入式对象
+        163.2.6.人际关系
+        163.2.7.支持的类型
+        163.2.8.清单
+        163.2.9.结构清单
+        163.2.10.自定义类型
+        163.2.11.结构数组列的自定义转换器
+        163.3.扳手操作和模板
+        163.3.1.SQL查询
+        163.3.2.读
+        163.3.3.高级阅读
+        过时的阅读
+        从二级索引读取
+        读取偏移量和限制
+        排序
+        部分阅读
+        查询与读取的选项摘要
+        163.3.4.写入/更新
+        插入
+        更新资料
+        增补
+        部分更新
+        163.3.5.DML
+        163.3.6.交易次数
+        读/写事务
+        只读交易
+        带有@Transactional批注的声明式事务
+        163.3.7.DML语句
+        163.4.Repositories
+        163.4.1.CRUD Repository
+        163.4.2.分页和排序Repository
+        163.4.3.扳手Repository
+        163.5.查询方法
+        163.5.1.按约定查询方法
+        163.5.2.自定义SQL / DML查询方法
+        具有命名查询属性的查询方法
+        带注释的查询方法
+        163.5.3.投影
+        163.5.4.REST Repositories
+        163.6.数据库和Schema管理员
+        163.7.示例
+        164. Spring Data Cloud Datastore
+        164.1.组态
+        164.1.1.Cloud Datastore设置
+        164.1.2.Repository设置
+        164.1.3.自动配置
+        164.2.对象映射
+        164.2.1.建设者
+        164.2.2.类
+        164.2.3.按键
+        164.2.4.领域
+        164.2.5.支持的类型
+        164.2.6.自定义类型
+        164.2.7.集合和数组
+        164.2.8.自定义转换器的集合
+        164.3.人际关系
+        164.3.1.嵌入式实体
+        地图
+        164.3.2.祖辈关系
+        164.3.3.关键参考关系
+        164.4.数据存储操作和模板
+        164.4.1.GQL查询
+        164.4.2.按编号查找
+        指标
+        读取偏移量，限制和排序
+        部分阅读
+        164.4.3.写入/更新
+        部分更新
+        164.4.4.交易次数
+        带有@Transactional批注的声明式事务
+        164.4.5.对地图的读写支持
+        164.5.Repositories
+        164.5.1.按约定查询方法
+        164.5.2.自定义GQL查询方法
+        带注释的查询方法
+        具有命名查询属性的查询方法
+        164.5.3.交易次数
+        164.5.4.投影
+        164.5.5.REST Repositories
+        164.6.示例
+        165. Redis的Cloud Memorystore
+        165.1.Spring缓存
+        166.云身份识别代理（IAP）身份验证
+        166.1.组态
+        166.2.示例
+        167.Google Cloud Vision
+        167.1.云视觉模板
+        167.2.检测图像标签示例
+        167.3.示例
+        168. Cloud Foundry
+        169. Kotlin支持
+        169.1.先决条件
+        170.示例

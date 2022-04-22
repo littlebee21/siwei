@@ -1,0 +1,104 @@
+docker数据问题
+    容器的持久化
+        数据卷   容器内添加
+            直接命令添加
+                命令
+                     docker run -it -v /宿主机绝对路径目录:/容器内目录      镜像名
+                查看数据卷是否挂载成功
+                容器和宿主机之间数据共享
+                容器停止退出后，主机修改后数据是否同步
+                命令(带权限)
+                     docker run -it -v /宿主机绝对路径目录:/容器内目录:ro 镜像名
+            DockerFile添加
+                根目录下新建mydocker文件夹并进入
+                可在Dockerfile中使用VOLUME指令来给镜像添加一个或多个数据卷
+                File构建
+                build后生成镜像
+                    获得一个新镜像zzyy/centos
+                run容器
+                通过上述步骤，容器内的卷目录地址已经知道
+                主机对应默认地址
+        宿主机文件映射  到 容器的卷
+    不同的使用场景
+        数据卷场景
+            在多个运行中的容器之间共享数据
+            当要将容器数据存储在远程主机或云提供商时
+            当需要将数据从一个Docker主机备份，还原或迁移到另一个Docker主机时
+            特性
+                可以在容器之间共享和重用
+                对数据卷内数据的修改会立马生效
+                对数据卷的更新不会影响镜像
+                卷会一直存在，直到没有容器使用，可以安全地卸载它
+        数据卷容器场景
+            多个容器之间共享一些持续更新的数据
+            Docker主机上的开发环境和容器之间共享源代码或构建工件
+        tmps场景
+            可以使用它来存储非持久状态或敏感信息
+    存储卷原理
+        存储问题
+            文件都存储在可写容器层上，这样会
+                难提取
+                难移动
+                速度慢
+        子主题
+            数据卷 Data Volumes：主机映射到容器
+                概念
+                    文件不需要在主机存在
+                    主机文件安装到容器
+                    容器进程修改文件
+                    使用只读绑定安装
+                        对于某些开发应用程序，容器需要写入绑定安装，因此更改将传播回Docker主机，在其他时间，容器仅需要读取访问权限
+                    Docker容器数据卷
+                    多个容器可以在同一时间段内使用相同的卷
+                操作
+                    创建
+                        docker volume create myVol
+                            显式创建
+                                docker volume create
+                            在容器内创建
+                                docker run -v
+                    清单
+                        docker volume ls
+                    检查体积
+                        docker volume inspect myVol
+                    删除
+                        docker volume rm myVol
+            数据卷容器 Data Volumes Containers
+                操作
+                    创建
+                        docker run -d -it --name devtest -v “${pwd}” /target:/app nginx:latest
+                    验证
+                        docker inspect devtest
+                操作实现
+                    1、创建一个卷，待后续使用
+                        docker volume create test_volume
+                    2、分别启动2个容器挂载该卷
+                        docker run -it --rm -v test_volume:/test nginx:latest /bin/bash
+                        docker run -it --rm -v test_volume:/test nginx:latest /bin/bash
+                    3、在/test文件夹创建文件，则两个容器中均可以看到该文件，即实现了多个容器间的数据共享
+            tmpfs挂载
+                操作
+                    要在容器中使用tmpfs，使用--tmpfs标志，或将--mount与type=tmpfs和destination一起使用
+                    通过运行docker container inspect tmpfs来验证安装是否成功
+                    卸载
+                选项
+                    tmpfs安装允许两个非必需配置选项，如果需要指定这些选项，则必须使用--mount，因为--tmpfs不支持它们
+                    tmpfs-size
+                        tmpfs安装的大小，字节为单位，默认情况下不受限制
+                    tmpfs-mode
+                        tmpfs的文件模式（8进制数值，如1770-非全局可读）
+            如果在Linux上运行Docker，还可以使用tmpfs挂载
+            如果在Windos上运行Docker，还可以使用命名管道
+        容器间传递共享(--volumes-from) ---继承
+            先启动一个父容器dc01
+                在dataVolumeContainer2新增内容
+            dc02/dc03继承自dc01
+                --volumes-from
+                命令
+                    dc02/dc03分别在dataVolumeContainer2各自新增内容
+            回到dc01可以看到02/03各自添加的都能共享了
+            删除dc01，dc02修改后dc03可否访问
+            删除dc02后dc03可否访问
+                再进一步
+            新建dc04继承dc03后再删除dc03
+            结论：容器之间配置信息的传递，数据卷的生命周期一直持续到没有容器使用它为止

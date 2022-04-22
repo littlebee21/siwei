@@ -1,0 +1,1715 @@
+资源 - 华清远见 -线下整理
+  日志模板(姓名-日期).docx
+    
+    上课前待安装软件并部分电子书
+        1-vmvare安装步骤介绍文档(1).docx
+        2-安装可能遇到的问题(1).docx
+        CodingStyle
+        npp_6.8.7_Installer.1448862261.exe
+        prt screen.exe
+        sources.list
+        typora_0.11.18_64bit_Setup.exe
+        ubuntu-20.04-desktop-amd64.iso
+        ubuntu-x86-fs_v2.3.rar
+        vim_t.tar.gz
+        Vmware_15.zip
+        vnc.rar
+        电子书.zip
+        相关软件.txt
+        
+        VNC
+            vnc.rar
+            
+            vnc
+                vnc-E4_6_0-x86_x64_win32.exe
+                vnc-regsitercode.txt
+    
+    分享内容
+        day5-578-5个学生成绩问题.doc
+        分享内容1.doc
+        
+        待分享
+            原码反码补码.txt
+    
+    同学分享知识点内容
+        ctrl与capsLK互换.docx
+        快捷键.docx
+    
+    常用函数
+        随机数.png
+    
+    课件
+        shell必会命令22条n.jpg
+        vi-vim-cheat-sheet-sch1.gif
+        vim使用指南n.jpg
+        
+        2021-12-17-day9王老师所给课件
+            压缩文件备份
+                02C语言程序概览.zip
+                03数据和数据类型.zip
+                04语句表达式和运算符.zip
+                05函数进阶.zip
+                06选择语句.zip
+                10指针.zip
+                19数据结构.zip
+                20文件IO之标准IO.zip
+                21文件IO之系统IO.zip
+                22_进程.zip
+                23_线程.zip
+                24_IPC.zip
+            
+            课堂课件
+                Note08数组.md
+                Note09字符串.md
+                Note共用体和枚举.md
+                Note函数递归调用.md
+                Note动态内存分配.md
+                Note标识符使用范围和空间生存期.md
+                Note结构体类型.md
+                Note预处理.md
+                Note高级指针.md
+                
+                02C语言程序概览
+                    Note03.md
+                    
+                    Note03.assets
+                        1639705556954.png
+                
+                03数据和数据类型
+                    Note04.md
+                
+                04语句表达式和运算符
+                    Note05.md
+                
+                05函数进阶
+                    Note06.md
+                
+                06选择语句
+                    Note07.md
+                
+                10指针
+                    Note指针.md
+                    
+                    Note指针.assets
+                        1640749443465.png
+                
+                18杂项知识点
+                    Note杂项知识点.md
+                    
+                    Note杂项知识点.assets
+                        1641534511972.png
+                
+                19数据结构
+                    01_note.md
+                    AVL树.png
+                    二叉搜索树.png
+                    红黑树.png
+    
+                
+                20文件IO之标准IO
+                    01_fileio之stdio.md
+                    
+                    01_fileio之stdio.assets
+                        1642474045302.png
+                        1642474303034.png
+                
+                21文件IO之系统IO
+                    01_fileio之systemio.md
+                    ext文件系统之分区组织框图.png
+                    ext文件系统之组块图.png
+                    异步IO.png
+                    标准IO和系统IO.png
+                    硬链接.png
+                    软链接.png
+                    阻塞.png
+                    非阻塞.png
+                    
+                    01_fileio之systemio.assets
+                        1642647227366.png
+                
+                22_进程
+                    03_进程.md
+                    fork后已打开的文件.jpg
+                    一个游戏.jpg
+                    两层计算机系统.jpg
+                    任务5状态.jpg
+                    四层计算机系统.jpg
+                    进程组和会话.jpg
+                    
+                    03_进程.assets
+                        1642732616502.png
+                        1642732770186.png
+                        1642744713093.png
+                        1642746761869.png
+                        1644285085619.png
+                        1644285241207.png
+                        1644286046345.png
+                
+                23_线程
+                    01_线程
+                        01_线程.md
+                        
+                        01_线程.assets
+                            1644291721139.png
+                            1644302981879.png
+                    
+                    02_并发与共享
+                        互斥解析图.png
+                        互斥锁.png
+                        交通死锁.png
+                        信号量.png
+                        哲学家就餐.png
+                        哲学家就餐解决方案.png
+                        并发与共享.md
+                        生产者消费者问题.png
+                        
+                        并发与共享.assets
+                            1644312045255.png
+                            1644312404890.png
+                            1644374729637.png
+                            1644376066054.png
+                            1644378198287.png
+                            1644385101281.png
+                            1644386622061.png
+                    
+                    03_线程并发控制
+                        03_线程并发控制.md
+                        
+                        03_线程并发控制.assets
+                            1644390863886.png
+                            1644393781969.png
+                            1644394944094.png
+                            1644395141697.png
+                
+                24_IPC
+                    IPC.md
+                    IPC对象的创建和打开1.png
+                    IPC对象的创建和打开2.png
+                    IPC对象的创建和打开3.png
+                    IPC对象的持续性.png
+                    SystenV_IPC函数汇总.png
+                    信号处理函数调用时机.jpg
+                    信号量集合结构.png
+                    共享信息的方式.png
+                    匿名管道1.png
+                    匿名管道2.png
+                    匿名管道3.png
+                    匿名管道4.png
+                    接收消息的type.png
+                    消息队列结构.png
+                    
+                    IPC.assets
+                        1644562673755.png
+        
+        陆老师二班
+            日志模板(姓名-日期).docx
+            
+            C程序文件
+                Day8.tar.gz
+                printf.c
+                scanf.c
+                vi.c
+            
+            试验手册并讲义
+                C补习实验手册.doc
+                第一阶段（实验手册 ）.pdf
+                第一阶段（讲义）.pdf
+            
+            课程需要用的软件
+                CodingStyle
+                npp_6.8.7_Installer.1448862261.exe
+                sources.list
+                vim_t.tar.gz
+                vnc.zip
+            
+            资料图片
+                Linux操作系统体系结构.png
+                vi-vim-cheat-sheet-sch1.gif
+                冒泡排序.gif
+                选择排序.gif
+            
+            陆老师课件
+                linu相关
+                    Linux操作系统基础.docx
+                    Linux文件系统.docx
+                    Linux用户管理.docx
+                    Linux系统软件包管理机制.docx
+                    Shell基本命令.docx
+                
+                ppt类文件
+                    CPU工作原理概述.pptx
+                
+                word文档
+                    C初级
+                        01-嵌入式简介.docx
+                        02-Linux常用命令及VIM编辑器的使用.docx
+                        03-C语言介绍与GCC.docx
+                        04-C语言基础知识.docx
+                        05-标识符与数据类型.docx
+                        06-基本数据类型详解.docx
+                        07-共用体.docx
+                        08-运算符和表达式.docx
+                        09-过程控制语句.docx
+                        10-C语言数组.docx
+                        11-标准输入输出.docx
+                    
+                    C高级
+                        01-C指针基础.docx
+                        02-指针与数组.docx
+                        03-多级指针与指针数组.docx
+                        04-函数.docx
+                        05-递归函数.docx
+                        06-结构体.docx
+                        08-枚举.docx
+                        09-C语言存储类型-链接-内存管理.docx
+                        10-typedef.docx
+            
+            陆老师随堂笔记
+                Day10笔记-AM.txt
+                Day10笔记.txt
+                Day11笔记.txt
+                Day12笔记.txt
+                Day13笔记.txt
+                Day1笔记-上午.txt
+                Day1笔记.txt
+                Day2笔记-AM.txt
+                Day2笔记.txt
+                Day3笔记.txt
+                Day4笔记.txt
+                Day5笔记.txt
+                Day6笔记.txt
+                Day7笔记.txt
+                Day8笔记.txt
+                Day9笔记.txt
+        
+        陆老师所给课件
+            01-嵌入式简介.pdf
+            02-Linux常用命令及VIM编辑器的使用.pdf
+            03-C语言介绍与GCC.pdf
+            04-C语言基础知识.pdf
+            05-标识符与数据类型.pdf
+            06-基本数据类型详解.pdf
+            07-数据类型转换.pdf
+            08-运算符和表达式.pdf
+            09-过程控制语句.pdf
+            10-C语言数组.pdf
+            11-标准输入输出.pdf
+            C补习实验手册.doc
+            
+            第一期课件
+                一期实验手册完整版.pdf
+                一期讲义完整版.pdf
+                讲义及实验手册密码.txt
+    
+    课堂
+        日志模板(姓名-日期).docx
+        
+        2021-12
+            2021-12-07-day1
+                day1笔记.doc
+                Day1笔记.txt
+                温雨桥2021-12-07.docx
+            
+            2021-12-08-day2
+                Day2笔记-AM.txt
+                Day2笔记.txt
+                vi.c
+                作业.png
+                温雨桥2021-12-8周三.docx
+            
+            2021-12-09-day3
+                2021-12-9温雨桥.docx
+                Day3笔记.txt
+                作业.png
+                周易与二进制.docx
+                视频说明.txt
+            
+            2021-12-10-day4
+                Day4-AM笔记.txt
+                Day4.tar.gz
+                Day4笔记.txt
+                作业.png
+                温雨桥2021-12-10.docx
+                
+                2021-12-10周五下午录屏文件备份
+                
+                Day4课堂练习所用源代码
+                    01-printf.c
+                    02-scanf.c
+                    03-test.c
+                    04-define.c
+                    05-test.c
+                    06-test.c
+                    07-const.c
+                    08-sizeof.c
+                    09-print_int.c
+                    10-overflow.c
+                    a.out
+            
+            2021-12-13-day5
+                Day5笔记-AM.txt
+                Day5笔记.txt
+                温雨桥2021-12-13-day5.docx
+            
+            2021-12-14-day6
+                10温雨桥2021-12-14-day6.docx
+                Day6.tar.gz
+                Day6笔记-AM.txt
+                Day6笔记.txt
+                zuoye.png
+                解题1.jpg
+                
+                Day6
+                    01-homework.c
+                    02-homework.c
+                    03-relation.c
+                    04-relation.c
+                    05-logic.c
+                    05-test.c
+                    06-condtion.c
+                    07-test.c
+                    08-test.c
+                    09-test.c
+                    10-yihuo.c
+                    11-test.c
+                    12-test.c
+                    13-test.c
+                    14-test.c
+                    15-test.c
+                    16-test.c
+                    17-test.c
+                    18-test.c
+                    19-if.c
+                    20-if.c
+                    21-if.c
+                    a.out
+            
+            2021-12-15-day7
+                Day7.tar.gz
+                Day7笔记.txt
+                
+                Day7
+                    01-sizeof.c
+                    02-homework.c
+                    03-homework.c
+                    04-homework.c
+                    05-homework.c
+                    06-year.c
+                    07-example.c
+                    08-year.c
+                    09-blood.c
+                    10-test_rand.c
+                    11-test.c
+                    12-test.c
+                    13-switch.c
+                    14-switch_test.c
+                    15-switch.c
+                    16-switch_test.c
+                    17-switch_test.c
+                    a.out
+            
+            2021-12-16-day8
+                00课前政治.md
+                01计算机工作原理.zip
+                
+                01计算机组成原理
+                    CPU和内存的连接.jpg
+                    note01.md
+                    一个游戏.jpg
+                    专用计算机01.jpg
+                    专用计算机02.jpg
+                    专用计算机03.jpg
+                    两层计算机系统.jpg
+                    四层计算机系统.jpg
+                    图灵机.jpg
+                    存储体系.jpg
+                    存储层次.jpg
+                    计算机理论组成.jpg
+                    通用计算机.jpg
+            
+            2021-12-17-day9
+                作业.txt
+                命令格式.png
+                数据类型.jpg
+                椭圆的面积周长计算方式.png
+                
+                1217hw_温雨桥
+                    ellipse
+                    ellipse.c
+                    main.c
+                    personinfo.c
+                    print.c
+                    printperson
+                    uptolow
+                    uptolow.c
+                
+                今日课堂
+                    helloworld版本2.png
+                    helloworld版本3.png
+            
+            2021-12-20-day10
+                c_code.tgz
+                day10作业.txt
+                函数调用.jpg
+                
+                今日课堂
+                    calc.c
+                    ellipse.c
+                    ellipse_mf.c
+                    score.c
+                    testfunc.c
+                    testprintf.c
+                    testscanf.c
+                    testsizeof.c
+                    uptolower.c
+                    uptolower_mf.c
+            
+            2021-12-21-day11
+                c_code.tgz
+                作业.txt
+                
+                今日课堂代码
+                    calc_mf.c
+                    getmonthdays.c
+                    guessnum.c
+                    isprime.c
+                    numinc3.c
+                    perfectnum.c
+                    printeven.c
+                    score_mf.c
+                    testrand.c
+                    testscanf2.c
+                
+                作业参考代码
+                    1221hw_王志强
+                        div_sub.c
+                        sci_stone_paper.c
+                    
+                    组长
+                        jan_ken_punch.c
+                        subtodiv.c
+                        subtodiv1.c
+                
+                课堂代码
+                    calc.c
+                    calc_mf.c
+                    ellipse.c
+                    ellipse_mf.c
+                    getmonthdays.c
+                    guessnum.c
+                    isprime.c
+                    numinc3.c
+                    perfectnum.c
+                    printeven.c
+                    score.c
+                    score_mf.c
+                    testfunc.c
+                    testprintf.c
+                    testrand.c
+                    testscanf.c
+                    testscanf2.c
+                    testsizeof.c
+                    uptolower.c
+                    uptolower_mf.c
+                    
+                    hello1
+                        hello.c
+                    
+                    hello2
+                        hello_2f.c
+                        hello_3f.c
+                        hello_4f.c
+                    
+                    hello3
+                        helloworld.c
+                        main.c
+                        main.i
+                        main.o
+                        main.S
+                        print.c
+            
+            2021-12-22-day12
+                1222作业.txt
+                cal.c
+                date.c
+                main.c
+                随堂练习.doc
+                
+                今日课堂
+                    carno.c
+                    cn
+                    flower.c
+                    hundred.c
+                    isprime.c
+                    prime100.c
+                    print99.c
+                    rhombus.c
+                    right_trigle1.c
+                    right_trigle2.c
+                    ssp.c
+                    sub.c
+                    
+                    calendar
+                        calendar.c
+                        date.c
+                        main.c
+                
+                课堂代码
+                    calc.c
+                    calc_mf.c
+                    carno.c
+                    cn
+                    ellipse.c
+                    ellipse_mf.c
+                    flower.c
+                    getmonthdays.c
+                    guessnum.c
+                    hundred.c
+                    isprime.c
+                    numinc3.c
+                    perfectnum.c
+                    prime100.c
+                    print99.c
+                    printeven.c
+                    rhombus.c
+                    right_trigle1.c
+                    right_trigle2.c
+                    score.c
+                    score_mf.c
+                    ssp.c
+                    sub.c
+                    testfunc.c
+                    testprintf.c
+                    testrand.c
+                    testscanf.c
+                    testscanf2.c
+                    testsizeof.c
+                    uptolower.c
+                    uptolower_mf.c
+                    
+                    calendar
+                        calendar.c
+                        date.c
+                        main.c
+                    
+                    hello1
+                        hello.c
+                    
+                    hello2
+                        hello_2f.c
+                        hello_3f.c
+                        hello_4f.c
+                    
+                    hello3
+                        helloworld.c
+                        main.c
+                        main.i
+                        main.o
+                        main.S
+                        print.c
+            
+            2021-12-23-day13
+                1223作业.txt
+                c_code.tgz
+                随堂练习.doc
+                
+                今日课堂
+                    brook.c
+                    bubblesort.c
+                    delete.c
+                    deluserloc.c
+                    equtriangle.c
+                    gcdlcm.c
+                    insert.c
+                    insertsort.c
+                    inssorted.c
+                    insuserloc.c
+                    io.c
+                    maxmin.c
+                    money.c
+                    search.c
+                    selectsort.c
+                    ssp.c
+                    sumave.c
+                
+                作业参考代码
+                    12213hw_孙乙豪.zip
+                    
+                    12213hw_孙乙豪
+                        homework1.c
+                        homework2.c
+                        homework3.c
+                        homework4.c
+                
+                温雨桥
+                    homework3.c
+                
+                课堂代码
+                    brook.c
+                    calc.c
+                    calc_mf.c
+                    carno.c
+                    ellipse.c
+                    ellipse_mf.c
+                    equtriangle.c
+                    flower.c
+                    gcdlcm.c
+                    getmonthdays.c
+                    guessnum.c
+                    hundred.c
+                    isprime.c
+                    money.c
+                    numinc3.c
+                    perfectnum.c
+                    prime100.c
+                    print99.c
+                    printeven.c
+                    rhombus.c
+                    right_trigle1.c
+                    right_trigle2.c
+                    score.c
+                    score_mf.c
+                    ssp.c
+                    sub.c
+                    testfunc.c
+                    testprintf.c
+                    testrand.c
+                    testscanf.c
+                    testscanf2.c
+                    testsizeof.c
+                    uptolower.c
+                    uptolower_mf.c
+                    
+                    array
+                        bubblesort.c
+                        delete.c
+                        deluserloc.c
+                        insert.c
+                        insertsort.c
+                        inssorted.c
+                        insuserloc.c
+                        io.c
+                        maxmin.c
+                        search.c
+                        selectsort.c
+                        sumave.c
+                    
+                    calendar
+                        calendar.c
+                        date.c
+                        main.c
+                    
+                    hello1
+                        hello.c
+                    
+                    hello2
+                        hello_2f.c
+                        hello_3f.c
+                        hello_4f.c
+                    
+                    hello3
+                        helloworld.c
+                        main.c
+                        main.i
+                        main.o
+                        main.S
+                        print.c
+            
+            2021-12-24-day14
+                1224作业.txt
+                1224随堂练习.doc
+                
+                1224hw_温雨桥
+                    homework1.c
+                    homework2.c
+                
+                今日课堂
+                    basesort.c
+                    counta.c
+                    delchar.c
+                    delorins.c
+                    guard_search.c
+                    half_search.c
+                    huiwen.c
+                    insertsort.c
+                    monthdays.c
+                    score.c
+                    teststring.c
+                
+                作业参考代码
+                    何鑫
+                        2124hw_何鑫.zip
+                        
+                        新建文件夹
+                            homework1.c
+                            homework2.c
+                            homework3.c
+                            homework4.c
+                            homework5.c
+                            homework6.c
+                            homework7.c
+                            homework8.c
+                    
+                    夏启阳
+                        1224hw_夏启阳.zip
+                        hw1_arrcheck_mf.c
+                        hw2_max_min_mf.c
+                        hw3_delchar.c
+                        hw4.c
+                        hw5.c
+                        hw6.c
+                        hw7.c
+                        hw8.c
+                    
+                    孙乙豪
+                        1224hw_孙乙豪.zip
+                        
+                        1224hw_孙乙豪
+                            homework1.c
+                            homework2.c
+                            homework3.c
+                            homework4.c
+                            homework5.c
+                            homework6.c
+                            homework7.c
+                            homework8.c
+                    
+                    张亚飞
+                        1224hw_张亚飞.zip
+                        
+                        1224hw_张亚飞
+                            add_str_MF.c
+                            cp_str_MF.c
+                            delete_char_MF.c
+                            dou_arr.c
+                            get_score_MF.c
+                            input_pos_numMF.c
+                            insert_delete_MF.c
+                            str_MF.c
+                
+                课堂代码
+                    brook.c
+                    calc.c
+                    calc_mf.c
+                    carno.c
+                    ellipse.c
+                    ellipse_mf.c
+                    equtriangle.c
+                    flower.c
+                    gcdlcm.c
+                    getmonthdays.c
+                    guessnum.c
+                    hundred.c
+                    isprime.c
+                    money.c
+                    numinc3.c
+                    perfectnum.c
+                    prime100.c
+                    print99.c
+                    printeven.c
+                    rhombus.c
+                    right_trigle1.c
+                    right_trigle2.c
+                    score.c
+                    score_mf.c
+                    ssp.c
+                    sub.c
+                    testfunc.c
+                    testprintf.c
+                    testrand.c
+                    testscanf.c
+                    testscanf2.c
+                    testsizeof.c
+                    uptolower.c
+                    uptolower_mf.c
+                    
+                    array
+                        basesort.c
+                        bubblesort.c
+                        delchar.c
+                        delete.c
+                        delorins.c
+                        deluserloc.c
+                        guard_search.c
+                        half_search.c
+                        huiwen.c
+                        insert.c
+                        insertsort.c
+                        inssorted.c
+                        insuserloc.c
+                        io.c
+                        maxmin.c
+                        monthdays.c
+                        score.c
+                        search.c
+                        selectsort.c
+                        sumave.c
+                    
+                    calendar
+                        calendar.c
+                        date.c
+                        main.c
+                    
+                    hello1
+                        hello.c
+                    
+                    hello2
+                        hello_2f.c
+                        hello_3f.c
+                        hello_4f.c
+                    
+                    hello3
+                        helloworld.c
+                        main.c
+                        main.i
+                        main.o
+                        main.S
+                        print.c
+                    
+                    string
+                        counta.c
+                        teststring.c
+            
+            2021-12-27-day15
+                1227作业.txt
+                c_code.tgz
+                图一.png
+                课堂练习.doc
+                
+                今日课堂
+                    array
+                        arr2dsum.c
+                    
+                    pointer
+                        delorins_addr.c
+                        delorins_pointer.c
+                        io.c
+                        maxmin.c
+                        score_addr.c
+                        score_pointer.c
+                        
+                        delorins
+                            arr.c
+                            main.c
+                    
+                    string
+                        msc
+                        my_strcat.c
+                        my_strchr.c
+                        my_strcpy.c
+                
+                王老师所传课堂视频
+                
+                自己录屏
+            
+            2021-12-28-day16
+                1228作业.txt
+                图一.png
+                图二.png
+                知识点一.txt
+                输入函数.png
+                随堂练习.doc
+                
+                今日代码
+                    arr2dsum_addr.c
+                    arr2dsum_pointer.c
+                    coutry.c
+                    delchar_addr.c
+                    delchar_pointer.c
+                    inputname.c
+                    mygets.c
+                    my_strchr.c
+                    my_strcmp.c
+                    my_strcpy.c
+                    name.c
+                    parsestring.c
+                    search.c
+                    stringinput.c
+                    sumave_addr.c
+                    sumave_pointer.c
+                    testsprintf.c
+                    testsscanf.c
+                
+                我录的视频
+                
+                老师录的视频
+                
+                课堂代码
+                    c_code.tgz
+            
+            2021-12-29-day17
+                12-29随堂练习.doc
+                1229作业.txt
+                c_code.tgz
+                图一.jpg
+                图二.png
+                
+                今日代码
+                    .get_rectarea.c.swp
+                    addrtype_change.c
+                    cntword.c
+                    delchar.c
+                    gcdlcm.c
+                    get_rectarea.c
+                    mygets.c
+                    parse_money.c
+                    pointer_array.c
+                    sortname.c
+                    sortnums.c
+                    testmainargc.c
+                    toupper.c
+                
+                我录的
+                
+                老师录的
+            
+            2021-12-30-day18
+                1230作业.txt
+                c_code.tgz
+                图一.jpg
+                图二.png
+                随堂练习.doc
+                
+                今日代码
+                    aeiou.c
+                    arrcpy.c
+                    coordinate.c
+                    delmaxmin.c
+                    factor.c
+                    fib.c
+                    half_search.c
+                    money.c
+                    monkey.c
+                    mygets.c
+                    myprintstr.c
+                    printprime.c
+                    stacksize.c
+                    structio.c
+                
+                我录的
+                
+                老师录的
+                    1230_02.avi
+                    1230_03.avi
+                    1230_04.avi
+                    1230_05.avi
+                    1230_06.avi
+                    1230_07.avi
+                    说明.txt
+            
+            2021-12-31-day19
+                c_code.tgz
+                作业1.jpg
+                作业2.jpg
+                各章示例练习作业.txt
+                图1.jpg
+                图2.png
+                图3.jpg
+                图4.png
+                随堂练习.doc
+                
+                今日代码
+                    cntrand.c
+                    cntrand_2.c
+                    complex.c
+                    complex_mf.c
+                    delmaxmin.c
+                    findoldest.c
+                    hanoi.c
+                    hi
+                    mygets.c
+                    printprime.c
+                    rabit.c
+                    select.c
+                    
+                    calendar
+                        calendar.c
+                        calendar.h
+                        date.c
+                        main.c
+                
+                作业参考代码
+                    0103hw_夏启阳.zip
+                
+                我录的
+                
+                老师录的
+                    1231_01.avi
+                    1231_02.avi
+                    1231_03.avi
+                    1231_04.avi
+                    1231_05.avi
+                    1231_06.avi
+                    1231_07.avi
+        
+        2022-01
+            老师录视频说明.txt
+            
+            2022-01-04-day20
+                0104作业.txt
+                c_code.tgz
+                图一.png
+                图二.png
+                随堂练习.doc
+                
+                今日代码
+                    array_pointer.c
+                    array_pointer.txt
+                    
+                    preprocess
+                        define.c
+                        sum.c
+                        
+                        include
+                            aaaaaa.h
+                            icd
+                            include.c
+                            
+                            inc
+                                d2
+                                    bbb.h
+                    
+                    sims
+                        main.c
+                        mygets.c
+                        stu.h
+                        stumodel.c
+                        ui.c
+                
+                我录的
+                
+                老师录的
+                    0104_01.avi
+                    0104_02.avi
+                    0104_03.avi
+                    0104_04.avi
+                    0104_05_01.avi
+                    0104_05_02.avi
+                    0104_06.avi
+                    0104_07.avi
+                
+                课件
+                    Note预处理.md
+                    Note高级指针.md
+                    进度.png
+            
+            2022-01-05-day21
+                0105作业.txt
+                c_code.tgz
+                图一.jpg
+                图三.jpg
+                图二.jpg
+                图四.png
+                
+                今日代码
+                    arr2dsum.c
+                    
+                    area
+                        area.c
+                        area.h
+                        main.c
+                    
+                    enum
+                        testenum.c
+                    
+                    sort
+                        main.c
+                        mysort.h
+                        sort.c
+                    
+                    union
+                        mygets.c
+                        school.c
+                        school_2.c
+                        testunion.c
+                
+                我录的
+                
+                老师录的
+                    0105_01.avi
+                    0105_02.avi
+                    0105_03.avi
+                    0105_04.avi
+                    0105_05.avi
+                    0105_06.avi
+            
+            2022-01-06-day22
+                c_code.tgz
+                变量特性表.xls
+                图一.jpg
+                图三.png
+                图二.jpg
+                进程内存布局.png
+                
+                今日代码
+                    说明.txt
+                    
+                    command
+                        main.c
+                        mygets.c
+                    
+                    funcarr
+                        main.c
+                        mygets.c
+                    
+                    namespace
+                        calltimes.c
+                        
+                        const
+                            testconst_lv.c
+                        
+                        exam_global_var
+                            f1.c
+                            f2.c
+                            main.c
+                    
+                    school
+                        main.c
+                        mygets.c
+                        school.c
+                        school.h
+                    
+                    上午
+                        command
+                            main.c
+                            mygets.c
+                        
+                        funcarr
+                            main.c
+                            mygets.c
+                        
+                        school
+                            main.c
+                            mygets.c
+                            school.c
+                            school.h
+                            图.png
+                
+                我录的
+                
+                老师录的
+                    0106_01.avi
+                    0106_02.avi
+                    0106_03.avi
+                    0106_04.avi
+                    0106_05.avi
+            
+            2022-01-07-day23
+                c_code.tgz
+                
+                今日课堂
+                    bitfield
+                        testbitfield.c
+                    
+                    rename
+                        function
+                            f
+                            f1.c
+                            f2.c
+                            main.c
+                    
+                    struct_size
+                        teststruct_sizeof.c
+                
+                我录的
+                
+                老师录的
+                    0107_01.avi
+                    0107_02.avi
+                    0107_03.avi
+                    0107_04.avi
+                    0107_05.avi
+            
+            2022-01-08-day24
+                说明.txt
+            
+            2022-01-10-day25
+                pll.tgz
+                psl.tgz
+                作业.txt
+                
+                今日代码
+                    pll
+                        main.c
+                        person_ll.c
+                        person_ll.h
+                        单向链表图.png
+                    
+                    psl
+                        main.c
+                        person_sl.c
+                        person_sl.h
+                    
+                    psl_finish
+                        main.c
+                        person_sl.c
+                        person_sl.h
+                        内存说明图.jpg
+                
+                我录的
+            
+            2022-01-11-day26
+                19数据结构.zip
+                CBaseTest.doc
+                作业.txt
+                程序备份.zip
+                
+                19数据结构
+                    01_note.md
+                    AVL树.png
+                    二叉搜索树.png
+                    红黑树.png
+                    
+                    01_note.assets
+                        1641796402492.png
+                        1641872847007.png
+                        1641873438744.png
+                        1641880547328.png
+                        1641881076517.png
+                        1641881655932.png
+                        1641882650974.png
+                        1641884908415.png
+                        1641890473762.png
+                        1641891555410.png
+                
+                今日课堂
+                    person_dll.h
+                    
+                    dt_src
+                        dlinklist
+                            main.c
+                            person_dll.c
+                            person_dll.h
+                        
+                        seqlist
+                            main.c
+                            person_sl.c
+                            person_sl.h
+                        
+                        slinklist
+                            main.c
+                            person_ll.c
+                            person_ll.h
+                    
+                    带头文件单向非循环列表
+                        main.c
+                        person_ll.c
+                        person_ll.h
+                        说明.txt
+                
+                我录的
+            
+            2022-01-12-day27
+                0112作业.txt
+                19数据结构.zip
+                随堂练习.txt
+                
+                今日代码
+                    bank_linkqueue框架
+                        intqueue.c
+                        intqueue.h
+                        main.c
+                    
+                    dt_src
+                        bank_linkqueue
+                            .intqueue.h.swp
+                            intqueue.c
+                            intqueue.h
+                            main.c
+                        
+                        dlinklist
+                            main.c
+                            person_dll.c
+                            person_dll.h
+                        
+                        lineeditor_linkstack
+                            charstack.c
+                            charstack.h
+                            main.c
+                        
+                        lineeditor_seqstack
+                            charstack.c
+                            charstack.h
+                            main.c
+                        
+                        seqlist
+                            main.c
+                            person_sl.c
+                            person_sl.h
+                        
+                        slinklist
+                            main.c
+                            person_ll.c
+                            person_ll.h
+                    
+                    lineeditor框架link
+                        charstack.c
+                        charstack.h
+                        main.c
+                    
+                    lineeditor框架seq
+                        charstack.c
+                        charstack.h
+                        main.c
+                
+                代码
+                    bank_linkqueue.tgz
+                    dt_src.tgz
+                    lineeditor_linkstack.tgz
+                    lineeditor_seqstack.tgz
+                
+                我录的
+            
+            2022-01-13-day28
+                0113作业.txt
+                
+                上课代码备份
+                    bank_seqqueue.tgz
+                    dt_src.tgz
+                    insertsort.c
+                
+                今日代码
+                    上课所给，多为框架，不完整
+                        bank_seqqueue-框架
+                            bank_sequeue框架.jpg
+                            intqueue.c
+                            intqueue.h
+                            main.c
+                        
+                        shell排序
+                            insertsort.c
+                            shell排序.jpg
+                        
+                        快排
+                            quicksort.c
+                            快排1.jpg
+                            快排2.jpg
+                    
+                    课后所给完整版
+                        insertsort.c
+                        quicksort.c
+                        
+                        bank_linkqueue
+                            intqueue.c
+                            intqueue.h
+                            main.c
+                        
+                        bank_seqqueue
+                            .intqueue.h.swp
+                            intqueue.c
+                            intqueue.h
+                            main.c
+                        
+                        lineeditor_linkstack
+                            charstack.c
+                            charstack.h
+                            main.c
+                        
+                        sclinklist
+                            main.c
+                            person_ll.c
+                            person_ll.h
+                
+                我录的
+            
+            2022-01-14-day29
+                0114作业.txt
+                dt_src.tgz
+                图一.png
+                
+                今日代码
+                    quicksort.c
+                    
+                    binarytree
+                        travle_tree.c
+                    
+                    slinklist
+                        main.c
+                        person_ll.c
+                        person_ll.h
+                
+                我录的
+            
+            2022-01-15-day30
+                说明.txt
+            
+            2022-01-17-day31
+                01-17随堂练习.txt
+                图一.png
+                
+                今日代码
+                    01-17
+                        abc.txt
+                        getfilesize.c
+                        kkk.txt
+                        test.txt
+                        testfread.c
+                        testfseek.c
+                        testftell.c
+                        xyz.txt
+                
+                我录的
+            
+            2022-01-18-day32
+                0118作业.txt
+                stdio_src.tgz
+                随堂练习.txt
+                
+                今日代码
+                    txtcpy_str.c
+                    
+                    01-18
+                        0117_01.c
+                        0117_01_txt.c
+                        0117_02.c
+                        0117_02_txt.c
+                        0117_03.c
+                        model1.c
+                        model1.txt
+                        rand1.dat
+                        rand1.txt
+                        rand2.dat
+                        rand2.txt
+                        rand3.dat
+                        rand3.txt
+                        readtxtline.c
+                        txtcpy.c
+                        txtcpy_str_2.c
+                
+                我录的
+            
+            2022-01-19-day33
+                0119作业.txt
+                fileio_src.tgz
+                随堂练习.txt
+                
+                今日代码
+                    systemio
+                        mycp.c
+                        printtype.c
+                        testaccess.c
+                        teststat.c
+                    
+                    昨天作业
+                        0118_hw_01_model2.c
+                        0118_hw_02_model3.c
+                        model1.dat
+                        model2.txt
+                        model3.txt
+                
+                我录的
+            
+            2022-01-20-day34
+                0120作业.txt
+                fileio_src.tgz
+                随堂练习.txt
+                
+                今日代码
+                    printdir.c
+                    
+                    今日
+                        0119_hw_01.c
+                        0119_hw_02.c
+                        in.dat
+                        log.txt
+                        mygets.c
+                        out.dat
+                        printdir.c
+                        t1.txt
+                        t2.txt
+                        test.txt
+                        testlinebuffer.c
+                        testmmap.c
+                        testreaddir.c
+                
+                我录的
+            
+            2022-01-21-day35
+                0121作业.txt
+                process_src.tgz
+                图一.jpg
+                随堂练习.txt
+                
+                今日代码
+                    avoidzombie.c
+                    processexit.c
+                    test.txt
+                    testfork.c
+                    testforkopen.c
+                    testgetpid.c
+                    testwait.c
+                    testzombie.c
+                
+                我录的
+            
+            2022-01-22-day36
+                0120hw-0121hw.zip
+                2022年春节作业.zip
+                图一.jpg
+                图二.png
+                
+                2022年春节作业
+                    日程安排.xlsx
+                    
+                    01memcheck
+                        01.avi
+                        02.avi
+                        memcheck.md
+                        
+                        memcheck.assets
+                            1642830660593.png
+                            1642831664455.png
+                    
+                    02dict
+                        01.avi
+                        02.avi
+                        dict.md
+                        dict.txt
+                        
+                        dict.assets
+                            1642837551158.png
+                            1642838632201.png
+                    
+                    03SIMS
+                        01.avi
+                        03_SIMS小项目.md
+                        SIMS.png
+                
+                今日代码
+                    0120hw
+                        36swap
+                        displayc.c
+                        swap36.c
+                        tags
+                        test.txt
+                    
+                    0121hw
+                        3sonprocess.c
+                        rwhello_01.c
+                        rwhello_02.c
+                        test.txt
+                
+                我录的
+        
+        2022-02
+            2022-02-08-day10
+                今日代码
+                作业
+                    hw1.c
+                    hw2.c
+                    hw3.c
+                    hw4.c
+                    hw5.c
+                    hw6.c
+                    温雨桥-2022.2.8.docx
+                
+                我录的
+                
+                王老师课堂内容
+                    0208hw_王志强.zip
+                    0208作业.txt
+                    process_src.tgz
+                    thread_src.tgz
+                    图1.jpg
+                    进度.png
+            
+            2022-02-09-day11
+                Day11.tar.gz
+                温雨桥2022-02-09.docx
+                
+                今日代码
+                    01-homework.c
+                    02-homework.c
+                    03-homework.c
+                    04-homework.c
+                    05-homework.c
+                    06-homework.c
+                    07-test.c
+                    08-test.c
+                    09-test.c
+                    10-test.c
+                    11-break.c
+                    12-break_test.c
+                    13-continue.c
+                    14-goto.c
+                    15-rand_test.c
+                    16-array.c
+                    17-arry.c
+                    18-array_init.c
+                    a.out
+                
+                我录的
+                
+                王老师课堂内容
+                    0209作业.txt
+                    图1.jpg
+                    图2.jpg
+                    图3.jpg
+                    图4.jpg
+                    图5.jpg
+                    进度说明.png
+                    
+                    代码示例截图
+                        1.jpg
+                        2.jpg
+                        3.jpg
+                        4.jpg
+                    
+                    课堂代码
+                        thread_src.tgz
+            
+            2022-02-10-day12
+                Day12.tar.gz
+                温雨桥2022-02-10.docx
+                
+                Day12
+                    01-homework.c
+                    02-homework.c
+                    03-homework.c
+                    04-homework.c
+                    05-variable_array.c
+                    06-bubble_sort.c
+                    07-selection_sort.c
+                    08-2array.c
+                    09-2array.c
+                    10-string.c
+                    11-string.c
+                    12-strcpy.c
+                    13-strcat.c
+                    14-strcmp.c
+                    15-strlen.c
+                    a.out
+                
+                我录的
+                
+                王老师课堂
+                    0210作业.txt
+                    图1.jpg
+                    网址.txt
+                    进度.png
+                    
+                    课堂代码
+                        ipc_src.tgz
+                        thread_src.tgz
+            
+            2022-02-11-day13
+                我录的
+                
+                王老师课堂
+                    0211作业.txt
+                    课程进度.png
+                    
+                    课堂代码
+                        ave_varstruct.tgz
+                        ipc_src.tgz
+                        msgqueue.tgz
+    
+    课程无关
+        21121班级日常事务安排.xlsx
+        座位并值日表.jpg
+        温雨桥.xlsx
+        防诈骗主题班会.pptx
+        陆老师.xlsx
+        陆老师2班.jpg
+        项玛俊组.doc
+        项玛俊组.pdf

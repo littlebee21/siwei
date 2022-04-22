@@ -1,0 +1,358 @@
+es7.14
+    主题
+        数据流 - 实时数据
+            设置数据流
+            使用数据流
+            更改数据流的映射和设置
+        摄取管道 --  过滤
+            示例：解析日志
+            丰富您的数据
+            处理器参考
+        别名
+        数据管理
+            数据层
+            索引管理
+        ILM：管理索引生命周期
+            概述
+            概念
+            自动翻转
+            自定义内置 ILM 策略
+            索引生命周期操作
+            配置生命周期策略
+            将索引分配过滤器迁移到节点角色
+            解决生命周期策略执行错误
+            启动和停止索引生命周期管理
+            管理现有索引
+            跳过翻转
+            恢复托管数据流或索引
+        自动缩放
+        汇总或转换您的数据
+            汇总历史数据
+            转换数据
+        保护elastic堆栈
+            配置安全
+            更新节点安全证书
+            用户认证
+            用户授权
+            启用审计日志
+            使用 IP 过滤限制连接
+            跨集群搜索、客户端和集成
+            操作员权限
+            故障排除
+            限制
+        守望者
+            开始使用观察者
+            观察者的工作原理
+            在 Watcher 中加密敏感数据
+            输入
+            触发器
+            状况
+            行动
+            变换
+            Java API
+            管理手表
+            示例手表
+            故障排除
+            限制
+    场景
+        1.性能优化杀手锏 filesystem cache
+            第一次从磁盘查出数据会存到内存的fileSystem Cache，es搜索引擎严重依赖底层的os cache。
+            如果走磁盘一般肯定上秒， 但是如果走filesystem cache，走纯内存，那么基本上就是毫秒级的。从几毫秒到几百毫秒不等。
+            1.如果要es性能好，最佳情况下，机器的内存要容纳你总数据量的一半。
+                比如es中要存储1T数据，那么你多台机器留给filesystem cache的内存要加起来综合到512g。
+            2.往es里存少量的数据，比如30个字段只用到了三个就存三个。让内存留给filesystem cache的大小跟数据量一致。性能就会非常高，一般可以在1s以内
+            3.其他字段的数据可以存在mysql里面，建议采用es+hbasehbase的特点就是适用于海量数据的在线存储，就是可以对hbase写入海量数据，不要做复杂的搜索，就是做很简单的一些根据id或者范围查询的操作
+            总结：最好写入es数据小于 fileSystem cache内存大小
+        es在数据量很大的情况下（数十亿级别），es怎么提高查询性能？
+        十亿数据，第一次5～10s，第二次就快了
+            es性能优化是没有什么银弹的。不要期待随手调一个参数，就可以万能的应对所有性能慢的场景。有些场景换个参数，或者调整个语法就能搞定，但是绝对不是所有场景都是这样的。
+        场景
+            文本搜索
+                高亮
+                日志
+                订单
+            推荐功能
+                商品推荐
+            安全监控
+            网站搜索/垂直搜索/代码搜索
+            日志管理与分析/安全指标监控/应用性能监控/Web抓取舆情分析
+    使用
+        搭建环境
+            docker 搭环境
+            kibana dev tool
+            官方文档
+            第三方翻译中文文档
+            restful api手册
+        设置elastic搜索
+            安装 Elasticsearch
+            配置 Elasticsearch
+            重要的系统配置
+            引导检查
+            X-Pack 的引导程序检查
+            启动 Elasticsearch
+            停止 Elasticsearch
+            发现和集群形成
+            在集群中添加和删除节点
+            全集群重启和滚动重启
+            远程集群
+            设置 X-Pack
+            配置 X-Pack Java 客户端
+            插件
+        升级 Elasticsearch
+            滚动升级
+            完整的集群重启升级
+            升级前重新索引
+        控制方式
+            脚本编写1
+                无痛脚本语言
+                如何编写脚本
+                常见脚本用例
+                访问文档字段和特殊变量
+                脚本和安全
+                Lucene 表达式语言
+                使用脚本引擎的高级脚本
+            4. SpringData-Elasticsearch
+                4.1.   创建module
+                4.2.   实体类
+                4.3.   创建索引及映射
+                4.4.   Repository文档操作
+                    4.4.1.   新增
+                    4.4.2.   删除
+                4.5.   查询
+                    4.5.1.   基本查询
+                    4.5.2.   条件查询
+                    4.5.3.   自定义查询
+                        MQ ElasticSearch
+            TransportClient计划废除 
+            RestClient
+                java控制elasticsearch：jest
+                    9300: TCP
+                    9200: HTTP
+                        jesttemple
+                        restemple
+                        httpclient
+                        elasticsearch -Rest-client官方restclient
+                Java 低级 REST 客户端
+                Java 高级 REST 客户端
+                    入门
+                    文档 API
+                    搜索 API
+                    异步搜索 API
+                    其他 API
+                    索引 API
+                    集群 API
+                    摄取 API
+                    快照 API
+                    任务 API
+                    脚本 API
+                    许可 API
+                    机器学习 API
+                    迁移 API
+                    汇总 API
+                    安全 API
+                    文本结构 API
+                    观察者 API
+                    图 API
+                    CCR API
+                    索引生命周期管理 API
+                    快照生命周期管理 API
+                    可搜索快照 API
+                    转换 API
+                    丰富API
+                    使用 Java 构建器
+                    迁移指南
+                    执照
+        命令行工具
+            elasticsearch-certgen
+            elasticsearch-certutil
+            elasticsearch-croneval
+            elasticsearch-keystore
+            elastic搜索迁移
+            elastic搜索节点
+            elasticsearch-saml-元数据
+            elastic搜索服务令牌
+            elastic搜索设置密码
+            elastic搜索分片
+            elasticsearch-syskeygen
+            elastic搜索用户
+        平台工具
+            1. Linux命令行
+            1. Kibana的Dev Tools
+            1. Cerebro插件
+            1. 浏览器（postman）
+            X-Pack
+            head浏览器插件
+            分词器IK
+            分词器
+                Standard Analyzer
+                    标准分析器是默认分词器，如果未指定，则使用该分词器。
+                    它基于Unicode文本分割算法，适用于大多数语言。
+                Whitespace Analyzer
+                    基于空格字符切词。
+                Stop Analyzer
+                    在simple Analyzer的基础上，移除停用词。
+                Keyword Analyzer
+                    不切词，将输入的整个串一起返回。
+            自定义词库
+            日志分析
+                logstash
+                kibana 可视化分析
+                安装 7x最新版本】
+    机制
+        索引 indices
+            GET _cat/indices 查看全部索引
+            PUT / 增加索引
+            GET / 获取索引信息
+            DELETE / 删除索引
+            HEAD / 索引是否存在
+            不允许修改索引, 但是可以引入中间商来间接修改
+        索引分析模块
+            分析
+            索引分片分配
+            索引块
+            映射器
+            合并
+            相似度模块
+            慢日志
+            店铺
+            跨日志
+            历史保留
+            索引排序
+            分度压力
+        迁移指南
+        快照和恢复
+            注册一个仓库
+            创建快照
+            恢复快照
+            监控快照和恢复
+            删除快照
+            SLM：管理快照生命周期
+            可搜索快照
+        分布式检索
+        全文检索
+        text analysis 文本分析
+            配置文本分析
+            内置分析仪参考
+            分词器参考
+            令牌过滤器参考
+            字符过滤器参考
+            规范化器
+            文本分析是将非结构化文本(如电子邮件正文或产品描述)转换为结构化格式以便于搜索的过程。他发生在索引和搜索的时候
+            分析器
+                Character filters 字符过滤器
+                    例子: 过滤html tag, 转为 普通的文本
+                Tokenizer 分词
+                Token filter 词过滤器
+                    比如把token转换为小写, 移除通用词, 增加同义词
+                    stemming 词干
+                        eg: walking and walked can be stemmed to same root word walk
+                        eg 英文的去复数
+            测试
+            text analysis 文本分析
+                文本分析是将非结构化文本(如电子邮件正文或产品描述)转换为结构化格式以便于搜索的过程。他发生在索引和搜索的时候
+                分析器
+                    Character filters 字符过滤器
+                        例子: 过滤html tag, 转为 普通的文本
+                    Tokenizer 分词
+                    Token filter 词过滤器
+                        比如把token转换为小写, 移除通用词, 增加同义词
+                        stemming 词干
+                            eg: walking and walked can be stemmed to same root word walk
+                            eg 英文的去复数
+                测试
+    单体原理
+        写入数据
+            写数据
+                基本写入流程1.首先客户端随便选择一个节点去写，此时这个节点称为协调节点2.协调节点对写的数据进行hash，确定这个数据属于哪个shard（分片）3.发现当前协调节点不存在数据应该存储分片的主分片（primary shard），那么就对数据进行路由，到有pimary shard的节点上去4.主节点同步数据到从节点，如果主节点和从节点都写完了，那么协调节点会返回写成功的响应给客户端。
+                primary shard存储底层原理（refresh，flush，translog，merge）
+                    1.数据写入shard的时候，先写入内存buffer里，同时它会写入到translog日志文件里。（此时如果客户端要查询数据是查不到的）
+                    2.如果buffer快满了或者每隔一段（默认1s）时间，es会把内存buffer中的数据 refresh刷到到一个新的segment file，每隔1秒就会产生一个新的segment文件（存入这1s的数据）  但是如果buffer里面此时没有数据，就不会执行refresh。数据在写入segment file之后，同时就建立好倒排索引了。
+                    3.操作系统中，磁盘文件其实都有一个东西，叫os cache，操作系统缓存。就是说数据写入磁盘文件之前，会先进入os cache。  只要buffer里的数据写入到了os cache里面，客户端就能搜索到这部分数据了。
+                        为什么es是准实时的？因为写入1s后才会刷到os cache里。  写入到os cache里之后，buffer里的数据就会清空，translog会保留。
+                        translog也是磁盘文件，所以也是先写入os cache里的，默认5秒刷新数据到磁盘中
+                    4.当translog不断变大，大到一定阈值，或者30分钟 就会触发commit（flush）操作。（默认30分钟会自动执行）整个commit过程叫flush，手动根据es api也可以执行flush。  commit操作： 1.写commit point 2.将os cache fsync强刷到磁盘上去 3。清空translog日志文件  1.将buffer里的数据都写入os cache里面去，然后清空buffer。  2.将一个commit point文件写入到磁盘，里面标示着之前写入的所有segment file，但是数据还是在os cache中。  3.把os cache缓冲的所有的数据都fsync到磁盘上面的每个segment file中去。  4.刷完以后会删除并新建translog
+                        translog日志作用：数据一般都是存储在buffer或者os cache内存里，一旦服务器宕机重启，内存中的数据就会丢失。所以将es操作日志存储在translog里，es重启时通过translog将数据恢复到buffer及os cache中。
+                    删除数据写入.del文件中标识一下这个数据被删除了，里面某个doc标识为deleted状态客户端搜索某条数据，一旦发现这条数据在.del文件中找到这条数据被标识成删除状态了，就不会搜索出来。
+                    在新的文档被创建时，Elasticsearch会为该文档指定一个版本号，当执行更新时，旧版本的文档在.del文件中被标记为删除，新版本的文档被索引到一个新段。旧版本的文档依然能匹配查询，但是会在结果中被过滤掉。
+                    由于每隔1s生成一个segment file，当文件多到一定程度的时候，es会merge成一个大的segment file，然后删除旧的文件在merge的时候，会看一下如果某条数据在.del文件中标识为删除，那么merge后的新文件里这条数据就没了（物理删除）
+                数据是准实时的
+                    1s后才将数据刷新到os cache中
+                丢失数据情况
+                    默认5s才会将translog从os cache写入到磁盘文件中，所以会有5s数据丢失的可能
+                    解决：可以设置个参数，官方文档。每次写入一条数据，都是写入buffer，同时写入磁盘上的translog。         但是会导致写性能，写入吞吐量下降一个数量级。本来1s可以写入2000条，现在1s钟可能只能写200条。
+            读数据过程根据doc id查询
+                查询，GET某一条数据。数据写入了某个document，这个document会自动给你分配一个全局唯一的id （doc id），同时也是根据doc id进行hash路由到对应的primary shard上去的。也可以手动指定doc id，比如用户id，订单id。
+                客户端发送一个请求到任意一个node，成为协调节点协调节点对doc id进行hash，找到对应shard，然后对document进行路由，请求转发到对应的节点，此时会使用round-robin随机轮询算法，在primary shard及所有replica shard中随机选择一个，让读请求负载均衡。接收请求的节点 返回 document 给协调节点（coordinate node）协调节点返回 document 给客户端
+        查询数据
+            搜索数据过程
+        搜索您的数据
+            收起搜索结果
+            过滤搜索结果
+            突出显示
+            长时间运行的搜索
+            近乎实时的搜索
+            分页搜索结果
+            检索内部命中
+            检索选定的字段
+            跨集群搜索
+            搜索多个数据流和索引
+            搜索分片路由
+            搜索模板
+            对搜索结果进行排序
+        全文检索的过程
+        检索文档建立索引
+        倒排索引
+            es接收到一个文档后，进行字符过滤->分词->归一化（停用词，大小写，单数和复数，相近词（相似词））
+            BKD树（K-D数和B+树）
+            正排索引
+        存储方式
+            JSON
+            文档
+        数据建模
+            es处理关联关系’
+                对象类型
+                嵌套对象 nested object
+                    场景
+                        包含对象数组的对象
+                            对象数组被存储成上图格式 导致搜索时也能被搜到
+                    nested数据类型
+                        允许对象数组中的对象被独立索引
+                        在内部nested文档会被保存在两个Lucene文档中，在查询时做join处理
+                        nested对象的更新删除会重新索引整个文档(根对象和嵌套对象)，所以nested适合不经常更新的对象
+                            比如例子中的演员姓名或者出生日期这种
+                            而经常需要修改的数据则适合使用parent child
+                        存储
+                            存储时需要提前设置mapping
+                        搜索
+                            搜索时有特定的搜索方式
+                        聚合
+                            聚合时有特定的聚合方式
+                父子关联关系parent/child
+                    设置mapping
+                    索引父文档
+                    索引子文档
+                        父文档和子文档必须在相同的分片上，确保join的性能当指定子文档的时候，必须指定它的父文档ID利用routing参数保证分配到相同的分片上
+                    按需查询文档
+                        https://blog.justcoder.tech/2021/09/23/wen-dang-de-fu-zi-guan-xi/
+                应用端关联
+        luence
+        match
+            match 查询的单个词的步骤是什么？
+            检查字段类型，查看字段是 analyzed, not_analyzed
+            分析查询字符串，如果只有一个单词项， match 查询在执行时就会是单个底层的 term 查询
+            查找匹配的文档，会在倒排索引中查找匹配文档，然后获取一组包含该项的文档
+            为每个文档评分
+            构建 Match 查询
+    组成
+    一些经验文章
+        模糊查询导致Elasticsearch服务宕机
+            https://elasticsearch.cn/article/186
+        警惕通配符查询
+            https://elasticsearch.cn/article/171
+        MQ异步同步搜索引擎ElasticSearch数据踩坑
+            https://www.cnblogs.com/yangtianle/p/9542872.html
+        aggregation聚合操作，耗时很长
+            https://blog.csdn.net/qq_24636385/article/details/101062908?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param
+            map 需要消耗内存，terms小的时候可以用
+        聚合速度提升5倍
+            https://blog.csdn.net/laoyang360/article/details/79253294

@@ -1,0 +1,254 @@
+springmvc
+    相关内容
+        resful原则
+    应用层
+        响应数据和结果视图
+        springmvc的校验
+        springmv的异常处理
+        处理表单
+            展现注册表单
+            处理表单输入
+            校验输入
+        文件上传
+        定时任务
+            配置
+                1.在springmvc.xml里加入task的命名空间
+                2.配置定时任务的线程池
+                3.启用注解驱动的定时任务
+            任务示例
+            cron表达式详
+                一个cron表达式有至少6个（也可能7个）有空格分隔的时间元素。
+        RestFul
+            发出rest风格的请求
+            编写rest风格的映射方法
+            配置rest风格的方法转换过滤器
+    使用之接受
+        拦截器：抽取handler功能
+            定义拦截器
+                执行顺序
+                    preHandle--postHandle--afterCompletion
+                举例
+                    在handler之前执行:抽取handler中的冗余代码
+                        @Override 
+                    在handler之后执行:进一步的响应定制
+                    在页面渲染完毕之后执行:资源回收
+            配置拦截路径
+        数据校验
+            使用Annotaion JSR-303标准的验证
+                1. 环境准备
+                2. 配置校验器
+                3.添加校验
+                    常用注解校验器
+                    示例
+                    异常消息文件
+                4.校验信息处理
+                5.校验信息显示
+                6. 分组校验
+                    定义分组接口
+                        注意：接口中不需要定义任何方法，仅仅是对不同的校验规则进行分组
+                    在使用的校验器中添加属性： groups={分组接口.class}
+                    在处理器中修改  @Validated（value= {分组接口.class}）
+            基于Validator接口的验证
+        接受请求参数
+            注解的使用
+                @Controller
+                    标识一个控制器
+                @RequestMapping
+                    标识一个相对路径或访问路径
+                    注：如果@RequestMapping注解在类级别上，则表示一相对路径，在方法级别上，则标记访问的路径；
+                    作用
+                        spring MVC 使用 @RequestMapping 注解为控制器指定可以处理哪些 URL 请求。
+                        类定义处：提供初步的请求映射信息。相对于 WEB 应用的根目录
+                        方法处：提供进一步的细分映射信息。相对于类定义处的 URL。若类定义处未标注 @RequestMapping，则方法处标记的 URL 相对于WEB 应用的根目录
+                    常用属性
+                        value：表示请求 URL
+                        path：表示请求 URL
+                        method：表示请求方法
+                        params：表示请求参数
+                        heads：表示请求头的映射条件
+                    模糊匹配
+                        ？：匹配一个字符
+                        *：匹配任意字符
+                        **：匹配多层路径
+                    示例
+                @RequestParam传递参数
+                    作用
+                        在处理方法入参处使用 @RequestParam 可以把请求参数传递给请求方法
+                    属性
+                        value：参数名
+                        required：是否必须。默认为 true, 表示请求参数中必须包含对应 – 的参数，若不存在，将抛出异常
+                        defaultValue：默认值
+                    注意：value属性值可以与控制器处理方法的形参名称不一致
+                    示例
+                @PathVariable
+                    作用
+                        通过 @PathVariable 可以将 URL 中占位符参数绑定到控制器处理方法的入参中：
+URL 中的 {xxx} 占位符可以通过@PathVariable(“xxx”) 绑定到操作方法的入参中。
+                    示例
+                @RequestHeader
+                    作用
+                        请求头包含了若干个Header属性，服务器可据此获知客户端的信息，通过 @RequestHeader 即可将请求头中的属性值绑定到处理方法的入参中
+                    示例
+                @CookieValue
+                    作用
+                        @CookieValue 可• 让处理方法入参绑定某个 Cookie 值。
+                    示例
+                注解开发配置
+            处理模型数据
+                基本类型、包装类型
+                    使用 Servlet API 作为入参
+                        说明
+                            SpringMVC支持将Servlet API 作为入参传递给Controller的处理方法。
+                        可接收的类型
+                            HttpServletRequest
+                            HttpServletResponse
+                            HttpSession
+                            java.security.Principal
+                            Locale
+                            InputStream
+                            OutputStream
+                            Reader
+                            Writer
+                        示例
+                    使用POJO对象传递参数
+                        示例
+                简单对象、复杂对象
+                集合处理
+                    List类型数据
+                    Set类型数据
+                    Map类型数据
+                路径参数
+            中文乱码
+                1.页面中字符集统一
+                2.tomcat中字符集设置,对get请求中,对中文乱码参数有效
+                3.设置此filter,对中文乱码参数有效
+            Json处理
+                导入依赖
+                    Jackson spr ingMVC默认的Json解决方案选择是Jackson, 所以只需要导入jackson的jar,即可使用。
+                    com. fasterxml. jackson . corej ackson-databind2.9.8
+                使用@ResponseBody
+                使用@RestController
+                使用@RequestBody
+                    1.定义handler
+                    2.Ajax发送json
+                Jackson常用注解
+                    日期格式化
+                    属性名修改
+                    属性忽略
+                        @JsonIgnore
+                    null和empty属性排除
+                    自定义序列化
+                FastJson
+                    导入依赖
+                        com. alibabafastjson1 .2. 54
+                    安装FastJson
+                        application/json
+                    使用
+                        @ResponseBody @RequestBody @RestController使用方法不变
+                    常用注解
+                        日期格式化
+                            @JSONField(format*"yyy/MM/dd")
+                        属性名修改
+                            @JSONField(name="birth")
+                        忽略属性
+                            @JSONField(serialize = false)
+                        包含null值
+                            @JSONField(serialzeFeatures = SerializerFeature.WriteMapNullValue)默认会忽略所有null值，有此注解会输出null
+                            @JSONField(serialzeFeatures = SerializerFeature.WriteNullStringAsEmpty) null的String输出为""
+                        自定义序列化
+                            @JSONField(serializeUsing = MySerializer2.class)
+    使用之返回
+        静态资源
+            静态资源问题
+            解决方案1
+                Dispathcer采用其他的url-pattern,此时,所有访问handler的路径都要以action结尾
+            解决方案2
+                DispathcerServlet的url-pattern依然采用"/",但追加配置
+            解决方案3
+                . mapping是访问路径，location是静态资源存放的路径
+                将/htm/** 中/**匹配到的内容，拼接到/hhh/后htp./...html/a.htmtl访问/hhh/a.html
+        输出模型数据
+            ModelAndView
+                核心方法
+                    添加模型数据
+                        MoelAndView addObject(String attributeName, Object attributeValue)
+                        ModelAndView addAllObject(Map&amp;lt; String, ?&amp;gt; modelMap )
+                    设置视图
+                        void setView(View view )
+                        void setViewName(String viewName)
+            Map及Model
+                原理
+                    Spring MVC 在内部使用了一个org.springframework.ui.Model 接口存储模型数据。
+            @SessionAttributes存储到session中
+            @ModelAttribute 入参对象装载model中
+        跳转
+            请求转发
+            重定向
+            跳转细节
+                1.在增删改之后,为了防止请求重复提交,重定向跳转
+                2.在查询之后,可以做转发跳转
+            为什么要如此麻烦那？直接返回不就好了
+    开发流程
+        导入依赖
+            org.springframeworkspring-webmvc5.1.6.RELEASE
+        配置核心控制器
+            局部参数:声明配置文件位置
+                contextConfigLocationclasspath:mvc.xml
+        后端控制器
+        配置文件
+            告知springmvc哪些包存在被注解的类
+            注册注解开发驱动
+            试图解析器
+                作用
+                    1.捕获后端控制器的返回值="index"
+                    2.解析:在返回的值前后拼接==>"/index.jsp"
+                前缀
+                后缀
+            springmvc配置
+                1.配置核心控制器和编码过滤器web.xml
+                2.创建SpringMVC的配置文件 （springMVC.xml）
+                核心开发步骤
+                    1. DispatcherServlet在web.xml中的部署描述，从而拦截请求到Spring Web MVC 
+                    2. HandlerMapping的配置，从而将请求映射到处理器 
+                    3. HandlerAdapter的配置，从而支持多种类型的处理器 
+                    4. ViewResolver的配置，从而将逻辑视图名解析为具体视图技术 
+                    5. 处理器（页面控制器）的配置，从而进行功能处理
+    6. Spring MVC
+        3.SpringMvc 的控制器是不是单例模式,如果是,有什么问题,怎么解决？
+        5.@RequestMapping 注解用在类上面有什么作用？
+        7.SpringMvc 中函数的返回值是什么？SpringMVC 怎么样设定重定向和转发的？
+            重定向和转发问题
+    springmvc原理
+        MVC架构
+            Model
+                9.怎么样把 ModelMap 里面的数据放入 Session 里面？
+                怎么样在方法里面得到Request,或者Session？
+                模型:即业务模型，负责完成业务中的数据通信处理，对应项目中的service和dao
+            View
+                视图:渲染数据，生成页面。对应项目中的Jsp
+            Controller
+                控制器:直接对接请求，控制MC流程，调度模型，选择视图。对应项目中的Servlet
+        2.介绍一下 Web Application Context。
+            1.tomcat启动
+            2.实例化并初始化Servlet
+            3.加载创建spring容器，根据配置初始化容器中的对象
+            4.客户端发送请求
+            5.请求到达前端控制器
+            6.截取请求的动作名称hello并从@RequestMapping中找
+            7.找到后，执行控制器中的方法
+            8.方法返回值通过InternalResource\ViewResolve找到响应的结果视图
+            9.响应浏览器，展示结果
+        架构图对应的DispatcherServlet核心代码
+        SpringMVC工作流程描述
+            1、向服务器发送HTTP请求，请求被前端控制器 DispatcherServlet 捕获。
+            2、DispatcherServlet 根据 &amp;lt;servlet-name&amp;gt;-servlet.xml 中的配置对请求的URL进行解析，得到请求资源标识符（URI）。 然后根据该URI，调用 HandlerMapping 获得该Handler配置的所有相关的对象（包括Handler对象以及Handler对象对应的拦截器），最后以 HandlerExecutionChain 对象的形式返回。
+            3、DispatcherServlet 根据获得的Handler，选择一个合适的 HandlerAdapter。
+            4、提取Request中的模型数据，填充Handler入参，开始执行Handler（Controller)。 在填充Handler的入参过程中，根据你的配置，Spring将帮你做一些额外的工作：
+                 4.1、HttpMessageConveter： 将请求消息（如Json、xml等数据）转换成一个对象，将对象转换为指定的响应信息。
+                	4.2、数据转换：对请求消息进行数据转换。如String转换成Integer、Double等。
+                	4.3、数据根式化：对请求消息进行数据格式化。 如将字符串转换成格式化数字或格式化日期等。
+                	4.4、数据验证： 验证数据的有效性（长度、格式等），验证结果存储到BindingResult或Error中。
+            5、Handler(Controller)执行完成后，向 DispatcherServlet 返回一个 ModelAndView 对象；
+            6、根据返回的ModelAndView，选择一个适合的 ViewResolver（必须是已经注册到Spring容器中的ViewResolver)返回给DispatcherServlet。
+            7、ViewResolver 结合Model和View，来渲染视图。
+            8、视图负责将渲染结果返回给客户端。

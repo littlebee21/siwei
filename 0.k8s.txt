@@ -1,0 +1,552 @@
+kubernetes
+    应用
+        安装部署
+            系统初始化
+            kubeadm部署安装
+                创建一个master节点
+                创建一个node节点
+            前置要求
+            常见问题分析
+        其他插件
+            CoreDNS
+            IngressController
+                官方只能四层代理，Ingress实现七层代理
+            Prometheus
+            Dashboard图形化界面
+            Federation
+                跨K8s集群中心统一管理
+        负载均衡·
+        存储编排
+            PV
+                概念
+                    PV
+                    PVC
+                    类型说明
+                PV
+                    后端类型
+                    PV访问模式说明
+                    回收策略
+                    状态
+                    实例演示
+                PVC
+                    PVC实践
+            configMap
+                保存键值对集合，可以是大文件的二进制数据，可以用来替代pod中的环境变量配置
+                明文保存
+                使用方式
+                    env
+                        在container配置模板下的env字段可以配置valueFrom，声明configMapKeyRef，再声明configMap的名称，与引用的configMap中声明的key即可引用configMap中的值
+                        具体查看相关的explain文档
+                    envForm
+                        在container配置模板中，声明envForm。配置configMapRef，声明configMap名称即可引用configMap中定义的所有key与value
+            Secret
+                使用方式
+                    挂载到Volume
+                    导入到环境变量
+            volume
+                可以持久化pod中的状态文件，且pod可以使用任意数量的卷，k8s支持很多类型的volume
+                原理
+                    Volume是与pod中pause容器绑定，其他的应用容器共享pause绑定的所有volume
+                生命周期
+                    与封装volume的pod相同，所以卷比pod中的所有容器都唱，当容器重启时，数据得以保存，而pod不存在时，volume也会被销毁。
+                常见类型
+                    emptyDir
+                        pod被分配给节点时，首先创建emptyDir卷，志耀pod在该节点上运行，此卷就会存在它最初是空的，pod的容器可以读取和写入卷中的文件。而当node删除pod时，此卷中的所有数据都会被永久删除
+                        使用场景
+                            基于磁盘合并排序
+                            存储临时文件，比如程序崩溃时恢复的检查点
+                    hostPath
+                        将主机节点的文件系统中的文件或目录挂载到集群中
+                        任意能够被主机节点访问的到文件，甚至是远程目录
+                        type
+                            DirectoryOrCreate
+                                如果路径下没有不存在该路径，将会创建一个空目录，权限为755
+                            Directory
+                                指定路径必须存在目录
+                            FileOrCreate
+                                没有就创建一个空文件，644
+                            File
+                                必须存在文件
+                            Socket
+                                给定路径下必须存在Socket
+                            CharDevice
+                                必须存在字符设备
+                            BlockDevice
+                                必须存在块设备
+                            空
+                                默认向后兼容，在挂在hostPath卷之前不执行任何检查
+                        注意事项
+                            相同配置的pod在可能会在不同节点上，不同节点的文件不用，所以行为可能会不一样
+                            k8s按计划添加资源感知调度时，无法考虑hostPath使用的资源
+                            底层主机创建的文件或目录只能由root写入，需要特权容器以root身份运行进程，或修改主机上的文件权限以便写入hostPath卷
+            Persistent Volume(PV)
+                由管理员设置的存储，他是集群的一部分，是集群中的资源。PV时volume的卷插件。具有独立于使用pv的pod的生命周期。包含存储实现细节,如NFS、iSCSI或特定于云供应商的存储系统
+                PersistentVolumeClaim(PVC)
+                    用户存储的需求。pod消耗节点资源，PVC消耗PV资源。
+                    PVC可以声明请求特定的大小和访问模式
+                    一个PV只能绑定一个PVC，且排他
+                静态pv
+                    集群管理员创建的一些pv，带有实际存储实现细节，存在于kubernetes API中，可以用于消费
+                动态PV
+                    当管理员创建的PV都不匹配用户的PVC时，集群可以尝试动态的为PVC创建卷。
+                    基于StorageClasses，PVC必须请求【存储类】，并且管理员必须创建并配置该类才能进行动态创建，声明该类为"",可以禁用其动态配置。
+                accessModes访问模式
+                    ReadWriteOnce
+                        仅可以被单个节点读写模式挂载
+                    ReadOnlyMany
+                        改卷可以被多个节点以只读默认挂载
+                    ReadWriteMany
+                        被多个节点以读写模式挂载
+                    不同类型的PV支持的模式不一样
+                persistentVolumeReclaimPolicy回收策略
+                    Retain
+                        人工手动删除
+                    Recycle
+                        基本抹除， rm -rf 
+                    Delete
+                        已删除
+                status状态
+                    phase
+                        Available
+                            还未绑PVC
+                        Bound
+                            已绑定PVC
+                        Released
+                            PVC已被删除，但没有重新分配
+                        Failed
+                            自动重新分配失败
+        自动二进制打包
+        运维
+            rancher工具
+                管理k8s集群和资源
+            harbor
+                私有镜像仓库
+    组成
+        helm包管理工具
+            应用部署管理工具
+        fission 快速的构建http服务的框架
+            fission
+        flannel
+            解决Dokcer集群跨主机通讯的覆盖网络工具
+        插件
+            kube-dns负责为整个集群提供DNS服务
+            Ingress Controller为服务提供外网入口
+            Heapster提供资源监控
+                influxdb  存储
+                Grafana的前端进行数据可视化
+            Dashboard提供GUI
+            Federation提供跨可用区的集群
+            Fluentd-elasticsearch提供集群日志采集、存储与查询
+    原理
+        网络通讯模式
+            网络通讯模式
+            组件通讯模式
+        快速使用
+            1.3 Kubernetes集群架构与组件
+            1.4 Kubernetes集群组件介绍
+                1.4.1 Master组件
+                1.4.2 Node组件
+            1.5 Kubernetes 核心概念
+            2.1 kubernetes 官方提供的三种部署方式
+            2.2 安装kubeadm环境准备
+                2.2.1 环境需求
+                2.2.2 环境角色
+                2.2.3 环境初始化
+                2.2.4 docker 安装
+                2.2.5 添加kubernetes YUM软件源
+                2.2.6 安装kubeadm,kubelet和kubectl
+            2.3 部署Kubernetes Master
+            2.4 加入Kubernetes Node
+            2.5 安装网络插件
+            2.7 测试Kubernetes集群
+            2.8 部署 Dashboard
+    架构组成
+        master
+            apiserver资源操作入口 
+                authentication
+            Scheduler 主节点上的组件调度器
+                scheduler
+                    主要任务是把定义的pod分配到集群的节点上公平，资源高效利用，效率，灵活
+                    scheduler单独程序运行，启动后一直监听APIServer，获取pod.spec.nodeName为空的pod对每个pod创建一个binding，说明该pod应该被部署到那个节点上。
+                    调度过程
+                        调度分为几个部分: 1. 过滤不满足条件的节点,这个过程叫predicate；2、对通过的节点按优先级(priority)排序；3. 选择优先级最高的节点。如果任意步骤出错，都会返回错误
+                        predicate
+                            算法
+                                PodFitsResources
+                                    节点剩余资源是否大于pod的请求资源
+                                PodFitsHost
+                                    如果pod指定了NodeName，检查节点名称是否和NodeName匹配
+                                PodFitsHostPorts
+                                    节点上已经使用的port是否和pod申请的port冲突
+                                PodSelectorMatcher
+                                    过滤掉和pod指定的label不匹配的系欸DNA
+                                NoDiskConflict
+                                    已经挂载的volume和pod指定的volume不冲突，除非他们都是只读
+                            如果predicate没有合适的节点，pod会一直在pending状态，不断重试调度。如果由节点满足条件，则进入priorities过程。
+                        priority
+                            由一系列键值对足证，键是优先级项的名称，值是权重
+                            项
+                                LeastRequestedPriority
+                                    计算CPU和Memory使用率来决定权重，使用率越低，权重越高。即选择资源占用较少的节点
+                                BalancedResourceAllocation
+                                    节点上CPU和Memory使用率越接近，权重越高。
+                                ImageLocalityPriority
+                                    倾向于已经有要使用镜像的节点，镜像总大小值愈大，权重越高
+                    自定义调度器
+                        在pod的spec中指定schedukerName属性
+                        创建自定义调度器
+                            https://kubernetes.io/docs/tasks/extend-kubernetes/configure-multiple-schedulers/
+                            1. 定义ServiceAccount
+                            2. 定义ClusterRoleBinding
+                            3. 创建Deployment中，在container中运行kube-scheduler，可以自行给kube-scheduler增加配置项
+                亲和性
+                    节点亲和性
+                        软策略
+                        硬策略
+                    pod亲和性
+                        软策略
+                        硬策略
+            ETCD 键值数据库
+                etcd数据库 
+            Kubelet
+            Container Runtime
+            kube-proxy 网络代理
+            REST
+                controller manager
+                    kube-controller-manager
+                        pod控制器controller
+                            控制器类型
+                            还有很多
+                            ReplicationController(RC)、ReplicaSet(RS)
+                                确保容器应用的副本数始终维持在用户定义的副本数。
+                                如果有容器异常退出，会自动创建一个新的pod代替，异常的pod会被回收。
+                                RC与RS相同，RC是旧版本的控制器。
+                                    支持标签(label)的匹配
+                                    RS新增支持集合式的Selector
+                                    Rc仅支持equality-based selector
+                                kubectl explain rs 查看完整的标签信息
+                                删除RC不会影响RC已创建的的Pod,所以删除RC前需要先将replicas设置为0后，在删除RC
+                            Deployment
+                                为Pod和RS提供了声明式定义的方法，替换以前的RC，更方便管理应用，且可以看成RS的升级版
+                                可以通过 spec.revisionHistoryLimit 限制 deployment 最多保留多少个 revision 历史记录。默认情况下还会保留所有，如果设置为0，则不保留
+                                使用场景
+                                    创建pod,RS
+                                    滚动升级，回滚应用
+                                        实现是通过创建一个新的RS或RC，每启动成功一个新pod就会删除一个旧pod，重复这个过程，知道旧的pod全都没删除，达到滚动更新的目的。
+                                        只有deployment的pod的template被修改时，才会触发关东更新，如果是其他的修改，并不会滚动更新
+                                        滚动更新过程中，如果再次新提交一个滚动更新操作，这时，会立刻终止之前的滚动更新
+                                    扩容和缩容
+                                    暂停和启动Deployment
+                            DaemonSet
+                                确保全部或一些Node上运行一个pod。当node加入集群时，会为他们新增一个pod,当Node从集群移除时，这些pod会被回收
+                                如果想要Node通过DaemonSet运行多个pod,就需要创建多个DaemonSet
+                                删除DaemonSet会删除DaemonSet创建的所有pod
+                                使用场景
+                                    运行集群存储daemon, 在每个Node上运行glusterd、ceph
+                                    每个Node上运行日志，收集Daemon,如fluentd,logstash
+                                    每个Node上运行监控daemon,如 Prometheus, collectd, Datadog代理、New Relic代理或Ganglia gmond
+                            Job
+                                执行批处理人物，仅执行一次，保证处理任务的一个或多个pod成功结束
+                                spec字段
+                                    activeDeadlineSeconds
+                                        pod执行失败重试最大事件，超过此设置事件不在继续重试
+                                    backoffLimit
+                                    completions
+                                        标志job结束需要成功运行的pod个数，默认1
+                                    manualSelector
+                                    parallelism
+                                        最大并发执行任务的pod的数量，默认1
+                                    selector
+                                    template(必填)
+                                        与一个普通pod相同的声明属性，最为一个可执行的任务
+                            CronJob
+                                可以定期和指定时间执行的Job
+                                restartPolicy仅支持Never或OnFailure
+                                spec字段
+                                    concurrencyPolicy
+                                        并发执行策略
+                                        类型
+                                            Allow
+                                                允许并发执行CronJob
+                                            Forbid
+                                                禁止并发执行
+                                            Replace
+                                                取消当前正在执行的job，并用一个新job的替换
+                                    failedJobsHistoryLimit
+                                        记录执行失败的job历史记录个数，默认1
+                                    jobTemplate(必填)
+                                        job的spec模板
+                                    schedule
+                                        指定cron时间
+                                    startingDeadlineSeconds
+                                        设置开始后，未能正常结束的任务保留的最大时间，通过这种方式杀死的job会被记录为失败
+                                    successfulJobsHistoryLimit
+                                        执行成功历史记录个数，默认1
+                                    suspend
+                                        是否可以被中断标识，已经开始执行的任务不会被终端，默认为false
+                                k8s 1.8才开始支持
+                                只能监听job的执行状态，而不能更深入的监听job创建的pod的执行状态
+                            StatefulSet
+                                为一组pod提供一致的唯一标识使用以下信息定义并使标识唯一:网络: 独立稳定的DNS和hostname存储: 比如申请了多个PV，statefulset会保证给定的网络身份总是会映射到相同存储
+                                保证部署和scale顺序
+                                解决有状态服务的问题
+                                spec字段
+                                    podManagementPolicy
+                                        当替换pod或者缩容时，控制pod初始化扩展时如何创建
+                                        OrderedReady(默认)
+                                            pod创建时依照增量顺序，从0到n。并且在创建下一个前，等待每个pod就绪。
+                                            缩容时，以相反的顺序移除pod。
+                                        Parallel
+                                            并行创建pod来满足需要的数量，并不会等待
+                                            缩容时一次性删除所有pod
+                                    replicas
+                                        为template字段中定义的pod模板创建副本的数量
+                                    revisionHistoryLimit
+                                        可回退历史版本数量限制
+                                    selector(必填)
+                                    serviceName(必填)
+                                        服务名
+                                    template(必填)
+                                        pod的创建信息
+                                    updateStrategy
+                                        rollingUpdate
+                                            仅RollingUpdateStatefulSetStrategyType时有效，为此类型传递参数
+                                            partition
+                                                分区的起始序号？
+                                        type
+                                            更新策略类型，默认RollingUpdate
+                                    volumeClaimTemplates
+                                        一组pod可以引用的需求声明。在这里声明一组PVC，这些PVC至少被template中的一个容器匹配挂载。挂载时需要和此处声明的名称相同。
+                                使用场景
+                                    稳定的持久化存储，pod重新调度后，依然能访问相同的持久化数据，PVC实现
+                                        什么是PVC
+                                    稳定的网络标识， pod重新调度后，PodName和HostName不变，基于HeadlessService实现
+                                    有序部署，有序扩容，在部署和扩容时，按照定义的顺序依次进行，基于initC实现
+                                    有序收缩，有序删除
+                            Horizontal Pod Autoscaling
+                                让pod能够自动水平缩放
+                                用来控制控制器
+                                度量指标
+                                    CPUUtilizationPercentage
+                                        计算平均值，1min内的区间值，需安装Heapster监控子系统1.7版本后，自身提供Kubernetes Monitoring Architecture所有POD副本cpu利用率的平均值，cpu利用率=CPU使用量/pod CPU请求量
+                                        如果未定义Pod的cpu请求量则无法使用这个度量指标进行动态扩容
+                                    应用程序自定义的度量指标，如服务在每秒内的相应请求数（TPS或QPS）
+                                    计算公式期望副本数=ceil(当前副本数 * (当前指标值/期望指标值))
+                                    容忍度
+                                        kube-controller-manager
+                                            --horizontal-pod-autoscaler-tolerance设置，默认为0.1在通过计算公式计算出的结果浮动范围在正负10%以内则不会进行
+                                    被忽略的异常状态pod
+                                        pod正在被删除
+                                        pod的当前指标无法被获取
+                                        如果是CPU使用率，会过滤掉还未达到Ready状态的pod
+                                            kube-controller-manger
+                                                --horizontal-pod-autoscaler-initial-readiness-delay设置首次探测pod是否ready的延时时间
+                                                --horizontal-pod-autoscaler-cpu-initialization-period设置首次采集pod的CPU使用率的延时时间
+                                spec(v1)
+                                    maxReplicas(必填)
+                                    minReplicas
+                                    scaleTargetRef(必填)
+                                        apiVersion
+                                        kind(必填)
+                                        name(必填)
+                                    targetCPUUtilizationPercentage
+                                spec(autoscaling/v2beta2)
+                                    behavior
+                                        scaleDown
+                                            policies
+                                                periodSeconds(必填)
+                                                type(必填)
+                                                value(必填)
+                                            selectPolicy
+                                            stabilizationWindowSeconds
+                                        scaleUp
+                                            同scaleDown
+                                    maxReplicas
+                                    metrics
+                                        external
+                                            metric
+                                                name
+                                                    计量值名称
+                                                selector
+                                                    根据标签查找相关的计量值
+                                            target
+                                                averageUtilization
+                                                    目标计量值平均计算值，百分比，是通过请求的pod计算出来的
+                                                averageValue
+                                                    平均计量值的具体阀值
+                                                type
+                                                    代表计量值的类型
+                                                    Value
+                                                    AverageValue
+                                                value
+                                                    目标计量值的阀值
+                                        object
+                                            应用于所有符合目标计量值的对象
+                                            describedObject
+                                            metric
+                                            target
+                                        pods
+                                            应用于所有符合改配置的目标计量值的pod
+                                            metric
+                                            target
+                                        resource
+                                            应用于所有指定目标测量值的资源
+                                            name
+                                            target
+                                        type
+                                            指标源的类型
+                                            Object
+                                            Pods
+                                            Resource
+                                    minReplicas
+                                        最低的Replicas限制
+                                    scaleTargetRef
+                                        指定目标资源进行缩放
+                                        apiVersion
+                                        kind
+                                        name
+                    cloud-controller-manager 
+                        Node Controller
+                        Node Lifecycle Controller
+                        Route Controller
+                        Service Controller
+                部署和管理Pod
+                    label标签
+                        特点
+                            标识Kubernetes对象
+                            key/value格式记录数据
+                            不提供唯一性
+                            可以通过Label Selector查询一组具有相同label的pod
+                        Label Selector
+                            类似与sql语句中的where conditional的语句，定义的label的key/value就是条件的语句 where key = value
+                            表达式
+                                Equality-based
+                                    =和!=
+                                        在yaml文件中无法配置"!="的条件，只在查询时可用
+                                    selector:  matchLabels:    app: myweb
+                                Set-based
+                                    in和not in
+                                    selector:  matchExpressions:    - {key: tier, operator: In, values: [frontend]}    - {key: environment, operator: NorIn, values: [dev]}
+                            如果一个selector同时配置了matchLabels和matchExpressions，那么两种match方式是"AND"的关系
+                    namespace
+                    annotations注解
+                        类似Label，key/value形式
+                        annotation仅记录附加信息
+                        辅助部署、安全策略、调度策略
+                    Ingress
+                        Nginx-Ingress方案
+                            HTTP/HTTPS代理访问
+                            使用cookie会话关联
+                        Ingress Controller
+                            用来保证Ingress Resource正常工作，且一个集群至少需要一个Ingress Controller，也可以部署多个Ingress Controller
+                            目前支持且正在维护的由AWS、GCE、Nginx这几个IngressController
+                        将集群中的service通过ingress暴露出http和https，但不会暴露任意端口和协议，可以将内外的交互协议在这里进行卸载和重载
+                        前置术语
+                            边缘路由
+                                集群中强制使用防火墙策略的路由
+                                可以是云服务供应生提供的网关管理或者一个物理硬件的一部分
+                            集群网络
+                                一组逻辑或物理连接，基于k8s的网络模型更优的集群内通讯网络
+                        spec支持配置
+                            backend
+                                resource
+                                    用来引用同一namespace下的另一个ingress，如果定义了resource那么就不能在定义serviceName和servicePort
+                                    apiGroup
+                                        被引用resource的分组，如果是第三方类型，就必填
+                                    kind
+                                        resource的类型
+                                    name
+                                        resource名称
+                                serviceName
+                                    指定引用的服务名称
+                                servicePort
+                                    指定引用的服务端口
+                            ingressClassName
+                                声明使用的ingress controller的实现类型
+                            rules[]
+                                host
+                                http
+                                    paths[]
+                                        backend
+                                            同上
+                                        path
+                                            匹配类型匹配的具体值
+                                        pathType
+                                            Path的匹配方式
+                                            Exact
+                                            Prefix
+                                            ImplementationSpecific
+                            tls
+                                TLS配置，当前Ingress仅支持单个TLS端口443，如果定义多个Host，他们将会在同一个端口上，访问后续的HostName
+                                hosts[]
+                                    是TLS证书中包含的一组host。定义的host必须能匹配tlsSecret名称
+                                secretName
+                                    引用的私钥或证书等敏感数据资源名称
+                    Service
+                        访问
+                        service作用
+                            定义了一中抽象，一个Pod的逻辑分组，一种访问pod的策略
+                            这组pod能够被访问到，通常通过Label Selector来实现的
+                        service常见类型
+                            ClusterIP
+                                默认类型，自动分配一个仅能从内部访问的虚拟IP
+                            NodePort
+                                在ClusterIP的基础上为Service在每个机器上绑定一个端口，可以通过:来访问服务
+                            LoadBalancer
+                                在NodePort的基础上，借助cloud provider创建一个外部负载均衡器，将请求转发到NodePort
+                            ExternalName
+                                把外部服务引入集群中，在集群内部直接使用，没有任何类型代理被创建。
+                        service实现方式
+                            userspace
+                                此情况下，代理工作完全由kube-proxy承担，压力很大
+                            iptables
+                                service会安装iptables规则，并负责代理工作
+                            ipvs
+                                同步ipvs规则，基于netfilter的hook功能，用hash表保存规则，在内核空间工作，性能更优并为负载均衡算法提供更多选项
+                            三种实现方式示意图https://processon.com/diagraming/60d4393ae0b34d7f11635c0b
+                            在K8S集群中，每个Node都运行了一个kube-proxy进程，kube-proxy负责为service实现VIP，而不是externalName。在K8S v1.0版本，代理完全在userspace。v1.1，新增iptables代理，但不是默认运行方式。v1.2之后，默认是iptables代理。在v1.8以后，增加了ipvs代理。v1.14默认使用ipvs代理
+                            为何不用DNS
+                                DNS会有缓存，服务的发现与治理存在缺陷，不够实时
+                            kube-proxy会监视Kubernetes master对service对象和Endpoints对象的添加和移除
+                            kube-proxy监听k8s service对象和Endpoints
+                        https://www.kuboard.cn/learning/k8s-intermediate/service/service-details.html
+        node
+            kubelet 
+                容器生命周期管理
+                    汇报node的资源信息和健康状态
+            kube-proxy
+                服务发现负载均衡
+            Container runtime
+                容器运行状态
+            pod功能单位/基本对象：共享资源
+                服务发现
+                POD协同
+                pod类型
+                    自主式POD
+                    管理器管理的POD
+                        RS、RC
+                        deployment
+                        HPA
+                        statefulset
+                        DaemonSet
+                        Job、Cronjob
+                pod数据
+                    IP address
+                    volume
+                    containerized app
+                    pod config
+                    pod中容器可以共享的资源
+                container
+            其他
+                supervisord监控
+                rkb容器
+    特性
+        与传统云计算的区别
+        子主题
+            自我修复
+            弹性伸缩
+            自动部署和回滚
+            服务发现和负载均衡
+            机密和配置管理
+            存储编排
+            批处理

@@ -1,0 +1,84 @@
+vagrant
+    网站：
+        清华大学镜像网站 https://www.virtualbox.org/wiki/Downloads
+        盒子网站  https://app.vagrantup.com/boxes/search
+    功能 
+    原理
+        插件
+            Usage
+            Plugin Development Basics
+            Commands
+            Configuration
+            Guests
+            Guest Capabilities
+            Hosts
+            Host Capabilities
+            Providers
+            Provisioners
+            Packaging & Distribution
+        Boxes
+            Box Versioning
+            Creating A Base Box
+            Box File Format
+        Provisioning供应
+            Basic Usage
+            File
+            Shell
+            Ansible
+            CFEngine
+            Chef Solo
+            Chef Zero
+            Chef Client
+            Chef Apply
+            Docker
+            Puppet Apply
+            Puppet Agent
+                1.1 项目初始化
+                1.2 启动并运行项目
+                1.3 创建项目初始化脚本
+                1.4 网络配置
+                1.5 Teardown(虚拟机卸载)
+                Vagrant使用技巧
+                    1.1 如何调试
+                    1.2 如何使用插件
+                    1.3 如何配置网络
+                        下面是该配置(forwarded_port)支持的参数:
+                    1.4 如何配置同步目录
+                        可以配置参数disabled: true禁止目录同步。
+            Salt
+        Providers控制：机器自动安装软件
+        Push
+            Atlas
+            FTP / SFTP
+            Heroku
+            Local Exec
+        Vagrant入门系列(8) | Vagrant相关的几个文件夹
+    流程
+        通过Hyper-V创建第一个Vagrant Host
+            Vagrant入门系列(1) | Vagrant介绍
+            Vagrant入门系列(2) | Vagrant的安装
+            Vagrant入门系列(3) | 通过Hyper-V创建第一个Vagrant Host
+            Vagrant入门系列(4) | 通过VirtualBox创建第一个Vagrant Host
+        Vagrant入门系列(5) | 国内下载Vagrant Box慢怎么办
+        Vagrant入门系列 (6) | Vagrant的基本操作
+        Vagrant入门系列(7) | Vagrant的ssh config补充
+        Vagrant入门系列(9) | Vagrant VM的设置
+        Vagrant入门系列(10) | 关于Vagrant的SSH连接
+        Vagrant入门系列(11) | Vagrant SSH Key的一点补充
+        Vagrant入门系列(12) 一个Vagrantfile创建多个Host
+        Vagrant入门系列(13) | Vagrantfile的改进
+        Vagrant入门系列(14) | Sync Folder如何同步文件
+        Vagrant入门系列(15) | Hyper-V和文件
+        Vagrant入门系列(16) | 一个同时适应Hyper-V和VirtualBox的Vagrantfile
+        Vagrant入门系列(17) | Vagrant Box的基本操作
+        创建第一台虚拟机
+            项目的建立
+            Boxes
+            启动并使用SSH登录
+            同步目录
+            Provisioning
+            网络
+            Share
+            Teardown
+            Rebuild
+            Providers

@@ -1,0 +1,33 @@
+dubbo面试
+    dubbo的核心配置
+    dubbo支持哪些协议，每种协议的应用场景优缺点
+        dubbo
+        rmi协议
+        http协议
+        webservice远程调用协议
+        hessian
+        redis实现的rpc协议
+    11、Dubbo服务降级，失败重试怎么做？
+    12、dubbo是什么
+    14、RPC和SOA、SOAP、REST的区别
+    15、Dubbo 支持分布式事务吗？
+    16、RPC使用了哪些关键技术，序列化
+    17、Dubbo SPI 和 Java SPI 区别？
+    18、为什么要用 Dubbo？
+    19、dubbo 通信协议 dubbo 协议为什么采用异步单一长连接
+    20、Dubbo必须依赖的包有哪些？
+    21、你还了解别的分布式框架吗？
+    22、Dubbo 支持哪些协议，它们的优缺点有哪些？
+    23、Dubbo 使用的是什么通信框架?
+    25、Dubbo 推荐什么协议？
+    27、Dubbo telnet 命令能做什么？
+    28、Dubbo集群提供了哪些负载均衡策略？
+    29、dubbo 和 dubbox 之间的区别？
+    30、dubbo 在安全机制方面如何解决的？
+    dubbo与springcloud区别
+        功能对比
+        原理对比
+            通信协议对比
+                性能对比
+            服务依赖的方式
+            组件运行流程

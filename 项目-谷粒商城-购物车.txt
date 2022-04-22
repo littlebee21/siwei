@@ -1,0 +1,69 @@
+idea 配置
+    购物车模块总结
+        优化
+            恶意添加购物车的话
+                8.如果用户一直添加购物车添加商品怎么办？并且他添加一次你查询一次数据库？
+            购物车的跨平台跨机器
+        拦截
+            interceptor拦截用户信息threadlocal存储
+                编写：购物车拦截器的配置GulimailWebConfig
+                编写：购物车拦截器
+                    可以看到有句session.getAttribute(AuthServerConstant.LOGIN_USER);
+                    看cookie中有没有临时数据，就是cookie带过来的
+                    将用户信息放到threadlocal中让当前用户使用threadLocal.set(userInfoTo);
+            新增购物车重定向
+        定时任务
+            springtask   同步更新redis async更新mysql
+            CompletableFuture异步调用学习
+                2.1. 线程回顾
+                2.2. CompletableFuture介绍
+                2.3. 创建异步对象
+                2.4. 计算完成时回调方法
+                2.5. 线程串行化方法
+                2.6. 多任务组合
+                2.7. 优化商品详情页
+            AsyncUncaughtExceptionHandler异步回调异常处理
+        问题
+    三、购物车模块
+        三 添加入购物车
+        四 展示购物车列表
+        六、修改购物车
+            登录后cookie同步到redis中
+        6. 购物车价格同步
+            每次查询购物车从数据库查询当前价格（需要远程调用，影响系统并发能力）
+            商品修改后发送消息给购物车同步价格（推荐）
+            pms-service微服务价格修改后，发送消息给购物车，购物车获取消息后，怎么进行价格的同步？
+                获取所有人的所有购物车记录，更新对应skuId购物车记录的价格（数据量庞大，效率低下）
+            redis中单独维护一个商品的价格，数据结构：{skuId: price}
+                如果使用第二种方案，redis中应该保存两份数据，一份购物车记录数据，一份sku最新价格数据
+                价格同步的流程如下：
+                那么查询购物车时，需要从redis中查询最新价格。
+                6.1. 改造新增购物车
+                    给Cart追加一个字段：currentPrice
+                    在CartService声明前缀：
+                    改造新增购物车方法：
+                6.2. 改造查询购物车
+                6.3. 修改时的价格同步
+    购物车
+        1. 数据模型分析
+            购物车是一个读多写多的场景，因此放入数据库并不合适，但购物车又是需要持久化，因此这里我们选用redis存储购物车数据。
+            (1) 数据存储
+            (2) 数据结构
+                一个购物车是由各个购物项组成的，但是我们用List进行存储并不合适，因为使用List查找某个购物项时需要挨个遍历每个购物项，会造成大量时间损耗，为保证查找速度，我们使用hash进行存储
+            (3) VO编写
+                购物项vo
+                public class CartItemVo {    private Long skuId;    //是否选中    private Boolean check = true;    //标题    private String title;    //图片    private String image;    //商品套餐属性    private List skuAttrValues;    //价格    private BigDecimal price;    //数量    private Integer count;    //总价    private BigDecimal totalPrice;          /**     * 当前购物车项总价等于单价x数量     * @return     */    public BigDecimal getTotalPrice() {        return price.multiply(new BigDecimal(count));    }    public void setTotalPrice(BigDecimal totalPrice) {        this.totalPrice = totalPrice;    }
+                购物车vo
+                public class CartVo {    /**     * 购物车子项信息     */    List items;    /**     * 商品数量     */    private Integer countNum;    /**     * 商品类型数量     */    private Integer countType;    /**     * 商品总价     */    private BigDecimal totalAmount;    /**     * 减免价格     */    private BigDecimal reduce = new BigDecimal("0.00");    public List getItems() {        return items;    }    public void setItems(List items) {        this.items = items;    }    //总数量=遍历每个购物项总和    public Integer getCountNum() {        int count=0;        if (items != null && items.size() > 0) {            for (CartItemVo item : items) {                count += item.getCount();            }        }        return count;    }    public void setCountNum(Integer countNum) {        this.countNum = countNum;    }    //商品类型数量=遍历所有商品类型和    public Integer getCountType() {        int count=0;        if (items != null && items.size() > 0) {            for (CartItemVo item : items) {                count += 1;            }        }        return count;    }    public void setCountType(Integer countType) {        this.countType = countType;    }    //总价为单个购物项总价-优惠    public BigDecimal getTotalAmount() {        BigDecimal total = new BigDecimal(0);        if (items != null && items.size() > 0) {            for (CartItemVo item : items) {                total.add(item.getTotalPrice());            }        }        total.subtract(reduce);        return total;    }    public void setTotalAmount(BigDecimal totalAmount) {        this.totalAmount = totalAmount;    }    public BigDecimal getReduce() {        return reduce;    }    public void setReduce(BigDecimal reduce) {        this.reduce = reduce;    }}
+        2. ThreadLocal用户身份鉴别
+            (1) 用户身份鉴别方式
+                参考京东，在点击购物车时，会为临时用户生成一个name为user-key的cookie临时标识，过期时间为一个月，如果手动清除user-key，那么临时购物车的购物项也被清除，所以user-key是用来标识和存储临时购物车数据的
+            (2) 使用ThreadLocal进行用户身份鉴别信息传递
+                在调用购物车的接口前，先通过session信息判断是否登录，并分别进行用户身份信息的封装，并把user-key放在cookie中
+                这个功能使用拦截器进行完成
+                @Configurationpublic class GulimallWebConfig implements WebMvcConfigurer {    //拦截所有请求    @Override    public void addInterceptors(InterceptorRegistry registry) {        registry.addInterceptor(new CartInterceptor()).addPathPatterns("/**");    }}public class CartInterceptor implements HandlerInterceptor {    public static ThreadLocal threadLocal=new ThreadLocal();    @Override    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {        HttpSession session = request.getSession();        MemberResponseVo memberResponseVo = (MemberResponseVo) session.getAttribute(AuthServerConstant.LOGIN_USER);        UserInfoTo userInfoTo = new UserInfoTo();        //1 用户已经登录，设置userId        if (memberResponseVo!=null){            userInfoTo.setUserId(memberResponseVo.getId());        }        Cookie[] cookies = request.getCookies();        for (Cookie cookie : cookies) {            //2 如果cookie中已经有user-Key，则直接设置            if (cookie.getName().equals(CartConstant.TEMP_USER_COOKIE_NAME)) {                userInfoTo.setUserKey(cookie.getValue());                userInfoTo.setTempUser(true);            }        }        //3 如果cookie没有user-key，我们通过uuid生成user-key        if (StringUtils.isEmpty(userInfoTo.getUserKey())) {            String uuid = UUID.randomUUID().toString();            userInfoTo.setUserKey(uuid);        }        //4 将用户身份认证信息放入threadlocal进行传递        threadLocal.set(userInfoTo);        return true;    }    @Override    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {        UserInfoTo userInfoTo = threadLocal.get();        //如果cookie中没有user-key，我们为其生成        if (!userInfoTo.getTempUser()) {            Cookie cookie = new Cookie(CartConstant.TEMP_USER_COOKIE_NAME, userInfoTo.getUserKey());            cookie.setDomain("gulimall.com");            cookie.setMaxAge(CartConstant.TEMP_USER_COOKIE_TIMEOUT);            response.addCookie(cookie);        }    }}
+        3. 添加商品到购物车
+        4. 获取购物车
+        5. 选中购物车项
+        6. 修改购物项数量
+        7. 删除购物车项

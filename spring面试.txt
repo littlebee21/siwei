@@ -1,0 +1,277 @@
+spring面试
+    spring常见问题总结
+        1.什么是 Spring框架？
+        2.列举一些重要的 Spring模块？
+        3.@RestController vs @Controller
+        spring、springmvc、springboot的区别
+        5.1.7 Spring 框架中用到了哪些设计模式？	215
+        spring的优缺点
+            ioc优点
+            aop
+            声明事务
+            方便程序测试
+            继承优秀的框架
+            简化javaEE
+            java源码是经典的学习范类
+        动态代理
+        5.1.2 列举一些重要的Spring模块？	207
+        说说自己对于 Spring MVC 了解?	213
+            SpringMVC 工作原理了解吗?	214
+    主题
+        springboot面试题
+            说一下springapplication的作用
+            一.Spring Boot、Spring MVC 和 Spring 有什么区别？
+            二.什么是自动配置？
+                那是如何实现自动配置原理的那？1
+            三.什么是 Spring Boot Stater ？
+            四.你能否举一个例子来解释更多 Staters 的内容？
+            五.Spring Boot 还提供了其它的哪些 Starter Project Options？
+            六.Spring 是如何快速创建产品就绪应用程序的？
+                版本要求
+            七.创建一个 Spring Boot Project 的最简单的方法是什么？
+            八.Spring Initializr 是创建 Spring Boot Projects 的唯一方法吗？
+            九.为什么我们需要 spring-boot-maven-plugin?
+            十.如何使用 SpringBoot 自动重装我的应用程序？
+            十一.什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+            十二.如何在 Spring Boot 中添加通用的 JS 代码？
+                静态资源的优先级
+            十三.什么是 Spring Date？
+            十四.什么是 Spring Data REST?
+            十五.path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
+            十六.当 Spring Boot 应用程序作为 Java 应用程序运行时，后台会发生什么？
+            十七.我们能否在 spring-boot-starter-web 中用 jetty 代替 tomcat？
+            十八.如何使用 Spring Boot 部署到不同的服务器？
+            十九.RequestMapping 和 GetMapping 的不同之处在哪里？
+            二十.为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
+            Spring Boot
+                1.什么是 Spring Boot？
+                2.Spring Boot 有哪些优点？
+                3.什么是 JavaConfig？
+                4.如何重新加载 Spring Boot 上的更改，而无需重新启动服务器？
+                5.Spring Boot 中的监视器是什么？
+                6.如何在 Spring Boot 中禁用 Actuator 端点安全性？
+                7 如何在自定义端口上运行 Spring Boot 应用程序？
+                8.如何使用 Spring Boot 实现分页和排序？
+    主题
+        源码
+            beanfactory和ApplicationContext区别
+                bean
+                beanDefinition的作用
+                    beandefinitionMap
+                singletonObjects成熟态
+            BeanFactory的作用
+        8. Spring事务
+            原理
+                难：spring事务的实现方式原理
+                83 Spring事务中哪几种事务传播行为？
+                事务的特性
+                    一致隔离持久原子
+                spring事务什么时候会失效
+                    aop的失效
+                spring多线线程事务能否保证数据的一致性
+            使用
+                8.1 Spring管理事务的方式有几种？
+                    84@ Transactiona（ rollbackFor= EXception class）注解了解吗
+                8.2 Spring事务中的隔离级别有哪几种？
+                spring的事务传播机制
+                Spring 事务底层原理是什么？如何自定义注解实现功能？
+        JPA
+            9.1如何使用JPA在数据库中非持久化一个字段？
+            12.Spring 支持哪些 ORM 框架？
+        6. Spring MVC
+            61说说自己对于 Spring MVC了解？
+            流程
+                62 SpringMVC工作原理了解吗？
+                springmvc的九大组件
+                1.Spring MVC 框架有什么用？描述一下 DispatcherServlet 的工作流程。
+            2.介绍一下 Web Application Context。
+            3.SpringMvc 的控制器是不是单例模式,如果是,有什么问题,怎么解决？
+            4.SpingMvc 中的控制器的注解一般用哪个,有没有别的注解可以替代？
+            5.@RequestMapping 注解用在类上面有什么作用？
+            6.如果在拦截请求中,我想拦截 get 方式提交的方法,怎么配置？
+            7.SpringMvc 中函数的返回值是什么？SpringMVC 怎么样设定重定向和转发的？
+                重定向和转发问题
+                为什么要如此麻烦那？直接返回不就好了
+            8.SpringMvc 中有个类把视图和数据都合并的一起的,叫什么？
+            9.怎么样把 ModelMap 里面的数据放入 Session 里面？
+            SpringMvc 怎么和 AJAX 相互调用的？
+            怎么样在方法里面得到Request,或者Session？
+        Spring Aop
+            流程
+                解析切面
+            42 Spring AOP和 AspectJ AOP有什么区别？
+            aop的几种实现方式
+            54、Spring的AOP是在哪里创建的
+            aop什么时候会失效
+                动态代理
+                事务什么时候会失效
+            1.Spring AOP 实现原理,什么是 Aspect？
+            4.什么是切点（JoinPoint）?么是通知（Advice）? 有哪些类型的通知（Advice）?
+            5.指出在 Spring Aop 中 concern 和 cross-cutting concern 的不同之处。
+            在javaconfig中如何使用aop，
+        子主题
+            Spring IOC
+                1.Spring IOC 如何实现？什么是 Spring IOC 容器？
+                2.IOC 的优点是什么？
+                10、SpringIoC的加载过程
+                    bean xml 概念态
+                    扫描解析缓存
+                    beandefinition定义态
+                    判断是否复合生产标准
+                    no ioc 纯静态
+                    判断属性注入
+                    初始化
+                    ioc ok 成熟态
+                11、SpringIoC的扩展点及调用时机
+                紧耦合和松耦合的区别
+                    松耦合满足设计原则
+                3.有哪些不同类型的 IOC（依赖注入）方式？什么是依赖注入？
+                4.哪种依赖注入方式你建议使用，构造器注入，还是 Setter 方法注入？
+                5.Spring 中有多少种 IOC 容器？
+                    8.Bean Factory 和 Application Context 有什么区别？
+                10.什么是 spring 的内部 bean？
+                11.什么是基于注解的容器配置？如何在 spring 中启动注解装配？
+        到这了
+        5. Spring bean
+            bean生命周期
+                @Autowired的自动装配过程
+                    autowired的作用
+                实例化--构造方法
+                    bean的生产顺序
+                    实例化bean有几种方式
+                    27、BeanDefinition的加载过程
+                属性赋值--setter方法注入
+                    自动配置原理
+                初始化
+                    装配配置属性
+                    实现控制反转--依赖注入
+                    初始化之后
+                        beanPostProcessor后置处理器
+                        如何在sprign所有bean创建完之后扩展
+                        29、如何在所有BeanDefinition注册完成后做扩展
+                        生命周期回调方法
+                            P注释的方式
+                            接口的方式
+                            属性的方式
+                        spring如何解决bean的循环依赖问题
+                        spring如何帮我们在并发下避免获取不完全的bean
+                    装配
+                        自动装配原理
+                        bean有哪些配置方式
+                        手动装配和自动装配的区别
+                        什么的是bean的自动装配，有哪些方式
+                            springboot自动配置方式
+                        自动装配限制麻
+                        自动装配有几种
+                        如何让自动注入没找到依赖不报错
+                        如何让自动注入找到多个依赖不报错
+                        要将一个第三方的类配置成bean有哪些方法
+                        为什么componentScan 不设置basePackage也会被扫描
+                销毁
+            51 Spring中的bean的作用域有哪些？
+                单例bean的优势
+            什么是springbean，javabean和springbean和对象的区别
+            bean线程安全问题
+                52 Spring中的单例bean的线程安全问题了解吗？
+                spring如何处理线程并发问题
+            源码使用
+                53@ Component和@Bean的区别是什么？
+                54将一个类声明为Spng的bean的注解有哪些？
+                javaconfig如何替代xml的方式
+                    beanDefinitionRegistryPostProccess
+                    ConfigurationClassParsers配置类解析器
+                @import的使用方式
+                @configuration的作用
+                    bean之间的方法调用是怎么保证单例的
+            5.1.5 Spring bean	210
+                Spring 中的 bean 的作用域有哪些?	211
+                @Component 和 @Bean 的区别是什么？	211
+                将一个类声明为Spring的 bean 的注解有哪些?	212
+                Spring 中的 bean 生命周期?	212
+        配置
+            51、JavaConfig方式如何启用AOP
+                如何强制使用AOP
+            子主题
+                1.BeanFactory的作用
+                2、BeanDefinition的作用
+                2、Spring的优缺点是什么
+                3、Ioc的作用、优点
+                4、Spring Ioc的实现机制是什么
+                5、IoC和DI的区别是什么
+                6、紧耦合和松耦合有什么区别？如何编写松耦合的代码
+                7、BeanFactory的作用
+                8、BeanDefinition的作用
+                9、BeanFactory 和 ApplicationContext有什么区别？
+                10、BeanFactory 和FactoryBean有什么区别？
+                11、SpringIoC的加载过程
+                12、SpringIoC的扩展点及调用时机
+                13、什么是Bean？和对象的区别
+                14、配置Bean有哪几种方式
+                15、Bean有哪几种作用域
+                16、单例Bean的优势
+                17、Spring的Bean是线程安全的吗
+                18、Spring如何处理线程并发问题？
+                19、实例化bean有几种方式
+                20、什么是bean装配？什么是bean的自动装配？
+                21、自动注入有什么限制吗
+                22、自动装配的方式有几种
+                23、Bean的生命周期回调方法和执行顺序
+                24、Spring在加载过程中Bean有哪几种形态
+                25、Bean的生命周期
+                26、Spring是如何解决Bean的循环依赖的
+                27、Spring如何避免在并发情况下获取不完整的Bean
+                28、BeanDefinition的加载过程
+                29、如何在所有BeanDefinition注册完后做扩展？
+                31、Spring容器启动时，为什么先加载BeanFactoryPostProcess
+                32、Bean的生产顺序是由什么决定的？
+                33、Spring有哪几种配置方式
+                34、JavaConfig是如何替代xml的配置方式的
+                35、@Component, @Controller, @Repository, @Service 有何区别？
+                37、如何让自动注入没有找到依赖Bean时不报错
+                38、如何让自动注入找到多个依赖Bean时不报错
+                39、@Autowired 注解有什么作用
+                40、@Autowired和@Resource之间的区别
+                41、@Autowired注解自动装配的过程
+                42、@Configuration的作用及解析原理
+                43、@Bean的方法调用是怎么保证单例的？
+                44、要将一个第三方的类配成为Bean有哪些方式？
+                45、为什么@ComponentScan不设置basePackage也会扫描？
+                46、什么是AOP、能做什么
+                47、解释一下Spring AOP中 常见的概念名词
+                48、Spring通知有哪些类型？
+                49、Spring AOP 和 AspectJ AOP 有什么区别？
+                50、JDK动态代理和CGLIB动态代理的区别
+                51、JavaConfig方式如何启用AOP
+                52、介绍AOP有几种实现方式
+                53、Aop内部调用失效原因及解决办法
+                54、Spring的AOP是在哪里创建的动态代理？
+                55、描述Spring的 Aop的完整实现流程？
+                57、Spring支持的事务管理类型和实现方式
+                58、说一下Spring的事务传播行为
+                59、说一下 spring 的事务隔离？
+                60、Spring事务实现基本原理
+                61、Spring事务传播行为实现原理
+                62、Spring多线程事务 能否保证事务的一致性
+                63、Spring事务的失效原因？
+                64、Spring事件监听的核心机制是什么？
+                65、Spring源码用到了哪些设计模式
+                66、Spring如何管理Mybaits的Mapper接口的
+                67、说说你是如何解决 get 和 post 乱码问题？
+                68、Spring MVC的控制器是不是单例模式,如果是,有什么问题,怎么解决？
+                69、spring MVC的工作流程
+                70、SpringMVC中处理AJAX请求原理？
+                71、Spring和SpringMVC为什么需要父子容器？
+                72、是否可以把SpringMVC所有Bean都交给Spring容器来管理？
+                73、是否可以把Spring的Bean都交给Spring-mvc来管理
+                74、如何实现零配置的SpringMVC？原理是什么？
+                75、SpringMVC的拦截器和过滤器的区别和执行顺序
+                78、SpringBoot的核心注解
+                79、SpringBoot自动配置原理
+                80、为什么SpringBoot的jar可以直接运行？
+                81、SpringBoot的启动原理？
+                82、SpringBoot内置Tomcat启动原理？
+                83、SpringBoot外部Tomcat启动原理？
+                84、会不会自定义Starter？大概实现过程？
+                85、读取配置文件原理和加载顺序优先级
+                86、SpringBoot的默认日志实现框架是什么？怎么切换成别的？(2)
+                87、说说你在开发的时候怎么在SpringBoot的基础上做扩展？

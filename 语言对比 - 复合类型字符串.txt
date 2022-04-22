@@ -1,0 +1,30 @@
+语言对比 - 字符串
+
+C语言：
+    字符串的内存模型：字符数组+0结尾
+    定义和使用：
+        字符串指针：char *p = "hello"
+                char *p = &'h'
+        字符数组
+        字符串常量
+
+    循环：\0的使用
+
+    函数：
+        求长度strlen
+        拷贝strcpy   des越界 src类型限制 读越界
+        连接strcat   des越界 src类型限制 读越界
+
+        比较strcmp   类型限制读越界 strcasecmp
+        查找strstr   
+        输入输出
+            scanf越界 printf
+            sscanf   sprintf
+            gets越界 puts
+            getchar  putchar
+            fgets 文件中获取字符串：\n 替换，读取全部
+
+
+
+java中
+    默认重载了+法的运算符号

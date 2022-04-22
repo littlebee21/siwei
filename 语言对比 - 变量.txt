@@ -1,0 +1,66 @@
+语言对比 - 关键字
+
+
+三个关键要素：
+    作用域
+    链接：
+    生命周期;生存期：
+    三元素：决定访问权限：前访问后no，大访问小no，外访问内no
+
+    读写特性：
+    内存特性/存储位置：
+
+    类型转换：
+    拷贝/赋值：
+
+
+C语言实现：
+    作用域： 写到不同的位置里：局部变量：代码块里，函数里，全局变量：函数外
+    链接：   extern文件外部  static只是内部访问
+    生命周期：
+        静态分配：static表示长期    register auto表示短期
+        动态分配：malloc，free
+    读写特性： const ,volatile,宏
+    内存空间： 绑定作用域：
+    类型转换： 强制类型转换
+    拷贝： 数据块拷贝
+    
+    c语言对于修饰符的自由组合使用：5个：寄存器 auto 内部链接静态 外部链接静态 空链接静态
+                                    register    atatic全局变量 static extern全局变量  static 局部变量
+
+
+C++
+    链接：对象内部private 基类protect 全部public
+          类型空间：namespace:: 访问
+          友元： friend class，friend 函数
+    作用域：
+    生命周期：1，静态分配：类型 变量名 = 类()构造函数  Student stu1("gao","b","18"); 这里student也是类，类去调用构造函数
+             2，动态分配：new:    Student * name = new Student("gao","b",18); 这里Student是类, 类去调用构造函数
+                      delete， 
+                构造函数:  构造函数会重写，也会重载
+                析构函数：delete + 释放栈
+            0，声明阶段：
+            0，编译阶段/静态初始化阶段：static int x 类内;  int A::x = 200; 类外
+                class 不能调用 notstatic
+                class的object  可以调用not static 和 static
+                static不能引用notstatic
+                class的notstatic可以调用static
+                class的static变量先初始化再使用
+            1，对象初始化阶段：构造函数的初始化列表()()
+            2，对象普通计算阶段：
+                eg：构造函数的函数体内 / 函数的运行阶段
+                eg：缺省参数：void func(int a = 20); 在声明的时候执行，在定义的时候不要写
+    内存空间：
+    读写特性：const
+    类型转换：explicit
+    拷贝： 深拷贝：重写拷贝构造函数；
+          浅拷贝：使用默认拷贝构造函数；
+
+
+
+java变量：
+    链接：类间访问public protect private
+    作用域：static
+    生命周期： static
+    读写特性：const 
+    内存空间： 绑定类型

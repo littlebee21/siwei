@@ -1,0 +1,289 @@
+mysql - innodb
+    InnoDB 架构
+        InnoDB 关键特性
+            Buffer Pool
+            Change Buffer Page（Insert Buffer Page）
+            Double Write
+            Adaptive Hash Index
+        Memory（内存）
+            相关知识
+                Tablespace
+                    System tablespace
+                    General tablespace
+                    file-per-table tablespace
+                        advantages
+                        disdvantages
+                Page（页）
+                    标准页
+                    压缩页
+                Buffer Chunks（缓冲块）
+                Buffer Pool 内存常用三大逻辑链表
+                    Free List
+                    LRU List
+                        LRU 实现原理
+                        特性
+                            缓存了所有读入内存的数据页
+                            热点数据、新数据、旧数据处理
+                    FLU List（Flush List）
+                Buffer Pool 数据
+                    Buffer Pool 预热
+                        MySQL重启与数据加载
+                        提高预热效率
+                    Buffer Pool 预读
+                        I/O过程
+                        读取过程
+                        读请求合并
+                        InnoDB 使用两种预读算法来提高 I/O 性能
+                            Linear Read-Ahead（线性预读）
+                            RandomRead-Ahead（随机预读）
+                Buffer Pool 工作机制
+                    加速读
+                    加速写
+            Buffer Pool（缓冲池）
+                Data Page
+                    数据页，架构图上未标识
+                Index Page（索引页）
+                Change Buffer Page
+                Adaptive Hash Index(自适应哈希)
+                Lock Info(锁信息)
+                Data Dictionary(数据字典)
+            write Ahead Log
+                Redo Log Buffer（重做日志缓冲）
+                    构成结构
+                        innodb_log_group_home_dir
+                        innodb_log_group
+                        Redo Log File
+                    写入过程
+                        Redo Log Info
+                        Redo Log Buffer
+                        Redo Log File
+                    触发落盘几种场景
+                        Redo Log Buffer 空间不足
+                        后台线程
+                        建立  CheckPoint
+                        实例 ShutDown
+                        Bin Log 切换
+                        事务提交
+                            设置为 0
+                            设置为 1
+                            设置为 2
+                            示意图
+                Doublewrite Buffer（双写缓冲）
+                    时序图
+                    产生原因
+                        Partial Page Write
+                    工作原理
+                        DoubleWrite Buffer
+                        share table space
+                        innodb-file-per-tablespace
+                    崩溃恢复
+                    副作用
+                        写负载
+                        监控负载
+                            示例
+                    采用Double Write Buffer的原因
+                        写入连续性
+                        Buffer溢出
+            Additional Memory Pool
+        Disk（硬盘）
+            Tablespace（表空间）
+                Tablespace
+                    System tablespace
+                    General tablespace
+                    temp tablespace
+                    file-per-table tablespace
+                        advantages
+                        disdvantages
+                    undo tablespace
+                逻辑存储结构
+                    Tablespace（表空间）
+                    Segment（段）
+                        数据段
+                        索引段
+                        回滚段
+                    Extent（区）
+                    Page（页）
+                        Page、System、Disk 关系
+                        常见页类型
+                            B-Tree Node
+                            undo log Page
+                            System page
+                            Transaction System Page
+                            Insert Buffer Bitmap
+                            Insert Buffer Tree List
+                            Uncompressed BLOB Page
+                            compressed BLOB Page
+                        页数据
+                            File Header
+                                FILE_PAGE_TYPE
+                            Page Header
+                            虚拟行数据
+                                Infimum
+                                Supremum
+                            User Record
+                            Free Space
+                            Page Dictionary
+                            File Trailer
+                    Row（行）
+                        格式为 Compact，事务 Id、回滚指针（指向 undo log record）、表定义的字段
+                        CHAR
+                        行溢出数据
+                            存放位置
+                            何时溢出
+                        Antelope文件格式
+                            Compact 行记录格式
+                                分支主题
+                                变长字段列表
+                                Null 值字段标志位
+                                record header（记录头）
+                                隐藏列
+                                    DB_ROW_ID
+                                    DB_TRX_ID
+                                    DB_ROLL_PTR
+                                列数据...
+                            Redundant行记录格式
+                                分支主题
+                                字段长度偏移列表
+                                记录头信息
+                                隐藏列
+                                    DB_ROW_ID
+                                    DB_TRX_ID
+                                    DB_ROLL_PTR
+                        Barracuda文件格式
+                            Compressed行记录格式
+                            Dynamic行记录格式
+            Redo log
+        主要线程
+            Master Thread
+                Loop
+                    每秒钟操作
+                        1. 处理redo log
+                        2. 合并insert buffer
+                        3. 刷新 dirty page
+                        4. 如果当前没有活动用户，切换到 background loop。
+                    每 10 秒操作
+                        每秒操作的前三步骤
+                        4. 回收 undo 页
+                        5. 刷新 innodb_io_capacity 的 100% 或 10% 到磁盘，每 10 秒都会执行。InnoDB 存储引擎会检查
+                background loop
+                flush loop
+                suspend loop
+            IO Thread
+                使用AIO
+                read IO Thread
+                write IO Thread
+                insert buffer IO Thread
+                log IO Thread
+            Purge Thread
+            Page Cleaner Thread
+            流程图
+    InnoDB 基本点
+        历史
+            5.5.8 由 MyISAM 转为 InnoDB 为默认存储引擎
+        与 MyISAM 区别
+            MyISAM 索引
+                非聚簇索引
+                二级索引
+            InnoDB 索引
+                聚簇索引
+                二级索引
+            对比
+                聚簇索引优点
+                聚簇索引缺点
+                相同点
+                不同点
+        索引
+            数据结构
+                数据结构示例网站
+                    https://www.cs.usfca.edu/~galles/visualization/Algorithms.html
+                B-Tree 概念
+                B+Tree
+                    与 B-Tree 区别
+                        B-Tree 结构图
+                        B+Tree 结构图
+                        存储方式区别
+                    B-Tree 高度
+                    节点顺序
+                    指针指向
+                    使用 B+Tree 而不采用 B-Tree 原因
+            索引类型
+                Cluster Index（聚簇索引）
+                Secondary Index（二级索引 / 辅助索引）
+                从索引结构，加之 B+Tree 特性，可以确定主键不建议使用 UUID 类型，因为插入、更新、删除需要对树进行一个分裂、合并、旋转等操作来维护平衡性。
+    日志
+        Error Log
+        Slow Query Log
+        General Query Log
+        Slave Relay Log
+        Binary Log
+            恢复
+            审计
+        InnoDB存储引擎层
+            相关知识
+                CheckPoint
+                    Sharp Checkpoint
+                    Fuzzy Checkpoint
+                        master thread checkpoint
+                        flush_lru_list checkpoint
+                        async/sync flush checkpoint
+                        dirty page too much checkpoint
+                LSN
+                    利用LSN可获取到的信息
+                        数据页版本信息
+                        写入日志总量，通过LSN开始与结束号码计算
+                        checkpoint位置
+                        判断数据版本
+                    LSN类型
+                        lsn
+                        flush_lsn
+                        written_to_some_lsn
+                        wirtten_to_all_lsn
+                        last_checkpoint_lsn
+                        next_checkpoint_lsn
+                        archived_lsn
+                        next_archived_lsn
+                    LSN解析
+                        时序图
+                        标注说明
+                            data_in_buffer_lsn
+                            data_page_in_buffer_lsn
+                            redo_log_in_buffer_lsn
+                            redo_log_on_disk_lsn
+                            checkpoint_lsn
+                        时序步骤
+                MTR
+                    遵循三个协议
+                        The FIX Rules
+                        Write Ahead Log
+                        Force Log at Commit
+                Log Block
+            Log Buffer
+                log writer线程
+                    recent_written buffer
+                        link_buf
+                    flush list连续性
+                    主要lsn
+                        write_lsn
+                        buf_ready_for_write_lsn
+                        flushed_to_disk_lsn
+            Redo Log
+                重做日志文件组
+                重要参数
+                恢复行为
+                格式
+                和 Binary Log 区别
+                    位置
+                    顺序
+                    逻辑
+                    写入
+            Undo Log
+                作用
+                    提供回滚进而保障了事务的原子性
+                    MVCC（多版本控制）
+                Update操作
+                Delete操作
+                和 Redo Log 区别
+                    日志类型
+                    写入时机
+                    记录方式
+            Redo Log和Undo Log简化过程

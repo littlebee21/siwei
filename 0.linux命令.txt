@@ -1,0 +1,44 @@
+linux命令
+    高级功能
+        命令别名使用
+    shell命令 emmx
+        linux 命令应用 emmx
+            配置需改
+            linux命令 -效率 emmx
+                搜索 - linux emmx
+            linux命令 - 高级 emmx
+                管道方法的使用
+                联合方式的使用
+            功能
+                软件
+                    vim命令  emmx
+                    linux 命令 安装.emmx
+                        rpm命令 – RPM软件包管理器
+                文件
+                    备份策略.emmx
+                    压缩.emmx
+                    日志 emmx
+                    文件 emmx
+                        目录 emmx
+                    文本 emmx
+                用户权限
+                    用户管理.emmx
+                    权限管理 emmx
+                语系设置
+                    LANG 环境变量
+                    locale指令
+                        查看软件的语系设置
+                    /etc/locale.conf 配置文件
+                        配置语系环境变量的配置文件
+                        修改这个文件后，使用 # locale-gen 生成该配置文件对应的语系
+                    localectl 命令
+                        查看系统语系设置
+                日期时间 emmx
+                系统监控 emmx
+        linux 命令 内核 emmx
+            网络 emmx
+            内存 emmx
+            虚拟文件系统
+            设备 emmx
+            进程间通信 emmx
+            进程 emmx

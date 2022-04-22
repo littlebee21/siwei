@@ -1,0 +1,24 @@
+chrome插件开发
+    chrome.tabs
+        chrome.tabs.insertCSS(integer tabId, InjectDetails details, function callback)
+            tabId
+                ( optional integer )
+                要插入CSS的标签页标识符，默认为当前窗口的活动标签页。
+            details ( InjectDetails )
+                要插入的CSS文本详情。
+            callback ( optional function )
+                当所有CSS都已经被插入后调用。
+                如果您指定了
+                callback 参数，它应该指定一个如下形式的函数：
+    chrome.runtime
+    chrome.webRequest
+    chrome.window
+    chrome.window
+    chrome.storage
+    chrome.contextMenus
+    chrome.devtools
+    chrome.extension
+        string chrome.extension.getURL(string path)
+            将扩展程序安装目录中的相对路径转换为完整的 URL。
+        Port chrome.extension.connect(string extensionId, object connectInfo)
+            长链接

@@ -1,0 +1,4 @@
+tar命令
+    zg 足够   -zcvf 压缩 gzip方式
+    jb jiba   -jcvf 压缩 bzip方式
+                xf 释放

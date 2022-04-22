@@ -1,0 +1,28 @@
+shiro
+    功能
+        1.身份认证
+        2.授权
+        3.加密
+        4.会话管理
+        5.缓存
+    工作流程
+        组件core
+            核心组件
+                Subject:当前用户操作
+                SecurityManager:管理所有的Subject
+                Realms:权限信息验证
+            Authentic:身份认证/登录
+            Authorization:授权
+            Session Manager:会话管理
+            Cryptography:密码管理
+            Web Support:web支持
+            Caching:缓存管理
+        原理
+            1.通过Subject进行认证与授权,而Subject又委托给SecurityManager
+            2.再给SecurityManager诸如Realm,从而让SecurityManager得到合法用户及权限判断
+    主题
+        未登录时访问请求的核心流程
+        登录跳转请求的核心流程图/ login get
+        登录认证请求的核心流程图/login post
+        登陆后访问请i去的核心类流程图
+        退出登录请求的核心类流程图

@@ -1,0 +1,84 @@
+2014 springboot
+    springboot简化开发配置
+        简化配置
+            核心配置文件
+                bootstrap 配置文件
+                application 配置文件
+                格式
+                    .properties 
+                     .yml
+        自动配置
+            @EnableAutoConfiguration
+        独立运行
+        配置中props名字要和注入的类一致
+    IV。Spring Boot功能
+        24.外部配置
+        25.profile何时加载
+            25.1.添加活动配置文件
+            25.2.以编程方式设置配置文件
+            25.3.配置文件特定的配置文件
+        26.日志记录
+            Spring Boot AOP记录用户操作日志
+            Spring Boot logback日志配置
+        27. JSON
+            Spring Boot中的JSON技术
+        28.开发Web应用程序
+            Spring Boot中使用thymeleaf
+            Spring Boot整合Swagger2构建RESTful API
+            Spring Boot 2.0 WebFlux编程
+            Spring Boot WebFlux增删改查样例
+            Spring Boot整合WebSocket
+            自定义Spring Boot 内容协商
+            Spring Boot 中处理跨域
+            Spring Boot 中的异步调用
+        29.安全
+            Spring Boot中使用Jsoup防御XSS攻击
+        30.使用SQL数据库
+            Spring Boot中使用MyBatis
+            Spring Boot中使用JdbcTemplate
+            Spring Boot MyBatis配置Druid多数据源
+            Spring Boot JdbcTemplate配置Druid多数据源
+            Spring Boot整合MyBatis通用Mapper和PageHelper
+            Spring Boot整合Mongo DB
+            Spring Boot配合Hibernate Validator参数校验
+        31.使用NoSQL Technologies
+        32.缓存
+            Spring Boot中使用Ehcache缓存数据
+            Spring Boot中使用Redis缓存数据
+        33.消息传递
+            Spring Boot 整合Kafka
+            Spring Boot中使用过滤器和拦截器
+        35.使用WebClient调用REST服务
+        34.使用RestTemplate调用REST服务
+        36.验证
+        37.发送电子邮件
+            发送带附件的电子右键 
+            发送普通的右键
+            发送模板邮件
+        38.使用JTA的分布式事务
+        39. Hazelcast
+        40. Quartz Scheduler
+            实现定时任务
+        41.任务执行和调度
+        42. Spring Integration
+        43. Spring Session
+        44.对JMX的监测和管理
+        45.测试
+            Spring Boot中编写单元测试
+        46. WebSockets
+        47.网络服务
+        48.使用WebServiceTemplate调用Web服务
+        49.创建自己的自动配置
+        50. Kotlin的支持
+    springboot部署
+        Spring Boot Devtools热部署
+        Spring Boot项目打包成war包
+        Linux下部署Spring Boot jar
+    如何指南
+        监控
+            使用Spring Boot Admin监控服务
+            使用Actuator监控Spring Boot应用
+            Spring Boot异常处理
+格式
+    .properties 
+     .yml

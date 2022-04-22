@@ -1,0 +1,138 @@
+使用基本
+    软件使用的准备i
+        支持预装软件
+            Installation
+            Basic Usage
+            Configuration
+            Default Provider
+            VirtualBox
+            VMware
+            Docker
+            Hyper-V
+            Custom Provider
+        可以使用shell、chef、puppet等工具部署
+            拉取镜像
+    使用高级
+        网络
+            端口转发
+            Basic Usage
+            Forwarded Ports
+            Private Network
+            Public Network
+        优化
+        Vagrant 共享给他人
+            HTTP Sharing
+            SSH Sharing
+            Vagrant Connect
+            Security
+            Custom Provider
+        共享文件夹
+            基本使用
+            NFS
+            RSync
+            SMB
+            VirtualBox
+        重构
+        分布式环境
+            模拟多台虚拟机
+            定义多个主机
+                目录
+                创建VagrantFile
+                配置VagrangFile
+                Vagrant常用命令
+                Vagrant provision
+                管理box
+                添加box
+                配置box
+                升级box
+                删除box
+                关于同步目录(Synced Folders)
+                网络配置
+                端口转发
+                私有网络
+                公有网络
+                其他网络设置
+                插件
+                安装插件
+                更新插件
+                列出已安装的插件
+                卸载插件
+                设置代理服务器
+                为 vagrant 命令设置代理
+                为虚拟机设置代理
+    Vagrant常用命令
+        启动虚拟机
+            配置好
+                VagrantFile
+                    后，我们只需要在当前目录下运行
+            vagrant up
+            就能启动虚拟机了。
+            若虚拟机尚未创建
+                会自动创建新虚拟机；同时若创建虚拟机时Vagrant发现指定的box不存在，则还会自动从 Vagrant Cloud 上搜索并下载指定的box
+            无需指明虚拟机
+                值得一提的时，由于在当前目录中存储了相关虚拟机的信息，因此在执行Vagrant命令时都无需指明作用于哪个虚拟机之上。
+            指定provider虚拟引擎
+                前面提到过Vagrant支持多种虚拟引擎来进行虚拟化，我们可以通过
+                --provider
+                    参数来指定虚拟引擎，默认为
+                        virtualbox
+                            比如
+                                generic/arch
+                box有5种provider提供，分别时virtualbox,vmware_desktop,hyperv,libvirt,parallels. 那么我们可以通过下面命令指定provider为libvirt
+        $ vagrant init      # 初始化
+        $ vagrant up        # 启动虚拟机
+        $ vagrant halt      # 关闭虚拟机
+        $ vagrant reload    # 重启虚拟机
+        $ vagrant ssh       # SSH 至虚拟机
+        $ vagrant suspend   # 挂起虚拟机
+        $ vagrant resume    # 唤醒虚拟机
+        $ vagrant status    # 查看虚拟机运行状态
+        $ vagrant destroy   # 销毁当前虚拟机
+    管理box
+        $ vagrant box add     # 添加box到列表
+            中搜索指定名称的box， 
+            当 ${name_or_url_or_path} 是指向box文件的URL或路径时，还必须跟
+            --name ${name}
+                连用以指定box名称。
+                    同一个名字的box可能包含多个版本，这种情况下可以通过
+            --box-version ${version}
+                指定版本， 类似的，也可以通过
+            --provider ${provider}
+                来下载指定provider的box
+        $ vagrant box remove  # 从box列表移除
+            当不再使用某个box来创建虚拟机了，则可以将该box删除掉，以释放空间。
+        $ vagrant box list    # 查看本地box列表
+        vagrant box update
+            命令来对box进行升级。
+            默认情况下，vagrant会对当前目录所指定的box进行升级，但通过
+            --box ${name}
+                也可以指定升级特定的box, 通过
+            --provider ${provider}
+                则表示只更新特定 provider 的box
+        配置box在file里
+    插件
+        安装插件
+            vagrant plugin install
+                命令可以安装插件。一个插件其实就是ruby的gem包。
+            安装插件有两种方式：
+                一种是从已知的gem源搜索并安装插件
+                    其中
+                    插件名称
+                    一般遵循
+                    vagrant-xxxx
+                    的命名规则
+                一种是安装下载到本地的插件
+        更新插件
+            vagrant plugin update
+                会更新所有已安装的插件到最新版。
+            vagrant plugin update 插件名称
+                来指定更新某个插件
+        列出已安装的插件
+            vagrant plugin list
+                命令会列出已经安装的插件及其对应的版本号
+        卸载插件
+    设置代理服务器
+        通过配置
+            export http_proxy=http://proxyserver:port
+            export https_proxy=https://proxyserver:port
+        命令通过代理访问互联网。

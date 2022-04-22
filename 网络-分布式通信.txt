@@ -1,0 +1,50 @@
+网络通信消息传递
+    主题
+        1、传输的标准格式是什么？
+        2、怎么样将请求转化为传输的流？
+        3、 怎么接收和处理流？
+        4、传输协议是？
+    框架分类
+        异步非阻塞
+            webflux
+            ajax
+            netty
+            reactor
+            rxjava
+        同步阻塞
+    网络通信服务分层
+        事件驱动的通信
+        文本协议
+        重量级通讯协议
+            SOAP
+            WSDL
+        Spring Cloud Bus 消息总线
+            spring-cloud-starter-bus-amqp
+            spring-cloud-starter-bus-kafka
+        应用级协议
+            基于HTTP通信
+                RPC
+                    轻量级二进制协议
+                        Protobuf
+                        Thrift
+                        Java消息服务（Java Message Service，JMS）
+                WebService
+            stubs 和 skeletons
+                RMI （Remote Method Invocation）
+            JMS（Java Messaging Service）
+            EJB(enterprise java bean)
+            JNDI（Java naming and Directory Interface）
+        关系
+            EJB与JMS
+            WebService与EJB
+            RPC与RMI
+            JMS与RMI
+            WebService与JMS
+            RMI与JNDI
+        传输层
+            socket
+            tcp、ip
+            网络IO
+                nio
+                bio
+                aio

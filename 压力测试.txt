@@ -1,0 +1,220 @@
+压力测试
+    开源软件性能测试
+        dubbo
+        优化方式
+            jvm减少full gc
+            业务优化
+    软件压力测试
+        性能指标
+            3.并发数&lt;br&gt;
+                同一时刻，对服务器有实际交互的请求书
+            4.内存占用
+                java堆区所占用的内存大小
+            响应时间
+                Response Time:RT
+                响应时间指用户从客户端发起一个请求开始，到客户端接收到从服务器返回的响应结束，整个过程所消耗的时间。
+            HPS
+                Hits Per Second
+                每秒点击数，单位是次/秒
+            TPS
+                Transaction Per Second
+                系统每秒处理交易数，单位是笔/秒
+            QPS
+                Query Per Second
+                系统每秒处理查询次数，单位是次/秒
+                对于互联网业务中，如果某些业务有且仅有一个请求连接，那么TPS=QPS=HPS，
+                一般情况下用TPS来衡量整个业务流程，用QPS来衡量接口查询次数，用HPS来表示对服务器点击请求
+            无论TPS、QPS、HPS此指标是衡量系统处理能力非常重要的指标，越大越好，根据经验，一般情况下
+                金融行业：1000TPS～50000TPS，不包括互联网的活动
+                保险行业：100TPS～100000TPS，不包括互联网的活动
+                制造行业：10TPS～5000TPS
+                互联网电子商务：10000TPS～1000000TPS
+                互联网中型网站：1000TPS～50000TPS
+                互联网小型网站：500TPS～10000TPS
+            最大响应时间：Max Response Time
+                指用户发出请求或者指令到系统作出反应（响应）的最大时间
+            最少响应时间：Mininum Response Time
+                指用户发出请求或者指令到系统作出反应（响应）的最少时间
+            90%响应时间：90% Respinse Time
+                是指所有用户的响应时间进行排序，第90%的响应时间
+            外部主要关注的三个性能指标
+                吞吐量
+                    每秒钟系统能够处理的请求数、任务数
+                响应时间
+                    服务处理一个请求或一个任务的耗时
+                错误率
+                    一批请求中结果出错的请求所占比例
+        jvm调优的内容
+            评估GC的指标
+                吞吐量
+                    吞吐量=运行用户代码时间/（运行用户代码时间+垃圾收集时间）
+                暂停时间&lt;br&gt;
+                    一个时间段内应用程序线程暂停，让GC线程执行的状态
+                最大吞吐量优先的情况下，降低停顿时间&lt;br&gt;
+                GC时间比例
+                    GC时间占用程序运行时间的百分比：1/(1+n)
+                        -XX:GCTimeRatio = n（默认值99）即 1% 时间用于垃圾收集
+                        例如将 n=19 则垃圾收集时间为1/(1+19) 即 5% 时间用于垃圾收集
+                停顿时间
+                    垃圾收集器做垃圾回收中断应用执行的时间
+                        -XX:MaxGCPauseMillis：停顿时间（建议）
+                        GC会尝试各种手段达到这个时间，比如减小年轻代
+    工具的使用
+        参数的监视
+        参数的修改业务优化
+            idea增加jvm内存分配
+        增加线程进行压力测试
+    jvm工具
+        JMeter
+            建立数据库测试计划
+                参考
+                    https://jmeter.apache.org/usermanual/build-db-test-plan.html
+                mysql负载测试
+                    步骤
+                        添加mysql驱动到 jmeter/lib 目录
+                        添加用户
+                            测试计划右键菜单 -> add -> threads -> thread group
+                        添加数据库配置元素
+                            thread group右键菜单 -> add -> config element -> jdbc connection configuration
+                        连接池名称（JDBC Request请求中需要使用到，确保一致）
+                            添加JDBC Request元素
+                            thread group右键菜单 -> add -> Sampler -> JDBC Request
+                        添加汇总报告
+                            thread group右键菜单 -> add -> Listener -> summary report
+                        添加聚合报告
+                            thread group右键菜单 -> add -> Listener -> aggregate report
+                    案例
+                        环境
+                        操作系统
+                        硬件
+                优化方案
+                    SQL语句优化
+                    数据库服务架构优化
+                        读写分离
+                            主从复制
+            接口测试
+                优化方案
+                    高吞吐量中间件
+                        MQ
+                        缓存
+                    日志
+                        异步日志
+                            log4j2+kafka
+                    案例
+                        测试商品详情接口
+                            情景1
+                                环境
+                                    tomcat 最大线程数 500
+                                    查询缓存
+                                    500个用户请求
+                            情景2
+                            情景3
+                            情景4
+            网站测试
+                优化方案
+                    动静分离
+                    参考数据库优化方案
+                    参考接口测试方案
+        jdk调优工具
+            jps：显示Java进程状况
+                -l：输出主类的全名，如果进程执行的是 JAR 包，则输出 JAR 路径
+                -v：查看虚拟机启动时显式指定的JVM参数列表
+                    未被显示指定的可通过 jinfo -flag 查看
+            jstat：监视虚拟机各种运行状态
+                -class：监视类加载、卸载数量、总空间以及类装载所耗费的时间
+                -gcutil：监视内容与-gc基本相同，但输出主要关注已使用空间占总空间的百分比
+                -gcnew：监视新生代的垃圾收集情况
+                -gcold：监视老年代的垃圾收集情况
+                示例
+                    jstat -gc 2764 250 20
+                        每250毫秒查询一次进程2764垃圾收集状况，一共查询20次
+                    jstat -gcutil 2764
+                        查看2764进程各分区占比以及Minor GC和Full GC发生的次数和耗时
+            jinfo：实时查看和调整JVM配置参数
+                查看JVM参数
+                    jinfo -flag  PID
+                        jinfo -flag MaxMetaspaceSize 18348
+                调整JVM参数
+                    布尔类型的JVM参数
+                        jinfo -flag [+|-] PID
+                    数字/字符串类型的JVM参数
+                        jinfo -flag = PID
+            jmap：Java内存映像工具
+                用于生成堆转储快照（一般称为heap dump或dump文件）还可以查询finalize执行队列、Java堆和方法区的详细信息，如空间使用率、当前用的是哪种收集器等
+                jmap -dump
+                    生成Java堆转储快照
+                jmap -heap PID
+                    显示Java堆详细信息，如使用哪种回收器、参数配置、分代状况等
+                jmap -histo:live PID
+                    显示堆中对象统计信息，包括类、实例数量、合计容量
+            jhat：堆转储快照分析工具
+                jhat命令与jmap搭配使用，来分析jmap生成的堆转储快照
+            jstack：Java堆栈跟踪工具
+                用于生成虚拟机当前时刻的线程快照（一般称为threaddump或者 javacore文件）
+                线程快照就是当前虚拟机内每一条线程正在执行的方法堆栈的集合，目的是定位线程出现长时间停顿的原因，如线程间死锁、死循环、请求外部资源导致的长时间挂起等
+                jstack -l PID
+                    查看线程堆栈
+                扩展
+                    getAllStackTraces()
+            jstck
+            jstatd命令
+            hprof命令
+        linux命令工具
+            top命令
+            sar命令
+            vmstat命令
+            iostart命令
+            pidstat命令
+            AB
+                linux常用网络工具
+        windows工具
+            任务管理器
+            perfmon性能监控工具
+            process Exploer 工具
+            pslist 命令行
+        GC日志分析
+        可视化工具
+            JConsole工具
+                连接java程序
+                java程序概况
+                内存监控
+                线程监控
+                类加载监控
+                虚拟机信息
+                MBean管理
+                使用插件
+            Visual VM 多合一工具
+                Visual VM 连接应用程序
+                监控应用程序概况
+                Thread Dump和分析
+                性能分析
+                快照
+                内存快照分析
+                MBean管理
+                TDA使用
+                在Profiler页签中
+                Visual VM对OQL的支持
+                    Visual VM对OQL基本语法
+                    内置heap对象
+                    对象函数
+                    集合/统计函数
+                    程序员OQL
+                BTrace动态日志跟踪插件
+            ArtThas
+                阿里巴巴JVM调优工具
+            JMC
+                Java Mission Control：可持续在线的监控工具，可用于生产环境
+            JHSDB 进程外调试
+        JProfile简介
+            JProfile使用配置
+            内存视图
+            堆快照
+            CPU视图
+            线程视图
+            JVM统计信息
+            触发器
+        MAT对OQL的支持
+            Select子句
+            From子句
+            Where子句
+            内置对象与方法

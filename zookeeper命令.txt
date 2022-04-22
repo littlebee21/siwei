@@ -1,0 +1,62 @@
+zookeeper
+    docker中使用zookeeper
+        启动zk服务
+            docker images zookeeper
+            查看运行的容器：docker ps
+            查看安装的zookeeper：docker ps | grep zookeeper
+            登录虚拟容器：docker exec -it zookeeper sh
+            连接本地zookeeper：zkCli.sh
+            断开连接：Ctrl+c
+            退出虚拟容器：Ctrl+d
+        客户端链接zk
+        查看zk的运行状态
+        help 查看客户端帮助命令
+    ls 查看
+        ls2 ls命令和stat命令的整合
+        ls path [watch]
+        ls -w /path
+            节点数量变化
+    get 获取节点数据和更新信息
+        get -w /path
+            节点数据变化
+        get [-s] path
+            -s 查看详情信息
+        get内容为空
+        cZxid ：创建节点的id
+        ctime ： 节点的创建时间
+        mZxid ：修改节点的id
+        mtime ：修改节点的时间
+        pZxid ：子节点的id
+        cversion : 子节点的版本
+        dataVersion ： 当前节点数据的版本
+        aclVersion ：权限的版本
+        ephemeralOwner ：判断是否是临时节点
+        dataLength ： 数据的长度
+        numChildren ：子节点的数量
+    stat 获得节点的更新信息
+    create 创建节点
+        create -e 创建临时节点
+        create -s 创建顺序节点 自动累加
+    set path data [version] 修改节点
+        set [-v dataVersion] /path data
+    delete path [version] 删除节点
+        delete [-v dataVersion] path
+            dataVersion与当前版本号不一致时，拒绝删除
+        deleteall path
+            递归删除
+    watcher通知机制
+    ACL权限控制
+        setAcl 设置权限
+        acl Auth 密码明文设置
+        acl digest 密码密文设置
+        acl ip 控制客户端
+        acl super超级管理员
+    四字命令Four Letter Words
+        stat 查看状态信息
+        ruok 查看zookeeper是否启动
+        dump 列出没有处理的节点，临时节点
+        conf 查看服务器配置
+        cons 显示连接到服务端的信息
+        envi 显示环境变量信息
+        mntr 查看zk的健康信息
+        wchc和wchp 显示session的watch信息 path的watch信息
