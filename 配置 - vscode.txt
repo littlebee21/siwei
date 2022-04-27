@@ -1,4 +1,7 @@
 vscode - 配置
     json的配置模式：
         Ctrl+Shift+P打开命令面板，简单输入settings，选择首选项：打开设置(json)，即可打开 settings.json 文件：
+
+
+主题配置：使用visual studio’作为主题配置
     

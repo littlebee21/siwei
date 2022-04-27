@@ -1,0 +1,709 @@
+1. 复习
+	[1] 结构体  
+		(1) 结构体数组
+			1) 定义形式
+				struct 结构体名 [元素个数];
+				eg: 
+					struct worker stuffs[N];
+			2) 数组的初始化  
+				a.给所有元素初始化
+					struct worker stuffs[N] = {{...},{...},{...},...};
+				b.给指定元素初始化
+					struct worker stuffs[N] = {
+						[0] = {
+							.name = ...,
+							.age = ...,
+						},
+						[1] = {
+							...
+						},
+						...
+					};
+					所有未初始化的元素都会被初始化为0;
+			3) 引用数组元素的成员:
+				数组名[下标].成员名;
+				eg: 
+					stuffs[0].name;
+		(2) 结构体指针
+			1) 定义形式  
+				struct 结构体名 *指针变量名;
+			2) 结构体指针的使用  
+				struct worker stuff; 
+				struct worker *p = &stuff;
+				
+				a. (*p).name
+				b. p->name 
+			3) 结构体指针和数组  
+				struct worker stuffs[N];
+				struct worker *p = stuffs;
+				
+				a. (*(p+i)).name;
+				b. (p+i)->name
+				
+	[2] 位域 
+		(1) 为什么引入位域 
+			有些信息在存储时，并不需要占用一个完整的字节， 而只需占几个或一个二进制位。例如在存放一个开关量时，只有0和1 两种状态， 
+		用一位二进位即可。为了节省存储空间，并使处理简便，Ｃ语言又提供了一种数据结构，称为“位域”或“位段”。
+		(2) 定义位域   
+			所谓“位域”是把一个字节中的二进位划分为几个不同的区域，并说明每个区域的位数。
+			每个域有一个域名，允许在程序中按域名进行操作。
+			struct 位域名 {
+				数据类型 成员名 : 大小;
+				
+			};
+			
+			eg:  
+				struct bs {
+					int a : 4;
+					int b : 4;
+					int c : 4;
+				};
+			注意:	
+			1) 位域变量的说明与结构体变量说明的方式相同。
+			2) 位段成员必须声明为int、unsigned int或signed int类型（short char long）（C99和C11新增_Bool类型的位字段）。
+			3) 如果一个字节所剩空间不够存放另一位域时，应从下一单元起存放该位域。也可以有意使某位域从下一单元
+				struct bs {
+					char a : 4;
+					char b : 3;
+					char c : 4;		//一个字节的空间无法存放c,所以c存在下一个字节中
+				};
+			4) 位域的长度不能大于数据类型本身的长度，比如int类型就能超过32位二进位。
+				struct bs {
+					char a : 4;
+					char b : 9;		//这里会报错，b位域的长度，超过自身数据类型的长度
+					char c : 4;
+				};
+			5) 位域可以无位域名，这时它只用来作填充或调整位置。无名的位域是不能使用的。	
+				struct bs {
+					char a : 1;
+					char : 2;	//无名位域、占位不能使用 
+					char b : 2;
+					char c : 3;
+				};
+			6) 使用一个宽度为0的未命名字段迫使下一个字段与下一个整数对齐，空域
+				struct bs {
+					char a : 1;
+					char : 0;	//空域
+					char b : 2;
+					char c : 3;
+				};
+		(3) 位域的使用 
+			使用方法同结构体用法; 
+			注意： 
+				给位域成员赋值时，不能超过最大上限。
+		(4) 位域的大小 
+			1) 类型相同时 
+				当相邻成员的类型相同时，如果它们的位宽之和小于类型的 sizeof 大小，那么后面的成员紧邻前一个成员存储，直到不能容纳为止；
+				如果它们的位宽之和大于类型的 sizeof 大小，那么后面的成员将从新的存储单元开始，其偏移量为类型大小的整数倍。
+			2) 类型不相同时， 不同编译器做法不同，gcc 
+				struct bs {
+					unsigned a : 12;
+					unsigned char b : 4;
+					unsigned c : 4;
+				};
+			3) 如果成员之间穿插着非位域成员，那么不会进行压缩。例如对于下面的 bs：
+				struct bs {
+					unsigned a : 12;
+					unsigned b;
+					unsigned c : 4;
+				};
+				
+	[3] 共用体 / 联合体  union 
+		(1) 什么是共用体
+			在C语言中，还有另外一种和结构体非常类似的语法，叫做共用体（Union），简称共用，又称联合体。
+		与结构体不同的是，共用体的每个成员都使用共同的存储区域，后面的成员的数据会覆盖掉前面的成员的数据。
+		
+		(2) 如何定义共用体  
+			union 共用体名 {
+				成员列表;
+			};
+			
+		(3) 共用体的大小 
+			整个共用体的大小应是 最大成员的大小(如果成员是结构体或数组需要看成一个整体)。
+			union bs {
+				int a; 
+				struct {
+					int a; 
+					char b; 
+					short c;
+				}b;
+				int c;
+			};
+			
+			共用体在定义、说明和使用形式上与结构体相似，这块就不详述了。
+			union 共用体名 变量名;
+			union 共用体名	数组名[元素个数];
+			union 共用体名 *指针变量名;
+	
+	[4] 枚举型  
+		C语言提供了一种构造类型枚举（Enum），在枚举定义中，能够列出所有可能的取值
+		(1) 定义枚举类型
+			enum 类型名 {值, 值, ...};
+			eg: 
+				enum days {Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
+				默认值: 
+					Monday = 0, Tuesday = 1, ....
+				enum days {Monday = 1, Tuesday = 2, Wednesday, Thursday, Friday, Saturday, Sunday};
+				
+				在代码中, 枚举的值可以当作整型常量去使用。
+				
+		(2) 定义枚举变量  
+			enum 类型名 变量名;
+			
+			eg: 
+				enum days week; 
+				week = 枚举的值 或 整型值。
+	
+	[5] 类型重定义 typedef  
+		(1) 基本用法  
+			typedef 原先的类型  新的类型  
+			eg: 
+				typedef unsigned long int uint64_t;
+				typedef signed int int32_t;
+				....			
+		(2) 重定义结构体类型 
+			typedef struct 结构体名 {
+				成员列表;
+			}新的类型;
+			eg: 
+			typedef struct worker {
+				....
+			} stuff, *pstuff;
+			
+			stuff a; 
+			pstuff b;
+			
+		(3) 重定义数组结构  
+			typedef 数据类型 新的类型[元素个数];
+			eg: 
+				typedef int Array[N];
+				Array a;
+				
+		(4) 重定义指针类型  
+			typedef 数据类型 * 新的类型;
+			eg: 
+				typedef char * string;
+				
+				string s;
+				
+		(5) 重定义函数指针结构体  
+			typedef 数据类型 (*新的类型)(参数列表);
+			
+			eg: 
+				typedef int (*pfunc)(int, int);
+				pfunc p; 
+				
+	[6] 条件编译  
+		#if condtion-express
+			code1
+		#elif condtion-express
+			code2
+		#else 
+			code3
+		#endif
+		
+		
+		#ifdef macro
+			code1 
+		#else 
+			code2 
+		#endef
+		
+		#ifndef macro 
+			code1 
+		#else 
+			code2 
+		#endef
+		
+2.作业 
+	作业1：有5个学生的信息如下：
+			学号		姓名		成绩
+			10101		Sun			96
+			10103		Wang		98.5
+			10110		Li			100
+			10108		Ling		83.5
+			10106		Zhang		88
+		编写程序，分别按照学号顺序、成绩顺序、姓名 输出学生的信息。(冒泡、选择)
+		
+		#include <stdio.h>
+		#include <string.h>
+
+		typedef struct student {
+			int id; 
+			char name[32];
+			float score;
+		} stu_t;
+
+		void sort_by_name (stu_t stu[], int n)
+		{
+			int i, j;
+			stu_t tmp;
+
+			for (i = 0; i < n-1; i++) {
+				for (j = 0; j < n-i-1; j++) {
+					if (strcmp(stu[j].name, stu[j+1].name) > 0) {
+						tmp = stu[j];
+						stu[j] = stu[j+1];
+						stu[j+1] = tmp;
+					}
+				}
+			}
+
+			return ;
+		}
+
+		void sort_by_score (stu_t stu[], int n)
+		{
+			int i, j;
+			int min;
+			stu_t tmp;
+
+			for (i = 0; i < n-1 ; i++) {
+				min = i;
+				for (j = i+1; j < n; j++) {
+					if (stu[min].score > stu[j].score) {
+						min = j;
+					}
+				}
+
+				if (min != i) {
+					tmp = stu[i];
+					stu[i] = stu[min];
+					stu[min] = tmp;
+				}
+			}
+
+			return ;
+		}
+
+		int main(int argc, const char *argv[])
+		{
+			int i;
+			stu_t stu[5] = {
+				{10101, "Sun", 96},
+				{10103, "Wang", 98.5},
+				{10110, "Li", 100},
+				{10108, "Ling", 83.5},
+				{10106, "Zhang", 88}
+			};
+
+		//	sort_by_name(stu, 5);
+			sort_by_score(stu, 5);
+
+			printf("学号\t姓名\t成绩\n");
+			for (i = 0; i < 5; i++) {
+				printf("%d\t%s\t%f\n", stu[i].id, stu[i].name, stu[i].score);
+			}
+			
+			return 0;
+		}
+
+	
+	作业2:
+			现有一张关于学生信息和教师信息的表格。学生信息包括姓名、编号、性别、职业、分数，
+			教师的信息包括姓名、编号、性别、职业、教学科目。如下表格：
+			Name			Num		Sex		Profession	Score / Course
+			HanXiaoXiao		501		f		s			89.5
+			YanWeiMin		1011	m		t			math
+			LiuZhenTao		109		f		t			English
+			ZhaoFeiYan		982		m		s			95.0
+			f 和 m 分别表示女性和男性，s 表示学生，t 表示教师。可以看出，学生和教师所包含的数据是不同的。
+			现在要求把这些信息放在同一个表格中，并设计程序输入人员信息然后输出。
+
+		#include <stdio.h>
+
+		struct info {
+			char name[32];
+			int num;
+			char sex;
+			char profession;
+			union {
+				char course[16];
+				float score;
+			} cs; 
+		};
+
+		int main(int argc, const char *argv[])
+		{
+			int i;
+			struct info informations[] = {
+				{"HanXiaoXiao", 501, 'f', 's', {.score = 89.5}},
+				{"YanWeiMin", 1011, 'm', 't', {.course = "math"}},
+				{"LiuZhenTao", 109, 'f', 't', {.course = "English"}},
+				{"ZhaoFeiYan", 982, 'm', 's', {.score = 95.0}}
+			};
+
+			printf("Name\t Num\t Sex\t Profession\t Score/Course\n");
+			for (i = 0; i < 4; i++) {
+				printf("%s\t%d\t%c\t%c\t", informations[i].name, informations[i].num,
+						informations[i].sex, informations[i].profession);
+
+				if (informations[i].profession == 's') {
+					printf("%f\n", informations[i].cs.score);
+				} else if (informations[i].profession == 't') {
+					printf("%s\n", informations[i].cs.course);
+				}
+			}
+
+			
+			return 0;
+		}
+==========================================================================================================================
+3. 静态内存管理方式（变量的存储模型）
+	[1] 变量属性
+		(1) 变量的定义
+			变量的定义方式：
+			<类型限定词> <存储类别> <数据类型> <变量表>;
+		
+		(2) 存储时期(storage duration)
+			存储时期(storage duration)就是指变量在内存中的保留时间。
+				1)静态存储时期(static storage duration)：
+					在程序执行过程中一旦分配就不会被自动回收。
+					a. 通常来说，任何不在代码块内定义的变量都具有静态存储时期（全局变量）
+					b. 在代码块内也可以定义静态存储方式的变量，比如采用static方式修饰的变量。
+				2)自动存储时期(automatic storage duration)：
+					只要是在代码块内定义的非static的变量
+					当程序执行到该代码块时，系统会在内存中为其变量分配内存，当程序执行完成当前代码块以后，分配的内存就将被系统释放。
+		(3) 作用域(scope)
+			作用域(scope)，简单来说，就是指一个变量在该文件中的哪些部分可以被引用。（变量的作用范围）
+			
+			①　	代码块作用域(block scope): 
+				所有在一对花括号之间出现的代码都是一个代码块，在代码块中的定义的变量都具有代码块作用域。
+				从这个变量定义地方开始，到这个代码块结束，该变量均是可见的。
+				需要注意的，函数的形式参数也是具有代码块作用域的。
+			②　	函数原型作用域(function prototype scope): 出现在函数原型（函数声明）中的变量，都具有函数原型作用域，
+				函数原型作用域从变量定义处一直到原型申明的末尾。编译器仅关心其参数的类型，而不关心其名字。
+				（例如 int mi(int mo, double large); ）	
+			③　	文件作用域(file scope): 一个在所有函数之外定义的变量具有文件作用域，具有文件作用域的变量从它的定义处到包含该
+				定义的文件结尾处都是可见的。（全局变量）
+						
+		(4) 链接(linkpage)
+			链接也是用来表示变量可以被引用的范围的，链接和作用域的共同作用下，决定了一个变量可以被引用的范围：
+			作用域：单个文件内变量的可见性。
+			链接：多个文件之间变量的可见性。链接的主要作用是在程序具有多个文件时，可以实现跨文件共享变量。
+			
+			C语言中一共有三种不同的链接:
+			①　	外部链接(external linkage): 具有外部链接的变量可以在多文件的程序中任何位置使用。
+				全局变量 
+			②　	内部链接(internal linkage): 具有内部链接的变量可以在定义它的文件中的任何位置使用。
+				static 全局变量 
+			③　	空链接(no linkage): 只是被当前代码块所私有，不能被程序的其他部分所引用。
+				具有代码作用域和函数原型作用域的变量都具有空链接，因为它们是由其所在的代码块或函数原型所私有的。(局部变量)
+
+		
+	[2] 存储类别  
+		(1) 存储类修饰符
+			1) static  
+				a. 修饰局部变量
+					希望函数中的局部变量的值在函数调用结束后不消失而继续保留原值，即其占用的存储单元不释放，
+					在下一次再调用该函数时，该变量已有值（就是上一次函数调用结束时的值）。
+					这时就应该指定该局部变量为“静态局部变量”，用关键字static进行声明。
+				b. static在修饰全局变量
+					该变量只能在当前文件中使用，其他文件无法访问和使用，在多个文件中定义同一个名字的变量，不会受到影响。
+				c. static修饰一个函数
+					则这个函数同样只能在本文件中调用，不能被其他文件调用
+
+			2) extern
+				extern 外部变量声明|引用。 
+				eg: 
+					extern int global;  	//global变量在其他文件内已经被定义过了，这里仅仅只是一个声明
+				注意事项：
+					a. 外部声明可以多次，定义只能一次
+					b. 声明和引用的变量需要具备外部链接属性
+					c. 外部变量声明不能赋值 
+						extern int global = 10;  	//错误 ❌
+			
+			3) auto 
+				auto 被解释为一个自动存储变量的关键字。	
+				如函数中定义变量 int a; 和 auto int a; 是等价的，关键字“auto”是默认省略的，此关键字很少使用。
+			注意事项：
+				①　	auto是定义局部变量，即只能在定义的范围内使用（一般就是在花括号里{}）。
+				②　	auto变量在离开作用域是会变程序自动释放，不会发生内存溢出情况（除了包含指针的类）使用auto变量的优势是不需要考虑去变量是否被释放，比较安全。（局部变量）
+
+			4) register 
+				register变量表示将变量存储在CPU内部寄存器中，而不是单纯地寻址访问，这样可以提高运算速度和效率。
+				
+				register int a;
+			①　	register只是请求寄存器变量，不一定能够成功
+			②　	使用register定义的变量的类型有限定，长度应该小于或者等于整型的长度，比如double就不能使用register。
+			③　	因为register变量可能不存放在内存中，所以不能用“&”来获取register变量的地址。
+			④　	用register修饰的变量只能是局部变量，不能是全局变量。CPU的寄存器资源有限，因此不可能让一个变量一直占着CPU寄存器
+
+		(5) 五种储存类型 
+				类型		存储时期(storage duration)			作用域(scope)			链接(linkpage)			声明方式
+			1)  自动 		自动存储时期						代码块作用域			空链接					代码块内部定义的局部变量
+			2) 	寄存器		自动存储时期						代码块作用域			空链接					代码块内部，使用register定义的局部变量
+			3) 外部链接静态	静态存储时期						文件作用域				外部链					所有函数外定义的全局变量
+			4) 内部链接静态 静态存储时期						文件作用域				内部链					static 全局变量
+			5) 空链接静态	静态存储时期						代码块作用域			空链接					static 局部变量
+
+
+
+
+	[3] 类型限定词  
+		1) const
+			不变性(constancy),被const修饰的变量是不能通过赋值、增量或减量运算来修改该变量的值
+		2) volatile  
+			易变性(volatility), volatile 修饰的变量经常会发生变化。因此由volatile 修饰的变量 每次都需要从内存中读取数据。
+			
+			一般来说，编译器为了加速的程序的执行，会对程序进行一些优化操作，最常用的方式就是: 将内存变量放入到寄存器中，
+			调整指令顺序，充分使用CPU的流水线。大部分情况下，这些优化操作是非常有效的，但是在一些少数情况下，这样的优化
+			方法会导致程序错误，这时，就需要用volatile关键字来显示地告诉编译器，被volatile修饰的变量不需要这样的优化
+	
+			#include <stdio.h>
+
+			void delay(int n) 
+			{
+				volatile int i, j;
+				for (i = 0; i < n; i++) 
+					for (j = 0; j < 200000000; j++);
+
+				return ;
+			}
+
+			int main(int argc, const char *argv[])
+			{
+				while (1) {
+					printf("hello world\n");
+					delay(1);
+				}
+				
+				return 0;
+			}
+
+	[4] 动态内存管理
+		C还提供程序员在程序运行期间自己动态地获取内存并管理。
+		
+		(1) 内存申请malloc函数
+			#include <stdlib.h>
+
+			void * malloc(size_t size);
+			函数参数: 
+				size : 指明了向系统请求的内存字节数
+			函数功能：
+				malloc函数根据指定的size自动在内存中寻找一块满足申请大小的连续区域。
+			函数返回值: 
+				成功 返回 内存空间的首地址 
+				失败 返回 NULL
+				
+			示例：
+				double * ptd;
+				ptd = (double *)malloc(30 * sizeof(double))
+				
+				struct S * ptd;
+				ptd = (struct S *)malloc(sizeof(struct S))
+	
+		(2) bzero 将指定的内存清零 
+			#include <strings.h>
+
+			void bzero(void *s, size_t n);
+			函数参数:  
+				s : 用于指定需要清零的内存的首地址 
+				n : 用于指定清零的内存大小
+				
+		(3) free 释放内存  
+			#include <stdlib.h>
+			
+			void free(void *ptr);
+			函数参数: 
+				ptr : 用于指定需要释放的内存的起始地址
+			
+			注意：
+				①　	如果free的参数是NULL的话，没有任何效果。
+				②　	malloc与free是配对使用的，free只能释放堆空间。通过malloc分配得到了内存空间，
+					这段内存空间除非通过free函数进行释放，否则这段内存空间将会一直被占用
+				③　	释放必须是整体性的，不能申请了一块内存后，只释放其中的一部分。
+				④　	调用了free函数之后，原来的指针*ptr还是指向着原来的内存空间的首地址 - *ptr成了空悬指针，
+					此时内存中的数据是未定义的，是垃圾数据，如果下次不小心又使用就很危险。
+					因此，在实践中一个比较好的习惯是，将已经被释放了空间的指针赋值为NULL，防止引用到错误的内存空间。
+				⑤　	不允许重复释放。同一空间重复释放也是危险的，因为该空间可能已另分配
+			
+		(4) 内存泄漏
+				我们就”丢失”了那段内存空间，虽然它一直存在，但是我们永远不能访问到它了，因为我们已经丢失了这段内存的首地址。
+			这就是所谓的内存泄露。
+			
+			void xxxx(void)
+			{
+				double * ptd;
+				ptd = (double *)malloc(30 * sizeof(double));
+				
+				.... 
+				return ;
+			}
+			
+			int main()
+			{
+				xxxx();	
+			}
+			
+	[5] 虚拟内存  
+		而在多任务操作系统中每个进程都拥有一片属于自己的内存空间(内存沙盘),这个沙盘就是虚拟地址空间,在32位下是一个4GB的大小的地址块,
+		这些虚拟地址通过页表映射到物理内存.
+		
+		0 - 3G  : 用户空间 
+			STACK 栈区: 由系统自动分配和释放.存储局部(自动)变量. 
+			HEAP  堆区: 堆区的内存分配和释放是由程序员所控制的. malloc 申请的空间
+			BSS	段	  : 未初始化或初始化为0的全局变量和静态变量, 
+			DATA 段   : 已初始化的全局变量和静态变量 
+			TEXT 代码段: 二进制代码被载入至此.代码区是只读的!有执行权限.
+		3 - 4G  : 内核空间  
+		
+
+			
+===========================================================================================================================================			
+5. Makefile 
+	[1] 基本概念 
+		(1) Make  工程管理器  
+			Make是一种将源代码转换成可执行文件的自动化工程管理工具。
+			Make工具可以对编译过程进行优化，在重新编译时会根据时间戳来决定哪些文件需要重新自动生成，在编译大型工程时，这会省下不少时间。
+			
+		(2) Makefile
+			1)什么是Makefile
+				Make命令执行时，需要一个 Makefile 文件，以告诉Make编译哪些文件以及怎样编译这些文件。
+			Makefile采用Make能够识别的Make语言，通过Make语言指定了整个工程的编译规则。
+			描述了源文件、中间文件、可执行文件之间的关系（项目级别的），并且在编译前检查相互之间的依赖关系。
+			2) Makefile的命名规则
+				Make命令会在当前目录下按顺序找寻文件名为 : "GNUmakefile" > "makefile" > "Makefile"
+				可以通过使用“-f”和“--file”参数来指定Makefile的文件名： 
+					 make -f Make.Linux 或 make --file Make.AIX。
+					 
+	[2] Makefile 语法  
+		Makefile里主要包含了五个东西：显式规则、隐晦规则、变量定义、文件指示和注释。
+		(1) 显示规则  
+			Makefile的核心内容就是规则，它是Makefile的主要组成。Makefile的书写者需要明确指出，要生成的文件，文件的依赖文件，生成的命令。
+			
+			Makefile基本格式如下:
+				target ... : prerequisites ...
+						
+					... 
+					...
+			说明：  
+				1) targets 目标，一个或多个目标。可以是Object File(目标文件)，也可以是执行文件。还可以是一个标签（Label），对于标签这种特性，
+					或称之为“伪目标”。
+				2) prerequisites 依赖，要生成的targets所需要依赖的的文件或是其他目标。
+				3) command 命令, 可以包含一个者多个commands。（任意的Shell命令）。
+					需要注意的是对每一行shell命令，make将启动一个新的进程执行这行shell命令。
+					Makefile中的命令必须以 [tab] 开头。
+					
+			示例: 
+				a.out : 03-static.c 04-test.c
+					gcc 03-static.c 04-test.c -o a.out
+					
+			注意： 
+				1)make是怎么知道什么时候执行command呢？
+					如果prerequisites中只要有一个文件的日期要比targets文件的日期要新，那么，
+					make也会执行后续定义的命令，最后生成新的目标文件。
+				2)规则的顺序
+					在Makefile中，规则的顺序是很重要的，因为，Makefile中只应该有一个最终目标，
+					其它的目标都是被这个目标所连带出来的，所以一定要让make知道你的最终目标是什么。
+					一般来说，定义在Makefile中的目标可能会有很多，但是缺省情况下第一条规则中的目标将被确立为最终的目标。
+					在运行make时可以通过指定目标名称，执行指定的目标  
+					
+					make hello 
+					
+					hello.o : hello.s 
+						gcc -c hello.s -o hello.o 
+					hello.s : hello.i 
+						gcc -S hello.i -o hello.s 
+					hello.i : hello.c 
+						gcc -E hello.c -o hello.i
+					hello : hello.o
+						gcc hello.o -o hello 
+						
+				3) 规则中的通配符
+					用法和shell中的通配符用法相同
+					
+					符号	含义
+					*		表示任意一个或多个字符
+					?		表示任意一个字符
+					[…]		[abcd] 表示a,b,c,d中任意一个字符, [^abcd]表示除a,b,c,d以外的字符, [0-9]表示 0~9中任意一个数字
+					~		表示用户的home目录
+					
+				4) 目标中的通配符
+					“%”的意思是匹配零或若干字符，例
+					如， “%.h”表示所有以“.h”结尾的文件
+					
+					a.out : *.o
+						gcc *.c -o a.out
+
+					%.o : %.c
+						gcc -c *.c 
+				5) 规则中命令的前缀		
+					3种格式的shell命令区别如下:
+					不用前缀 : 输出执行的命令以及命令执行的结果, 出错的话停止执行
+					前缀 @  : 只输出命令执行的结果, 出错的话停止执行
+					前缀 - : 命令执行有错的话, 忽略错误, 继续执行
+				示例: 
+					hello : hello.o
+						@echo "hello"
+						@gcc hello.o -o hello 
+					hello.o : hello.s 
+						@echo "hello.o"
+						@gcc -c hello.s -o hello.o 
+					hello.s : hello.i 
+						@echo "hello.s"
+						@gcc -S hello.i -o hello.s 
+					hello.i : hello.c 
+						@echo "hello.i"
+						-@ls -l /dev/hello
+						@gcc -E hello.c -o hello.i
+
+		(2) 变量  
+			用户定义变量，环境变量，自动变量，预定义变量
+			1) 用户自定义变量
+				a. 定义变量
+					Makefile中的变量和C/C++中的宏相似，本质就是为一个文本字符串指定的一个名字。
+					
+					变量名 = 值;
+					var = 1
+				b. 引用变量  
+					$符号来引用变量，变量在定义的时候需要赋初值，引用变量时推荐用 ()、{}进行包括
+					例如：$(var)
+				c. 定义变量的方式  
+					第一种方式： 也就是简单的使用“=”号，我们叫递归展开变量。
+							递归展开变量在引用时逐层展开，即如果在展开式中包含了对其他变量的引用，则这些变量也将被展开，
+						直到没有需要展开的变量为止。
+						
+						注意：右侧展开式中的变量的值可以定义在文件的任何一处，也就是说，右侧中的变量不一定非要是已定义好的值，
+						其也可以使用后面定义的值。
+						
+						这种方式可能会让make陷入无限的变量展开过程中去。Make会帮助我们检测这种错误。
+					
+					第二种方式，为了避免陷入无限递归，":="
+						这种方法，前面的变量不能使用后面的变量，只能使用前面已定义好了的变量。
+				
+					第三种方式，"?="
+						例如 FOO?=bar 如果FOO没有被定义过，那么变量FOO的值就是“bar”，如果FOO先前被定义过，那么这条语将什么也不做。
+
+					第四种方式，追加变量的值
+						我们可以使用“+=”操作符给变量追加值
+						例如：
+							objects = main.o foo.o bar.o utils.o
+							objects += another.o
+							等价于 
+							object := $(objects) another.o
+	
+							
+							echo $(objects) => main.o foo.o bar.o utils.o another.o
+								
+			作业： 编写simple的Make file 
+					
+					
+
+					
+			
+			
+			
+			
+			
+			
+	
+		
+	
+		
+
+
+	
+	
+	
+	

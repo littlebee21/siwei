@@ -1,0 +1,234 @@
+1.复习  
+	[1] shell 的使用技巧 
+		(1) 命令和文件名补齐  
+			Tab 或 Esc
+		(2) 快捷键  
+			ctrl + a 	跳转到命令前
+			ctrl + e 	跳转到命令后
+			ctrl + k  	删除光标位置到结尾 
+			ctrl + u  	删除光标之前所有内容
+			ctrl + l  	clear
+			ctrl + c  	终止程序
+			ctrl + d 	删除光标位置字符，关闭中断
+			ctrl + s 	暂停输出
+			ctrl + q  	继续输出 
+			ctrl + shift + c 	复制
+			ctrl + shift + v 	粘贴
+		(3) 历史记录  
+			history [-num]
+			
+			!! 		执行上条指令  
+			!n 		执行第n条指令  
+			!-n  	执行倒数第n条指令
+		(4) 定义别名 
+			alias -- 查看、定义别名 
+				alias [alias_name='origin_command']
+			unalias -- 取消别名
+				unalias alias_name
+				
+			/etc/profile 		任何用户第一次登录时会自动运行该脚本
+			~/.profile 			当前用户第一次登录时会自动运行该脚本
+			/etc/bash.bashrc	任何用户打开bash shell 自动运行该脚本
+			~/.bashrc 			当前用户打开bash shell 自动运行该脚本
+			
+	[2] shell 中的特殊符号 
+		(1) 通配符  
+			* 		匹配任意长度的任意字符
+			?		匹配任意长度为1的任意字符	
+			[]		匹配方括号内的任意一个字符
+			[-]		表示一个范围
+			[^]		反选、匹配除了方括号内的任意一个字符
+		(2) 管道 
+			command1 | command2 | command3 | ...
+			
+			wc 		统计文本或输入的 行数、字符数、单词数...
+			last	显示用户登录信息
+		(3) 重定向符
+			> 或 1>		输出重定向，覆盖
+			>> 或 1>>	输出重定向，追加
+			2>			错误输出重定向，覆盖
+			2>>			错误输出重定向，追加
+			<			输入重定向
+		(4) 命令置换 
+			command1 `command2`
+			将command2的输出，作为command1的参数
+			
+	[3] 获取帮助 
+		(1) man 手册  
+			1) 分册数目 man man  
+				1   指令 
+				2   系统调用
+				3	库函数
+				7	杂项
+			2) 使用方法  
+				man [-num] 内容
+			3) 查询内容出现在哪些分册
+				man -f 内容
+			4) 关键字查询 
+				man -k 内容 
+		(2) whereis 
+			which 
+			查询命令的位置
+				
+	[4] 维护指令  
+		(1) find -- 文件搜寻
+			find pathname [-options]
+				-name 指定文件名 (可以使用通配符) 
+				-type 文件类型 
+				-size 文件大小
+		(2) grep -- 查找字符串
+			指令格式: 
+				grep [OPTIONS] PATTERN [FILE...]
+					-V	查询版本号 
+					-v	反选  
+					-i	忽略大小写 
+					-n	显示行号 
+					-e pattern -e pattern  多选项匹配 
+					-r 或 -R 如果对象为目录，则表示搜寻目录下文件内容
+					-w 整词匹配 
+		作业：在指定的目录下查询文件类型为普通类型，文件大小大于1K, 且文件中包含 "printf" 或 "scanf" 关键字。
+		忽略大小写，并显示行号。
+
+		grep -i -n -w -e  "printf" -e "scanf" `find . -type f -size +1k` 
+		
+	[5] vim 编辑器
+		(1) 打开编辑器 
+			vi/vim + filename 
+		(2) 工作模式 
+			命令模式
+			插入模式
+			底行模式
+		(3) 模式切换  
+			1) 默认进入 命令模式 
+			2) 命令 -> 插入模式 
+				a 或 A
+				i 或 I
+				o 或 O 
+			3) 命令 -> 底行模式 
+				: 	冒号
+				/ 或 ?	查找 
+		(4) 命令模式  
+			1) 光标移动  
+				h j k l 
+				b e w 
+				0 $ 
+				gg  G
+			2) 复制、剪切、粘贴 
+				nyy 
+				ndd			
+				p/P
+				
+				y$ 
+				d$ 
+				
+				nyl 
+				ndl 
+				
+				nyw 
+				ndw
+			3) 撤销与恢复  
+				u  		撤销 
+				ctrl+r	恢复
+		(5) 底行模式  
+			1) 保存与退出操作
+				w   保存 
+				q	退出  
+				wq	保存并退出  
+				w filename  另存文件  
+				q! 	强制退出不保存 
+				wq! 
+				w! 
+
+===============================================================================================================				
+2. vim 编辑器  
+	[1] 底行模式 
+		(1) 查找操作
+			/<需要查找的字符> 向下查找
+			?<需要查找的字符> 向上查找
+			
+			如果文本中含有多个匹配字符，则可以按"n"来自动查找下一个匹配的字符，
+		按"N"键就可以查找上一个匹配的字符。这样就能对查找到的内容进行上下移动。
+		
+			设置高亮显示: set hlsearch
+			取消高亮显示: set nohlsearch
+			
+		(2) 替换操作
+			:[range]s/string1/string2/[gc]
+			说明
+				range 表示范围  
+					% 表示所有行
+					. 表示当前行
+					$ 表示最末行
+					n,m 表示从第n行到第m行
+					2,$-5 表示从第2行到倒数第5行
+				s	  表示开启替换 
+				string1  被替换的字符串  
+				string2  替换的字符串
+				g 	  可选项, 替换所有, 否则一行只替换一次 
+				c	  可选项, 替换前先询问
+				
+			示例:
+				:10,20s/string1/string2 表示从10 - 20行用字符串string2替换string1
+				:2,$-5s/string1/string2 表示从2 - 倒是第5行用字符串string2替换string1
+				:.,$s/string1/string2/g 表示从当前行到最后一个行~
+				:%s/string1/string2/g 表示所有行都~
+		
+		(3) 复制剪切
+			:[range]y 
+			:[range]d
+		
+		(4) 其他操作 
+			1) 设置光标（ubuntu文件内容向拷贝到windows）
+				:set mouse=  可以右键拷贝
+				:set mouse=a 不可以右键拷贝
+			或 
+				按着shift键，鼠标选中想要拷贝的行，
+				松开shift，右键拷贝
+			
+			2) 设置行号是否显示
+				:set nonu  取消行号
+				:set nu    显示行号
+				
+			3) 跳转 
+				:num
+				//vim filename +num 
+				
+			4) 读取插入
+				:r path/filename 
+			
+	
+
+				
+			
+	[2] 配置文件
+		(1) 将 vim_t.tar.gz 复制到虚拟机的用户主目录	
+		(2) 解压
+			fs@ubuntu:~$ tar -xvf vim_t.tar.gz	
+		(3) 修改文件权限  
+			fs@ubuntu:~$ chmod 777 .vim* -R
+		(4) 修改作者信息
+			fs@ubuntu:~$ vim .vimrc
+			12 ~ 28
+	
+		:Man [num] 查询的内容
+		
+	[3] vim adventures
+	
+	
+	作业: 
+		1.复习今天上课的内容，整理今天的笔记(晚自习结束前提交)
+		2.准备早分享(分享昨天学习的内容、其他知识、分享个人经验...)
+		3.练习二：操练vi
+			使用vi输出创建文件，键入内容并保存。内容要求和vi.c一致。
+			
+		
+	
+
+		
+			
+		
+			
+		
+
+				
+		

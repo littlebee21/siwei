@@ -80,10 +80,10 @@
 
     工程打包工具
         makefile
+        cmake
     静态库工具
         ar 
         autogen
-        cmake
     开发板系统工具：
         磁盘类工具     
             df查看系统已用空间

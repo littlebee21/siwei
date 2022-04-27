@@ -1,0 +1,188 @@
+1.用户管理指令
+	[1] 用户的属性
+		①　	用户名:就是用户的账号，用来对应UID
+		②　	口令：用户登录账号的密码
+		③　	用户ID（UID）：系统会给每个用户进行一次编号(是一个整数),这个整型数字就叫用户ID(UID),
+			用来识别这个用户，几个典型的ID用户ID（UID）：
+			0 ： root用户
+			1 - 499：系统用户（伪用户）系统后台用来管理系统的用户，不能登录也不能使用。 
+			500 - 65535: 用户自定义的普通用户
+		④　	用户主目录（HOME）：默认用户的家目录，在”/home/用户名”目录下
+		⑤　	用户shell：用户登录后就会得到一个shell来与系统的核心沟通以进行用户的操作任务
+	
+	[2] 用户组
+		用户组就是具有相同特征的用户的集合，通过用户组可以让多个用户拥有相同的权限。一个组可以包含多个用户
+	，每个用户也可以属于不同的组。用户组的目的方便管理员对用户进行集中管理。
+	
+	
+	[3] 用户相关配置文件 
+		(1) /etc/passwd文件
+			/etc/passwd文件用来存储操作系统能够识别用户的信息清单。每一个用户都会在这个文件内有一条注册
+		信息，当用户登陆的时候，系统从该文件中读取用户的UID和密码并进行验证。
+			文件包括以下几部分内容：
+				登录名
+				密码（不过是加密字符，不予显示）
+				UID
+				默认的组ID（GID）
+				个人信息
+				主目录所在路径
+				登陆的Shell
+			
+		(2) /etc/group 文件  
+			该文件用来存储系统内用户组的信息，每一行代表一个组。
+		文件包括以下几部分内容：
+			组名
+			加密的口令
+			GID
+			组成员列表
+		
+	[4] 用户管理指令  
+		(1) 添加用户 adduser
+			语法格式如下：
+				adduser 	<username>
+			
+			示例：添加用户名为xiaohu的新用户
+				fs@ubuntu:~$ sudo adduser xiaohu
+			
+			adduser 命令的配置文件
+				/etc/adduser.conf	是adduser命令的配置文件。Linux在创建新用户时会根据该文件的内容设置新用户的属性等信息。
+			例如：DSHELL指定新用户默认登录的shell为bash；DHOME指定在/home下创建新用户的主目录
+			例如：SKEL指定Linux系统将会从/etc/skel目录下，拷贝所有的文件、目录到新用户的主目录下。
+			（这些文件都是一些配置文件，例如.bashrc是bash的配置文件，.vimrc是vi的配置文件）	
+		
+		(2) 删除用户 deluser 
+			删除用户账号使用deluser命令。语法格式如下：
+				deluser 	<username>
+			示例:
+				fs@ubuntu:~$ sudo deluser xiaohu
+				fs@ubuntu:/home$ sudo deluser --remove-home stu			//删除用户同时删除用户主目录 
+				
+		(3) 修改用户属性 usermod
+			Usermod  [可选项]  用户名
+			-d 目录名：更改该用户的工作目录地址。若后面有-m则表示旧目录会迁移至新目录，若新目录不存在则会创建。
+			-G 组名1,组名2……：指定该用户是以下组的成员（即加入这些组内），组名间用逗号分隔。如果需要将指定用户从用户组中删除，只需要将用户名从/etc/group指定的行中删除即可。
+			-l 名称：更改该用户的登录名
+			-u 数值：更改该用户的UID，新指定的UID必须是一个唯一的值（即不能与已有\UID同名）
+			-s shell目录：更改该用户默认shell，若后面的值缺省则会指定为系统默认的shell
+		注意：usermod命令无法更改正在线上的用户
+			示例1：将新用户添加进fs的组中		
+				fs@ubuntu:~$ sudo usermod xiaohu -G fs
+			示例2：修改新用户的用户名
+				fs@ubuntu:~$ sudo usermod xiaohu -l xh
+			示例3：修改新用户的工作目录	
+				fs@ubuntu:/home$ sudo usermod xh -d /home/xh
+			示例4：修改新用户的shell
+				fs@ubuntu:/home$ sudo usermod xh -s /bin/dash
+			...
+		(4) 创建新用户组 addgroup
+			 addgroup [options]  user_group	
+			 
+			示例: 
+				fs@ubuntu:/$ sudo delgroup xiaomei
+
+		(5) 删除用户组 delgroup 		
+			delgroup user_group 
+			
+			fs@ubuntu:/$ sudo addgroup xiaomei
+		
+			 
+		(6) 修改用户组的属性 groupmod
+			groupmod [options] user_group	
+			可选项 
+				-g [gid] : 修改用用户组ID
+				-n new_group : 修改用户组名
+			
+			示例: 
+				fs@ubuntu:/$ sudo groupmod XH -n xh
+
+		(7)	使用户拥有临时超级用户权限(sudo)
+			/etc/sudoers文件 用于指定可以使用sudo的用户和用户组 
+		在文件末尾添加以下内容
+			xh ALL=(ALL) ALL		//使xh用户可以使用sudo
+		
+			%fs ALL=(ALL:ALL) ALL 	//使fs用户组成员都可以使用sudo 
+			
+2.链接文件 
+	[1] inode 
+		1) 用户数据 (user data)：即文件数据块 (data block)，数据块是记录文件真实内容的地方；
+			文件储存在硬盘上。 
+			文件储存在硬盘上，硬盘的最小存储单位叫做"扇区"（Sector）。每个扇区储存512字节（相当于0.5KB）。
+			这种由多个扇区组成的"块"，是文件存取的最小单位。
+			"块"的大小，最常见的是4KB，即连续八个 sector组成一个 block。文件数据都储存在"块"中。
+		2）元数据 (metadata)：文件的附加属性，如文件大小、创建时间、所有者等信息。这种储存文件元信息的区域就叫做inode，
+			中文译名为"索引节点"。	
+				ls -l 
+			
+	[2] inode的内容
+		inode包含文件的元信息，具体来说有以下内容：
+			文件的字节数
+			文件拥有者的User ID
+			文件的Group ID
+			文件的读、写、执行权限
+			文件的时间戳，共有三个：ctime指inode上一次变动的时间，mtime指文件内容上一次变动的时间，atime指文件上一次打开的时间。
+			链接数，即有多少文件名指向这个inode
+			文件数据block的位置
+		可以用stat命令，查看某个文件的inode信息：
+			stat example.txt
+			fs@ubuntu:~$ stat poll.c 
+			  File: `poll.c'
+			  Size: 1217      	Blocks: 8          IO Block: 4096   regular file
+			Device: 801h/2049d	Inode: 409394      Links: 1
+			Access: (0664/-rw-rw-r--)  Uid: ( 1000/      fs)   Gid: ( 1000/      fs)
+			Access: 2022-01-13 14:39:40.511364587 +0800
+			Modify: 2022-01-13 14:39:39.359360712 +0800
+			Change: 2022-01-13 14:39:39.359360712 +0800
+			 Birth: -
+			 
+	[3] inode的大小
+		inode也会消耗硬盘空间，所以硬盘格式化的时候，操作系统自动将硬盘分成两个区域。一个是数据区，存放文件数据；
+	另一个是inode区（inode table），存放inode所包含的信息。
+		每个inode节点的大小，一般是128字节或256字节。
+		inode节点的总数，在格式化时就给定，一般是每1KB或每2KB就设置一个inode。假定在一块1GB的硬盘中，
+		每个inode节点的大小为128字节，每1KB就设置一个inode，那么inode table的大小就会达到128MB，占整块硬盘的12.8%。
+
+		查看每个硬盘分区的inode总数和已经使用的数量，可以使用df命令。
+		　	　df -i
+		Filesystem      Inodes  IUsed  IFree IUse% Mounted on
+		/dev/sda1      1245184 386006 859178   31% /
+
+		由于每个文件都必须有一个inode，因此有可能发生inode已经用光，但是硬盘还未存满的情况。
+		这时，就无法在硬盘上创建新文件。
+	
+	[4]  inode号码
+		每个inode都有一个号码，操作系统用inode号码来识别不同的文件。
+		
+		表面上，用户通过文件名，打开文件。实际上，系统内部这个过程分成三步：首先，系统找到这个文件名对应的inode号码；
+		其次，通过inode号码，获取inode信息；最后，根据inode信息，找到文件数据所在的block，读出数据。
+		
+		使用ls -li命令，可以看到文件名对应的inode号码：
+　　		ls -li example.txt
+
+	[5] 硬链接
+		多个文件名指向同一个索引节点（inode）。这种情况就被称为"硬链接"（hard link）。
+		硬连接的作用是允许一个文件拥有多个有效路径名，这样用户就可以建立硬连接到重要文件，以防止“误删”的功能。	
+		
+		ln命令可以创建硬链接：
+　			ln 源文件 目标文件
+
+	[6] 软链接
+		另外一种连接称之为符号连接（Symbolic Link），也叫软连接。软链接文件有类似于Windows的快捷方式。
+		在符号连接中，文件实际上是一个文本文件，其中包含的有另一文件的位置信息。
+	读取软连接文件时系统将自动将访问者导向目标文件。
+		ln -s 命令可以创建软链接。
+			ln -s 源文文件 目标文件
+
+		[oracle@Linux]$ touch f1          #创建一个测试文件f1
+		[oracle@Linux]$ ln f1 f2          #创建f1的一个硬连接文件f2
+		[oracle@Linux]$ ln -s f1 f3       #创建f1的一个符号连接文件f3
+
+	注意：
+		如果是修改硬链接的目标文件名，链接依然有效；
+		如果修改软链接的目标文件名，则链接将断开；对一个已存在的链接文件执行移动或删除操作，有可能导致链接的断开。
+		假如删除目标文件后，重新创建一个同名文件，软链接将恢复，硬链接不再有效，因为文件的inode已经改变。
+
+		理解,软连接:快捷方式
+			硬链接:新副本
+			
+
+			

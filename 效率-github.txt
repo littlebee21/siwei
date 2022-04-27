@@ -1,0 +1,15 @@
+分散内容传递到相同的仓库：
+	1，cp内容到固定仓库
+	2, 使用脚本组织连续的linux命令
+
+个人仓库检索：user:littlebee21 linux
+
+
+token验证上传：
+	放弃：设置github缓存长时间
+	使用：bashrc的别名方式:
+
+
+
+整理：
+github收藏的内容

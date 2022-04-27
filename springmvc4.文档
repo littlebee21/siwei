@@ -1,0 +1,77 @@
+springmvc 4.文档
+    Spring Web MVC框架简介
+        Spring Web MVC的新特性
+        允许其他MVC实现
+    主题
+        DispatcherServlet
+            WebApplicationContext中特殊的Bean类型
+                FlashMap管理器
+            默认的DispatcherServlet配置
+            DispatcherServlet的处理流程
+        控制器的实现
+            使用@Controller注解定义一个控制器
+            使用@RequestMapping注解映射请求路径
+            定义@RequestMapping注解的处理方法
+            异步请求的处理
+            对控制器测试
+        处理器映射
+            使用HandlerInterceptor拦截请求
+        视图解析
+            使用ViewResolver接口解析视图
+            视图链
+            视图重定向
+            内容协商解析器ContentNegotiatingViewResolver
+        使用闪存属性FlashAttributes
+            重定向
+        URI构造
+            为控制器和方法指定URI
+            在视图中为控制器和方法指定URI
+        地区信息LocaleResolver
+            获取时区信息
+            Accept请求头解析器AcceptHeaderLocaleResolver
+            Cookie解析器CookieLocaleResolver
+            Session解析器SessionLocaleResolver
+            地区更改拦截器LocaleChangeInterceptor
+        主题 themes
+            关于主题：概览
+            定义主题
+            主题解析器
+        Spring的multipart（文件上传）支持
+            概述
+            使用MultipartResolver与Commons FileUpload传输文件
+            Servlet 3.0下的MultipartResolver
+            处理表单中的文件上传
+            处理客户端发起的文件上传请求
+        异常处理
+            处理器异常解析器HandlerExceptionHandler
+            @ExceptionHandler注解
+            处理一般的Spring MVC异常
+            使用@ResponseStatus注解业务异常
+            Servlet默认容器错误页面的定制化
+        Web安全
+        "约定优于配置"的支持
+            控制器类名-处理器映射ControllerClassNameHandlerMapping
+            模型ModelMap(ModelAndView)
+            视图-请求与视图名的映射
+        HTTP缓存支持
+            HTTP请求头Cache-Control
+            对静态资源的HTTP缓存支持
+            在控制器中设置Cache-Control、ETag和Last-Modified响应头
+            弱ETag
+        基于代码的Servlet容器初始化
+             3.0以上的环境下，你可以通过编程的方式来配置Servlet容器了。
+    配置Spring MVC
+        启用MVC Java编程配置或MVC命名空间
+        默认配置的定制化
+        转换与格式化
+        验证
+        拦截器
+        内容协商
+        视图控制器
+        视图解析器
+        资源的服务
+        回到默认的Servlet来进行资源服务
+        路径匹配
+        消息转换器
+        使用MVC Java编程进行高级定制
+        使用MVC命名空间进行高级定制

@@ -1,0 +1,562 @@
+1.复习
+	[1] 文件系统 
+		(1) 定义
+			内核中的子系统，操作系统中负责管理和存储文件信息的软件机构。
+		(2) 结构 
+			树型结构 : 分区在目录下
+			Linux的目录结构顶端类似与树的树根，因此我们称为"根目录"，用"/"符号来表示。
+		(3) FHS 标准
+			Linux基金会颁发了FHS(Filesystem Hierarchy Standard),为了规范文件目录命名和存放标准
+
+			/			根目录  
+			/bin		二进制可执行程序或指令 
+			/lib		库文件 
+			/dev		设备文件
+			/etc		配置文件 
+			/usr		用户安装的软件和程序 
+			/var		可变的文件、日志文件等
+			/root		超级用户的主目录 
+			/home		普用用户的主目录
+			...
+		(4) 路径
+			绝对路径: 描述文件在文件系统的绝对位置,以根目录作为起点
+			相对路径：描述文件相对于当前目录的相对位置,以当前目录作为起点
+		(5) 主目录
+			每个用户都拥有自己的主目录(家目录)
+			位置: 
+				/root				超级用户的主目录 
+				/home/username		普通用户的主目录  
+			符号: 
+				当前用户可以使用 "~" 表示主目录
+	
+	[2] 用户切换指令 
+		(1) su  
+			su + 用户名 
+		(2) sudo 	临时获取超级用户权限 (15min)
+			sudo command
+		(3) passwd 	修改用户密码 
+			passwd [用户名]
+		(4) exit 
+			退出登录
+	
+	[3] 浏览目录  
+		(1) pwd	- 显示当前的绝对位置 
+		(2) ls	- 显示目录下文件  
+			指令格式: ls [-option] [dir_path]
+			可选项:  
+				-a 		查看隐藏文件  
+				-l 		查看文件属性  
+				-r		逆向显示文件
+				-R		递归地列举所有目录（包括子目录）的所有内容
+				-h		改变文件大小的显示单位
+				...
+				
+			文件属性  
+				drwxr-xr-x  2 fs   fs       4096  9月  6  2020 Music
+				-rw-r-----  1 fs   fs   22835200  3月 18  2015 core
+				lrwxrwxrwx  1 fs   fs          5  1月 12 13:58 link -> a.out
+				prw-rw-r--  1 fs   fs          0  1月 12 13:59 myfifo
+				crw-rw----  1 root video    10, 175  1月 11 17:08 agpgart			
+				brw-rw----  1 root disk      7,   0  1月 11 17:08 loop0
+				srw-rw-rw-  1 root root           0  1月 11 17:08 log
+				----------	- -	   - 	--------  ------------
+					|		|  |   |		|	文件最后修改时间
+					|		|  |   |    文件的大小
+					|		|  | 用户组
+					|		| 文件拥有者
+					|	链接数目
+				文件类型/权限
+			
+			
+			文件类型 : Everything in Unix is a file.	//一切皆文件
+				文件类型			类型符		描述
+				普通文件			-			指ASCII文本文件、二进制可执行文件，以及硬件链接
+				目录文件			d			包含若干文件或子目录
+				符号链接文件		l			只保留了文件地址，而不是文件本身,相当于Windows中的快捷方式
+				管道文件			p			一种进程间通信的机制,用于进程间通讯的暂时文件
+				套接字文件			s			用于进程间通信,两台计算机间通讯的应用程序接口(API)
+				字符设备文件		c			原始输入/输出设备文件,每次I/O操作仅传送一个字符，大部分设备都是。
+				块设备文件			b			块输入/输出设备文件，以块(block 512byte)为单位进行I/O的操作，存储设备。
+				
+			文件权限: 
+				rwx			r-x			r-x
+				|			|			|
+				|			|			其他用户
+				|		用户组成员
+			文件拥有者
+			
+				权限类型	开放权限
+				读（r）		授予查看文件的权限
+				写（w）		授予写入权限，允许修改文件
+				执行（x）	允许用户运行程序
+				-			无权限	
+			权限码： 
+				eg: 
+				crwxr-xr-x  2 fs   fs       4096  9月  6  2020 Music
+				 111 101 101
+				 7 5 5
+			chmod 指令 - 修改文件访问权限 
+				指令格式: chmod [OPTION]... MODE[,MODE]... FILE..
+					OPTION :  可选项
+						-R  如果操作文件是目录，则递归的修改目录下包括子目录下文件的权限
+					MODE   ： 文件权限(八进制权限码)				
+					FILE   :  文件名 
+		(3) cd  切换目录  
+			cd [目录路径]
+			
+	[4] 文件及目录基本操作
+		(1) mkdir 	创建目录
+			语法格式：
+				mkdir [-option]	路径/目录名
+			可选项：
+				-p	子目录1/子目录2/...	 ： 先创建子目录1再在子目录1下创建子目录2
+				-v						 ： 创建目录后显示信息
+				-m 权限码				 ： 创建一个权限为（权限码）的空目录
+				
+		(2) touch 修改文件时间戳(访问时间)
+			语法格式：
+				touch  [-t 时间] 文件名
+			可选项: 
+				-t time  ：将文件访问的时间修改为指定的时间 
+				时间格式：[[CC]YY]MMDDhhmm[.SS]，如201410112233.44
+				
+		(3) rm 删除文件或删除目录
+			语法格式：
+				rm  [-options]  目录/文件
+			可选项:  
+				-v		显示详细的删除过程
+				-r		若源文件是一个目录，rm命令将递归地删除该目录下的所有子目录和文件
+				-f		非交互模式的删除操作，忽略不存在的文件
+				-i		交互模式的删除操作。在删除目标文件之前将给出提示，要求用户确认，回答“y”表示目标文件将被删除
+		
+		(4) rmdir 删除空文件夹
+			语法格式：
+				rmdir  [ -p ]   directory_name 
+				使用选项“-p”表示可以递归删除子目录，即多层目录。需要说明的是，删除的目录必须为空目录
+				
+		(5) cp 复制文件或目录
+			语法格式: 
+				cp [OPTION]... SOURCE DEST
+				cp [OPTION]... SOURCE... DEST_DIRECTORY
+			可选项: 
+				-r	若源文件是一个目录，cp命令将递归地复制该目录下的所有子目录和文件
+				-a	该选项通常在拷贝目录时使用，保留链接、文件属性，并递归地拷贝目录，其作用等于dpr选项的组合
+				-d	拷贝时保留链接
+				-f	非交互模式的复制操作。覆盖已经存在的目标文件而不提示
+				-i	交互模式的复制操作，与-f选项相反。在覆盖目标文件之前将给出提示，要求用户确认，回答“y”表示目标文件将被覆盖
+				-p	除复制源文件内容外，还将其修改时间和访问权限也同时复制
+				-v	显示详细的复制过程
+				
+				
+				
+		(6)  mv 移动文件或重命名 
+			语法格式: 
+				mv [OPTION]... SOURCE DEST
+				mv [OPTION]... SOURCE... DEST_DIRECTORY
+				
+			移动文件时目标目录必须存在 
+			重命名文件时目标是不存在的
+			
+		(7) 查看文件  
+			cat 	查看文件全部内容
+			head	查看头几行
+			tail	查看尾几行
+			more 	分页显示
+			less	分页显示	
+			
+2. 作业  
+	使用正确的shell命令完成如下操作
+		1) 在主目录下创建三个目录class22011 class22012 class22013
+			fs@ubuntu:~$ mkdir class22011 class22012 class22013
+		2) 在class22011目录下创建1个"以你的名字命名的文件"
+			fs@ubuntu:~$ cd class22011
+			fs@ubuntu:~/class22011$ touch zhangsan
+		3) 修改"以你的名字命名"的文件的访问时间为你的生日
+			fs@ubuntu:~/class22011$ touch -t 202201140942.55 zhangsan
+		4) 修改"以你的名字命名"的文件的访问权限使得当前用户可以读写执行，
+				用户组成员可读、可执行；其他用户只能读
+				rwx r-x r--
+				754
+			fs@ubuntu:~/class22011$ chmod 754 zhangsan
+		5) 在class22012目录下创建4个目录 dir1 dir2 dir3 dir4 
+			fs@ubuntu:~/class22011$ cd ../class22012
+			fs@ubuntu:~/class22012$ mkdir dir1 dir2 dir3 dir4
+		6) 在class22013目录下创建4个文件 file1 file2 file3 file4 
+			fs@ubuntu:~/class22012$ cd ~/class22013
+			fs@ubuntu:~/class22013$ touch file1 file2 file3 file4
+		7) 将class22012目录下的所有文件拷贝到 class22011
+			fs@ubuntu:~$ cp -a class22012/. class22011
+		8) 将class22013目录下的所有文件拷贝到 class22011
+			fs@ubuntu:~$ cp -a class22013/. class22011
+		10) 删除 class22012 class22013 两个目录
+			fs@ubuntu:~$ rm -r class22012 class22013
+		11) 将class22011目录重名为class2022并移动到根目录
+			fs@ubuntu:~$ mv class22011 class2022
+			fs@ubuntu:~$ sudo mv class2022 /
+		12) 删除 class2022 目录下除了 file1 和 dir3 以外所有文件
+			!(filename|filename|... |filename)		排除
+			fs@ubuntu:/class2022$ rm -rf !(file1|dir3)
+		13) 删除 class2022 目录
+			fs@ubuntu:/$ sudo rm -r class2022
+			
+======================================================================================================================
+3.shell 命令使用技巧 
+	[1] 补齐命令与文件名
+		在输入命令或文件名的前几个字符后，按TAB键或ESC键自动补齐剩余没有输入的字符串。
+		如果存在多个命令或文件有相同前缀，Shell将列出所有相同前缀的命令或文件。
+		Shell给出的提示信息，帮助用户回忆和完成输入。
+	
+	[2] 快捷键
+		ctrl+a ：光标跳转到command 之前
+		ctrl+e ：光标跳转到command 之后
+		
+		ctrl+d ：删除光标后面的所有内容
+		ctrl+k : 删除此处至末尾的所有内容
+		ctrl+u : 删除此处至开始的所有内容
+		
+		ctrl+l  : 相当于clear，即清屏
+		ctrl+c ：终止进程/命令
+		
+		ctrl+s : 暂停屏幕输出
+		ctrl+q : 继续屏幕输出
+		
+		Shift+ctrl+c ：复制
+		Shift+ctrl+v ：粘贴
+		
+	[3] 查询命令历史
+			除了使用上下键，可以翻阅历史命令外，Bash Shell还提供了history命令。
+		该命令将命令历史表按列表形式，一次性全部显示出来
+		
+		指令格式：history  [numberline]
+			numberline 可以省略，用于指示显示的记录数
+		注意： 
+			显然history只能记录有限条的历史命令。使用“echo $HISTSIZE”查看当前历史命令容量；
+		若想修改容量可以直接给HISTSIZE赋值。
+			fs@ubuntu:~$ echo $HISTSIZE 
+				1000
+			fs@ubuntu:~$ HISTSIZE=2000
+			fs@ubuntu:~$ echo $HISTSIZE 
+				2000
+		执行历史命令的方法：
+			①　	!!  执行上一条指令
+			②　	!55 执行第55条指令
+			③　	!-2 执行倒数第2条指令
+			
+	[4] 定义命令别名 
+		(1) alias 设置/查看别名
+		指令格式：
+			alias  [alias-name=’original-command’]
+		注意:	
+			alias命令在不带任何参数情况下，默认为列出当前已定义的别名。
+		示例：　
+			fs@ubuntu:~$ alias list='ls -l'
+			fs@ubuntu:~$ alias cd2='cd ../..'
+			
+		(2) unalias 取消别名
+		指令格式:
+			unalias  alias-name
+			
+		注意:  
+			1）当别名和命令同名时，将优先执行别名(否则别名就没有意义了)，除非使用command明确指定。
+				command ls
+			2）定义的别名只对当前终端有效，如果想使它永久生效，需要添加到相应的脚本文件中
+				/etc/profile：此文件为系统的每个用户设置环境信息，当任何用户第一次登录时，该文件被执行
+				~/.profile：此文件为当前用户设置的自定义环境信息，当前用户第一次登录时，该文件被执行
+				/etc/bash.bashrc：此文件为系统的每个用户配置bash Shell的相关信息，当任何用户打开bash shell时，该文件被执行
+				~/.bashrc：此文件为当前用户配置自定义的bash Shell的相关信息，当前用户打开bash shell时，该文件被执行
+
+			进入文本界面
+				ctrl + alt + F1 ~ F6
+			退出文本界面 
+				ctrl + alt + F7
+
+4. Shell特殊字符
+	[1] 通配符
+		shell命令的通配符有以下几种：
+		*（星号）：匹配任意长度的任意字符  			// *表示所有
+		?（问号）：匹配一个长度的任意字符
+		[…]（方括号）：匹配阔号内的任意一个字符
+		[ - ]（方括号内有-）：匹配指定一个字符范围
+		[^…]（方括号内有^）：匹配除了指定字符外的任意一个字符
+
+		例如，现在有以下几个文件：
+			file1.txt
+			file2.txt
+			file3.txt
+			file123.txt
+			file124.txt
+			file134.txt
+			file125.txt
+			file5.txt
+			
+		则以下通配符表示：
+			file*.txt：选中了所有文件
+			file?.txt：选中了文件file1.txt、file2.txt、file3.txt、file5.txt
+			file1?4.txt: 选中了文件file124.txt和file134.txt
+			file[135].txt：选中了文件file1.txt、file3.txt、file5.txt
+			file[123][123][123].txt ：选中了文件 file123.txt
+			file[1-3].txt：选中了文件file1.txt、file2.txt、file3.txt
+			file[^135].txt：选中了文件file2.txt
+			
+	[2] 管道
+		连接一系列的命令的字符，第一个命令的输出将作为第二个命令的输入，通过管道传递给第二个命令，
+	第二个命令的输出将是第三个命令的输入，以此类推。
+		command1 | command2 | command3 | ...
+	
+	示例: 
+		(1) ls ~ | wc -w 	//统计主目录下文件个数
+	
+			wc - 从文件或标准输入中统计的行数、单词数、字符数... 
+			指令格式: 
+				wc [OPTION]... [FILE]...
+			可选项:  
+				-c, --bytes		统计字符数目
+				-w, --chars		统计单词数目 
+				-l, --lines		统计行数
+			eg: 
+				fs@ubuntu:~$ wc -c epoll.c 
+					1217 epoll.c
+				fs@ubuntu:~$ wc -w epoll.c 
+					151 epoll.c
+				fs@ubuntu:~$ wc -l epoll.c 
+					59 epoll.c
+		
+			注意：如果不添加文件名，wc 命令将会统计标准输入中输入的数据。
+			
+		(2) last | grep fs  
+			last | grep -v pst/0
+			
+			last命令的意思是输出最近登录系统的用户信息；
+			grep是Linux中最常用的“文本处理工具”之一，我们可以使用grep命令在文本中查找指定的字符串（后面会详细介绍）		
+			若想反向选择输出，则可以使用-v来指定不输出含有该关键字的行。
+		
+			练习：使用管道符号"|"连接合适的Shell命令，完成以下练习： 
+			1.统计/etc/bash.bashrc这个文件内有多少个单词
+				fs@ubuntu:~$ cat /etc/bash.bashrc | wc -w
+			2.输出某个.c文件内所有带有"printf"单词的行
+				fs@ubuntu:~$ cat epoll.c | grep "printf"
+			3.使用ifconfig命令与grep命令，找出该计算机的ip地址（ip地址总会以192开头）
+				ifconfig 查看或配置网络
+				fs@ubuntu:~$ ifconfig | grep "192"
+
+	[3]  输入/输出重定向符
+		输入/输出重定向是改变Shell命令或程序默认的标准输入/输出目标。
+		
+		标准输入 		stdin		0		默认的标准输入定义为键盘
+		标准输出 		stdout		1		默认的定义为终端窗口
+		标准错误输出	stderr		2		默认的定义为终端窗口
+		
+		(1) > 或 1>  输出重定向,会覆盖之前内容 
+			echo "hello  world" > file		//将echo指令的标准输出，重定向到file
+		(2) >> 或 1>> 追加,在文件尾添加数据
+			echo "hello  echo" >> file		//将echo指令的标准输出，重定向到file
+		(3) < 输入重定向
+			wc -w < file					//将wc指令的输入重定向到文件中
+		(4) 2> 和 2>> 表示错误信息定位
+			fs@ubuntu:~$ shutdown -h 1 2> error.txt
+		(5) &> 和 &>> 表示正确和错误都输出到指定文件
+			ls -l hello.txt readme.md test.txt &> error.txt 
+		
+		练习：不使用cp命令，复制一个文件的内容到另一个文件
+			fs@ubuntu:~$ cat epoll.c > poll.c
+
+	[4] 命令置换 ``
+		命令替换是将一个命令的输出作为另一个命令的参数。
+		命令格式如下所示：
+			comman1	`command2`
+			将命令command2的输出将作为命令command1的参数。
+		示例： 
+			fs@ubuntu:~$ ls `pwd`
+			
+5.获取帮助 
+	[1] man (manual)手册 (Linux中的用户手册) 使用
+		有困难找"男人"
+		(1) man 分册
+		   1   Executable programs or shell commands						可执行程序或shell命令
+		   2   System calls (functions provided by the kernel)				系统调用(内核提供的函数)
+		   3   Library calls (functions within program libraries)			库调用(库函数)
+		   4   Special files (usually found in /dev)						特殊文件
+		   5   File formats and conventions eg /etc/passwd					文件格式和用法
+		   6   Games														游戏
+		   7   Miscellaneous (including macro packages and conventions), e.g. man(7), groff(7)		杂项
+		   8   System administration commands (usually only for root)		只能由root用户使用的指令 
+		   9   Kernel routines [Non standard]								内核函数
+		(2) 基本用法  
+			man [-num] 需要查询的内容
+			man 需要查询的内容
+			
+			注意:如果查询的内容可能出现在多个分册，建议在指定分册中查询
+		(3) 查询的内容出现在哪些分册中 
+			man -f open 
+				open (1)             - start a program on a new virtual terminal (VT).
+				open (2)             - open and possibly create a file or device
+		
+		(4) man 2 <tab>  列出2分册的所有命令
+		
+		(5) 用户并不总能把要使用的命令记忆完整，但只要知道命令的一个要点，
+			就可以使用选项“-k”按照关键字搜索相关内容。
+			fs@ubuntu:~$ man -k "print" | grep 3
+			
+	[2] whereis
+		查看命令存储位置/源码存储位置/帮助文档存储位置
+			-b：只显示命令存储位置
+			-s：只显示源码存储位置
+			-m：只显示帮助文档存储位置
+			
+	[3] which  定位某个命令的存储位置
+		
+6.查询指令  
+	[1] 文件搜寻 find  
+		命令格式如下所示：
+			find pathname [-options]
+				命令选项：
+				-name   按照文件名查找文件
+				-type  查找某一类型的文件
+					b - 块设备文件。
+					d - 目录。
+					c - 字符设备文件。
+					p - 管道文件。
+					l - 符号链接文件。
+					f - 普通文件。
+				-size n[cwbkMG] 查找文件长度为n块的文件
+					`b'    for 512-byte blocks (this is the default if no suffix is used)
+					`c'    for bytes
+					`w'    for two-byte words
+					`k'    for Kilobytes (units of 1024 bytes)
+					`M'    for Megabytes (units of 1048576 bytes)
+					`G'    for Gigabytes (units of 1073741824 bytes)
+					
+		示例1：根据关键字查找 
+			命令：find . -name "*.log"
+			fs@ubuntu:~$ find /var/log -name "*.log"
+		示例2：按类型查找 
+			fs@ubuntu:~$ find /lib -type f -name "module*"
+		示例3：按大小查找文件
+			命令：find . size +1000k
+			说明： “+”代表大于，查找大小大于1000k的文件。”-”代表小于。
+			
+			fs@ubuntu:~$ ls -l `find . -size +10M`
+			
+	[2] 查找字符串 grep
+		grep是Linux中最常用的“文本处理工具”之一，grep与sed、awk合称为Linux的三剑客。
+	grep命令在文本中查找指定的字符串。
+	指令格式: 
+		grep [OPTIONS] PATTERN [FILE...]
+	[OPTIONS] ：
+		-V或 --version	 查看grep版本
+		-e PATTERN  实现多个选项的匹配，逻辑or的关系（grep -e pattern1 -e pattern2 file）
+		-i 	ignore-case忽略字符大小写 [Hh]ello
+		-v	表示反向选取，即显示不包含匹配文本的所有行
+		-n或 --line-number 显示行号
+		-r或 -R:指定的查找对象是目录不是文件时，表示读取目标目录下的所有文件
+		-w	匹配整个单词，如果是字符串中包含此单词，则不做匹配
+	PATTERN:
+		匹配样式（需要匹配的字符串样式）支持基本正则表达式
+	FILE：
+		需要查找的文件（若不指定任何文件名称，或是所给予的文件名为"-"，则grep指令会从标准输入设备读取数据。）
+
+	示例：
+		1）搜索”hello”字符串
+		fs@ubuntu:~$ grep hello date.txt
+		2）搜索时不区分大小写
+		fs@ubuntu:~$ grep -i hello date.txt
+		3）显示行号
+		fs@ubuntu:~$ grep -i -n hello date.txt
+		4）显示不包含某个字符串的行
+		fs@ubuntu:~$ grep -i -n -v hello date.txt
+		
+		
+	
+		
+7. vim 编辑器	
+		Linux系统内支持多种文本编辑器，常用的有gedit、OpenOffice、emacs等，但是使用最为广泛的文本编辑器还是Vim。
+	它基于VI，同时又增加了许多新的特性。Vim与Emacs并列为类Unix系统用户最喜欢的文本编辑器。	
+		编辑器之神 "vim" 或 神的编辑器 "Emac"
+	
+	[1] 打开vim
+		vi/vim + [filename]				//文件可以是不存在的文件
+	
+	[2] vim工作模式
+		命令模式(command mode)：执行一些指令如控制屏幕光标的移动，进行文本的删除、复制等文字编辑工作等
+		插入模式(insert mode):编辑模式
+		底行模式(last line mode):保存文件或退出Vim，同时也可以设置编辑环境和一些编译工作，如列出行号、寻找字符串等。
+
+	[3] 模式切换 
+		(1) 打开文件默认进入 命令模式  
+		(2) 命令模式 -> 插入模式 
+			新增（append，简写为a）: 
+				a 从光标所在位置后一个位置 进入插入模式
+				A 从光标所在行最后的地方 进入插入模式
+			插入（insert，简写为i）：
+				i 从光标所在位置前面 进入插入模式
+				I 从光标行所在的第一个非空白字符前面 进入插入模式			
+			开始（open，简写为o）:
+				o：在光标所在行的下一行新增一行并开始插入
+				O：在光标所在行的上一行新增一行并开始插入
+		(3) 命令模式 -> 底行模式   
+			冒号 ":"
+				或  
+			问号 "?" 
+				或 
+			斜杠 "/"
+		(4) 返回命令模式  
+			ESC
+			
+	[4] 命令模式   
+		(1) 移动光标
+			h	←
+			j 	↓
+			k 	↑
+			l	→
+			
+			b/B  移动到当前单词开始
+			e/E  移动到当前单词结尾
+			w/W	 移动到下一个单词
+
+			行首：0
+			行尾：$
+		
+			文件头：gg
+			文件最后一行：G
+			如果要到文件尾用 :G$
+		(2) 复制剪切粘贴操作
+			yy------------------>复制一行
+			dd------------------>剪切一行
+			nyy----------------->复制n行
+			ndd----------------->剪切n行
+			p------------------->在光标的下一行粘贴（小写）
+			P------------------->在光标的上一行粘贴（大写）
+			
+			y$ ----------------->复制从光标所在字符到行尾的所有字符
+			d$ ----------------->剪切从光标所在字符到行尾的所有字符
+			
+			nyl----------------->复制n个字符
+			ndl----------------->剪切n个字符
+			
+			ndw----------------->剪切n个词·
+			nyw----------------->复制n个词
+			
+		(3) 错误撤销恢复
+			命令u表示撤销上一步操作，如果需要多次撤销，则多次按u键就可以了
+			如果我们上一次的撤销错了，取消撤销，可以按ctrl+r恢复
+	
+	[5] 底行模式
+		保存与退出操作
+		（1）如果使用vim打开现有文件的话，可以使用命令:w直接保存到原始文件中
+		（2）q 退出编辑器
+		（3）wq表示写入退出命令
+		（4）w 路径和文件名，即可以指定名称保存到指定路径。
+		（4）q!表示不保存退出命令
+
+	作业: 
+			1.复习今天上课的内容，整理今天的笔记(晚自习结束前提交)
+			2.准备早分享(分享昨天学习的内容、其他知识、分享个人经验...)
+			3.在指定的目录下查询文件类型为普通类型，文件大小大于1K, 且文件中包含 "printf" 或 "scanf" 关键字。
+		忽略大小写，并显示行号。
+
+
+find . /lib -type - -size +1k 
+
+
+		
+			

@@ -606,15 +606,42 @@ Luke Dark Theme
 
 Monokai Dim
 
-qt相关快捷键：
+
+	user sys  222222   fiq  irq  abt svc und mon
+
+
+使用grep替代anytxt
+使用fzf替代
+
+
+function gfc(){
+	vim $(grep -rf |fzf)
+}
+
+使用fzf的pre功能，
+
+
+使用在线搜索的方式替代
+本地搜索
+
+grep -rn 资源 /mnt/f/all/note/siwei/
+
+在linux中使用vim，
+在windows中使用vscode 因为vscode实在时太好用
 
 
 
-用原有的本地的笔记查找方式，将笔记传送到github上
-然后使用linux脚本的方式整理对应的笔记传递到github上
+事件类：对表达式的抽象，返回值时bool，由函数/变量/运算表达式组成【‘
+普通类：对变量的抽象+函数的抽象
+接口：函数功能的抽象
 
-使用tmux进行工作区的屏幕分割：
-1，保留代码编辑区域
-2，保留临时想法的编辑区域
-3，保留命令行编辑区域
-将底部的多个编辑区域和成为一个进行切换
+在C++当中如何使用回调函数
+
+从界面来看，
+everthing和fzf时完全一样的，支持预览
+
+
+ahk实现图片的添加
+ahk实现删除当前行
+
+send 

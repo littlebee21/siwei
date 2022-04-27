@@ -1,0 +1,18 @@
+irom启动流程
+uboot启动流程：
+	汇编阶段: 异常狗，吃中断吃时钟，吃缓存MMU, 吃堆栈BSS，拷贝代码跳转C
+	C语言阶段: 狗看看表,串口说要吃大的，吃RAM，吃FLASH，loop等待吃app, 收到消息后，去吃内核
+
+
+操作系统作用：
+	网进文存设   网 进程文件  存储设备
+
+七层协议：
+	1,巫术网传会不要用
+
+异常向量表口:	
+异常模式：user system svr Irq frq          abort moniter undefined 放弃监视未定义
+					   2        1 1           2         
+7种异常：             reset swi  irq frq   prefec data    undefined
+
+

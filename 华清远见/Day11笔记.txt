@@ -1,0 +1,623 @@
+1.复习
+	[1] 位运算符 
+		&	将两个操作数所有二进制位都进行与运算，对应二进制位必须同为1结果才为1，否则为0	
+		|	将两个操作数所有二进制位都进行或运算，对应二进制位必须同为0结果才为0，否则为1	
+		^	将两个操作数所有二进制位都进行异或运算，对应二进制位相同为0，不同为1
+		~	将操作数所有二进制为全部取反，对应二进制如果1结果为0，如果为0结果1
+		x << y 将x这个操作数的所有二进制位向高位左移y位，移除的高位被舍弃，低位补0	
+		x >> y 将x这个操作数的所有二进制位向低位右移y位，移除的低位被舍弃，无符号数高位补0，有符号数高位补符号位
+		
+	[2] 赋值运算符及复合赋值运算	
+		=(赋值运算符), +=（加后赋值） -=（减后赋值） *=（乘后赋值） /=（除后赋值） %=（取余后赋值）
+		<<=（左移后赋值） >>=（右移后赋值） &=（按位与后赋值） ^=（按位异或后赋值） |=（按位或后赋值）
+		
+		优先级: 14级
+		结合方向: 从右向左
+		
+	[3] C语言程序结构
+		(1) 顺序结构 
+		(2) 选择结构(分支结构)
+			1) if-else
+				a. 单分支结构
+					if (表达式) {
+						语句; 
+						...
+					}
+				b. 双分支结构 
+					if (表达式) {
+						语句; 
+						...
+					} else {
+						语句;
+						...
+					}
+				c. 多重分支结构  
+					if (表达式) {
+						语句; 
+						...
+					} else if (表达式){
+						语句;
+						...
+					} else {
+						语句;
+						...
+					}
+				d. 分支的嵌套  
+					if (表达式) {
+						if (表达式) {
+							if (表达式) {
+								...
+							}
+						}
+					} else {
+						语句;
+						...
+					}
+					
+			2) switch 
+				switch (表达式) {			//表达式的计算结果必须是整型或字符型
+					case 常量表达式1: 
+						语句; 
+						... 
+						break; 
+					case 常量表达式2: 
+						语句; 
+						... 
+						break; 				//跳出switch结构
+					case 常量表达式3: 
+						语句; 
+						... 
+						break; 
+					...
+					default: 
+						语句; 
+						...		
+				}
+				
+				GNU C 语言对switch结构补充  
+					case  x ... y
+			3) ?:
+		(3) 循环结构
+			1) while 
+				while (表达式) {
+					循环体;
+				}
+				
+				while (表达式);
+				
+			2) do-while 
+				do {
+					循环体;
+				} while (表达式);
+				
+			3) for 
+				for (表达式1;表达式2;表达式3) {
+					循环体;
+				}
+				
+				表达式1: 循环的初始值，只会在循环开始前执行1次
+				表达式2: 循环体的条件，每次循环都会执行，并判断计算结果是否真，如果是真则继续循环，否则结束循环
+				表达式3: 用于调整循环，放在循环体后运行的语句。
+				
+2.作业 
+	作业1：取32bit无符号整数a=0x12345678的高16bit和低16bit，分别保存在两个16bit无符号整数并显示出来	
+		#include <stdio.h>
+
+		#define LWORD(x) (unsigned short)((x) & 0x0000FFFF)
+		#define HWORD(x) (unsigned short)((x) >> 16)
+
+		int main(int argc, const char *argv[])
+		{
+			unsigned int a = 0x12345678;
+			unsigned short b, c;
+
+			b = LWORD(a);
+			c = HWORD(a);
+
+			printf("low word : %#hx\n", b);
+			printf("high word : %#hx\n", c);
+			
+			return 0;
+		}
+	作业2：将整型变量num的第[k+3:k]位（二进制表示中）置1； (k从0开始)
+		num | (0xF << k)
+		
+	作业3：将整型变量num的第[k+5:k]位（二进制表示中）清0； (k从0开始)	
+		num & (~(0x3F << k))
+		
+	作业4: 提示用户输入输血者的性别和体重，根据性别和体重计算出输血量；
+				如果是男性且体重大于140的输血量为200毫升；
+				如果是男性且体重小于等于140的输血量为180毫升；
+				如果是女性且体重大于100斤输血量为150毫升，否则为120毫升；
+		#include <stdio.h>
+
+		int main(int argc, const char *argv[])
+		{
+			char gender;	//m 男性  f 女性
+			int weight;
+
+			printf("请输入您的性别和体重: \n");
+			scanf("%c%d", &gender, &weight);
+
+			if ((gender == 'm') || (gender == 'M')) {
+				if (weight > 140) {
+					printf("输血量为 200ml\n");
+				} else {
+					printf("输血量为 180ml\n");
+				}
+			} else if ((gender == 'f') || (gender == 'F')) {
+				if (weight > 100) {
+					printf("输血量为 150ml\n");
+				} else {
+					printf("输血量为 120ml\n");
+				}
+			} else {
+				printf("性别输入有误\n");
+			}
+			
+			return 0;
+		}
+	
+	作业5: 运输公司对用户按路程计算费用。路程越远，每吨*千米运费折扣越高。计算运费公式如下：
+		freight = weight * distance * price * (1-discount);
+		路程与折扣的关系如下：
+		s<250：无折扣
+		250<=s<500:2%折扣
+		500<=s<1000:5%折扣
+		1000<=s<2000：8%折扣
+		2000<=s<3000：10%折扣
+		3000<=s：15%折扣
+		要求从键盘输入货运总重（单位吨）、货运路程（单位千米）、每吨*千米货运单价（单位元），输出总花费
+		使用 switch 结构完成。		
+		
+		#include <stdio.h>
+
+		int main(int argc, const char *argv[])
+		{
+			int distance;
+			float freight, price, discount, weight;
+			int tmp;
+
+			printf("请输入货物的重量、运输距离、单价:\n");
+			scanf("%f%d%f", &weight, &distance, &price);
+
+			if (distance > 3000) {
+				tmp = 12;
+			} else {
+				tmp = distance / 250;
+			}
+
+			switch (tmp) {
+			case 0:
+				discount = 0.0;break;
+			case 1:
+				discount = 0.02;break;
+			case 2 ... 3: 
+				discount = 0.05;break;
+			case 4 ... 7: 
+				discount = 0.08;break;
+			case 8 ... 11: 
+				discount = 0.1;break;
+			case 12:
+				discount = 0.15;break;
+			default:
+				printf("数据输入有误\n");
+			}
+
+			freight = weight * distance * price * (1 - discount);
+
+			printf("总费用 = %f\n", freight);
+			
+			return 0;
+		}
+	作业6: 分别使用do…while、while、for输出摄氏温度与华氏温度的对照表，要求摄氏温度0度~250度，
+		每隔20度为一项，且照表条目不超过10条
+		计算公式：
+			摄氏温度 = (5.0 / 9.0) * (华氏温度 - 32.0); 
+			华氏温度 = (9.0 / 5.0) *摄氏温度 + 32.0;
+		#include <stdio.h>
+
+		int main(int argc, const char *argv[])
+		{
+			float temperature;
+			int count;
+			printf("========== while ==========\n");
+			temperature = 0.0;
+			count = 0;
+
+			while ((temperature <= 250.0) && (count < 10)) {
+				printf("摄氏度%f ------ 华氏度%f\n", temperature, ((9.0 / 5.0) * temperature + 32));
+				temperature += 20;
+				count++;
+			}
+
+			printf("========== do{}while(); ==========\n");
+			temperature = 0.0;
+			count = 0;
+
+			do {
+				printf("摄氏度%f ------ 华氏度%f\n", temperature, ((9.0 / 5.0) * temperature + 32));
+				temperature += 20;
+				count++;
+			} while ((temperature <= 250.0) && (count < 10));
+
+			printf("========== for ==========\n");
+			for (temperature = 0.0, count = 0; (temperature <= 250.0) && (count < 10); temperature+=20, count++) {
+				printf("摄氏度%f ------ 华氏度%f\n", temperature, ((9.0 / 5.0) * temperature + 32));
+			}
+			
+			return 0;
+		}
+	
+==============================================================================================================================					
+3.循环嵌套
+示例：使用嵌套循环打印下列图案
+0	F				1
+1	_FE				2
+2	__FED			3
+3	___FEDC			4
+4	____FEDCB		5
+5	_____FEDCBA		6
+
+练习1：要求输出九九乘法表，如下
+#include <stdio.h>
+
+int main(int argc, const char *argv[])
+{
+	int i, j;
+
+	for (i = 1; i <= 9; i++) {
+		for (j = 1; j <= i; j++) {
+			printf("%d * %d = %d\t", j, i, j * i);
+		}
+		printf("\n");
+	}
+	
+	return 0;
+}
+
+练习2：打印斐波那契数列的前n项，其中n由键盘输入。斐波那契数列的特点如下：
+	F1=1			(n=1)
+	F2=1			(n=2)
+	Fn=Fn-1 + Fn-2  (n>=3)
+	
+	#include <stdio.h>
+
+	int main(int argc, const char *argv[])
+	{
+		int f1 = 1, f2 = 1, f3;
+		int i, n;
+
+		printf("请输入需要显示的项数 : ");
+		scanf("%d", &n);
+
+		for (i = 0; i < n; i++) {
+			if (i < 2) {
+				printf("1\n");
+			} else {
+				f3 = f1 + f2;
+				f1 = f2;
+				f2 = f3;
+				printf("%d\n", f3);
+			}
+		}
+		
+		return 0;
+	}
+
+练习3: 输出一个九行九列的菱形，用*表示
+	#include <stdio.h>
+
+	int main(int argc, const char *argv[])
+	{
+		int i, j;
+
+		for (i = 0; i < 5; i++) {
+			for (j = 0; j < 4-i; j++) {
+				printf(" ");
+			}
+			for (j = 0; j < 2*i+1; j++) {
+				printf("*");
+			}
+			printf("\n");
+		}
+
+		for (i = 0; i < 4; i++) {
+			for (j = 0; j < i+1; j++) {
+				printf(" ");
+			}
+			for (j = 0; j < 7-2*i; j++) {
+				printf("*");
+			}
+			printf("\n");
+		}
+		
+		return 0;
+	}
+
+4.结构控制语句
+	[1] break 
+		break语句的用途：
+			(1) 用于在 switch 语句中终止case。
+			(2) 用来从循环体内跳出循环体，即提前结束循环，接着执行循环下面的语句。
+		
+		示例：从r=1开始，输出所有半径是正整数的圆的面积，直至出现面积大于100为止
+			#include <stdio.h>
+
+			#define PI 3.14159
+
+			int main(int argc, const char *argv[])
+			{
+				int r = 1;
+				float s;
+
+				while (1) {
+					s = PI * r * r;
+
+					if (s > 100)
+						break;
+					else 
+						printf("半径为%d的圆的面积为%f\n", r, s);
+					r++;
+				}
+				
+				return 0;
+			}
+		注意：
+			break语句不能用于循环语句和switch语句之外的任何其他语句中。 
+			多层循环中，break只向外跳一层
+		
+		练习：输出 100~200 间的所有素数(质数:只能被1和其本身整除的数)
+			#include <stdio.h>
+
+			int main(int argc, const char *argv[])
+			{
+				int i, j;
+
+				for (i = 100; i <= 200; i++) {
+					for (j = 2; j <= i-1; j++) {
+						if (i % j == 0)
+							break;
+					}
+
+					if (j == i)
+						printf("%d\n", i);
+				}
+				
+				return 0;
+			}
+
+	[2] continue  
+		continue语句的作用：
+			结束本次循环，即跳过循环体中下面尚未执行的语句，接着进行下一次是否执行循环的判定.
+		注意：
+			在while循环和do…while循环中，程序控制权传递给条件测试语句；
+			在for循环中，continue影响循环的增量部分，然后执行条件测试；
+			
+		示例：输出 100~200 之间不能被3整除的整数
+			#include <stdio.h>
+
+			int main(int argc, const char *argv[])
+			{
+				int i;
+
+				for (i = 100; i <= 200; i++) {
+					if (i % 3 == 0) 
+						continue;
+					printf("%d\n", i);
+				}
+				
+				return 0;
+			}
+
+	[3] goto 
+		goto语句说明: goto语句为无条件转向语句；
+		goto语句的用法：
+			goto 标签;
+		
+		示例：使用goto计算 1+…+100
+			#include <stdio.h>
+
+			int main(int argc, const char *argv[])
+			{
+				int i = 1;
+				int sum = 0;
+
+			loop:
+				sum += i;
+				i++;
+				if (i <= 100)
+					goto loop;
+
+				printf("sum = %d\n", sum);
+				
+				return 0;
+			}
+			
+		注意: 
+			1) 标签的命名规则与C语言标识符的命名规则相同。
+			2) 程序会跳转到同一函数内goto语句所指向的标号处
+			3) 用不用goto一直是一个著名的争议话题，滥用goto语句会使程序无规律、可读性差。
+				goto语句违背了C语言的模块化编程的基本思想，因此goto语句不推荐使用。Linux内核源代码中对goto的应用非常广泛，但是一般只限于错误处理中。
+
+	[3] return 
+		函数的定义形式: 
+			数据类型 函数名(形式参数列表)
+			{
+				函数体; 
+				<return <返回值>;>
+			}
+			(1) 函数名: 用于标识一个函数 
+			(2) 形式参数列表: 用于给函数传递参数，可以用于函数内部的计算; 可以省略
+			(3) 函数体: 实现函数功能的代码
+			(4) return : 表示函数返回(结束)，返回值可以理解为函数的计算结果可以传递给函数调用者。返回值的数据类型需要和函数的
+				数据类型保持一致。 
+			eg： 
+				int plus (int a, int b) 
+				{
+					int retval; 
+					retval = a + b; 
+					return retval; 
+				}
+		函数调用形式: 
+			函数名(实际参数列表);
+			eg：
+				int ret;
+				ret = plus(10, 5);
+		注意：
+			表达式是可选的。一个函数中可以使用多个return语句，但是遇到第一个return语句时返回
+
+	作业: 
+		需求定义：
+			编写程序，实现控制台的猜数字游戏。游戏运行时产生一个0－10之间的随机整数，要求用户从控制台输入数字，
+			若输入的数字比产生的数字小，则输出：“太小了，再大一点！”；若输入的数字比产生的数字大，则输出：
+			“太大了，再小一点！”，若输入的数字和产生的数字相等，则输出：“恭喜你猜对了！”然后退出程序；
+			若用户猜了3次还未猜对，则输出：“你太笨了，下次再来吧！”然后退出程序。
+			
+			
+			#include <stdlib.h>
+
+			int rand(void);
+			函数功能: 
+				返回一个[0 - RAND_MAX]之间的一个随机数。
+			函数返回值  
+				随机数
+				
+			void srand(unsigned int seed);
+			函数功能: 
+				设置rand()函数的种子
+			函数参数: 
+				seed : 需要设置的种子
+				
+			#include <time.h>
+
+			time_t time(time_t *t);
+			函数功能: 
+				返回从1970-01-01 到函数调用时刻之间的秒数。
+			函数参数: 
+				t : NULL 
+			函数返回值: 
+				成功 返回 秒数  
+				失败 返回 -1
+				
+			#include <unistd.h>
+
+			unsigned int sleep(unsigned int seconds);
+			函数功能: 
+				使程序睡眠
+			函数参数: 
+				seconds : 用于指定睡眠的时间(单位：秒)
+				
+			示例:  
+				#include <stdio.h>
+				#include <stdlib.h>
+				#include <time.h>
+				#include <unistd.h>
+
+				int main(int argc, const char *argv[])
+				{
+					int i;
+
+					for (i = 1; i <= 10; i++) {
+						srand(time(NULL));
+						printf("%d\n", rand());
+						sleep(1);
+					}
+					
+					return 0;
+				}
+
+5. 数组
+	[1] 什么是数组
+		数组（Array）是一组有序的、类型相同的数据的集合。
+		数组（Array）是一种用于存储类型相同的数据的一种构造类型。
+		这些数据被称为数组的元素（Element）。
+		
+	[2] 定义数组 
+		数组定义的语法：
+			<存储类型>   数据类型   数组名[数组长度] ;
+		
+		说明：
+			存储类型：auto，register，static，extern。若是是省略，相当于auto
+			数据类型：用于指定数组元素的类型，可以是任何一种基本数据类型或构造数据类型
+			数组名: 每个数组都有一个名字，我们称之为数组名。数组名应当符合标识符的命名规则，即以字母、数字、下划线组成，但不能以数字开头。
+					数组名代表数组的起始地址。
+			数组长度：所包含的数据的个数称为数组长度（Length）。数组长度一般只能是整型常量和常量表达式。（但在C99新增了变长数组VLA）
+		示例：一个拥有10个元素的int型数组a
+			int a[10];
+
+	[3] 数组元素的引用
+		C语言规定数组必须逐个元素引用，不能整体引用。
+		数组元素的表示方法：
+			数组名[下标]
+		注意:数组元素由索引或下标（Index）标识，索引或下标从0开始。
+		例如：int a[10];
+			其元素是a[0]、a[1]、a[2]、a[3]、a[4]、a[5]、a[6]、a[7]、a[8]、a[9]
+			a[10], a[11], a[12] ... //错误的
+			
+			注意：C语言对数组不作越界检查，使用时要注意
+			
+		Segmentation fault (core dumped)		//段错误, 非法访问内存时
+
+	[4] 一维数组内存分配
+		数组在定义后，就在内存中划分了一块连续的空间用于存储数组。以int a[n]为例（n大于0）：
+	这块空间的大小是sizeof(int)*n，划分成n块来顺序存储a[0]~a[n-1]。数组名代表这块空间的首地址（也就是a[0]的地址）
+		#include <stdio.h>
+		#define N 10
+
+		int main(int argc, const char *argv[])
+		{
+			int a[N];
+			int i;
+
+			printf("a = %p\n", a);
+			for (i = 0; i < N; i++) {
+				printf("&a[%d] = %p\n", i, &a[i]);
+			}
+			
+			return 0;
+		}
+
+	[5] 数组元素初始化 
+		(1) 初始化赋值的一般形式
+			类型 数组名[常量表达式]={值,值…};
+			例如：int arry[10]={0,1,2,3,4,5,6,7,8,9};
+		(2) 部分元素初始化
+			如果只给数组一部分元素赋值，则剩下的会变成0
+				例如：
+				int a[10]={1,2,3};
+				则a[3]及以后的值都是0
+				如果想使一个int型数组中元素全部为0可以这样写：
+				int a[10]={0};
+		(3) 给指定元素初始化  
+			int a[10] = {
+				[2] = 2,
+				[3] = 3,
+			}
+		(4) 全部元素初始化
+			在给数组初始化时，如果已经给全部元素都初始化了，此时可以省略数组的元素个数。
+		编译会自动根据初始化的元素个数，算出数字的长度。	
+			例如：int a[5]={1,2,3,4,5};<---等价--->int a[]={1,2,3,4,5};
+
+	作业1：使用数组存储斐波那契数列前30项，并输出。
+	作业2：从键盘输入10个学生的成绩，如果遇到大于100或者小于0的成绩需要提示输入错误重新输入。
+	之后计算10个学生的总成绩和平均成绩。学生成绩存储在数组中。 
+	作业3（选做）：使用数组法解决约瑟夫环问题
+		约瑟夫入狱，监狱内共有33个犯人。某日33名犯人围成一圈，从第一个犯人开始报数，报到数字7的犯人出列，被枪毙，
+		下一名犯人重新从1开始报数。依次类推，直至剩下最后1名犯人可被赦免。聪明的约瑟夫在心里稍加计算，算出了最后枪毙的位置，
+		他站在这个位置，最终避免了自己被枪毙，逃出升天。
+		问：约瑟夫算出的是哪个位置？
+		提示：对于约瑟夫环问题来说，需要解决3个问题
+		·1如何解决数组循环的问题？
+		·2如何解决“逢7一杀”这个逻辑？
+		·3如何处理“已死之人”？
+
+	作业: 
+		1. 完成课堂布置的作业 
+		2. 整理今日的笔记  
+		3. 准备早分享
+		
+		
+		
+					
+			

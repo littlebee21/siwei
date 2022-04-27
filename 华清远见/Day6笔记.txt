@@ -1,0 +1,451 @@
+1.复习
+	[1] 用户管理命令 (超级用户) 
+		(1) adduser	-- 增加用户
+		(2) deluser -- 删除用户  
+		(3) usermod -- 修改用户属性  
+				-G	修改用户组 
+				-d	修改工作目录  
+				-s 	修改默认shell 
+				-l	修改用户名 
+				...
+		(4) addgroup -- 添加用户组 
+		(5) delgroup -- 删除用户组 
+		(6) groupmod -- 修改用户组属性  
+				-n new_group : 修改用户组名
+				
+	[2] 链接文件  
+		(1) inode 索引节点
+			用户数据:保存在硬盘中文件的真实数据 
+			元数据: inode 索引节点,文件的属性信息
+		(2) inode 的长度  
+			一个inode的大小为 128byte 或 256 byte  
+			inode数量 取决于硬盘的大小 每1KB或2KB 可以拥有一个inode
+		(3) inode 编号  
+			每个文件唯一标识 
+		(4) 硬链文件  
+			Unix/Linux系统允许，多个文件名指向同一个索引节点（inode）。这种情况就被称为"硬链接"（hard link）。
+			ln 源文件 链接文件
+		(5) 软链接文件  
+			符号连接（Symbolic Link），也叫软连接。
+			软链接文件有类似于Windows的快捷方式。它实际上是一个特殊的文件。在符号连接中，文件实际上是一个文本文件，
+			其中包含的有另一文件的位置信息。
+			ln -s 源文件 链接文件
+			
+2.文件压缩、归档与打包
+	[1] 基本概念  
+		归档文件：是将一组文件或目录保存在一个文件中。
+		压缩文件：也是将一组文件或目录保存一个文件中，并按照某种存储格式保存在磁盘上，
+					所占磁盘空间比其中所有文件总和要少。
+		因此，归档文件仍是没有经过压缩的，它所使用的磁盘空间仍等于其所有文件的总和。因而，用户可以将归档文件
+		再进行压缩，使其容量更小。
+		
+	[2] 压缩常用工具
+		压缩工具	解压工具	文件扩展名
+		gzip		gunzip		.gz
+		bzip2		bunzip2		.bz2
+		zip			unzip		.zip
+		
+		(1) zip 与 unzip	
+			1) zip  
+			语法格式为：
+				zip  [ 参数 ]  zipfile  filelist
+			其中，zipfile表示压缩后的压缩文件名，扩展名为.zip。filelist表示要压缩的文件名列表。 
+			可选项:	
+				-r	递归地将要压缩的文件夹下所有内容全部压缩，包括子目录及其文件
+				-m	在压缩文件之后，删除原文件
+				-q	安静模式，压缩时不显示指令执行过程
+				-p	加密压缩，解压时会询问密码
+				-n	不压缩指定后缀名的文件，直接归档保存
+				-x	排除指定的文件不压缩
+				-num 指定压缩比率，num为1~9个等级
+	
+			示例1： 压缩文件夹并删除源文件
+				fs@ubuntu:~/class22011$ zip -rm mjpg-streamer.zip mjpg-streamer-back file*
+			示例2： 加密压缩  
+				fs@ubuntu:~/class22011$ zip -rmP 123456 mjpg-streamer.zip mjpg-streamer-back file*
+			示例3： 排除.c,.h,zip 类型文件不压缩，只归档
+				fs@ubuntu:~/class22011$ zip -rmn .c:.h:.zip mjpg-streamer.zip mjpg-streamer-back file*
+			示例4： 排除指定的文件不压缩  
+				fs@ubuntu:~/class22011$ zip -r mjpg-streamer.zip * -x file? *.c
+
+			2) unzip  
+				语法：unzip [ 参数 ]  < 压缩文件 >
+			可选项:		
+				-Z	查看压缩文件内的信息，包括文件数、大小、压缩比等参数，并不进行文件解压
+				-l	查看压缩文件中实际包含的文件内容
+				-d	解压到指定的目录，该目录可以是不存在
+				-q	安静模式，解压缩时不显示指令执行过程
+				-n	解压缩时不覆盖原有文件
+				-o	不经询问，直接覆盖原有文件
+				
+			示例: 指定解压的目录(若不指定默认解压到当前目录)		
+				fs@ubuntu:~/mjpg$ unzip mjpg-streamer1.zip -d /home/fs/mjpg
+			
+		(2) gzip 与 gunzip
+			1) gzip  
+				与zip明显区别在于只能压缩一个文件，无法将多个文件压缩为一个文件，也不能压缩文件夹。
+			语法格式为：
+				gzip  [ 参数 ]  filename
+				
+				可选项: 
+					-l	查看压缩文件内的信息，包括文件数、大小、压缩比等参数
+					-d	将文件解压，功能与gunzip相同
+					-num	指定压缩比率，num为1~9个等级
+	
+				gzip会自动在这个文件名后添加扩展名为.gz，作为压缩文件的文件名。 
+				在执行gzip命令后，它将删除旧的未压缩的文件并只保留已压缩的版本。
+				
+			2) gunzip  
+				Linux gunzip命令用于解压文件。gunzip是个使用广泛的解压缩程序，它用于解开被gzip压缩过的文件，
+			这些压缩文件预设最后的扩展名为".gz"。
+				语法格式为：
+					gunzip  [ 参数 ]  file.gz
+				解压过后会删除压缩文件。
+				
+		(3) bzip2 与 bunzip2 
+			1) bzip2
+				Linux bzip2命令是.bz2文件的压缩程序。
+				bzip2采用新的压缩演算法，压缩效果比传统的LZ77/LZ78压缩演算法来得好。bzip2类似于gzip, bzip2也仅适用于压缩单个文件，
+				无法将多个文件压缩为一个文件，也不能压缩文件夹。
+				
+				语法格式为：
+					bzip2  [ 参数 ]  filename
+				其中，filename表示要压缩的文件名，bzip2压缩完文件后会产生.bz2的压缩文件，并删除原始的文件。
+				可选项 : 
+					-v	压缩或解压缩文件时，显示详细的信息。
+					-V	显示版本信息
+					-k	bzip2在压缩或解压缩后，会删除原始的文件。若要保留原始文件，请使用此参数。
+					-d	执行解压缩 等价于 bunzip2
+					-num	指定压缩比率，num为1~9个等级
+
+
+			2) bunzip2
+				bunzip2可解压缩.bz2格式的压缩文件。
+				语法格式为：
+					bunzip2  [ 参数 ]  file.bz2
+				可选项 : 	
+					-v	解压缩文件时，显示详细的信息。
+					-V	显示版本信息
+					-k	b解压缩后，会删除原始的文件。若要保留压缩文件，请使用此参数。
+
+	[3] 归档工具 tar
+		tar命令主要用于将若干文件或目录合并为一个文件，以便备份和压缩。当然，之后出现tar程序的改进版本，
+	可以实现在合并归档的同时进行压缩。
+		语法格式为：
+			tar  [参数]  [tarfile]  [filelist]
+		可选项:  
+			-c	创建一个新的归档文件
+			-v	显示归档和释放的过程信息
+			-f	用户指定归档文件的文件名
+			-z	由tar生成归档，然后由gzip压缩
+			-j	由tar生成归档，然后由bzip2压缩
+			-x	释放归档文件
+			-t	显示归档文件中的内容
+			-u	更新归档文件中的文件
+			-r	向归档文件里追加文件
+			
+		示例 1：归档打包
+			1) 打包文件并显示详细过程
+				fs@ubuntu:~/class22011$ tar -cvf mjpg.tar *
+			2) 打包文件并使用gzip压缩
+				fs@ubuntu:~/class22011$ tar -zcvf mjpg.tar.gz *
+			3) 打包文件并使用bzip2压缩
+				fs@ubuntu:~/class22011$ tar -jcvf mjpg.tar.bz2 *
+				
+		示例 2：解包
+			1) 解包普通归档文件 
+				fs@ubuntu:~/class22011$ tar -xvf mjpg.tar
+			2) 解包并解压缩
+				fs@ubuntu:~/class22011$ tar -zxvf mjpg-streamer-back.tar.gz 		
+				fs@ubuntu:~/class22011$ tar -jxvf mjpg-streamer-back.tar.bz2
+				fs@ubuntu:~/class22011$ tar -xvf mjpg-streamer-back.tar.gz 	
+				fs@ubuntu:~/class22011$ tar -xvf mjpg-streamer-back.tar.bz2
+		
+		示例 3：查看归档文件内容
+			fs@ubuntu:~/class22011$ tar -tvf mjpg-streamer-back.tar.gz
+				
+		示例 4：更新归档文件中的文件（要求归档文件不能压缩）
+			fs@ubuntu:~/class22011/$ tar -uf mjpg-streamer-back.tar mjpg-streamer-back/README.md 
+
+		示例5: 向归档文件中追加新文件 （要求归档文件不能压缩）		
+			fs@ubuntu:~/class22011$ tar -rf mjpg-streamer-back.tar mjpg-streamer-back/test.txt
+
+3. 软件管理指令
+	[1] 历史 
+			Debian 系统首次提出了“软件包”的管理机制——deb软件包。用户使用软件包就可以直接完成获取、安装、卸载、查询、更新等系列操作。
+		人们将这套系统称为dpkg。
+			Redhat 红帽子基于这个理念也开始着手建立自己的包管理系统 ——Rpm软件包。
+			
+	[2] 软件包的类型：
+			在Ubuntu系统内有两种deb软件包，分别为二进制软件包（常见为.deb后缀）和源码包（常见.dsc后缀）。
+		1）二进制软件包（Binary Packages）：它包含可执行文件、库文件、配置文件、man/info页面、版权声明和其它文档。
+		2）源码包（Source Packages）：包含软件源代码、版本修改说明、构建指令以及编译工具等。先由tar工具归档为.tar.gz文件，
+			然后再打包成.dsc文件
+		例如：
+			wdl@UbuntuFisher:~$ file  g++_4.1.2-9ubuntu2_i386.deb
+			g++_4.1.2-9ubuntu2_i386: Debian binary package (format 2.0)
+			
+	[3] 软件包的命名规则
+		软件包命名遵循以下规则：
+			Filename_Version-Reversion_Architecture.deb
+		其中：
+			Filename：软件包名称
+			Version：版本信息
+			Reversion：修订版本信息
+			Architecture：体系架构
+		例如：有软件g++，软件包名为g++_4.1.2-9ubuntu2_i386.deb，则
+			g++：软件包名
+			4.1.2：软件版本为4.1.2
+			9ubuntu2：修订版本信息
+			i386：基于x86架构
+			
+	[3] 软件包的优先级
+		required 	必须的		保证系统正常运行的软件 
+		important	重要的		实现一些底层功能，如果不安装系统会运行困难不好操作	
+		standard	基本的		该级别的软件是任何Linux发行版本基本软件 
+		Optional	可选的		这个级别软件不会影响到系统运行  
+		Extra		额外的		该级别软件可能会和其他高级别软件冲突 
+	
+	[4] 软件包的依赖关系
+		这就是Linux操作系统最初的设计理念——尽可能提高软件系统内部的耦合度（增加软件和软件之间的关联程度）.
+	换句话说，某个软件组件是否能够正常运行或运行的更好，依赖于其他一些软件组件的存在。这样做的好处是，使系统更加致密、
+	紧凑，减少中间环节可能引发的错误。
+		依赖 depends 	要运行软件A必须安装软件B 
+		推荐 recommend	软件A的特殊功能，需要安装软件B才可以实现 
+		建议 suggest	软件B可以增强软件A的功能 
+		替换 replace	安装软件B会删除或覆盖软件A的一部分文件 
+		冲突 conflict	安装软件B将导致软件A无法运行  
+		提供 provide	安装软件A可以包含软件B的所有文件和功能 
+
+	[5] dpkg 
+		dpkg是最早的Deb包管理工具，它在Debian一提出包管理模式后就诞生了。使用dpkg可以实现软件包的安装、编译、卸载、查询，
+	以及应用程序打包等功能。
+		dpkg 相关命令：
+			dpkg -i 软件包名：安装一个在本地文件系统上的deb软件包
+			dpkg -r 软件名：移除一个已安装的软件包
+			dpkg -P 软件名：移除已安装的软件包以及配置文件
+			dpkg -L 软件名：显示指定名称的软件包的安装位置
+			dpkg -s 软件名：显示软件包安装状态
+			dpkg -c 软件包名：查看Deb 包中包含的文件列表 
+			dpkg -l 	：查看系统中已安装的软件
+	
+		示例： 
+			fs@ubuntu:~$ sudo dpkg -i sl_3.03-16_i386.deb	
+			
+		总结
+		dpkg缺陷：
+		1)不能主动从镜像站点获取软件包；
+		https://pkgs.org/
+		https://launchpad.net/
+		http://www.getdeb.net/
+
+		2)安装软件包时，无法检查软件包的依赖关系。
+		因此，在对一个软件组件的依赖关系不清楚的情况下，建议使用APT软件包管理器。除非用户对软件包的依赖关系非常清楚，再使用dpkg。
+		
+	[6] apt （Advanced Packaging Tool）
+		APT提供软件包的安装、更新、查询、卸载、升级以及检查依赖关系等一系列操作且无需用于操作，自动完成。
+		
+		Ubuntu采用集中式仓库机制管理软件。将每种软件分门别类地存放在不同的软件仓库中进行管理。然后将软件仓库存放在许许多多的镜像
+	服务器内并保持基本一致,供用户获取。
+		软件源配置文件/etc/apt/sources.list 用于配置最适合访问的镜像服务器节点地址。
+		因而，就有必要为这些软件资源列个清单（建立索引文件），位于/var/lib/apt/lists,以便本地主机查询。
+		APT的缓存 /var/cache/apt/archives/
+		
+		ping www.baidu.com  
+		
+		(1) apt-get 
+			apt-get命令格式：
+				apt-get 子命令 [可选指令] 软件包名
+			子命令：
+				update：下载更新软件包列表信息(“apt-get update”命令会扫描每一个软件源服务器更新镜像服务器软件列表)
+				upgrade：升级软件包到最新版本（apt-get upgrade”可以将系统中的所有软件包一次性升级到最新版本。）
+				install：下载软件包并安装
+				--reinstall install 软件包的重新安装（修复损坏已安装的软件包。或者重新安装软件包中某些文件的最新版本）	
+				remove：卸载软件包（不完全卸载）
+				--purge remove：完全卸载（卸载软件包文件的同时，还删除该软件包所使用的配置文件。  ）
+				clean：删除缓存内已下载的包
+				autoclean: 按照依赖关系清理缓冲区中多余的软件包 (缓冲区中只保留最新版本的软件包，多余版本全部清除)
+				check：检查系统中依赖关系的完整性
+			可选项: 
+				-f 	修复系统中存在的软件包依赖性问题
+				-d：仅下载而不解压安装
+				-y --force-yes：对所有询问都做yes回答，apt在执行时不再进行任何提示
+				-h：获取帮助信息
+				-v：获取apt-get版本号
+		
+			示例: 
+				fs@ubuntu:~$ sudo apt-get update			//更新软件源
+				fs@ubuntu:~$ sudo apt-get install cmatrix	//下载安装软件  
+				fs@ubuntu:~$ sudo apt-get --reinstall install sl		//重新下载安装软件 
+				fs@ubuntu:~$ sudo apt-get --purge remove sl		//卸载软件  	
+				fs@ubuntu:~$ sudo apt-get install -f		//修复依赖关系
+				
+				
+			练习：使用APT安装以下软件，然后运行软件并查看效果
+				1.sl（小火车）
+				2.cmatrix（弹幕）
+				3.xeyes（在屏幕上出现一双眼睛，盯着你的鼠标指针）
+				4.oneko (桌面上出现一直喵星人，跟着你的鼠标跑，你不动了它就睡觉。哈哈，这个挺不错)
+				5. aafire（在你的终端放一把火如何。把这个“aafire”敲到你的终端，不需要什么引号看看这神奇的一幕吧。按下任意键中指该程序）//sudo apt-get install libaa-bin
+
+		(2) apt-cache
+			指令格式: 
+				apt-cache 子命令 [可选指令] 软件包名
+		
+			子命令：
+				stats：获取数据源的统计信息(查看软件源列表)
+				showsrc：获取源码包的常规描述信息
+				showpkg：获取二进制软件包的常规描述信息
+				show：获取二进制软件包的详细描述信息
+				dump：获取软件源内所有软件包的简要信息
+				search：检索软件包
+				depends：获取该软件包的依赖信息
+				rdepends：获取所有依赖于该软件包的软件包
+				pkgnames：列出所有已安装的软件包的名称
+				policy：获取软件包当前的安装状态
+
+			示例:
+				fs@ubuntu:/var/cache/apt/archives$ sudo apt-cache stats
+				fs@ubuntu:/var/cache/apt/archives$ sudo apt-cache search mine game
+				
+			举例: <<<
+			dpkg -l | grep mine //just a quick search if any game about mine has been installed on my machine
+			apt-cache search mine game //try to search a game about minesweep
+			apt-cache show gnomine //then we select the freesweep and try to show the detailed info of this game
+			apt-cache policy gnomine //check current installation stauts of this game
+			sudo apt-get autoclean //before install, I try to release some disk space
+			sudo apt-get clean //if the space is still insufficient
+			sudo apt-get install gnomine
+			apt-cache depends gnomine // check dependency
+			。
+			dpkg -L gnomine | grep /usr/games/
+			sudo apt-get remove gnomine
+			>>>>>
+=========================================================================================================================================
+4. C语言基础  
+	[1] 基础知识
+		(1) 什么是程序
+			•	广义的讲，为了实现一个特定的目标而预先设计的一组可操作的工作步骤就可以称之为一个程序
+				找工作：写简历投简历笔试面试入职
+			•	程序定义
+				程序（program）是为实现特定目标或解决特定问题而用计算机语言编写的命令序列的集合。
+				
+		(2) 什么是编程语言
+			通过”语言“来控制计算机，让计算机为我们做事情，这样的语言就叫做编程语言（Programming Language） 
+			
+		(3) 常见编程语言
+			C++ 	C语言基础之上发展起来，软件开发、游戏开发、嵌入式软件开发 
+			java	通用的编程语言、网站后台开发、PC软件开发、大数据等 ...
+			c#		微软开发的编程语言、主要用于windows平台的软件开发 
+			Python	系统运维、网站后台开发、数据分心、人工智能、
+			PHP		网站后台程序开发  
+			Javascript	网站前端开发 
+			Go		谷歌公司开发 
+			Objective-C  和 Swift 主要用于苹果产品开发 
+			...
+			
+		(4) 程语言发展简史
+			1) 机器语言 
+				由二进制机器指令构成的语言 ，可以被计算机系统直接识别。
+				和自然语言完全不同，难于记忆和理解，工作量大，效率低，无法移植。
+			2) 汇编语言 
+				汇编语言（assembly language）可以视为机器语言的升级版，使用助记符代替机器语言的二进制码，把机器指令符号化，
+			即通过一组简单的的符号来表示机器指令，更接近于自然语言，更容易理解和使用。
+				如：
+					MOV  R1,#1000     	//R1=1000
+					ADD  R1,R1,R2   	//R1=R1+R2
+					
+				汇编语言对于新手程序员来说仍然过于晦涩难懂，且汇编语言不便移植的特点也一定程度限制了汇编语言的流行。
+				通常情况下来说，不同的机器指令集对应不同的汇编语言，因此不同版本的汇编语言不可直接移植。
+			3) 高级语言
+				语法接近人类的自然语言；执行的单位不是指令，而是语句；开发效率较高；必须编译成机器码；移植性较好；
+			4) 自然语言
+				人类的语言、运用人工智能、以接近口音的指令指挥计算机; 还没有成熟;
+				
+		
+		(5) 高级编程语言分类
+			按照编程语言的运行方式:
+				编译型编程语言（如C、C++等）: 借助编译器将代码转换成二进制的可执行文件
+				解释型编程语言（如Python等脚本语言，以及Linux下的Shell编程）: 借助解释器在程序过程中逐条翻译然后再执行
+			编程语言的发展先后顺序或者编程语言的属性，将编程语言分为：
+				面向过程的编程语言（较少，如C语言、Pascal语言）
+				面向对象的编程语言（较多，目前广泛应用 java、Python ...）
+				
+	
+	[2] C语言简介
+		C语言属于面向过程的编译型编程语言,美国Dennis Ritchie在1972年设计发明的
+		它由早期的编程语言BCPL（Basic Combined Programming Language）发展演变而来。
+		
+		C语言特点：
+			用Ritchie自己的话评价C语言：“古怪的，有缺陷的，但同时也是一个巨大的成功”
+			
+		说他有缺陷：
+			C的指针容易造成困惑和程序错误，对初学者较难掌握，但用多了才会体会到其强大。同时C缺乏对OOP的支持，所以后来的C++和Java解决了这些问题。
+		为何说是一种成功：
+			1）	C与Unix关系密切，两者相辅相成，目前还没有一种编程语言和一种操作系统结合如此紧密。
+			2）	C是一个小而简单的语言。其设计是由一个人而非一个协会掌控。易于学习，也易于移植到不同的机器上。
+			3）	C是为实践而设计，用于实现Unix操作系统，但人们发现用C不仅可以编写操作系统。所以我们说C是系统级编程的首选，也非常适合写应用级程序。
+			4）	生成的目标代码质量高，程序执行效率高；能够对硬件和内存进行操作 ；
+			5）	C是很多其他语言的开发参考，学会了C语言，很多其他语言入门就快。
+		
+	[3] 第一个C语言程序
+		编写简单的C程序Hello World
+		#include <stdio.h>			//包含头文件
+
+		int main(int argc, const char *argv[])  //主函数，一个C语言程序中只能有一个主函数，是C语言程序的入口
+		{
+			printf("Hello world\n");	//printf 标准输出函数，输出"string"中的字符串，\n  : 回车换行
+										//C语言的一条语句结束后需要添加 ;
+			return 0;					//return 表示函数结束，
+		}
+
+		
+		程序讲解：
+			#include<stdio.h>：标准I/O头文件，下文中的printf需要使用这个文件
+			main()：主函数，一个程序的入口。一个程序有且只有一个main()函数
+			int：代表主函数的返回值类型是int型
+			printf()：格式化输出，将括号内的内容打印到显示器上，打印字符串需要用双引号""引上
+			return 0;：配合主函数类型使用，一般来说返回0的程序表示程序运行成功
+			return -1;  返回负数代表代码执行失败了
+			c语言每句话结束都要使用;
+
+		注意：
+			每种编程语言的源文件都有特定的后缀，以方便被编译器识别，被程序员理解。源文件后缀大都根据编程语言本身的名字来命名，例如：
+			C 语言源文件的后缀是.c；
+			C++语言（C Plus Plus）源文件的后缀是.cpp；
+			Java 源文件的后缀是.java;
+			Python 源文件的后缀是.py.；
+			JavaScript 源文件后置是.js。
+
+		
+	[4]  编译器（Compiler）
+			这就需要一个工具，将 C 语言代码转换成 CPU 能够识别的二进制指令，也就是将代码加工成 .exe 程序的格式；
+		这个工具是一个特殊的软件，叫做编译器（Compiler）。
+			Linux 下常用的是 GUN 组织开发的 GCC，很多 Linux 发行版都自带 GCC；
+			
+	[5] GCC 编译器  
+		GCC (GNU C Compiler) GNU推出的功能强大，性能优越的多平台编译器
+		Richard stallman在刚开始编写GCC的时候，只是把它当作一个C程序的编译器,发展，GCC除了能支持C语言，目前还支持C++、Java、Objective C等。
+	
+		Gcc指令的格式：
+			gcc [options] [filenames] 
+				这里option是GCC使用时的一些选项，通过指定不同的选项GCC可以实现强大的功能。
+		（gcc有超过100个的编译选项可用。具体的可以使用命令man gcc察看）。这里的filename则时GCC要编译的文件。
+		实例：
+		【1】查看gcc的版本
+			gcc -v					
+		【2】编译源码	-o的作用：指定生成的产物的名字。如果不加-o和名字，则gcc会默认生成a.out文件
+			gcc hello.c -o hello	
+		【3】运行程序
+			./hello
+	
+	作业: 
+		1)编写程序，输出“XXX欢迎来到华清远见！”（XXX是自己的名字）
+		2)编译 vi.c 并运行
+		3)复习今天上课的内容，整理今天的笔记(晚自习结束前提交)
+		4)准备早分享(分享昨天学习的内容、其他知识、分享个人经验...)
+		
+				
+
+
+				
