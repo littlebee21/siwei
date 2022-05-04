@@ -1,0 +1,13 @@
+if( somethinghappen ){    //问题检查语句   如果函数出现了问题
+    debug it                         //我们就问题进行处理
+}
+
+
+if( !somethinghappen ){       //如果函数 没有 出现问题
+    执行对应的内容
+}
+
+somethinghappened   0
+something not happened  1
+
+我们可以将函数的返回值当作是  出现问题的逻辑值

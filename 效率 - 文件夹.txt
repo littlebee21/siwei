@@ -3,7 +3,8 @@
 创建文件夹：
     使用：在vscode中打开后
 打开文件夹：
-    使用：everthing搜索，vscode打开 autohotkey打开
+	使用：everthing搜索，wsl打开，进行资源操作
+    废弃：everthing搜索，vscode打开 autohotkey打开 ,无法进行文件夹操作
     废弃：everthing搜索文件 资源管理器打开
 编辑文件夹：
 

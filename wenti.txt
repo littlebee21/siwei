@@ -1,11 +1,4 @@
 当前问题
-    面试问题
-        数据结构和算法
-            刷题
-    技术问题
-        手写代码能力
-            jdk没熟练，反射，多线程，容器手写磕绊
-            需要查找文档
     任务
         明日任务
             cloud做一个总表
@@ -600,48 +593,7 @@ Noctis
 我们需要使用vscode创建出自己的编译器环境，
 然后
 
-Darcula
-Scrimba Dark Theme
-Luke Dark Theme
-
-Monokai Dim
-
-
-	user sys  222222   fiq  irq  abt svc und mon
-
-
-使用grep替代anytxt
-使用fzf替代
-
-
-function gfc(){
-	vim $(grep -rf |fzf)
-}
-
-使用fzf的pre功能，
-
-
-使用在线搜索的方式替代
-本地搜索
-
-grep -rn 资源 /mnt/f/all/note/siwei/
-
-在linux中使用vim，
-在windows中使用vscode 因为vscode实在时太好用
-
-
 
 事件类：对表达式的抽象，返回值时bool，由函数/变量/运算表达式组成【‘
 普通类：对变量的抽象+函数的抽象
 接口：函数功能的抽象
-
-在C++当中如何使用回调函数
-
-从界面来看，
-everthing和fzf时完全一样的，支持预览
-
-
-ahk实现图片的添加
-ahk实现删除当前行
-
-send 

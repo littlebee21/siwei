@@ -1,4 +1,0 @@
-资源 - github开源笔记 - 嵌入式笔记 
-
-资源整理：常用     https://github.com/xiaowenxia/embedded-note 
-一个博客 ：https://github.com/DLonng/dlonng.github.io/tree/3f4c203efc69d2446de953789ce1c19d73688823 

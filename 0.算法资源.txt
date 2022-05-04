@@ -1,9 +1,0 @@
-0.算法资源
-算法
-    36.://visualgo.net/zh(数据结构和算法动态可视化网站)
-    83.力扣://leetcode-cn.com/
-    81.蓝桥://www.lanqiao.cn/
-    117.算法网://ddrv.cn/
-    209.五分钟学算法://www.cxyxiaowu.com/
-    267.NEUQ OJ://newoj.acmclub.cn/home（acm练习，对算法感兴趣的同学可以啾啾。）
-    52.程序语言报错查询:://www.myexception.cn/

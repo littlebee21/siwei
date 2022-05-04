@@ -55,7 +55,10 @@ C++
     类型转换：explicit
     拷贝： 深拷贝：重写拷贝构造函数；
           浅拷贝：使用默认拷贝构造函数；
-
+    总结：
+        初始化：C++： Student std1 = std2;
+        静态创建：C++:  Student std1;
+        动态创建：C++:   Student std1 = new Student/new char[15]
 
 
 java变量：
@@ -64,3 +67,4 @@ java变量：
     生命周期： static
     读写特性：const 
     内存空间： 绑定类型
+

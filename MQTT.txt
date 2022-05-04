@@ -1,0 +1,28 @@
+MQTT
+
+
+MQTT 协议基本特点
+MQTT 应用行业
+MQTT 协议原理
+MQTT 协议基础概念
+    客户端 （Client）
+    服务器（Server）
+    会话（Session）
+    订阅（Subscription）
+    主题名（Topic Name）
+    主题过滤器（Topic Filter）
+    载荷（Payload）
+MQTT 报文结构
+MQTT 协议进阶
+    消息服务质量（QoS）
+    清除会话（Clean Session）
+    保活心跳（Keep Alive）
+    保留消息（Retained Message）
+    遗嘱消息（Will Message）
+MQTT 5.0 协议新增特性
+    会话过期
+    为所有响应报文提供原因码
+    请求/响应
+    共享订阅
+    主题别名
+下一步

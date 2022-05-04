@@ -1,0 +1,12 @@
+语言对比-逻辑语句
+
+逻辑语句：跳转语句：
+    for 初始化 终点状态  迭代操作
+    for增强  分子 分母
+    
+    break continue goto
+    while for 
+    switch if
+        倒过来写的结束语句endif / fi
+        固定语句的完成写法 done
+        格式空 ：用缩进表示结束         python

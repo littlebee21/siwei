@@ -34,7 +34,7 @@
         系统构建工具：
             Buildroot
             Yocto    
-            OpenWrt
+            OpenW
         根文件系统
             rootfs.tar.xz 现成的文件系统
             busybox 根文件系统制作工具
