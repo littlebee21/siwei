@@ -1,0 +1,23 @@
+网络编程
+
+编程模型
+客户端：
+    socket：创建 插头
+    connect：连接
+    
+    write read：/send recv 对网络文件进行操作
+    
+    close
+
+服务端：
+    socket 
+    bind listen   
+    accept  阻塞等待
+    connect：连接
+    
+    write read/send recv
+    
+    close
+
+
+    

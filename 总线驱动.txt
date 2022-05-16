@@ -1,0 +1,12 @@
+总线驱动
+
+0，字符驱动：
+
+剩下file 
+
+
+operation的都没变：
+0，设备树： 获取设备方式变了
+1，platform： probe变了
+2，I2C
+3，input

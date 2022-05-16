@@ -1,0 +1,37 @@
+nvim插件
+
+安装方式：
+1，curl无法使用，只能使用 zip和离线下载的方式进行安装
+
+
+代码补全： 
+        客户端 ccls coc coq
+        服务器 lsp  Plug 'neovim/nvim-lspconfig'
+        快速安装脚本 nvim-lsp-installer
+
+文件和字符搜索：
+    新：telecope
+    老：fzf：  ctrl+r输入字符串搜索 ctrl+jk进行上下切换
+
+没必要：
+文件树：nvim-tree
+代码诊断：
+文件大纲：+
+
+
+
+
+
+
+
+
+
+安装lsp过程：
+    coc简单
+    init里面安装plug
+    安装语言 pipx install pyhton---
+方法1：
+    进入到lua 进行修改配置  
+    local servers进行修改
+方法2：
+    快速安装脚本

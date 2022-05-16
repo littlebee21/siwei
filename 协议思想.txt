@@ -1,0 +1,7 @@
+协议思想
+
+配置文件：config，xml，ini
+非字符文件格式：socket PDU协议。IIC SPI
+
+使用：
+通过文档+源码的方式进行使用

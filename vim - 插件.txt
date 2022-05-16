@@ -6,8 +6,8 @@ vim 插件
             9、代码对齐（tabular）
             10、快速添加/删除注释（nerdcommenter）
         插件管理器
+            常用1  插件管理器 vim-plug
             常用1、插件管理 （Vundle）
-            常用 插件管理器 vim-plug
         代码检查
             11、代码动态检查（ale）
             常用：12，quickfix，对代码内容的修复

@@ -1,0 +1,14 @@
+语言对比-模板泛型
+
+
+C++ 模板 
+    函数模板：
+    template<class 形参名，class 形参名，......> 返回类型 函数名(参数列表)
+    template <class T> void swap(T& a, T& b){}
+
+    类模板：
+    template<class  形参名，class 形参名，…>   class 类名
+    template<class T> class A
+
+java泛型的
+    ArrayList<String> list2 = new ArrayList<>();

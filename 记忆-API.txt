@@ -1,0 +1,16 @@
+记忆-API
+
+1，口诀：   引线强制记忆
+2，抽象组合： 自由组合
+3，规范：  规范命名 _大小写
+
+函数：
+数据结构/函数名/函数参数    id name type flag data node dev 
+算法/函数名
+    read write close open 文件
+    insert update deletale select find sort
+    getset ctl 
+    send rcv p v 
+
+
+

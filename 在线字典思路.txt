@@ -1,0 +1,292 @@
+在线字典思路
+
+当前结构：
+└── dictol_src_dir
+    ├── inc
+    │   ├── dictoldebug.h
+    │   ├── dictolprotocol.h
+    │   └── dictolpublic.h
+    ├── lib
+    └── src
+        ├── client
+        ├── public
+        │   ├── dictolprotocol.c
+        │   └── dictolpublic.c
+        └── server
+            └── dict.txt
+
+
+项目文件：
+    dictolprotocol.c：各种PDU数据组织函数，SendPDU、RecvPDU函数，DestroyDictOLPDU函数
+    dictolpublic.c：对read、write的二次封装函数，对fgets的二次封装函数
+
+    对外头文件：
+    dictoldebug.h ：各模块调试用宏
+    dictolprotocol.h：PDU变长结构体设计，dictolprotocol.c对外函数声明
+    dictolpublic.h：包含上面两个头文件，dictolpublic.c对外函数声明
+
+    client：
+        cmain.c：main 客户端Socket连接函数 主界面循环函数 功能界面循环函数
+        ok-clientsocket.c
+        userregister.c：用户注册功能函数
+        userlogin.c：用户登录功能函数 
+        queryword.c：查词功能函数
+        queryhistory.c：历史查询功能函数
+        view.c：界面相关函数
+        cprivate.h：客户端私有头文件，主要内容：客户端控制用结构体设计，各子模块间函数声明
+
+    sever
+        cmain.c：main 客户端Socket连接函数 主界面循环函数 功能界面循环函数
+        util：
+            ok-serverSocket.c  
+        service功能
+            doing-userregister.c：用户注册功能函数
+            ok-userlogin.c：用户登录功能函数 登录成功就在表中进行标记
+     2.3 dictolpublic:在线词典公共模块
+2.4 dictolclient:
+2.5 dictolserver:
+三、编码
+四、函数库
+4.1 静态链接
+4.2 动态链接
+4.3 静态链接与动态链接的比较
+五、Makefile       queryword.c：查词功能函数
+            queryhistory.c：历史查询功能函数
+        view.c：界面相关函数
+
+        cprivate.h：客户端私有头文件，主要内容：客户端控制用结构体设计，各子模块间函数声明
+    makefile
+    db数据库表：
+        用户表   usertable
+        用户查词记录表 searchhistorytable
+
+
+实现顺序：
+客户端：
+    main 函数
+服务端：
+    main 函数
+
+
+
+一、需求分析
+二、设计
+2.1 基本框架图
+2.2 通信协议数据组织
+2.3 dictolpublic:在线词典公共模块
+2.4 dictolclient:
+2.5 dictolserver:
+三、编码
+四、函数库
+4.1 静态链接
+4.2 动态链接
+4.3 静态链接与动态链接的比较
+五、Makefile
+六、项目提示
+
+
+
+
+代码备份:
+
+3 int createServerSocket(struct sockaddr_un **ppservaddr){
+  4     int sockfd = -1;
+  5     int ret = -1;
+  6     *ppservaddr = (struct sockaddr_un *)malloc(sizeof(struct sockaddr_un));
+  7
+  8
+  9     sockfd = socket(AF_UNIX,SOCK_STREAM,0);
+ 10
+ 11     bzero(*ppservaddr,sizeof(**ppservaddr));
+ 12     (*ppservaddr)->sun_family = AF_UNIX;
+ 13     strcpy((*ppservaddr)->sun_path,"/tmp/myxyz");   ////gao2022-0511-21
+ 14
+ 15     ret = bind(sockfd,(struct sockaddr *)(*ppservaddr),sizeof(**ppservaddr));
+ 16     ret += listen(sockfd,6);
+ 17     if(ret < 0)
+ 18     {
+ 19         close(sockfd);
+ 20         sockfd = -1;
+ 21         free(*ppservaddr);
+ 22         *ppservaddr = NULL;
+ 23         perror("bind or listen failed:");
+ 24         return 1;
+ 25     }
+ 26     return sockfd;
+ 27 }
+
+
+
+     sockfd = socket(AF_UNIX,SOCK_STREAM,0);
+ 10
+ 11     bzero(*ppclientAddr,sizeof(**ppclientAddr));
+ 12     (*ppclientAddr)->sun_family = AF_UNIX;
+ 13     strcpy((*ppclientAddr)->sun_path,"/tmp/myxyz");
+ 14
+
+
+
+
+//gao2022-0512-15//gao2022-0512-15//gao2022-0512-15//gao2022-0512-15//gao2022-0512-15//gao2022-0512-15
+ sql
+ DROP TABLE IF EXISTS `user`
+CREATE TABLE IF NOT EXISTS `user`(
+        Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        name TEXT,
+        password TEXT,
+        loginStatus INTEGER
+);
+
+INSERT INTO `user` VALUES ('1', 'gao', '123','0');
+INSERT INTO `user` VALUES ('2', 'wang', '456'.'0');
+
+
+DROP TABLE IF EXISTS `searchHistory`;
+CREATE TABLE IF NOT EXISTS `searchHistory`(
+        Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        name TEXT,
+        searchWord TEXT,
+        time TEXT,
+        searchResult INTEGER
+);
+INSERT INTO `searchHistory` VALUES ('1', 'gao','abandon' ,'2022-0512-14','0');
+
+INSERT INTO `searchHistory` (Id,name,searchWord,time,searchResult)
+VALUES ('1', 'gao','abandon' ,'2022-0512-14','yes');
+
+
+设计 退回到上级目录的快捷键
+
+
+一个数据库  命令行 和 程序不同？
+
+
+
+ 85 /*
+   86         MyRead(datafd,(void *)receviveBuf,sizeof(receviveBuf));
+   87
+   88         printf("client  say to me: %s \n",receviveBuf);
+   89
+   90         MyWrite(datafd,(void *)receviveBuf,sizeof(receviveBuf));
+   91 */
+
+
+
+
+   21     ret = MyWrite(sockfd,(void *)sendBuf,sizeof(sendBuf));
+   22     if(ret <= 0){
+   23         printf("client write fail \n");
+   24         return -1;
+   25     }
+   26
+   27     MyRead(sockfd,(void *)receviveBuf,sizeof(receviveBuf));
+   28     printf("Sever say to me: %s \n",receviveBuf);
+
+
+
+      23     ret = MyWrite(sockfd,(void *)sendBuf,sizeof(sendBuf));
+   24     if(ret <= 0){
+   25         printf("client write fail \n");
+   26         return -1;
+   27     }
+   28
+   29     MyRead(sockfd,(void *)receviveBuf,sizeof(receviveBuf));
+   30     printf("Sever say to me: %s \n",receviveBuf);
+
+
+
+
+
+      22 enum ENUM_DICTOL_PDU_TYPE
+   23 {
+   24     DICTOL_PDU_TYPE_REG_REQ = 1,      
+   25     DICTOL_PDU_TYPE_REG_RSP,   
+   26     DICTOL_PDU_TYPE_LOGIN_REQ,  
+   27     DICTOL_PDU_TYPE_LOGIN_RSP,   
+   28     DICTOL_PDU_TYPE_QUERYWORD_REQ,  
+   29     DICTOL_PDU_TYPE_QUERYWORD_RSP,  
+   30     DICTOL_PDU_TYPE_HISTORY_REQ,  
+   31     DICTOL_PDU_TYPE_HISTORY_RSP   
+   32 };
+   33
+   34
+   35 /*struct DictOLPDU成员作用描述:
+   36     size:PDU数据总字节数
+   37     type:表示协议数据的种类，相应数字对应相应种类
+   38         1.注册请求 2.注册回应
+   39         3.登录请求 4.登录回应
+   40         5.查词请求 6.查词回应
+   41         7.历史请求 8.历史回应
+   42     buf:对应种类PDU使用的实际数据，不同的种类数据组织形式不一样:
+   43         注册请求、登录请求：NAME_LEN个字节的用户名+PASS_LEN个字节的密码
+   44         注册回应、登录回应：为sizeof(int)个字节的处理结果，其中0表示成功，其它值为错误，不同值可以表示不同的错误号
+   45         查词请求：'\0'结尾的字符串，字符串内容为所要查询的单词
+   46         查词回应：'\0'结尾的字符串，字符串内容为单词的释义，"Not Found"表示未找到单词
+   47         历史请求：没有此部分，此时size为sizeof(long) * 2
+   48         历史回应：'\0'结尾的字符串，字符串内容为'@'分隔的多条历史记录，每条历史记录用#分隔时间和单词
+   49 */
+   50 struct  DictOLPDU
+   51 {
+   52     int size;
+   53     int type;
+   54     char buf[1];
+   55 };
+   56
+   57
+   58 #define DICTOL_PDU_HEADER_SIZE  (sizeof(int) * 2)
+   59 #define QUERY_WORD_ERR_STR "Not Found"
+   60 #define QUERY_HISTORY_ERR_STR "No History"
+   61
+   62 struct DictOLPDU *CreateRegisterREQPDU(char *name,char *password);
+   63 struct DictOLPDU *CreateRegisterRSPPDU(int value);
+   64 struct DictOLPDU *CreateLoginREQPDU(char *name,char *password);
+   65 struct DictOLPDU *CreateLoginRSPPDU(int value);
+   66 struct DictOLPDU *CreateQueryWordREQPDU(char *word);
+   67 struct DictOLPDU *CreateQueryWordRSPPDU(char *explain);
+   68 struct DictOLPDU *CreateHistoryREQPDU();:wq
+   69 struct DictOLPDU *CreateHistoryRSPPDU(char *history);
+   70
+   71 struct DictOLPDU * RecvPDU(int fd);
+   72 int DestroyDictOLPDU(struct DictOLPDU * pstPDU);//RecvPDU函数和所有的Create函数均有动态分配，本函数负责释放
+   73
+   74 int SendPDU(int fd,struct DictOLPDU *pstPDU);
+
+
+
+     case DICTOL_PDU_TYPE_REG_REQ:
+   73                 break;
+   74             case DICTOL_PDU_TYPE_LOGIN_REQ:
+   75                 HandleLogin(datafd,psqlEngine,pRecPDU);
+   76                 break;
+   77             case DICTOL_PDU_TYPE_QUERYWORD_REQ:
+   78                 break;
+   79             case DICTOL_PDU_TYPE_HISTORY_REQ:
+   80                 break;
+   81             default:
+   82                 DestroyDictOLPDU(pRecPDU);
+   83                 break;
+   84         }
+
+
+
+
+
+   27 int getnameAndPasswdFromView(char *name,char * password){
+   28     char names[30];
+-- 29     char passwords[30];
+   30
+   31     printf("Please input your name:\n");
+   32     scanf("%s",names);
+   33
+   34     while(getchar()!='\n')
+   35     {
+   36     }
+   37
+   38     printf("name finish\n");
+   39
+   40     printf("Please input your password:\n");
+   41     //scanf("%s",passwords);
+   42
+   43     printf("pass finish");
+   44     return 0;
+   45 }

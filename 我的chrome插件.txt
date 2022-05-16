@@ -30,6 +30,12 @@
                 缺点
                     没有办法使用vimium进行打开
                         但是可以使用搜索+ctrl+h的方式进行打开
+        翻译插件：
+            百度翻译：没有网页翻译快捷键
+            彩云小翻译：没有网页翻译
+            google翻译：没有快捷键
+
+
         美化插件：
             stylish 没啥用
     插件的快捷键安排
@@ -44,3 +50,9 @@
         chrome的原生快捷键\
 
 
+内置的谷歌翻译设置快捷键
+千次阅读
+2018-10-17 13:37:29
+从GitHub链接下载 jar包：https://github.com/Skykai521/ECTranslation 链接的网页也有使用教程； 
+打开快捷键修改窗口： 
+File – Settings – Keymap – 搜索 translate

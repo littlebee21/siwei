@@ -11,13 +11,18 @@ alt + 鼠标： 逐个的进行选择
 
 
 终端：
-ctrl · 切换终端(常用)
+打开： 
+    使用：设置：openInTerminal alt+b
+    插件：Terminal Here
+    放弃：ctrl+ j 打开下面版
+    放弃：ctrl+shit+` 再新建打开终端
+
+切换： ctrl · 切换终端(常用)
 alt+ . 设置面板最大化 自己设置
 
-ctrl+shit+` 再新建打开终端
+关闭：
 delete 关闭终端
-alt+u    自己设置：终止活动终端
-ctrl+ j 打开下面版
+alt+u  终止活动终端实例：自己设置
 
 
 

@@ -1,0 +1,31 @@
+sql面试题答案
+
+insert into student(学号，姓名，日期，性别)value('0001','猴子','100')
+
+1，select * from student where name is "hou"
+2，select * from kecheng where id = 0002
+
+
+3, select count(name) from  数量
+4，select sum(字段) from score where 课程='0002'
+
+
+
+
+连表查询：
+select * from test02 
+
+
+
+from 表过滤 join on 表增加
+where 条件过滤1
+
+groupby 分治
+having 条件过滤2
+order 排序
+limit 属性过滤 distin属性过滤   截取去重
+
+得到过滤后的表格
+
+select *
+得到部分表格 多个列/列/列运算的单个值/列运算的多个值

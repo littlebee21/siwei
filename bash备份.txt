@@ -1,0 +1,19 @@
+bash备份
+
+function cdf () {
+     #cd $(locate -i -e  $1|grep -v AppData | fzf)
+     cd $(fd)
+ }
+
+
+  function vf(){
+133     #vim "$(locate -i -e $1 |fzf --preview 'cat {}')"
+134     vim "$(fdfind $1 |fzf --preview 'cat {}')"
+135 }
+
+
+function cf(){
+126     #"/mnt/f/Users/gao/AppData/Local/Programs/Microsoft VS Code/Code.exe" "$(locate -i -e $1 |fzf --preview 'cat {}')"
+127 }
+
+
