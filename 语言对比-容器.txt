@@ -1,0 +1,17 @@
+语言对比-容器
+
+
+线性表：
+c++:  list默认是链式的线性表
+java:  list接口
+
+
+
+集合：
+有序集合：红黑树底层： 
+    C++:     std::Map std::multimap
+    java:    
+
+无序集合：hash表底层：
+    java:hashset hashmap
+    C++: unordered_map  unordered_multimap

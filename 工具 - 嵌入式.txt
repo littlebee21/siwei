@@ -100,4 +100,4 @@
         系统工具：
             kmod内核管理工具
     
-    
+    opengrok，source insight，vim下ctags/cscope插件组合

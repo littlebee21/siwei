@@ -25,8 +25,10 @@ groupby with 鬼步舞 gbw
 having order By有荣誉 have order
 limit distinct 有力度
 
-其他语句：
-update没有 表介词， 其他的都有into和from的介词
+其他语句：表名为中心，前面表示
+insert into sta values 前后双置   key=values
+delete from sta  前置   
+update sta set   后置
 
 sql优化： 模  型  数  空  运  最  快
 排序算法：直冒泡选希尔快堆并基

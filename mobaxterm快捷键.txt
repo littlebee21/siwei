@@ -1,0 +1,25 @@
+mobaxterm快捷键
+
+界面配置：
+    1，缩小文字的字体
+    2，自动设置文字的字体为
+
+
+功能：
+    控制本地文件，串口，虚拟机
+    上传文件
+
+使用：
+    打开: 开始新的远程会话：Ctrl + Shift + N
+    关闭：Ctrl + D
+    切换：
+        向前导航：Ctrl + Tab
+        向前导航：Ctrl + Alt + RightArrow
+        向后导航：Ctrl + Shift + Tab
+        向后导航：Ctrl + Alt + LeftArrow
+        导航至选项卡编号6：Ctrl + Alt + F6
+
+视图：
+    显示完全纯净的视图：
+        不显示侧边栏：ctrl+shift+B
+
