@@ -1,0 +1,34 @@
+openBMC自媒体
+    jiangwei0512
+
+
+
+
+OpenBmc开发3：编译镜像
+OpenBmc开发9：dts简介与使用
+OpenBmc开发10：hwmon简介
+OpenBmc开发11：添加传感器（I2C）
+
+
+OpenBmc开发13：添加传感器（fan）
+OpenBmc开发14：gpio管理
+OpenBmc开发15：led管理
+
+openbmc开发18：应用软件管理
+openbmc开发22：添加sensor信息到ipmi
+openbmc开发24：添加inventory信息到ipmi
+
+openbmc开发27：创建与使用docker镜像
+
+
+openbmc开发30：webui开发—基础
+openbmc开发32：webui开发—更换logo
+openbmc开发23：添加fru信息到ipmi
+openbmc开发16：配置文件详细介绍
+
+
+
+
+工具：
+    DTC即Device Tree Compile
+

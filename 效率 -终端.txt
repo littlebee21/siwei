@@ -21,17 +21,19 @@
 	1，使用vscode的方向按键提高中文的输入顺序，保持在insert的状态内不变
 		
 
-工具
+工具插件：
     oh my zsh和他们的插件
-    cmder.exe就是 cmd的二级扩充，支持wsl不好
+
+
+工具
+    使用：虚拟机：vagrant进行box的打包
+    使用： mobaXItem 花里胡哨
+
     放弃： wsltty 中文乱码  choco安装  Mintty 
-    wsl-terminal
-    https://github.com/mskyaxl/wsl-terminal
-
-
+    放弃： wsl-terminal https://github.com/mskyaxl/wsl-terminal ，与虚拟机重复
+    放弃： cmder.exe就是 cmd的二级扩充，支持wsl不好，不好看
     放弃： terminus/Tabby 基于web的，速度慢
     放弃： window terminus 系统等级不够
-    mobaXItem 花里胡哨
     xshell 功能受限
 
 

@@ -1,0 +1,24 @@
+openbmc开发套路
+
+1，bmcweb选择health，可以看到传感器信息
+
+2，查看openbmc传感器配置文件，没有
+
+增加和修改：
+3，build/workspace/下生成如下配置文件和源码文件。
+3，build/sources/linux-aspee/arch/arm/boot/dts/xxx.dts文件   修改设备树信息tmp423@4c.conf
+4，meta-live/meta-test/recipes-phosphor/sensors/phosphor-hwmon/obmc/hwmon 增加iio-hwmon.conf文件
+5，recipes-phosphor/sensors/phosphor-hwmon_%.bbappend文件   修改recipes   以在bmc镜像中增
+
+
+编译镜像：
+清除镜像，bitbake obmc-phosphor-image -c clean
+执行编译  bitbake obmc-phosphor-image
+
+
+验证结果
+
+
+
+
+

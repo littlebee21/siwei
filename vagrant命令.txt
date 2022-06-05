@@ -2,6 +2,8 @@ vagrant命令
     进入vagrant ssh 
     退出 exit
 
+
+生命周期的配置：
     $ vagrant init      # 初始化
     $ vagrant up        # 启动虚拟机
     $ vagrant halt      # 关闭虚拟机
@@ -11,3 +13,15 @@ vagrant命令
     $ vagrant resume    # 唤醒虚拟机
     $ vagrant status    # 查看虚拟机运行状态
     $ vagrant destroy   # 销毁当前虚拟机
+
+    package 虚拟机打包
+
+查看
+    vagrant box list
+    vagrant global-status 查看所有正在运行的虚拟机
+
+
+资源控制：
+    vagrant plugin
+    vagrant box remove 删除某一个box
+    

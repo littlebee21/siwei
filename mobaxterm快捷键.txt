@@ -1,8 +1,10 @@
 mobaxterm快捷键
 
 界面配置：
-    1，缩小文字的字体
-    2，自动设置文字的字体为
+    1，缩小文字的字体 setting defaultsetting中可以设置字体的大小 8
+    2, 设置moba的本机纯净  Compact mode
+    3，不显示侧边栏：ctrl+shift+B
+    
 
 
 功能：
@@ -10,6 +12,7 @@ mobaxterm快捷键
     上传文件
 
 使用：
+    新建： 创建多个tab  ctrl+shift+u
     打开: 开始新的远程会话：Ctrl + Shift + N
     关闭：Ctrl + D
     切换：
@@ -19,7 +22,5 @@ mobaxterm快捷键
         向后导航：Ctrl + Alt + LeftArrow
         导航至选项卡编号6：Ctrl + Alt + F6
 
-视图：
-    显示完全纯净的视图：
-        不显示侧边栏：ctrl+shift+B
+
 

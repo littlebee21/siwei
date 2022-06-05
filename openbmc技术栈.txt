@@ -1,0 +1,53 @@
+openbmc技术栈
+
+openbmc技术栈
+工作需要，学习了一段时间openbmc
+被按在地板上摩擦了几轮后，发现技能点不足以支撑
+大概列一下搞ob需要的技能点，以供查漏补缺
+
+工程架构
+yocto
+bitbake
+devtool
+cmake
+meson
+System
+uboot
+没啥特别的
+
+kernel
+
+device tree
+设备树
+fit image
+新的image格式
+busybox
+没啥特别的
+
+systemd
+时髦的启动引导，服务管理架构
+journalctl
+systemctl
+
+dbus
+dbusctl
+
+libs
+yaml
+libgpiod
+编程语法
+C++ 17
+代码中大量使用了c++的新特性，如lambda, string_view等等
+boost/asio
+fuck...
+待补充
+std::chrono
+std::forward
+std::declval
+std::unique_ptr
+std::optional
+std::tuple
+std::make_shared
+std::make_unique
+
+https://github.com/pswarfound

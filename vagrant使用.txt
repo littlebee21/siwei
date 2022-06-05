@@ -39,3 +39,7 @@ vagrant up 卡死：
     1，有端口映射：使用127.0.0.1：2222进行连接
     2，xshell第一次连接：ip：192.168.9.16：24   使用账号vagrant，密码vagrant进行访问
     3，在cmd中连接：vagrant ssh连接
+
+
+空间不足的问题：
+    
