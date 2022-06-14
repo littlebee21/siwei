@@ -1,0 +1,30 @@
+git的工作流
+
+
+公司之前的工作流：
+    1，开发递交到gitlab上
+    2，将gitlab上的代码运行在公共的服务器上
+
+
+准备工作： 
+1. 确保：确保自己的工作分支
+2. 确保：对于代码的修改有没有保存
+3，git status查看文件状态
+
+
+    在分支上进行开发：
+        从主分支拉代码 git rebase
+        往主分支推代码 
+
+
+    合并分支：
+        1，每个人在自己的分支上进行小commit
+            使用hash表
+            $ git checkout master 切换master分支
+            $ git cherry-pick f  
+
+        2，最后将多个小commit递交到master进行大的commit
+            $ git cherry-pick <HashA> <HashB>
+
+
+

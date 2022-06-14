@@ -58,3 +58,5 @@ ctrl-J/ctrl-N 可以用来将光标下移动
         cmd.exe /c start "" test.txt
         history查找
         ps 查找
+
+

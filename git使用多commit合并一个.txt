@@ -1,0 +1,17 @@
+git使用多commit合并一个
+https://zhuanlan.zhihu.com/p/507794054
+
+
+场景：
+1，commit完成了，但是还是漏了一点  git commit --amend --no-edit
+2，commit完成了，但是里面的内容入错了  git commit --amend
+
+这个其实很少使用，
+因为往往我们针对功能进行多次的commit
+    3，commit完成了，错误递交了两个commit
+        那么将多个递交合并  git rebase -i HEAD~2
+        放弃多个commit合并  git commit --amend
+        最后将git push -f 
+
+
+

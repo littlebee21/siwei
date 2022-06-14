@@ -1,0 +1,4 @@
+openbmc文件结构
+
+meta-ibm 我使用
+build文件

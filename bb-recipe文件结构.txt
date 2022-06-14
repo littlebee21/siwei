@@ -1,0 +1,28 @@
+bb-recipe文件结构
+
+
+
+ DESCRIPTION = ""
+ HOMEPAGE = ""
+ LICENSE = ""
+ SECTION = ""
+ DEPENDS = ""
+ LIC_FILES_CHKSUM = ""
+ SRC_URI = ""
+
+
+
+
+
+ build文件夹结构：
+    conf 配置文件夹
+    templateconfig.cfg文件夹
+    cache  编译进度文件夹
+    sstate   编译缓存文件夹
+
+
+    tmp  编译缓存 液压的源码 软件安装包 编译日志 生成镜像
+    palmetto独立的文件夹
+    
+    workspace   devtools工具生成的文件夹   
+        用来pack和修改

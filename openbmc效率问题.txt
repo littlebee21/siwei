@@ -8,3 +8,42 @@ openbmc效率问题
 
 一旦初次构建完成，未来的构建将会使用第一次构建中生成的缓存数据进行构建，从而大幅加速了后续的构建过程。
 首先，跟着 Github 中的项目文档进行初次构建。
+
+
+
+
+
+
+重新的编译：
+tmp目录 生成构建文件的位置
+cache 缓存  不要删除 再次编译的时候还能再用
+stamps 
+work  存放临时文件
+B  在本文件夹进行构建工作
+
+
+
+0，提高执行速度：
+    使用脚本的
+
+1，提高编译速度：
+    使用镜像
+
+2，避免重复做功：
+    1，nas对download进行备份，直接解压download文件
+    2，gitlab对download进行备份
+    3，标记比较大的文件   
+        linux-aspeed  
+        uboot-aspeed
+
+
+问题：解决报错：就是说开发对***进行了修改，用我这个，不用网络的
+    devtool modify busybox
+    devtool modify linux-aspeed
+    devtool modify u-boot-aspeed
+
+
+time find ./ -type f -delete
+rsync
+time rsync -a --delete blanktest/ test/
+rsync --delete-before -d --progess --stats /root/empty /root/data

@@ -18,13 +18,22 @@
 
 
 脚本分类：
+可以分开的进行编程设计，但是最后还是会
+整体的有整体的prepare
+局部有局部的prepare
+012345, prepare  
+prepare config  
+prepare install
+prepare run 
 
-1，install 
-    prepare 
-2，config 手动形式： 可以变成脚本提醒的方式  
+
+0，prepare 手动形式： 可以变成脚本提醒的方式 ，也是总体的prepare
+1，install  脚本形式
 3，compile  脚本形式
 4，run     脚本形式
-5，stop   脚本形式
+5，get    获取当前状态
+6，stop   脚本形式
+7，uninstall 形式
 
 
 

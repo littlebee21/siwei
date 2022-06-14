@@ -1,0 +1,23 @@
+git工作流-主线合并分支
+
+
+ 1）切换到master
+1
+ git checkout master
+1
+ 2）将dev的代码合并（merge）到master。 
+1
+   git merge dev
+1
+3）推送（push）local master 到 remote master。 
+1
+git push
+1
+4）看你心情，保留或者删除dev分支
+   回到dev开发，要从stash中取出暂存的状态
+1
+2
+   git stash pop
+————————————————
+版权声明：本文为CSDN博主「weixin_43411214」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_43411214/article/details/120804329

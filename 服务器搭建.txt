@@ -1,0 +1,118 @@
+服务器搭建
+
+当前现状：
+
+常见公司服务的选择方案：
+访问量要求：
+电商公司：
+
+Cpu和内存处理性能要求：
+硬件公司：bmc远程控制公司，
+
+
+
+思考：
+    这台服务器是用来搭建公司的协同环境的：
+        gitlab
+        code compile
+    nas
+        资源的共享
+
+
+
+
+从公司需求的角度出发
+    1，编译需求：较好的cpu 和 内存
+        编译
+    2，存储需求：较多的 硬盘
+
+    3，可扩展性：
+
+从预算的角度出发：
+    3，2w左右的解决方案：
+        5000*2 
+            cpu： intel 4210 * 2  
+            102	Intel Xeon Silver 4310 @ 2.10GHz	25,218	intel
+            337	Intel Xeon Silver 4210 @ 2.20GHz	15,974	intel
+
+            4214R 4210
+            
+            至强银牌4310 12核2.1-3.3GHz    3599
+            至强银牌4314 16核2.4-3.4GHz    ¥5399.00 
+            至强金牌5317 12核3.0-3.6GHz    7999
+
+        内存：32G内存 
+        硬盘：
+        电源：490W
+
+        解决方案名称：
+            虚拟化应用：
+            机器学习：
+            虚拟化：
+
+    4，选择趋向
+        2CPU 
+        线程数量多一些
+        32G内存
+    5，品牌选择：
+        cpu： CPU
+        机架整机
+            戴尔：PowerEdge  R730 R740 R750
+            联想：联想SR588
+            宝德
+            浪潮
+            华为
+
+选择策略：
+    1，根据主流的解决方案的基础上进行个性化的选择和修改
+        比如选择联想拯救者Y9000,然后根据个人的偏好，提升硬盘的空间，还是内存的大小，还是选择不同的平台的CPU
+    2，根据预算，选择同等级性的旗舰款，性价比对比
+        选择cpu，
+    3，考虑兼容性：
+    4，考虑性价比：
+        4500一个差
+    
+相关：
+    整机：
+        8路的 浪潮天梭TS860M5
+        ThinkSystemSR950
+        PowerEdge 840
+
+
+    服务器cpu总榜 
+        https://top.zol.com.cn/compositor/servercpu.html
+        因特尔cpu排行  https://top.zol.com.cn/compositor/383/manu_125.html
+    Intel Xeon Silver银牌     https://detail.zol.com.cn/series/383/22496_1.html
+
+        新架构https://item.m.jd.com/product/10034643839136.html?gx=RnFgljZZa2DczdRP--txVQ0xe4V6WZPqlP63&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL
+    扩展性 https://www.zhihu.com/question/437857543
+    
+    至强wiki https://en.wikipedia.org/wiki/Xeon
+        最新2022 ice_lake  ，https://en.wikipedia.org/wiki/Ice_Lake_(microprocessor)#Xeon_Platinum_series
+
+    至强命名 https://server.zol.com.cn/691/6919191.html
+    至强命名 https://www.bilibili.com/read/cv2084158
+    至强改名 https://www.sohu.com/a/207439174_641165
+总结：
+    旗舰： 两路
+
+
+102	Intel Xeon Silver 4310 @ 2.10GHz	25,218	intel
+231	Intel Xeon Silver 4214R @ 2.40GHz	18,940	intel
+269	Intel Xeon Silver 4214 @ 2.20GHz	17,722	intel
+280	Intel Xeon Silver 4216 @ 2.10GHz	17,469	intel
+337	Intel Xeon Silver 4210 @ 2.20GHz	15,974	intel
+356	Intel Xeon Silver 4215 @ 2.50GHz	15,440	intel
+363	Intel Xeon Silver 4116 @ 2.10GHz	15,248	intel
+364	Intel Xeon Silver 4214Y @ 2.20GHz	15,248	intel
+365	Intel Xeon Silver 4116T @ 2.10GHz	15,187	intel
+366	Intel Xeon Silver 4123 @ 3.00GHz	15,185	intel
+367	Intel Xeon E5-2675 v3 @ 1.80GHz	15,156	intel
+368	Intel Xeon Silver 4210R @ 2.40GHz	15,145	intel
+405	Intel Xeon Silver 4114 @ 2.20GHz	14,252	intel
+463	Intel Xeon Silver 4208 @ 2.10GHz	13,116	intel
+511	Intel Xeon Silver 4110 @ 2.10GHz	12,025	intel
+574	Intel Xeon Silver 4109T @ 2.00GHz	10,854	intel
+577	Intel Xeon Silver 4108 @ 1.80GHz	10,769	intel
+820	Intel Xeon Silver 4112 @ 2.60GHz	8,607	intel
+

@@ -1,0 +1,11 @@
+yocto
+
+
+原理： 
+    检查git上的源文件是否修改
+    本地file ： patch 内核配置 uboot配置
+    bzr
+    git
+    svn http httpsq
+
+下载失败：手动下载，复制done

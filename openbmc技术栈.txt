@@ -1,13 +1,7 @@
 openbmc技术栈
 
-openbmc技术栈
-工作需要，学习了一段时间openbmc
-被按在地板上摩擦了几轮后，发现技能点不足以支撑
-大概列一下搞ob需要的技能点，以供查漏补缺
-
 工程架构
 yocto
-bitbake
 devtool
 cmake
 meson
@@ -16,6 +10,22 @@ uboot
 没啥特别的
 
 kernel
+
+
+命令：
+    ipmi
+编译
+    bitbake bb文件recipes文件是以.bb结尾的文件   recipetool
+    Cmak、make、meson  软件依赖问题
+总线
+    DBUS
+    dbus
+    dbusctl
+仿真
+    qemu
+工具
+    devtool
+    OpenEmbedded系统
 
 device tree
 设备树
@@ -29,8 +39,6 @@ systemd
 journalctl
 systemctl
 
-dbus
-dbusctl
 
 libs
 yaml

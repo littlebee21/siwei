@@ -9,3 +9,41 @@ git解决冲突问题
 多版本并发控制的方式：
 3，每个人在各自的分支上进行操作，最后由组长进行统一的merge合，使用合理的git分支版本
 
+
+
+
+相关命名：
+    git log 查看commit
+    git diff  查看分支间的不同
+    git format-patch 生成所需要的patch，将第一次commit之后的都生成patch
+    git am  一次合并一个
+    git apply命令 合并patch
+        git apply --stat newpatch.patch    检查patch文件
+        git apply --check newpatch.patch   检查能否成功应用
+        git am --signoff < newpatch.patch   打补丁
+
+        git am --abort   手动解决冲突
+                $ git apply PATCH --reject
+                $ edit edit edit       根据rej文件手动解决冲突
+                $ git add FIXED_FILES
+                $ git am --resolved
+
+
+
+
+想多一些解释，好吧。
+git am 并不改变index
+你需要使用 git apply --reject 打patch（保存在 .git/rebase-apply），手动解决代码冲突，
+（译注：使用 git status 列出所有涉及文件），
+
+
+把所有文件（不仅仅是引起冲突的文件）添加到（git add）index，
+最后告诉 git am 你已经解决（--resolved）了问题。
+这样做的好处是你不需要重新编辑commit信息。
+
+批量patch
+    而且，如果你正在打的是一系列patch（就是说你在打的是多个patch，比如 git am *.patch）
+    你不需要使用 git am --abort，
+    然后又 git am。
+
+

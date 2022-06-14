@@ -1,0 +1,25 @@
+git工作流-同步主线
+
+
+
+
+ 1）切换到master
+1
+ git checkout master
+1
+2）从remote master拉取最新代码到local master
+1
+  git pull
+1
+3）切换到dev
+1
+   git checkout dev
+1
+4）rebase master 到 dev（将主支代码合并到分支）
+1
+   git rebase master
+1
+5.如果有代码冲突，则解决。
+————————————————
+版权声明：本文为CSDN博主「weixin_43411214」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_43411214/article/details/120804329

@@ -1,0 +1,10 @@
+虚拟机挂载
+
+
+sudo /sbin/mount.vboxsf work_mount ~/work_mount/
+
+
+ lsof -i:2443
+
+
+wget https://openpower.xyz/job/openbmc-qemu-build-merge-x86/lastSuccessfulBuild/artifact/qemu/arm-softmmu/qemu-system-arm  --no-check-certificate
