@@ -43,9 +43,6 @@ bitbake -k core-image-minimal
 这样能看到每一步的步骤是什么。哪里出错。好改正。
 
 
-
-
-
 查看： 
     查看编译执行task： 
     bitbake xx-image -c listtasks
@@ -54,23 +51,9 @@ bitbake -k core-image-minimal
     bitbake -s | grep packagename
     bitbake –s |  grep linux   # 查询 kernel 的命名方式
 
--e查看
-    查找包下载地址： 
-    bitbake -e xxx-image | grep ^SRC_URI=
-    # 查看源码目录：
-    bitbake –e linux-renesas | grep ^S=   # ^S 首字母为S 
-    # S="/home/zsj/rzg2/build/tmp/work-shared/smarc-rzg2l/kernel-source"
-    bitbake –e u-boot | grep ^S=   
-    # 查看源码 git 下载链接：
-    bitbake -e linux-renesas | grep ^SRC_URI=
-    bitbake -e u-boot | grep ^SRC_URI=
-    # 查看源码编译工作目录：
-    bitbake -e linux-renesas | grep ^WORKDIR=
-    bitbake -e u-boot | grep ^WORKDIR=
+-e查看命令
         
     
--g查看软件依赖关系： 
-    bitbake -g  packagename
 
 
 -C特定工作

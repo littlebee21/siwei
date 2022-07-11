@@ -1,0 +1,29 @@
+git工作流-查看
+
+
+查看远程仓库内容
+3，递交查看本地仓库的内容
+
+查看本地仓库
+	git log 查看commit历史
+	git shortlog -sn 显示所有递交过的用户
+	git branch -a 查看所有分支
+	git status
+		​
+		On branch master
+		Your branch is ahead of 'origin/master' by 12 commits.
+		(use "git push" to publish your local commits)
+		nothing to commit, working tree clean
+		​
+		//上面的意思就是你有12个commit，需要push到远程master上 
+		> 最后执行下面提交命令
+		git push origin master
+
+
+
+查看缓存区的内容：
+	git ls-files
+
+
+查看本地工作区：常用于递交之后的查看
+	git diff

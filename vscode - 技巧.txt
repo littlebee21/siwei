@@ -10,31 +10,14 @@ shift+ alt + 鼠标拖动：可以同时插入多个光标
 alt + 鼠标： 逐个的进行选择
 
 
-终端：
-打开： 
-    使用：设置：openInTerminal alt+b
-    插件：Terminal Here
-    放弃：ctrl+ j 打开下面版
-    放弃：ctrl+shit+` 再新建打开终端
-
-切换： ctrl · 切换终端(常用)
-alt+ . 设置面板最大化 自己设置
-
-关闭：
-delete 关闭终端
-alt+u  终止活动终端实例：自己设置
-
-
+shift+alt+f  进行格式化
 
 配置：
 1,还是使用wsl，当确实需要虚拟机的时候再使用vagrant
 2,使用wsl，替代windows工具
 
 
-外观：
-节省空间：
-    1，将左侧的活动栏，展示出来
-    2，没有任务的识别关闭终端
+
 
 
 使用思想：

@@ -1,0 +1,21 @@
+bitbake使用技巧
+
+https://blog.csdn.net/changexhao/article/details/86152875
+https://docs.yoctoproject.org/1.6/bitbake-user-manual/bitbake-user-manual.html
+
+查看：
+bitbake -g  packagename     -g查看软件依赖关系： 依赖关系，然后查看已经支持的 包
+bitbake -c listtasks glibc    查看recipe 可执行任务
+bitbake -e 显示当前的执行环境
+bitbake -s 显示所有可以bitbake的包
+bitbake -s | grep hello
+bitbake -v 显示执行过程
+
+
+问题：
+由于层级的太多，我们也无法确定配置了哪些内容
+我们需要使用bitbake去查找我们在编译的过程中，进行了哪些的配置
+
+
+需求：
+对于bb文件结构的了解

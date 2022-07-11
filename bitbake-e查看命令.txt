@@ -1,0 +1,13 @@
+bitbake-e查看命令
+
+-e查看
+    bitbake -e xxx-image | grep ^SRC_URI=                 查找包下载地址： 
+    bitbake –e linux-renesas | grep ^S=   # ^S 首字母为S   # 查看源码目录：
+    bitbake –e u-boot | grep ^S=   
+        # S="/home/zsj/rzg2/build/tmp/work-shared/smarc-rzg2l/kernel-source"
+
+    bitbake -e linux-renesas | grep ^SRC_URI=    # 查看源码 git 下载链接：
+    bitbake -e u-boot | grep ^SRC_URI=
+
+    bitbake -e linux-renesas | grep ^WORKDIR=    # 查看源码编译工作目录：
+    bitbake -e u-boot | grep ^WORKDIR=

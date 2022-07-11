@@ -1,0 +1,36 @@
+搜索-工具linux
+
+
+linux
+文本搜索：
+        0，rg  ripgrep   现在选择  rg *** ./
+        1，ag =34ack 
+        2，ack
+        3，
+
+行搜索
+            rg 行搜索
+            ripgrep 行搜索
+            sift
+            pt  
+
+
+
+            很少有其他可用的搜索实用程序，
+            如 zgrep、agrep、xmlgrep、pdfgrep 等。
+            在我们上面讨论的所有搜索工具中，
+            ripgrep 更快并且是跨平台的，
+            而 silver searcher (ag) 比 Ack 更好。Grep 是用 C 编写的，但在搜索时不会忽略文件，
+            而 Ack 是用 perl 编写的，非常擅长忽略文件。
+ 
+文件名搜索：
+            fzf  常用
+            locate
+            Catfish
+            Tracker
+            Beagle
+            Fasd
+            深度文件管理器（1.4版本+）
+            FSearch 图形界面
+            ANGRYsearch 图形界面
+            Albert

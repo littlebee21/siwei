@@ -1,0 +1,25 @@
+openbmc文件结构-build
+
+
+worksource
+├── appends
+│   ├── bmcweb_git.bbappend
+│   ├── dbus-sensors_git.bbappend
+│   ├── linux-aspeed_git.bbappend
+│   ├── phosphor-dbus-interfaces_git.bbappend
+│   ├── phosphor-logging_git.bbappend
+│   ├── phosphor-network_git.bbappend
+│   └── webui-vue_git.bbappend
+├── conf
+│   └── layer.conf
+├── README
+└── sources
+    ├── 6b-bmcweb-master.tar.gz
+    ├── 6b-linux-aspeed.tar
+    ├── bmcweb
+    ├── dbus-sensors
+    ├── linux-aspeed
+    ├── phosphor-dbus-interfaces
+    ├── phosphor-logging
+    ├── phosphor-network
+    └── webui-vue

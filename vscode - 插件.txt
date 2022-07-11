@@ -1,11 +1,13 @@
 vscode - 插件
     主题：
-        Monokai Dima 作为主题插件
+        改了： hyrule-theme
+    
     文字图形化
         没必要：Color Highlight
         没必要：快速注释 Document This
         没必要：文件图标 vscode-icons
         API Reference
+    
     开发工具
         Bracket Pair Colorize
         代码检查工具 ESLint

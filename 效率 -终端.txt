@@ -42,11 +42,10 @@
 
 
     支持的命令
+    选择：powershell   支持
+    放弃：gitbash ming 并不能很好的支持windows本身的命令行工具
+    放弃：cmd.exe  并不能很好的支持linux的命令，如grep
     Cygwin：
-    gitbash ming
-    powershell
-    cmd.exe
-
     主题配置：
 
 

@@ -1,0 +1,94 @@
+作为代码存储栈，并且能够快速的进行打开并且查看
+
+    "pageFan": {
+      "fantitle": "Fan Controller",
+      "informations":{
+        "userManual":"User Manual",
+        "AutoControlInformation": "The automatic control is only set after the server is turned on, and is set to the manual mode after th  e server is turned off or the sensor fails to detect. When the fan is unplugged or fails in the automatic control mode, the other fans r  un at full speed ",
+        "ManualControlInformaiton": "none"
+      },
+      "controllers":{
+        "yes": "Yes",
+        "No":"No",
+        "confirmPattern":"Confirm",
+        "FanSpeed": "fan speed"
+      },
+      "policies":{
+        "CurrentPatten":"Current Pattern"
+      }
+    },
+
+<template>
+    <b-container fluid="xl">
+    <page-title />
+    <b-row>
+        <b-col md="8" lg="8" xl="6">
+        <page-section>
+            <b-row>
+            <b-col>
+                <dl>
+                <dt>
+                    {{ $t('pageRebootBmc.lastReboot') }}
+                </dt>
+                <dd v-if="lastBmcRebootTime">
+                    {{ lastBmcRebootTime | formatDate }}
+                    {{ lastBmcRebootTime | formatTime }}
+                </dd>
+                <dd v-else>--</dd>
+                </dl>
+            </b-col>
+            </b-row>
+            {{ $t('pageRebootBmc.rebootInformation') }}
+            <b-button
+            variant="primary"
+            class="d-block mt-5"
+            data-test-id="rebootBmc-button-reboot"
+            @click="onClick"
+            >
+            {{ $t('pageRebootBmc.rebootBmc') }}
+            </b-button>
+        </page-section>
+        </b-col>
+    </b-row>
+    </b-container>
+</template>  
+
+
+
+
+ <template>
+    <b-container fluid="xl">
+      <page-title />
+      <b-row>
+        <b-col md="8" lg="8" xl="6">
+          <page-section>
+            <b-row>
+              <b-col>
+               <dl>
+                  <dt>
+                  {{ $t('pageFan.informations.userManual') }}
+                  </dt>
+              <dd>
+                {{ $t('pageFan.informations.userManual') }}
+              </dd>
+                </dl>
+              </b-col>
+            </b-row>
+            {{ $t('pageRebootBmc.rebootInformation') }}
+            <b-button
+              variant="primary"
+              class="d-block mt-5"
+              data-test-id="rebootBmc-button-reboot"
+              @click="onClick"
+            >
+              {{ $t('pageFan.informations.userManual') }}
+            </b-button>
+          </page-section>
+        </b-col>
+      </b-row>
+    </b-container>
+  </template> \
+
+
+
+  <dt>{{ $t('pageFan.ManualControlTitle') }}</dt>

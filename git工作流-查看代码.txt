@@ -1,0 +1,17 @@
+git工作流-查看代码
+
+
+
+
+
+差别
+git show commit
+1，git diff 显示暂存区和工作区 差异
+2，git diff --cached显示暂存区和上一个commmit的差异
+3，git diff HEAD 显示工作区和当前分支最新 commit之间的差异
+4，git diff first-branch     second-branch显示两次递交之间的差异
+
+
+
+查看今天你写了多少的代码
+git diff --shortsstat "@{0 day ago}"

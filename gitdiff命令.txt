@@ -1,0 +1,23 @@
+时间维度上：
+纵向对比：
+	git diff             工作区和暂存区之间,即刚修改的内容
+	git diff SHA1 SHA2   commit之间比较
+
+	git diif HEAD         工作目录和    HEAD的commit版本
+	git diff --cached     缓存区的和    HEAD的commit版本
+	git diff --staged      缓存区的和    HEAD的commit版本
+
+
+横向对比：
+	git diff topic master  分支之间的最新递交
+
+
+空间维度上：
+	目录区别
+
+
+
+
+通用：
+git diff --stat 大概的区别
+git diff  ****路径

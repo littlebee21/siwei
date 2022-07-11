@@ -1,6 +1,8 @@
 xshell
 xshell7正版免费了：
     官方个人免费版本，个人学校版本
+	选择的主题使用
+		is-saytome
     使用问题：
         scanf使用退格时的乱码问题
         xshel的ctrl+s 的卡死问题 ctr+q 能解锁
@@ -39,7 +41,9 @@ xshell7正版免费了：
 
 图形界面：
     常用快捷键：会话管理器 alt+V+E
-    alt+s 最简洁的shell页面
+    alt+s 最简洁的shell页面   #################
+
+光标移动：
     Ctrl+f 向后移动一个字符
     Ctrl+b 向前移动一个字符
     Ctrl+a 将光标移至输入行头，相当于Home键
@@ -48,6 +52,7 @@ xshell7正版免费了：
     Alt+b 以单词为单位，向前移动
     Shift+PgUp 将终端显示向上滚动
     Shift+PgDn 将终端显示向下滚动
+
     Alt+s 切换到简单版模式
     Alt+Enter 切换至全屏
     Ctrl+s 锁住终端,可用来停留在当前屏
@@ -59,10 +64,19 @@ xshell7正版免费了：
 
     alt+d切换到地址栏
 打开会话：
+    alt + N 创建新的对话
     alt+o 打开会话：
-    alt+n 新建会话
     ctrl+alt+ N 新建窗口
     alt+c 断开会话
+    alt+d 转到地址栏
+    alt+i 移动到撰写栏
+
+    shift+alt+N 新建选项卡
+    alt+n 新建会话
+    
+    alt+M会话管理器
+关闭标签：
+    
 切换：
     ctrl+tab 切换会话
 屏幕：

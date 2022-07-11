@@ -1,0 +1,66 @@
+bitbake原理-文件结构  
+
+
+最小文件结构 ：https://www.apude.com/blog/7886.html
+最小文件结构 https://zhuanlan.zhihu.com/p/111688338
+bitbake的文档 https://docs.yoctoproject.org/1.6/bitbake-user-manual/bitbake-user-manual.html
+├── classes
+│   └── base.bbclass  提供菜谱的共有内容 addtask build
+├── conf
+│   ├── bblayers.conf   包含新建层到工程当中
+│   └── bitbake.conf    设置bitbake的build目录的配置
+└── meta-mylayer 新建层
+    ├── conf
+    │   └── layer.conf   新建的层的配置，每个层的菜谱独立，用于统筹层内部的菜谱
+    └── printhello.bb    菜谱
+
+OpenEmbedded
+
+conf/bblayers.conf
+   # POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/`bblayers.conf`
+     # changes incompatibly
+     POKY_BBLAYERS_CONF_VERSION = "2"
+
+     BBPATH = "${TOPDIR}"
+     BBFILES ?= ""
+
+     BBLAYERS ?= " \
+       /home/user/poky/meta \
+       /home/user/poky/meta-poky \
+       /home/user/poky/meta-yocto-bsp \
+       /home/user/poky/meta-mylayer \
+       "
+
+local.conf文件
+    Target Machine Selection（目标机器选择）: 	    由 MACHINE 控制
+    Download Directory（下载目录）: 		        由 DL_DIR 控制
+    Shared State Directory（共享状态目录）:	    由 SSTATE_DIR 控制
+    Build Output（构建输出）: 			        由 TMPDIR 控制
+    Distribution Policy（分配策略）: 		        由 DISTRO 控制
+    Packaging Format（打包格式）: 		        由 PACKAGE_CLASSES 控制
+    SDK Target Architecture（SDK目标架构）: 	    由 SDKMACHINE 控制
+    Extra Image Packages（额外的image包）: 	    由 EXTRA_IMAGE_FEATURES 控制
+
+yocto层的概念
+meta-xxx->              
+    recipes-yyy->       多个集成layer，一本书
+        zzz/ttt.bb文件   多个集成为recipe配方，一张纸
+        bbappend文件
+        bb文件解析 https://blog.csdn.net/u012839187/article/details/90515130
+
+meta-rockchip-> 
+    recipes-kernel->
+        linux-firmware
+
+
+
+build目录：
+    tmp目录  整个构建过程就是在build目录的tmp子目录完成的
+    conf   用户的配置文件
+
+
+定理了bb文件里面的路径引用
+    poky/meta/conf/bitbake.conf  + 
+    build/conf/local.conf
+
+sysroot_descdir,yocto会自动把当前bb想要传递出去的头文件以及库文件放入此目录

@@ -1,0 +1,19 @@
+假设现在给你一个仓库让你重新搭建，如何做
+
+
+生成patch 
+	1，根据diff可以生成通用的patch，git
+	2，根据
+
+
+
+git patch使用
+09bf3b6a5e26b31402dc63309b1b7663244dcd9c
+3bd4a57acced5aa2eb9bcef9a40b36cf199db7f8
+空格 斜杠 回车 继续命令：）
+
+
+
+
+1,先将公共的文件生成 router啊 config啊都生成公共的patch
+2，然后在按照依赖关系不断的往上增加patch的内容

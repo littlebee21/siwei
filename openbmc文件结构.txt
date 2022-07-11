@@ -2,3 +2,63 @@ openbmc文件结构
 
 meta-ibm 我使用
 build文件
+
+├── bitbake -> poky/bitbake/
+├── bitbake-cookerdaemon.log
+
+├── LICENSE -> poky/LICENSE
+├── meta -> poky/meta
+各大厂商基于phosphor的修改
+	├── meta-phosphor
+	├── meta-amd
+	├── meta-ampere
+	├── meta-aspeed
+	├── meta-asrock
+	├── meta-bytedance
+	├── meta-evb
+	├── meta-facebook
+	├── meta-fii
+	├── meta-google
+	├── meta-hpe
+	├── meta-ibm
+	├── meta-ingrasys
+	├── meta-inspur
+	├── meta-intel-openbmc
+	├── meta-inventec
+	├── meta-nuvoton
+	├── meta-openembedded
+	├── meta-openpower
+	├── meta-poky -> poky/meta-poky/
+	├── meta-qualcomm
+	├── meta-quanta
+	├── meta-raspberrypi
+	├── meta-security
+	├── meta-skeleton -> poky/meta-skeleton
+	├── meta-supermicro
+	├── meta-tyan
+	├── meta-wistron
+	├── meta-yadro
+
+├── poky  嵌入式开源工具箱子
+├── build 编译和开发的环境位置
+
+├── oe-init-build-env -> poky/oe-init-build-env
+├── openbmc-env
+├── OWNERS
+├── README.md
+├── scripts -> poky/scripts/
+└── setup
+
+
+
+
+1，通用层，包含可用于不同电路板和BMC SoC的软件包。
+2，SoC层，包含特定于BMC SoC的软件包，
+	（）例如由Aspeed贡献的用于AST2300/ AST2400SoC的代码，
+	（）以及来自Facebook的增强功能。
+	（）u-boot和kernel都在SoC层中定义。
+	
+3，电路板层，包括不同电路板的软件包。
+	例如我们正在发布的特定于Wedge的硬件配置，
+	初始化脚本和工具。
+

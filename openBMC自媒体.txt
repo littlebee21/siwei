@@ -1,10 +1,14 @@
 openBMC自媒体
     jiangwei0512
-
-
+    https://www.cnblogs.com/zl-yang/category/1970996.html
+    https://github.com/openbmc/docs 开源网站
+    https://blog.csdn.net/yeiris/article/details/122759696 bmcweb
+    https://chowdera.com/2022/03/202203030540188910.html
 
 
 OpenBmc开发3：编译镜像
+OpenBmc开发6：创建新LAYER 
+OpenBmc开发7：创建新layer（使用bitbake工具）
 OpenBmc开发9：dts简介与使用
 OpenBmc开发10：hwmon简介
 OpenBmc开发11：添加传感器（I2C）
@@ -15,20 +19,25 @@ OpenBmc开发14：gpio管理
 OpenBmc开发15：led管理
 
 openbmc开发18：应用软件管理
+
+openbmc开发21：ipmi实现介绍   phosphor-ipmi-hostd
 openbmc开发22：添加sensor信息到ipmi
+openbmc开发23：添加fru信息到ipmi
 openbmc开发24：添加inventory信息到ipmi
 
 openbmc开发27：创建与使用docker镜像
 
 
 openbmc开发30：webui开发—基础
+>>  openbmc开发31：webui开发—汉化
 openbmc开发32：webui开发—更换logo
 openbmc开发23：添加fru信息到ipmi
 openbmc开发16：配置文件详细介绍
 
 
+IPMI2：ipmi逻辑设备
 
 
 工具：
     DTC即Device Tree Compile
-
+    autoconf 代码生成工具

@@ -11,3 +11,12 @@ somethinghappened   0
 something not happened  1
 
 我们可以将函数的返回值当作是  出现问题的逻辑值
+
+
+
+
+
+更新：
+如果：是函数在判断语句当中
+！可省略不翻译   
+if(! setupchinese)  翻译成 如果 setupchinese成功

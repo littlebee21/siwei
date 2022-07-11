@@ -1,0 +1,24 @@
+
+工作流1：
+准备工作：
+	1，最新的分支： 新建不稳定的分支进行开发 git branch dev
+	2，跟上主分支进度： git pull master/ git merge master 但是就不能diff比较生成patch啦
+
+	
+写代码并保存
+	git push --up-stream origin 对应feature分支
+
+事后修改：
+	1,手动的合并不稳定分支到稳定的分支
+		git merge 合并分支
+	2，删除分支
+
+
+
+问题：
+1，在每次修改代码的时候都进行准备？ 
+	不可能，灵感转瞬即逝，最好事后生成patch进行修改
+	在git add -p进行选择添加添加缓存区
+
+2，在开发分支的时候想要使用master代码时
+	git merge master将master的代码合并到本地的分支上

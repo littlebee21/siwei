@@ -1,0 +1,37 @@
+vscode-终端使用‘
+
+切换终端   ctrl+·  
+切换焦点到终端  ctrl+`
+切换焦点到编辑页面 ctrl+1 
+
+缩小终端 ctrl+j  ctrl+tab
+终端全屏： alt+·
+
+新建终端： ctrl+shift+·
+关闭终端： alt+u
+
+
+终端：
+打开： 
+    使用：设置：openInTerminal alt+b
+    插件：Terminal Here
+    放弃：ctrl+ j 打开下面版
+    放弃：ctrl+shit+` 再新建打开终端
+
+切换： ctrl · 切换终端(常用)
+alt+ . 设置面板最大化 自己设置
+
+关闭：
+delete 关闭终端
+alt+u  终止活动终端实例：自己设置
+
+
+
+思想：
+vscode+vim的二刀流进行代码编辑
+vscode的插件提高代码编辑的效率
+linux的命令提高代码阅读的效率
+
+
+视图：
+隐藏文件目录

@@ -1,0 +1,22 @@
+合并分支的原理：
+git合并分支就是将分支上的commit添加到主分支：
+   并不会将commit合并
+blacklist
+   d98af69 浏览文件goon  littebee21 提交于 4天前littebee21-littebee21
+   0872576 浏览文件cant init littebee21 提交于 4天前littebee21-littebee21
+   9cb2fda 浏览文件goon littebee21 提交于 4天前littebee21-littebee21
+   edf98a3 浏览文件goon littebee21 提交于 4天前
+master
+   792f5b1 浏览文件goon
+这四个都是blacklist的
+   d98af69 浏览文件goon
+   0872576 浏览文件cant init
+   9cb2fda 浏览文件goon
+   edf98a3 浏览文件goon
+
+
+
+类似swap做交换
+  1，先本地commit  把自己的修改存放到暂存区
+  2，然后拉远程代码   把远程的代码保存过来
+  3，然后推送远端     把自己修改的代码和远程的代码都推送到远程

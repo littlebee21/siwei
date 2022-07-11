@@ -1,0 +1,41 @@
+yocto原理
+
+
+
+2.2 poky   元数据目录
+2.2.1 packages 目录  存放recipes菜单
+2.2.2 classes 目录  存放recipes的class文件
+    inherit autotools
+2.2.3 conf 目录
+    bitbake.conf->
+    用户提供的 local.conf->
+        machine目录->
+        distro 子目录
+2.3 build 目录
+    conf 子目录里是用户的配置文件 local.conf。 
+    tmp
+        cache、内部缓存
+        cross、 交叉编译器
+        rootfs、临时简历的根文件系统
+        staging、 存放依赖的中间文件，头文件
+        work、 解包 补丁 配置 编译 安装
+        deploy 输出成果的   文件系统镜像
+        stamps 平台
+        source 存储源代码
+
+
+
+
+
+分层原理点菜原理：
+
+1，不点菜，怎么能让菜上桌那，之前能用的内容是因为，默认的特色菜已经在ibm文件夹中配置过了，所以默认上菜了
+2，我们可以创建自己的层，模仿别人的菜单，实现点菜
+3，我们可以创建自己的层，覆盖别人的点菜
+
+
+
+bitbake和devtool区别：
+    devtool build 编译本文件夹的bb文件
+    bitbake  是全局文件夹的bb conf文件
+

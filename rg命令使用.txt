@@ -1,0 +1,4 @@
+rg命令使用
+
+
+可以搜索指定文件类型（rg -tpy foo限定 python 文件， rg -Tjs foo排除 js 文件)

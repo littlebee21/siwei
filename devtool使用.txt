@@ -1,0 +1,38 @@
+devtool使用
+
+add   添加配置
+modify  拉取代码
+reset  删除菜单和代码
+finish 添加到层
+
+
+local/conf 临时方案
+meta-mylayer 永久方案
+
+
+
+
+中间成果：
+编译完成后去根文件系统进行查看，
+build/tmp-qemux86-64/work/qemux86_64-poky-linux/core-image-sato/1.0-r0/rootfs/usr/bin/learnyocto 
+
+
+
+
+查看安装的软件清单
+build]$ cat tmp/deploy/images/qemux86-64/core-image-sato-qemux86-64.manifest
+...
+alsa-utils-alsamixer core2_64 1.2.1
+busybox core2_64 1.31.1
+kernel-5.4.50-yocto-standard qemux86_64 5.4.50+git999
+update-rc.d noarch 0.8
+...
+helloworld-a core2-64 1.0-r0 #这个是我们自己添加的
+helloworld-c core2-64 1.0-r0 #这个是我们自己添加的
+helloworld-m core2-64 1.0-r0 #这个是我们自己添加的
+learnyocto core2-64 1.0+git0+351e99f4d4-r0 #这个是我们自己添加的
+
+
+
+build]$ ls tmp/work/core2-64-poky-linux/alsa-utils/1.2.1-r0/image/usr/bin/
+alsamixer ... #省略其他程序

@@ -1,0 +1,71 @@
+javascrip的语法
+
+
+vue
+    全局变量: 
+        store状态存储
+
+    函数被对象进行组织
+
+
+
+
+    面向对象：
+        mixin
+        父子组件
+        成员对象.this.$store.commit("modifyBook")
+
+
+    接口： index + export  并没有进行分离
+    API: vue提供的库函数
+
+
+
+
+语法规则：
+export defual{
+    key1:value,  keyvalue可以通过
+    key2:value
+    
+    fuctionname，  fuction可以直接的进行使用,因为替代这种写法：
+    key,function,  
+}
+import {key1,key2} from './test.js'
+
+
+奇怪的是，在大括号的结尾，竟然还有逗号
+
+
+
+
+
+调用 ，声明
+
+函数的内容作为右值的时候不执行，  
+    作为内存空间 
+    作为全局变量构建
+    作为函数参数，回调函数
+
+作为左值的时候执行，   作为空间指向
+单独存在的时候执行，
+
+
+
+这些都是声明：
+    fuction也是全局变量，都是函数的声明，只有通过函数名使用才是调用
+    var check_phone = function(){} 全局变量
+    function check_phone(){}    全局变量
+    var check_obj = {   全局对象    
+        check_phone:function(){
+                //逻辑操作
+            },
+        check_age:function(){
+            //逻辑操作
+        },
+        check_sex:function(){
+            //逻辑操作
+        }
+    }        
+
+这些都是调用:
+    check();

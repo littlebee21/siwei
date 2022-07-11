@@ -1,0 +1,12 @@
+git-workflow工作流
+
+分支命名根据项目的定位进行命名：
+而不是根据特性进行命名
+
+
+master分支：    上线分支
+dev分支：    开发分支， 接受pull request
+release：    部署分支， 
+feature：   特性分支
+hotfix：    修改分支
+support：   备用支撑分支

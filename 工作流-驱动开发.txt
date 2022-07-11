@@ -1,0 +1,17 @@
+openbmc的驱动开发：
+
+增加传感器信息：
+	1，查看修改传感器配置文件，配置假的数据内容   
+		meta-live/meta-test/recipes-phosphor/sensors
+
+
+
+创建新传感器步骤
+	1，dts设备树
+	2，修改已有的驱动和新的驱动到源码中
+	3，按照格式增加新的配置文件xxx@xx.conf            /recipes-phosphor/sensors/下
+
+
+
+重新编译镜像
+生成固件进行烧录测试

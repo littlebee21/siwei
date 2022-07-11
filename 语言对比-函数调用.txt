@@ -1,0 +1,24 @@
+语言对比-函数调用
+
+
+调用方式：
+java c c++比较常见的 对象方法名的方式进行调用
+javascript 框架 vuex
+映射调用：
+store.dispatch('increment')， 异步 通过对象内部的名字，匹配的方式进行调用，
+store.commit('increment')     同步
+mapActions                    辅助函数将组件的 methods 映射为 store.dispatch
+
+
+
+
+暴露方式：ifcon
+1，外部使用的暴露： 
+    java getset
+    js  action 
+2，直接使用的暴露
+
+
+疑惑点：
+1，同名但是本质不同，再次封装一层
+2，动态和静态不分家

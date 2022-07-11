@@ -1,0 +1,22 @@
+低对比度主题：不要亮瞎眼的
+颜色数量少主题：同一种颜色不同亮度
+深色主题：
+不要全黑的：
+喜欢绿色：
+注释不能显示为灰色：  有的时候代码不能起到直观查看的效果，需要注释实现这个纵缝的逻辑效果
+
+
+当前的选择：
+    
+
+
+paper-tmTheme
+theme-Goldfish
+
+灰尘：
+theme-Capo-Dark
+
+
+绿色：
+theme-Hyrule 可以  就选择这个拉
+theme-MonokaiEasyForRetina
